@@ -19,7 +19,7 @@ public class Bank {
 	private final List<Operation> log = new ArrayList<>();
 
 	public Bank(String name, String code) {
-		checkCode(code);
+		checkArguments(name, code);
 
 		this.name = name;
 		this.code = code;
@@ -27,9 +27,19 @@ public class Bank {
 		Bank.banks.add(this);
 	}
 
-	private void checkCode(String code) {
+	private void checkArguments(String name, String code) {
+		if (name == null || code == null || name.trim().equals("") || code.trim().equals("")) {
+			throw new BankException();
+		}
+
 		if (code.length() != Bank.CODE_SIZE) {
 			throw new BankException();
+		}
+
+		for (Bank bank : banks) {
+			if (bank.getCode().equals(code)) {
+				throw new BankException();
+			}
 		}
 	}
 

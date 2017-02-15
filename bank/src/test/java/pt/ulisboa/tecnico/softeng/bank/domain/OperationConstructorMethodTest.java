@@ -4,14 +4,11 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import pt.ulisboa.tecnico.softeng.bank.domain.Operation.Type;
+import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
 
 public class OperationConstructorMethodTest {
-	private final Logger logger = LoggerFactory.getLogger(OperationConstructorMethodTest.class);
-
 	private Bank bank;
 	private Account account;
 
@@ -20,6 +17,26 @@ public class OperationConstructorMethodTest {
 		this.bank = new Bank("Money", "BK01");
 		Client client = new Client(this.bank, "António");
 		this.account = new Account(this.bank, client);
+	}
+
+	@Test(expected = BankException.class)
+	public void nullType() {
+		new Operation(null, this.account, 1000);
+	}
+
+	@Test(expected = BankException.class)
+	public void nullAccount() {
+		new Operation(null, this.account, 1000);
+	}
+
+	@Test(expected = BankException.class)
+	public void zeroAmmount() {
+		new Operation(null, this.account, 0);
+	}
+
+	@Test(expected = BankException.class)
+	public void negativeAmmount() {
+		new Operation(null, this.account, -1000);
 	}
 
 	@Test

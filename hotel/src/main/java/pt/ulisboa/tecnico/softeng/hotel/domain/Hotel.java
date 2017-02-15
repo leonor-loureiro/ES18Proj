@@ -17,16 +17,26 @@ public class Hotel {
 	private final Set<Room> rooms = new HashSet<>();
 
 	public Hotel(String code, String name) {
-		checkCode(code);
+		checkArguments(code, name);
 
 		this.code = code;
 		this.name = name;
 		Hotel.hotels.add(this);
 	}
 
-	private void checkCode(String code) {
+	private void checkArguments(String code, String name) {
+		if (code == null || name == null || code.trim().length() == 0 || name.trim().length() == 0) {
+			throw new HotelException();
+		}
+
 		if (code.length() != Hotel.CODE_SIZE) {
 			throw new HotelException();
+		}
+
+		for (Hotel hotel : hotels) {
+			if (hotel.getCode().equals(code)) {
+				throw new HotelException();
+			}
 		}
 	}
 
@@ -48,6 +58,10 @@ public class Hotel {
 	}
 
 	void addRoom(Room room) {
+		if (hasRoom(room.getNumber())) {
+			throw new HotelException();
+		}
+
 		this.rooms.add(room);
 	}
 
@@ -63,6 +77,15 @@ public class Hotel {
 			}
 		}
 		return null;
+	}
+
+	public boolean hasRoom(String number) {
+		for (Room room : this.rooms) {
+			if (room.getNumber().equals(number)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

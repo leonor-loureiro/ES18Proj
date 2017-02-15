@@ -17,7 +17,7 @@ public class ActivityProvider {
 	private final Set<Activity> activities = new HashSet<>();
 
 	public ActivityProvider(String code, String name) {
-		checkCode(code);
+		checkArguments(code, name);
 
 		this.code = code;
 		this.name = name;
@@ -25,9 +25,19 @@ public class ActivityProvider {
 		ActivityProvider.providers.add(this);
 	}
 
-	private void checkCode(String code) {
+	private void checkArguments(String code, String name) {
+		if (code == null || name == null || code.trim().equals("") || name.trim().equals("")) {
+			throw new ActivityException();
+		}
+
 		if (code.length() != ActivityProvider.CODE_SIZE) {
 			throw new ActivityException();
+		}
+
+		for (ActivityProvider activityProvider : providers) {
+			if (activityProvider.getCode().equals(code) || activityProvider.getName().equals(name)) {
+				throw new ActivityException();
+			}
 		}
 	}
 

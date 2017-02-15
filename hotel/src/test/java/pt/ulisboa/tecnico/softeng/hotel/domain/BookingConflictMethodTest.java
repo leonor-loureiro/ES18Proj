@@ -34,6 +34,30 @@ public class BookingConflictMethodTest {
 		Assert.assertFalse(this.booking.conflict(arrival, departure));
 	}
 
+	@Test
+	public void conflictBeforeIn() {
+		LocalDate arrival = new LocalDate(2016, 12, 20);
+		LocalDate departure = new LocalDate(2016, 12, 30);
+
+		Assert.assertTrue(this.booking.conflict(arrival, departure));
+	}
+
+	@Test
+	public void conflictAfterIn() {
+		LocalDate arrival = new LocalDate(2016, 12, 14);
+		LocalDate departure = new LocalDate(2016, 12, 23);
+
+		Assert.assertTrue(this.booking.conflict(arrival, departure));
+	}
+
+	@Test
+	public void conflictSameDates() {
+		LocalDate arrival = new LocalDate(2016, 12, 19);
+		LocalDate departure = new LocalDate(2016, 12, 24);
+
+		Assert.assertTrue(this.booking.conflict(arrival, departure));
+	}
+
 	@After
 	public void tearDown() {
 		Hotel.hotels.clear();

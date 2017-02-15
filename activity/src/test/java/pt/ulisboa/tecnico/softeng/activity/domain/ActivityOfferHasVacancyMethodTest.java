@@ -7,12 +7,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class ActivityOfferHasVacancyMethodTest {
+	private ActivityProvider provider;
 	private ActivityOffer offer;
 
 	@Before
 	public void setUp() {
-		ActivityProvider provider = new ActivityProvider("XtremX", "ExtremeAdventure");
-		Activity activity = new Activity(provider, "Bush Walking", 18, 80, 3);
+		this.provider = new ActivityProvider("XtremX", "ExtremeAdventure");
+		Activity activity = new Activity(this.provider, "Bush Walking", 18, 80, 3);
 
 		LocalDate begin = new LocalDate(2016, 12, 19);
 		LocalDate end = new LocalDate(2016, 12, 21);
@@ -22,6 +23,21 @@ public class ActivityOfferHasVacancyMethodTest {
 
 	@Test
 	public void successZeroBookinks() {
+		Assert.assertTrue(this.offer.hasVacancy());
+	}
+
+	@Test
+	public void bookingIsFull() {
+		new Booking(this.provider, this.offer);
+		new Booking(this.provider, this.offer);
+		new Booking(this.provider, this.offer);
+		Assert.assertFalse(this.offer.hasVacancy());
+	}
+
+	@Test
+	public void bookingIsFullMinusOne() {
+		new Booking(this.provider, this.offer);
+		new Booking(this.provider, this.offer);
 		Assert.assertTrue(this.offer.hasVacancy());
 	}
 

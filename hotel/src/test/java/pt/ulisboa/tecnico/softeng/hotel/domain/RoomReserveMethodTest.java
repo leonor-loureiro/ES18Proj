@@ -1,5 +1,7 @@
 package pt.ulisboa.tecnico.softeng.hotel.domain;
 
+import static org.junit.Assert.fail;
+
 import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Assert;
@@ -7,9 +9,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 import pt.ulisboa.tecnico.softeng.hotel.domain.Room.Type;
+import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 
 public class RoomReserveMethodTest {
-	Room room;
+	private Room room;
+	private final LocalDate arrival = new LocalDate(2016, 12, 19);
+	private final LocalDate departure = new LocalDate(2016, 12, 24);
 
 	@Before
 	public void setUp() {
@@ -26,6 +31,33 @@ public class RoomReserveMethodTest {
 		Assert.assertTrue(booking.getReference().length() > 0);
 		Assert.assertEquals(arrival, booking.getArrival());
 		Assert.assertEquals(departure, booking.getDeparture());
+	}
+
+	@Test(expected = HotelException.class)
+	public void nullType() {
+		this.room.reserve(null, this.arrival, this.departure);
+	}
+
+	@Test(expected = HotelException.class)
+	public void nullArrival() {
+		this.room.reserve(Type.SINGLE, null, this.departure);
+	}
+
+	@Test(expected = HotelException.class)
+	public void nullDeparture() {
+		this.room.reserve(Type.SINGLE, this.arrival, null);
+	}
+
+	@Test
+	public void allConflict() {
+		this.room.reserve(Type.SINGLE, this.arrival, this.departure);
+
+		try {
+			this.room.reserve(Type.SINGLE, this.arrival, this.departure);
+			fail();
+		} catch (HotelException he) {
+
+		}
 	}
 
 	@After

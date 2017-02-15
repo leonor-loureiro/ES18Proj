@@ -5,6 +5,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
+
 public class BankHasAccountMethodTest {
 	Bank bank;
 	Client client;
@@ -22,6 +24,29 @@ public class BankHasAccountMethodTest {
 		Account result = this.bank.getAccount(account.getIBAN());
 
 		Assert.assertEquals(account, result);
+	}
+
+	@Test(expected = BankException.class)
+	public void nullIBAN() {
+		this.bank.getAccount(null);
+	}
+
+	@Test(expected = BankException.class)
+	public void emptyIBAN() {
+		this.bank.getAccount("");
+	}
+
+	@Test(expected = BankException.class)
+	public void emptySetOfAccounts() {
+		this.bank.getAccount("XPTO");
+	}
+
+	@Test(expected = BankException.class)
+	public void severalAccountsNoMatch() {
+		new Account(this.bank, this.client);
+		new Account(this.bank, this.client);
+
+		this.bank.getAccount("XPTO");
 	}
 
 	@After

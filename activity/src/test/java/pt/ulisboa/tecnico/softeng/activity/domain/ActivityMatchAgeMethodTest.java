@@ -1,15 +1,11 @@
 package pt.ulisboa.tecnico.softeng.activity.domain;
 
-import java.time.format.DateTimeFormatter;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 public class ActivityMatchAgeMethodTest {
-	private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-
 	private Activity activity;
 
 	@Before
@@ -21,6 +17,22 @@ public class ActivityMatchAgeMethodTest {
 	@Test
 	public void successIn() {
 		Assert.assertTrue(this.activity.matchAge(50));
+	}
+
+	public void lessThanMinAge() {
+		Assert.assertFalse(this.activity.matchAge(17));
+	}
+
+	public void equalMinAge() {
+		Assert.assertFalse(this.activity.matchAge(18));
+	}
+
+	public void equalMaxAge() {
+		Assert.assertFalse(this.activity.matchAge(80));
+	}
+
+	public void greaterThanMaxAge() {
+		Assert.assertFalse(this.activity.matchAge(81));
 	}
 
 	@After
