@@ -35,8 +35,6 @@ public class OperationConstructorMethodTest {
 		Assert.assertEquals(operation, this.bank.getOperation(operation.getReference()));
 	}
 
-	// TODO: test invalid deposit arguments, includes a non positive value
-
 	@After
 	public void tearDown() {
 		Bank.banks.clear();

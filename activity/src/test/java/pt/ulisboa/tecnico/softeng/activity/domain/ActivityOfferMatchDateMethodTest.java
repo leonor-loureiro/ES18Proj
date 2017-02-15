@@ -25,8 +25,6 @@ public class ActivityOfferMatchDateMethodTest {
 		Assert.assertTrue(this.offer.matchDate(new LocalDate(2016, 12, 19), new LocalDate(2016, 12, 21)));
 	}
 
-	// TODO: Test for invalid inputs, and for unsuccess cases
-
 	@After
 	public void tearDown() {
 		ActivityProvider.providers.clear();

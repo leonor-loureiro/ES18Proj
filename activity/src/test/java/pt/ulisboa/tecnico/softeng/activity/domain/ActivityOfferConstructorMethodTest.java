@@ -28,8 +28,6 @@ public class ActivityOfferConstructorMethodTest {
 		Assert.assertEquals(0, offer.getNumberOfBookings());
 	}
 
-	// TODO: test illegal arguments, begin <= end
-
 	@After
 	public void tearDown() {
 		ActivityProvider.providers.clear();

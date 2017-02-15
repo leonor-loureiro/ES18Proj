@@ -27,8 +27,6 @@ public class ActivityConstructorMethodTest {
 		Assert.assertEquals(1, this.provider.getNumberOfActivities());
 	}
 
-	// TODO: test illegal arguments, maxAge < 100
-
 	@After
 	public void tearDown() {
 		ActivityProvider.providers.clear();

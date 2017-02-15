@@ -16,7 +16,6 @@ import pt.ulisboa.tecnico.softeng.hotel.domain.Hotel;
 import pt.ulisboa.tecnico.softeng.hotel.domain.Room;
 import pt.ulisboa.tecnico.softeng.hotel.domain.Room.Type;
 
-// not a neat test because it "knows" the internal structure of the external applications, even though it only occurs in the setUp and tearDown
 public class AdventureProcessMethodTest {
 	private final LocalDate begin = new LocalDate(2016, 12, 19);
 	private final LocalDate end = new LocalDate(2016, 12, 19);
@@ -25,8 +24,6 @@ public class AdventureProcessMethodTest {
 
 	@Before
 	public void setUp() {
-		// not a neat test because it "knows" the internal structure of the
-		// external applications
 		this.broker = new Broker("BR01", "eXtremeADVENTURE");
 
 		Bank bank = new Bank("Money", "BK01");
@@ -56,8 +53,6 @@ public class AdventureProcessMethodTest {
 
 	@After
 	public void tearDown() {
-		// not a neat test because it "knows" the internal structure of the
-		// external applications
 		Bank.banks.clear();
 		Hotel.hotels.clear();
 		ActivityProvider.providers.clear();

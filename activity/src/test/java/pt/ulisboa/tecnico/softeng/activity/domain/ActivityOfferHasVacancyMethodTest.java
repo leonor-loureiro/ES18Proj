@@ -25,8 +25,6 @@ public class ActivityOfferHasVacancyMethodTest {
 		Assert.assertTrue(this.offer.hasVacancy());
 	}
 
-	// TODO: Test for full bookings and full minus one
-
 	@After
 	public void tearDown() {
 		ActivityProvider.providers.clear();

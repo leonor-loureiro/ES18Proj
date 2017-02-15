@@ -25,9 +25,6 @@ public class RoomConstructorMethodTest {
 		Assert.assertEquals(1, this.hotel.getNumberOfRooms());
 	}
 
-	// TODO: test that a correct Room is created: no-null arguments, room number
-	// is alphanumeric, and room number is unique in the hotel
-
 	@After
 	public void tearDown() {
 		Hotel.hotels.clear();

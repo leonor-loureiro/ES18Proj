@@ -22,8 +22,6 @@ public class ClientContructorMethodTest {
 		Assert.assertTrue(this.bank.hasClient(client));
 	}
 
-	// TODO: test that the arguments are valid
-
 	@After
 	public void tearDown() {
 		Bank.banks.clear();

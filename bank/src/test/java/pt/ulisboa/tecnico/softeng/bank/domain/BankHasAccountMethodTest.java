@@ -24,9 +24,6 @@ public class BankHasAccountMethodTest {
 		Assert.assertEquals(account, result);
 	}
 
-	// TODO: test invalid inputs, empty set of accounts in bank, and there are
-	// accounts, but none matches the IBAN
-
 	@After
 	public void tearDown() {
 		Bank.banks.clear();

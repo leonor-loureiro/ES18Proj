@@ -29,9 +29,6 @@ public class BookingContructorMethodTest {
 		Assert.assertEquals(1, this.offer.getNumberOfBookings());
 	}
 
-	// TODO: test for illegal inputs, and that the number of bookings always <=
-	// capacity
-
 	@After
 	public void tearDown() {
 		ActivityProvider.providers.clear();

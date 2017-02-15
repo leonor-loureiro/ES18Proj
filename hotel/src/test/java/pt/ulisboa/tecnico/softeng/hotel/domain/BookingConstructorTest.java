@@ -22,9 +22,6 @@ public class BookingConstructorTest {
 		Assert.assertEquals(departure, booking.getDeparture());
 	}
 
-	// TODO: test that a correct booking is created, non empty arguments,
-	// arrival date before departure date
-
 	@After
 	public void tearDown() {
 		Hotel.hotels.clear();

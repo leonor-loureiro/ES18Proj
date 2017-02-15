@@ -34,9 +34,6 @@ public class AdventureConstructorMethodTest {
 		Assert.assertNull(adventure.getRoomBooking());
 	}
 
-	// TODO: test illegal inputs, consider that the interval between begin and
-	// date should greater or equal to one day
-
 	@After
 	public void tearDown() {
 		Broker.brokers.clear();

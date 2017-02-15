@@ -34,8 +34,6 @@ public class BookingConflictMethodTest {
 		Assert.assertFalse(this.booking.conflict(arrival, departure));
 	}
 
-	// TODO: test all the possible types of situations when there is a conflict
-
 	@After
 	public void tearDown() {
 		Hotel.hotels.clear();

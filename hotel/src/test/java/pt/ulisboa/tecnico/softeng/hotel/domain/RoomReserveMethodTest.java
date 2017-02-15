@@ -1,6 +1,7 @@
 package pt.ulisboa.tecnico.softeng.hotel.domain;
 
 import org.joda.time.LocalDate;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,10 +28,7 @@ public class RoomReserveMethodTest {
 		Assert.assertEquals(departure, booking.getDeparture());
 	}
 
-	// TODO: test when the set of bookings of the room is empty, a and when all
-	// bookings conflict occupied
-
-	@Test
+	@After
 	public void tearDown() {
 		Hotel.hotels.clear();
 	}

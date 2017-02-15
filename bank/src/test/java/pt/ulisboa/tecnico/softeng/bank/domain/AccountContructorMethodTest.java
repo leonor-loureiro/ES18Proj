@@ -27,9 +27,6 @@ public class AccountContructorMethodTest {
 		Assert.assertTrue(this.bank.hasClient(this.client));
 	}
 
-	// TODO: test that the arguments are not empty and that the client belongs
-	// to the bank
-
 	@After
 	public void tearDown() {
 		Bank.banks.clear();

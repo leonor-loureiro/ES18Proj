@@ -23,9 +23,6 @@ public class ActivityMatchAgeMethodTest {
 		Assert.assertTrue(this.activity.matchAge(50));
 	}
 
-	// TODO: Test for invalid inputs, for unsuccess and success
-	// border cases
-
 	@After
 	public void tearDown() {
 		ActivityProvider.providers.clear();

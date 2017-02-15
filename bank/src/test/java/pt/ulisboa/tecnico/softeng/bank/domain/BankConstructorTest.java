@@ -23,9 +23,6 @@ public class BankConstructorTest {
 		Assert.assertEquals(0, bank.getNumberOfClients());
 	}
 
-	// TODO: test for invalid name and code arguments, check that code should be
-	// unique in a bank, it should be alphanumeric and have 4 characters
-
 	@After
 	public void tearDown() {
 		Bank.banks.clear();

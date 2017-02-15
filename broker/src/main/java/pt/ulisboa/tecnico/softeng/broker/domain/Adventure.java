@@ -1,6 +1,8 @@
 package pt.ulisboa.tecnico.softeng.broker.domain;
 
 import org.joda.time.LocalDate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import pt.ulisboa.tecnico.softeng.broker.interfaces.ActivityInterface;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.BankInterface;
@@ -8,6 +10,8 @@ import pt.ulisboa.tecnico.softeng.broker.interfaces.HotelInterface;
 import pt.ulisboa.tecnico.softeng.hotel.domain.Room;
 
 public class Adventure {
+	private static Logger logger = LoggerFactory.getLogger(Adventure.class);
+
 	private static int counter = 0;
 
 	private final String ID;
@@ -74,6 +78,7 @@ public class Adventure {
 	}
 
 	public void process() {
+		logger.debug("process ID:{} ", this.ID);
 		this.bankPayment = BankInterface.processPayment(this.IBAN, this.amount);
 		this.roomBooking = HotelInterface.reserveHotel(Room.Type.SINGLE, this.begin, this.end);
 		this.activityBooking = ActivityInterface.reserveActivity(this.begin, this.end, this.age);

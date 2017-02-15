@@ -27,10 +27,6 @@ public class HotelHasVacancyMethodTest {
 		Assert.assertEquals("01", room.getNumber());
 	}
 
-	// TODO: test that when there isn't a vacancy an exception is thrown, and
-	// that if the set of rooms is empty then there is no vacancy and an
-	// exception is thrown
-
 	@After
 	public void tearDown() {
 		Hotel.hotels.clear();

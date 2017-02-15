@@ -27,8 +27,6 @@ public class AccountDepositMethodTest {
 		Assert.assertEquals(50, operation.getValue());
 	}
 
-	// TODO: test invalid deposit arguments, includes the deposit of zero amount
-
 	@After
 	public void tearDown() {
 		Bank.banks.clear();

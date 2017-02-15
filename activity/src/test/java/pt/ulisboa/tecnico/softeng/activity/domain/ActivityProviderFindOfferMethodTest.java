@@ -33,9 +33,6 @@ public class ActivityProviderFindOfferMethodTest {
 		Assert.assertTrue(offers.contains(this.offer));
 	}
 
-	// TODO: test empty set of activities, empty set of activity offers, and the
-	// return of two activity offers as result
-
 	@After
 	public void tearDown() {
 		ActivityProvider.providers.clear();

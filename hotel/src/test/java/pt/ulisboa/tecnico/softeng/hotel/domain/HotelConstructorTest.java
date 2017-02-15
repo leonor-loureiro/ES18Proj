@@ -22,9 +22,6 @@ public class HotelConstructorTest {
 		Assert.assertEquals(1, Hotel.hotels.size());
 	}
 
-	// TODO: test that created hotel is correct: non-null arguments, code
-	// with the correct size and it is unique
-
 	@After
 	public void tearDown() {
 		Hotel.hotels.clear();

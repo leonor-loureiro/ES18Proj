@@ -28,9 +28,6 @@ public class AccountWithdrawMethodTest {
 		Assert.assertEquals(40, operation.getValue());
 	}
 
-	// TODO: test withdraw more than balance, withdraw amount zero and amount
-	// negative
-
 	@After
 	public void tearDown() {
 		Bank.banks.clear();
