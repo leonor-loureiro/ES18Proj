@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
 
-public class BankHasAccountMethodTest {
+public class BankGetAccountMethodTest {
 	Bank bank;
 	Client client;
 
