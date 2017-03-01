@@ -29,6 +29,7 @@ public class HotelHasVacancyMethodTest {
 
 		Room room = this.hotel.hasVacancy(Type.DOUBLE, arrival, departure);
 
+		Assert.assertNotNull(room);
 		Assert.assertEquals("01", room.getNumber());
 	}
 

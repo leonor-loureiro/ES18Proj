@@ -25,6 +25,7 @@ public class AccountWithdrawMethodTest {
 
 		Assert.assertEquals(60, this.account.getBalance());
 		Operation operation = this.bank.getOperation(reference);
+		Assert.assertNotNull(operation);
 		Assert.assertEquals(Operation.Type.WITHDRAW, operation.getType());
 		Assert.assertEquals(this.account, operation.getAccount());
 		Assert.assertEquals(40, operation.getValue());

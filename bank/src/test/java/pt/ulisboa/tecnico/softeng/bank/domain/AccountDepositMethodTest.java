@@ -24,6 +24,7 @@ public class AccountDepositMethodTest {
 
 		Assert.assertEquals(50, this.account.getBalance());
 		Operation operation = this.bank.getOperation(reference);
+		Assert.assertNotNull(operation);
 		Assert.assertEquals(Operation.Type.DEPOSIT, operation.getType());
 		Assert.assertEquals(this.account, operation.getAccount());
 		Assert.assertEquals(50, operation.getValue());
