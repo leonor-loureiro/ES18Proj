@@ -1,6 +1,6 @@
 package pt.ulisboa.tecnico.softeng.activity.domain;
 
-import pt.ulisboa.tecnico.softeng.activity.domain.exception.ActivityException;
+import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
 
 public class Booking {
 	private static int counter = 0;

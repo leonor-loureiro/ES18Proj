@@ -1,6 +1,6 @@
 package pt.ulisboa.tecnico.softeng.activity.domain;
 
-import java.util.Set;
+import java.util.List;
 
 import org.joda.time.LocalDate;
 import org.junit.After;
@@ -8,7 +8,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import pt.ulisboa.tecnico.softeng.activity.domain.exception.ActivityException;
+import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
 
 public class ActivityProviderFindOfferMethodTest {
 	private ActivityProvider provider;
@@ -30,7 +30,7 @@ public class ActivityProviderFindOfferMethodTest {
 		LocalDate begin = new LocalDate(2016, 12, 19);
 		LocalDate end = new LocalDate(2016, 12, 21);
 
-		Set<ActivityOffer> offers = this.provider.findOffer(begin, end, 40);
+		List<ActivityOffer> offers = this.provider.findOffer(begin, end, 40);
 
 		Assert.assertEquals(1, offers.size());
 		Assert.assertTrue(offers.contains(this.offer));
@@ -57,7 +57,7 @@ public class ActivityProviderFindOfferMethodTest {
 		LocalDate begin = new LocalDate(2016, 12, 19);
 		LocalDate end = new LocalDate(2016, 12, 21);
 
-		Set<ActivityOffer> offers = this.provider.findOffer(begin, end, 0);
+		List<ActivityOffer> offers = this.provider.findOffer(begin, end, 0);
 
 		Assert.assertTrue(offers.isEmpty());
 	}
@@ -69,7 +69,7 @@ public class ActivityProviderFindOfferMethodTest {
 		LocalDate begin = new LocalDate(2016, 12, 19);
 		LocalDate end = new LocalDate(2016, 12, 21);
 
-		Set<ActivityOffer> offers = otherProvider.findOffer(begin, end, 40);
+		List<ActivityOffer> offers = otherProvider.findOffer(begin, end, 40);
 
 		Assert.assertTrue(offers.isEmpty());
 	}
@@ -82,7 +82,7 @@ public class ActivityProviderFindOfferMethodTest {
 		LocalDate begin = new LocalDate(2016, 12, 19);
 		LocalDate end = new LocalDate(2016, 12, 21);
 
-		Set<ActivityOffer> offers = otherProvider.findOffer(begin, end, 40);
+		List<ActivityOffer> offers = otherProvider.findOffer(begin, end, 40);
 
 		Assert.assertTrue(offers.isEmpty());
 	}
@@ -94,7 +94,7 @@ public class ActivityProviderFindOfferMethodTest {
 
 		new ActivityOffer(this.activity, begin, end);
 
-		Set<ActivityOffer> offers = this.provider.findOffer(begin, end, 40);
+		List<ActivityOffer> offers = this.provider.findOffer(begin, end, 40);
 
 		Assert.assertEquals(2, offers.size());
 	}

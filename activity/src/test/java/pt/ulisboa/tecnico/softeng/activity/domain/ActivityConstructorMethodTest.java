@@ -5,7 +5,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import pt.ulisboa.tecnico.softeng.activity.domain.exception.ActivityException;
+import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
 
 public class ActivityConstructorMethodTest {
 	private static final String PROVIDER_NAME = "Bush Walking";
