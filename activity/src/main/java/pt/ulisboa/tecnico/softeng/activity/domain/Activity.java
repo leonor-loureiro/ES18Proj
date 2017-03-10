@@ -34,7 +34,7 @@ public class Activity {
 			throw new ActivityException();
 		}
 
-		if (minAge < 18 || maxAge > 100 || minAge > maxAge) {
+		if (minAge < 18 || maxAge >= 100 || minAge > maxAge) {
 			throw new ActivityException();
 		}
 

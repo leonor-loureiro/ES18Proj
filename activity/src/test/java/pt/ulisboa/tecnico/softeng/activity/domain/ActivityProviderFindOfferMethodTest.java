@@ -11,6 +11,13 @@ import org.junit.Test;
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
 
 public class ActivityProviderFindOfferMethodTest {
+	private static final int MIN_AGE = 25;
+	private static final int MAX_AGE = 80;
+	private static final int CAPACITY = 25;
+	private static final int AGE = 40;
+	private final LocalDate begin = new LocalDate(2016, 12, 19);
+	private final LocalDate end = new LocalDate(2016, 12, 21);
+
 	private ActivityProvider provider;
 	private Activity activity;
 	private ActivityOffer offer;
@@ -18,19 +25,14 @@ public class ActivityProviderFindOfferMethodTest {
 	@Before
 	public void setUp() {
 		this.provider = new ActivityProvider("XtremX", "ExtremeAdventure");
-		this.activity = new Activity(this.provider, "Bush Walking", 18, 80, 25);
+		this.activity = new Activity(this.provider, "Bush Walking", MIN_AGE, MAX_AGE, CAPACITY);
 
-		LocalDate begin = new LocalDate(2016, 12, 19);
-		LocalDate end = new LocalDate(2016, 12, 21);
-		this.offer = new ActivityOffer(this.activity, begin, end);
+		this.offer = new ActivityOffer(this.activity, this.begin, this.end);
 	}
 
 	@Test
 	public void success() {
-		LocalDate begin = new LocalDate(2016, 12, 19);
-		LocalDate end = new LocalDate(2016, 12, 21);
-
-		List<ActivityOffer> offers = this.provider.findOffer(begin, end, 40);
+		List<ActivityOffer> offers = this.provider.findOffer(this.begin, this.end, AGE);
 
 		Assert.assertEquals(1, offers.size());
 		Assert.assertTrue(offers.contains(this.offer));
@@ -38,26 +40,42 @@ public class ActivityProviderFindOfferMethodTest {
 
 	@Test(expected = ActivityException.class)
 	public void nullBeginDate() {
-		LocalDate end = new LocalDate(2016, 12, 21);
-
-		this.provider.findOffer(null, end, 40);
+		this.provider.findOffer(null, this.end, AGE);
 
 	}
 
 	@Test(expected = ActivityException.class)
 	public void nullEndDate() {
-		LocalDate begin = new LocalDate(2016, 12, 19);
-
-		this.provider.findOffer(begin, null, 40);
+		this.provider.findOffer(this.begin, null, AGE);
 
 	}
 
 	@Test
-	public void illegalAge() {
-		LocalDate begin = new LocalDate(2016, 12, 19);
-		LocalDate end = new LocalDate(2016, 12, 21);
+	public void successAgeEqualMin() {
+		List<ActivityOffer> offers = this.provider.findOffer(this.begin, this.end, MIN_AGE);
 
-		List<ActivityOffer> offers = this.provider.findOffer(begin, end, 0);
+		Assert.assertEquals(1, offers.size());
+		Assert.assertTrue(offers.contains(this.offer));
+	}
+
+	@Test
+	public void AgeMinusOneThanMinimal() {
+		List<ActivityOffer> offers = this.provider.findOffer(this.begin, this.end, MIN_AGE - 1);
+
+		Assert.assertTrue(offers.isEmpty());
+	}
+
+	@Test
+	public void successAgeEqualMax() {
+		List<ActivityOffer> offers = this.provider.findOffer(this.begin, this.end, MAX_AGE);
+
+		Assert.assertEquals(1, offers.size());
+		Assert.assertTrue(offers.contains(this.offer));
+	}
+
+	@Test
+	public void AgePlusOneThanMinimal() {
+		List<ActivityOffer> offers = this.provider.findOffer(this.begin, this.end, MAX_AGE + 1);
 
 		Assert.assertTrue(offers.isEmpty());
 	}
@@ -66,10 +84,7 @@ public class ActivityProviderFindOfferMethodTest {
 	public void emptyActivitySet() {
 		ActivityProvider otherProvider = new ActivityProvider("Xtrems", "Adventure");
 
-		LocalDate begin = new LocalDate(2016, 12, 19);
-		LocalDate end = new LocalDate(2016, 12, 21);
-
-		List<ActivityOffer> offers = otherProvider.findOffer(begin, end, 40);
+		List<ActivityOffer> offers = otherProvider.findOffer(this.begin, this.end, AGE);
 
 		Assert.assertTrue(offers.isEmpty());
 	}
@@ -79,22 +94,16 @@ public class ActivityProviderFindOfferMethodTest {
 		ActivityProvider otherProvider = new ActivityProvider("Xtrems", "Adventure");
 		new Activity(otherProvider, "Bush Walking", 18, 80, 25);
 
-		LocalDate begin = new LocalDate(2016, 12, 19);
-		LocalDate end = new LocalDate(2016, 12, 21);
-
-		List<ActivityOffer> offers = otherProvider.findOffer(begin, end, 40);
+		List<ActivityOffer> offers = otherProvider.findOffer(this.begin, this.end, AGE);
 
 		Assert.assertTrue(offers.isEmpty());
 	}
 
 	@Test
 	public void TwoActivityOffers() {
-		LocalDate begin = new LocalDate(2016, 12, 19);
-		LocalDate end = new LocalDate(2016, 12, 21);
+		new ActivityOffer(this.activity, this.begin, this.end);
 
-		new ActivityOffer(this.activity, begin, end);
-
-		List<ActivityOffer> offers = this.provider.findOffer(begin, end, 40);
+		List<ActivityOffer> offers = this.provider.findOffer(this.begin, this.end, AGE);
 
 		Assert.assertEquals(2, offers.size());
 	}

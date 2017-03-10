@@ -22,7 +22,8 @@ public class ActivityOfferHasVacancyMethodTest {
 	}
 
 	@Test
-	public void successZeroBookinks() {
+	public void success() {
+		new Booking(this.provider, this.offer);
 		Assert.assertTrue(this.offer.hasVacancy());
 	}
 
