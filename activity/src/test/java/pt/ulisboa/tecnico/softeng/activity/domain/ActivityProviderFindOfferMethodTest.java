@@ -100,12 +100,32 @@ public class ActivityProviderFindOfferMethodTest {
 	}
 
 	@Test
-	public void TwoActivityOffers() {
+	public void twoMatchActivityOffers() {
 		new ActivityOffer(this.activity, this.begin, this.end);
 
 		List<ActivityOffer> offers = this.provider.findOffer(this.begin, this.end, AGE);
 
 		Assert.assertEquals(2, offers.size());
+	}
+
+	@Test
+	public void oneMatchActivityOfferAndOneNotMatch() {
+		new ActivityOffer(this.activity, this.begin, this.end.plusDays(1));
+
+		List<ActivityOffer> offers = this.provider.findOffer(this.begin, this.end, AGE);
+
+		Assert.assertEquals(1, offers.size());
+	}
+
+	@Test
+	public void oneMatchActivityOfferAndOtherNoCapacity() {
+		Activity otherActivity = new Activity(this.provider, "Bush Walking", MIN_AGE, MAX_AGE, 1);
+		ActivityOffer otherActivityOffer = new ActivityOffer(otherActivity, this.begin, this.end);
+		new Booking(this.provider, otherActivityOffer);
+
+		List<ActivityOffer> offers = this.provider.findOffer(this.begin, this.end, AGE);
+
+		Assert.assertEquals(1, offers.size());
 	}
 
 	@After

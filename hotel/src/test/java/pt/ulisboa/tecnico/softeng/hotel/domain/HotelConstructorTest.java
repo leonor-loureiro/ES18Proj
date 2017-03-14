@@ -7,7 +7,6 @@ import org.junit.Test;
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 
 public class HotelConstructorTest {
-
 	private static final String HOTEL_NAME = "Londres";
 	private static final String HOTEL_CODE = "XPTO123";
 
@@ -27,8 +26,13 @@ public class HotelConstructorTest {
 	}
 
 	@Test(expected = HotelException.class)
+	public void blankCode() {
+		new Hotel("      ", HOTEL_NAME);
+	}
+
+	@Test(expected = HotelException.class)
 	public void emptyCode() {
-		new Hotel("       ", HOTEL_NAME);
+		new Hotel("", HOTEL_NAME);
 	}
 
 	@Test(expected = HotelException.class)
@@ -37,8 +41,13 @@ public class HotelConstructorTest {
 	}
 
 	@Test(expected = HotelException.class)
-	public void emptyName() {
+	public void blankName() {
 		new Hotel(HOTEL_CODE, "  ");
+	}
+
+	@Test(expected = HotelException.class)
+	public void emptyName() {
+		new Hotel(HOTEL_CODE, "");
 	}
 
 	@Test(expected = HotelException.class)

@@ -41,6 +41,23 @@ public class AccountWithdrawMethodTest {
 		this.account.withdraw(0);
 	}
 
+	@Test
+	public void oneAmount() {
+		this.account.withdraw(1);
+		Assert.assertEquals(99, this.account.getBalance());
+	}
+
+	@Test
+	public void equalToBalance() {
+		this.account.withdraw(100);
+		Assert.assertEquals(0, this.account.getBalance());
+	}
+
+	@Test(expected = BankException.class)
+	public void equalToBalancePlusOne() {
+		this.account.withdraw(101);
+	}
+
 	@Test(expected = BankException.class)
 	public void moreThanBalance() {
 		this.account.withdraw(150);

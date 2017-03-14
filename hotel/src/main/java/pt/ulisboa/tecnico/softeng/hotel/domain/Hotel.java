@@ -41,6 +41,10 @@ public class Hotel {
 	}
 
 	public Room hasVacancy(Room.Type type, LocalDate arrival, LocalDate departure) {
+		if (type == null || arrival == null || departure == null) {
+			throw new HotelException();
+		}
+
 		for (Room room : this.rooms) {
 			if (room.isFree(type, arrival, departure)) {
 				return room;

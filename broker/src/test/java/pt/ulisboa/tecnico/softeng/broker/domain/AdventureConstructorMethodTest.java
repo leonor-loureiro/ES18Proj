@@ -153,8 +153,7 @@ public class AdventureConstructorMethodTest {
 
 	@Test(expected = BrokerException.class)
 	public void inconsistentDates() {
-		LocalDate endBefore = new LocalDate(2016, 12, 18);
-		new Adventure(this.broker, this.begin, endBefore, AGE, IBAN, AMOUNT);
+		new Adventure(this.broker, this.begin, this.begin.minusDays(1), AGE, IBAN, AMOUNT);
 	}
 
 	@After

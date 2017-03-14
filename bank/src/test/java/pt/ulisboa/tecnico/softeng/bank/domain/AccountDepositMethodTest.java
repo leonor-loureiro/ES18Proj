@@ -35,6 +35,11 @@ public class AccountDepositMethodTest {
 		this.account.deposit(0);
 	}
 
+	@Test
+	public void oneAmount() {
+		this.account.deposit(1);
+	}
+
 	@Test(expected = BankException.class)
 	public void negativeAmount() {
 		this.account.deposit(-100);

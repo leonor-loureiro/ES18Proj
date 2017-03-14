@@ -39,7 +39,12 @@ public class RoomConstructorMethodTest {
 	}
 
 	@Test(expected = HotelException.class)
-	public void emptyRoomNulber() {
+	public void emptyRoomNumber() {
+		new Room(this.hotel, "", Type.DOUBLE);
+	}
+
+	@Test(expected = HotelException.class)
+	public void blankRoomNumber() {
 		new Room(this.hotel, "     ", Type.DOUBLE);
 	}
 

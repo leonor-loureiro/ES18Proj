@@ -45,6 +45,7 @@ public class AdventureProcessMethodTest {
 		Adventure adventure = new Adventure(this.broker, this.begin, this.end, 20, this.IBAN, 300);
 
 		adventure.process();
+		adventure.process();
 
 		Assert.assertNotNull(adventure.getBankPayment());
 		Assert.assertNotNull(adventure.getRoomBooking());

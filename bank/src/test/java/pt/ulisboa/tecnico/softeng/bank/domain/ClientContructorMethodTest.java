@@ -37,8 +37,13 @@ public class ClientContructorMethodTest {
 	}
 
 	@Test(expected = BankException.class)
-	public void emptyClientName() {
+	public void blankClientName() {
 		new Client(this.bank, "    ");
+	}
+
+	@Test(expected = BankException.class)
+	public void emptyClientName() {
+		new Client(this.bank, "");
 	}
 
 	@After

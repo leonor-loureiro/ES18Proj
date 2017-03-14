@@ -37,12 +37,17 @@ public class BankGetAccountMethodTest {
 	}
 
 	@Test(expected = BankException.class)
+	public void blankIBAN() {
+		this.bank.getAccount("    ");
+	}
+
+	@Test(expected = BankException.class)
 	public void emptySetOfAccounts() {
 		this.bank.getAccount("XPTO");
 	}
 
 	@Test(expected = BankException.class)
-	public void severalAccountsNoMatch() {
+	public void severalAccountsDoNoMatch() {
 		new Account(this.bank, this.client);
 		new Account(this.bank, this.client);
 

@@ -49,6 +49,10 @@ public class Room {
 		return this.type;
 	}
 
+	int getNumberOfBookings() {
+		return this.bookings.size();
+	}
+
 	boolean isFree(Type type, LocalDate arrival, LocalDate departure) {
 		if (!type.equals(this.type)) {
 			return false;
