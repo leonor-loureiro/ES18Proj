@@ -21,16 +21,16 @@ public class CancelledState extends AdventureState {
 
 	@Override
 	public void process(Adventure adventure) {
-		logger.debug("booking");
+		logger.debug("process");
 
 		if (adventure.getPaymentCancellation() != null) {
 			BankOperationData operation = BankInterface.getOperationData(adventure.getPaymentConfirmation());
-			System.out.println("Payment confirmation: " + adventure.getPaymentConfirmation());
+			System.out.println("Payment confirmation: " + operation.getReference());
 			System.out.println("Type: " + operation.getType());
 			System.out.println("Value: " + operation.getValue());
 
 			operation = BankInterface.getOperationData(adventure.getPaymentCancellation());
-			System.out.println("Payment cancellation " + adventure.getPaymentCancellation());
+			System.out.println("Payment cancellation " + operation.getReference());
 			System.out.println("Type: " + operation.getType());
 			System.out.println("Value: " + operation.getValue());
 		}
