@@ -4,12 +4,16 @@ import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import pt.ulisboa.tecnico.softeng.activity.dataobjects.ActivityReservationData;
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
+import pt.ulisboa.tecnico.softeng.bank.dataobjects.BankOperationData;
 import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
 import pt.ulisboa.tecnico.softeng.broker.exception.BrokerException;
+import pt.ulisboa.tecnico.softeng.broker.exception.RemoteAccessException;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.ActivityInterface;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.BankInterface;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.HotelInterface;
+import pt.ulisboa.tecnico.softeng.hotel.dataobjects.RoomBookingData;
 import pt.ulisboa.tecnico.softeng.hotel.domain.Room;
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 
@@ -17,7 +21,7 @@ public class Adventure {
 	private static Logger logger = LoggerFactory.getLogger(Adventure.class);
 
 	public static enum State {
-		INITIAL, PAYED, CONFIRMED, CANCELED
+		PROCESS_PAYMENT, RESERVE_ACTIVITY, BOOK_ROOM, UNDO, CONFIRMED, CANCELLED
 	}
 
 	private static int counter = 0;
@@ -29,11 +33,16 @@ public class Adventure {
 	private final int age;
 	private final String IBAN;
 	private final int amount;
-	private String bankPayment;
-	private String roomBooking;
-	private String activityBooking;
+	private String paymentConfirmation;
+	private String paymentCancellation;
+	private String roomConfirmation;
+	private String roomCancellation;
+	private String activityConfirmation;
+	private String activityCancellation;
 
-	private State state;
+	private State oldState; // to be removed once all states are refactored as
+							// subclasses of AdventureState
+	private AdventureState state;
 
 	public Adventure(Broker broker, LocalDate begin, LocalDate end, int age, String IBAN, int amount) {
 		checkArguments(broker, begin, end, age, IBAN, amount);
@@ -45,9 +54,10 @@ public class Adventure {
 		this.age = age;
 		this.IBAN = IBAN;
 		this.amount = amount;
-		this.state = State.INITIAL;
 
 		broker.addAdventure(this);
+
+		setState(State.PROCESS_PAYMENT);
 	}
 
 	private void checkArguments(Broker broker, LocalDate begin, LocalDate end, int age, String IBAN, int amount) {
@@ -96,58 +106,193 @@ public class Adventure {
 		return this.amount;
 	}
 
-	public String getBankPayment() {
-		return this.bankPayment;
+	public String getPaymentConfirmation() {
+		return this.paymentConfirmation;
 	}
 
-	public String getRoomBooking() {
-		return this.roomBooking;
+	public String getPaymentCancellation() {
+		return this.paymentCancellation;
 	}
 
-	public String getActivityBooking() {
-		return this.activityBooking;
+	public String getActivityConfirmation() {
+		return this.activityConfirmation;
+	}
+
+	public String getActivityCancellation() {
+		return this.activityCancellation;
+	}
+
+	public String getRoomConfirmation() {
+		return this.roomConfirmation;
+	}
+
+	public String getRoomCancellation() {
+		return this.roomCancellation;
 	}
 
 	public State getState() {
-		return this.state;
+		switch (this.oldState) {
+		case PROCESS_PAYMENT:
+		case RESERVE_ACTIVITY:
+		case BOOK_ROOM:
+		case UNDO:
+		case CONFIRMED:
+			return this.oldState;
+		case CANCELLED:
+			return this.state.getState();
+		default:
+			new BrokerException();
+			return null;
+		}
+	}
+
+	public void setState(State state) {
+		this.oldState = state;
+		switch (state) {
+		case PROCESS_PAYMENT:
+			this.state = null;
+			break;
+		case RESERVE_ACTIVITY:
+			this.state = null;
+			break;
+		case BOOK_ROOM:
+			this.state = null;
+			break;
+		case UNDO:
+			this.state = null;
+			break;
+		case CONFIRMED:
+			this.state = null;
+			break;
+		case CANCELLED:
+			this.state = new CancelledState();
+			break;
+		default:
+			new BrokerException();
+			break;
+
+		}
 	}
 
 	public void process() {
-		logger.debug("process ID:{} ", this.ID);
+		logger.debug("process ID:{}, state:{} ", this.ID, this.oldState.name());
 
-		switch (this.state) {
-		case INITIAL:
+		switch (this.oldState) {
+		case PROCESS_PAYMENT:
 			try {
-				this.bankPayment = BankInterface.processPayment(this.IBAN, this.amount);
-				this.state = State.PAYED;
+				this.paymentConfirmation = BankInterface.processPayment(this.IBAN, this.amount);
 			} catch (BankException be) {
-
+				setState(State.CANCELLED);
+			} catch (RemoteAccessException rae) {
+				// TODO: counts the number of consecutive RemoteAccessException
+				// failures, when it is 3 changes the state to UNDO
 			}
+
+			setState(State.RESERVE_ACTIVITY);
+
 			break;
-		case PAYED:
-			if (this.roomBooking == null) {
-				try {
-					this.roomBooking = HotelInterface.reserveHotel(Room.Type.SINGLE, this.begin, this.end);
-				} catch (HotelException e) {
+		case RESERVE_ACTIVITY:
+			try {
+				this.activityConfirmation = ActivityInterface.reserveActivity(this.begin, this.end, this.age);
+			} catch (ActivityException ae) {
+				setState(State.UNDO);
+			} catch (RemoteAccessException rae) {
+				// TODO: counts the number of consecutive RemoteAccessException
+				// failures, when it is 5 changes the state to UNDO
+			}
 
+			if (this.begin.equals(this.end)) {
+				setState(State.CONFIRMED);
+			} else {
+				setState(State.BOOK_ROOM);
+			}
+
+			break;
+		case BOOK_ROOM:
+			try {
+				this.roomConfirmation = HotelInterface.reserveHotel(Room.Type.SINGLE, this.begin, this.end);
+			} catch (HotelException rae) {
+				setState(State.UNDO);
+			} catch (RemoteAccessException rae) {
+				// TODO: counts the number of consecutive RemoteAccessException
+				// failures, when it is 10 changes the state to UNDO
+			}
+
+			setState(State.CONFIRMED);
+
+			break;
+		case UNDO:
+			if (getPaymentConfirmation() != null) {
+				try {
+					this.paymentCancellation = BankInterface.cancelPayment(getPaymentConfirmation());
+					this.paymentConfirmation = null;
+				} catch (HotelException | RemoteAccessException ex) {
+					// does not change state
 				}
 			}
 
-			if (this.activityBooking == null) {
+			if (getActivityConfirmation() != null) {
 				try {
-					this.activityBooking = ActivityInterface.reserveActivity(this.begin, this.end, this.age);
-				} catch (ActivityException e) {
-
+					this.activityCancellation = ActivityInterface.cancelReservation(getActivityConfirmation());
+					this.activityConfirmation = null;
+				} catch (HotelException | RemoteAccessException ex) {
+					// does not change state
 				}
 			}
 
-			if (this.roomBooking != null && this.activityBooking != null) {
-				this.state = State.CONFIRMED;
+			if (getRoomConfirmation() != null) {
+				try {
+					this.roomCancellation = HotelInterface.cancelBooking(getRoomConfirmation());
+					this.roomConfirmation = null;
+				} catch (HotelException | RemoteAccessException ex) {
+					// does not change state
+				}
+			}
+
+			if (getPaymentConfirmation() == null && getActivityConfirmation() == null
+					&& getRoomConfirmation() == null) {
+				setState(State.CANCELLED);
 			}
 			break;
 		case CONFIRMED:
+			BankOperationData operation;
+			try {
+				operation = BankInterface.getOperationData(getPaymentConfirmation());
+			} catch (BankException be) {
+				// TODO: counts the number of consecutive BankException
+				// failures, when is 5
+				// changes the state to UNDO
+			} catch (RemoteAccessException rae) {
+				// TODO: counts the number of consecutive RemoteAccessException
+				// failures, when it is 20 changes the state to UNDO
+			}
+
+			ActivityReservationData reservation;
+			try {
+				reservation = ActivityInterface.getActivityReservationData(getActivityConfirmation());
+			} catch (ActivityException ae) {
+				setState(State.UNDO);
+			} catch (RemoteAccessException rae) {
+				// TODO: counts the number of consecutive RemoteAccessException
+				// failures, when it is 20 changes the state to UNDO
+			}
+
+			RoomBookingData booking;
+			try {
+				booking = HotelInterface.getRoomBookingData(getRoomConfirmation());
+			} catch (HotelException he) {
+				setState(State.UNDO);
+			} catch (RemoteAccessException rae) {
+				// TODO: counts the number of consecutive RemoteAccessException
+				// failures, when it is 20 changes the state to UNDO
+			}
+
+			// TODO: prints the complete Adventure file, the info in operation,
+			// reservation and booking
+
 			break;
-		case CANCELED:
+		case CANCELLED:
+			this.state.process(this);
 			break;
 		default:
 			throw new BrokerException();

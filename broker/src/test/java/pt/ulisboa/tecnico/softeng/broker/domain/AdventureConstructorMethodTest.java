@@ -33,9 +33,9 @@ public class AdventureConstructorMethodTest {
 		Assert.assertEquals(300, adventure.getAmount());
 		Assert.assertTrue(this.broker.hasAdventure(adventure));
 
-		Assert.assertNull(adventure.getBankPayment());
-		Assert.assertNull(adventure.getActivityBooking());
-		Assert.assertNull(adventure.getRoomBooking());
+		Assert.assertNull(adventure.getPaymentConfirmation());
+		Assert.assertNull(adventure.getActivityConfirmation());
+		Assert.assertNull(adventure.getRoomConfirmation());
 	}
 
 	@Test(expected = BrokerException.class)
@@ -65,9 +65,9 @@ public class AdventureConstructorMethodTest {
 		Assert.assertEquals(300, adventure.getAmount());
 		Assert.assertTrue(this.broker.hasAdventure(adventure));
 
-		Assert.assertNull(adventure.getBankPayment());
-		Assert.assertNull(adventure.getActivityBooking());
-		Assert.assertNull(adventure.getRoomBooking());
+		Assert.assertNull(adventure.getPaymentConfirmation());
+		Assert.assertNull(adventure.getActivityConfirmation());
+		Assert.assertNull(adventure.getRoomConfirmation());
 	}
 
 	@Test(expected = BrokerException.class)
@@ -87,9 +87,9 @@ public class AdventureConstructorMethodTest {
 		Assert.assertEquals(300, adventure.getAmount());
 		Assert.assertTrue(this.broker.hasAdventure(adventure));
 
-		Assert.assertNull(adventure.getBankPayment());
-		Assert.assertNull(adventure.getActivityBooking());
-		Assert.assertNull(adventure.getRoomBooking());
+		Assert.assertNull(adventure.getPaymentConfirmation());
+		Assert.assertNull(adventure.getActivityConfirmation());
+		Assert.assertNull(adventure.getRoomConfirmation());
 	}
 
 	@Test(expected = BrokerException.class)
@@ -124,9 +124,9 @@ public class AdventureConstructorMethodTest {
 		Assert.assertEquals(1, adventure.getAmount());
 		Assert.assertTrue(this.broker.hasAdventure(adventure));
 
-		Assert.assertNull(adventure.getBankPayment());
-		Assert.assertNull(adventure.getActivityBooking());
-		Assert.assertNull(adventure.getRoomBooking());
+		Assert.assertNull(adventure.getPaymentConfirmation());
+		Assert.assertNull(adventure.getActivityConfirmation());
+		Assert.assertNull(adventure.getRoomConfirmation());
 	}
 
 	@Test(expected = BrokerException.class)
@@ -146,9 +146,9 @@ public class AdventureConstructorMethodTest {
 		Assert.assertEquals(300, adventure.getAmount());
 		Assert.assertTrue(this.broker.hasAdventure(adventure));
 
-		Assert.assertNull(adventure.getBankPayment());
-		Assert.assertNull(adventure.getActivityBooking());
-		Assert.assertNull(adventure.getRoomBooking());
+		Assert.assertNull(adventure.getPaymentConfirmation());
+		Assert.assertNull(adventure.getActivityConfirmation());
+		Assert.assertNull(adventure.getRoomConfirmation());
 	}
 
 	@Test(expected = BrokerException.class)

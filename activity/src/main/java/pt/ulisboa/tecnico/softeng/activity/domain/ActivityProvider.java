@@ -75,7 +75,7 @@ public class ActivityProvider {
 				return new Booking(provider, offers.get(0)).getReference();
 			}
 		}
-		return null;
+		throw new ActivityException();
 	}
 
 }

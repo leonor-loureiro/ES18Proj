@@ -99,7 +99,7 @@ public class Bank {
 				return bank.getAccount(IBAN).withdraw(amount);
 			}
 		}
-		return null;
+		throw new BankException();
 	}
 
 }

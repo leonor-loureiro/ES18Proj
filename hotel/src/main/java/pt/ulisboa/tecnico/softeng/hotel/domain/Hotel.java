@@ -80,7 +80,7 @@ public class Hotel {
 				return room.reserve(type, arrival, departure).getReference();
 			}
 		}
-		return null;
+		throw new HotelException();
 	}
 
 	public boolean hasRoom(String number) {
