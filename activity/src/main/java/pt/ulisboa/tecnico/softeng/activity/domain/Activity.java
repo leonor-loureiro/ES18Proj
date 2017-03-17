@@ -81,12 +81,22 @@ public class Activity {
 			if (matchAge(age) && offer.available(begin, end)) {
 				result.add(offer);
 			}
-		}		
+		}
 		return result;
 	}
 
 	boolean matchAge(int age) {
 		return age >= this.minAge && age <= this.maxAge;
+	}
+
+	public Booking getBooking(String reference) {
+		for (ActivityOffer offer : this.offers) {
+			Booking booking = offer.getBooking(reference);
+			if (booking != null) {
+				return booking;
+			}
+		}
+		return null;
 	}
 
 }

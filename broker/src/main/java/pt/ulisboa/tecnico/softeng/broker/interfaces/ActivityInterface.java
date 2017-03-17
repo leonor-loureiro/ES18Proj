@@ -10,12 +10,11 @@ public class ActivityInterface {
 		return ActivityProvider.reserveActivity(begin, end, age);
 	}
 
-	public static String cancelReservation(String activityReservation) {
-		// TODO Auto-generated method stub
-		return null;
+	public static String cancelReservation(String activityConfirmation) {
+		return ActivityProvider.cancelReservation(activityConfirmation);
 	}
 
-	public static ActivityReservationData getActivityReservationData(String activityReservation) {
+	public static ActivityReservationData getActivityReservationData(String activityConfirmation) {
 		// TODO Auto-generated method stub
 		return null;
 	}

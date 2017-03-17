@@ -67,12 +67,32 @@ public class ActivityProvider {
 		return result;
 	}
 
+	private Booking getBooking(String reference) {
+		for (Activity activity : this.activities) {
+			Booking booking = activity.getBooking(reference);
+			if (booking != null) {
+				return booking;
+			}
+		}
+		return null;
+	}
+
 	public static String reserveActivity(LocalDate begin, LocalDate end, int age) {
 		List<ActivityOffer> offers;
 		for (ActivityProvider provider : ActivityProvider.providers) {
 			offers = provider.findOffer(begin, end, age);
 			if (!offers.isEmpty()) {
 				return new Booking(provider, offers.get(0)).getReference();
+			}
+		}
+		throw new ActivityException();
+	}
+
+	public static String cancelReservation(String reference) {
+		for (ActivityProvider provider : ActivityProvider.providers) {
+			Booking booking = provider.getBooking(reference);
+			if (booking != null) {
+				return booking.cancel();
 			}
 		}
 		throw new ActivityException();
