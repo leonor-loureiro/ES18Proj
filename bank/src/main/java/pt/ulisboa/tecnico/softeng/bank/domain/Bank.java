@@ -102,4 +102,14 @@ public class Bank {
 		throw new BankException();
 	}
 
+	public static String cancelPayment(String paymentConfirmation) {
+		for (Bank bank : Bank.banks) {
+			Operation operation = bank.getOperation(paymentConfirmation);
+			if (operation != null) {
+				return operation.revert();
+			}
+		}
+		throw new BankException();
+	}
+
 }

@@ -55,4 +55,17 @@ public class Operation {
 		return this.time;
 	}
 
+	public String revert() {
+		switch (this.type) {
+		case DEPOSIT:
+			return this.account.withdraw(this.value);
+		case WITHDRAW:
+			return this.account.deposit(this.value);
+		default:
+			throw new BankException();
+
+		}
+
+	}
+
 }
