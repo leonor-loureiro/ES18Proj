@@ -222,35 +222,31 @@ public class Adventure {
 
 			break;
 		case UNDO:
-			if (getPaymentConfirmation() != null) {
+			if (cancelPayment()) {
 				try {
 					this.paymentCancellation = BankInterface.cancelPayment(getPaymentConfirmation());
-					this.paymentConfirmation = null;
 				} catch (HotelException | RemoteAccessException ex) {
 					// does not change state
 				}
 			}
 
-			if (getActivityConfirmation() != null) {
+			if (cancelActivity()) {
 				try {
 					this.activityCancellation = ActivityInterface.cancelReservation(getActivityConfirmation());
-					this.activityConfirmation = null;
 				} catch (HotelException | RemoteAccessException ex) {
 					// does not change state
 				}
 			}
 
-			if (getRoomConfirmation() != null) {
+			if (cancelRoom()) {
 				try {
 					this.roomCancellation = HotelInterface.cancelBooking(getRoomConfirmation());
-					this.roomConfirmation = null;
 				} catch (HotelException | RemoteAccessException ex) {
 					// does not change state
 				}
 			}
 
-			if (getPaymentConfirmation() == null && getActivityConfirmation() == null
-					&& getRoomConfirmation() == null) {
+			if (!cancelPayment() && !cancelActivity() && !cancelRoom()) {
 				setState(State.CANCELLED);
 			}
 			break;
@@ -297,6 +293,18 @@ public class Adventure {
 		default:
 			throw new BrokerException();
 		}
+	}
+
+	public boolean cancelRoom() {
+		return getRoomConfirmation() != null && getRoomCancellation() == null;
+	}
+
+	public boolean cancelActivity() {
+		return getActivityConfirmation() != null && getActivityCancellation() == null;
+	}
+
+	public boolean cancelPayment() {
+		return getPaymentConfirmation() != null && getPaymentCancellation() == null;
 	}
 
 }
