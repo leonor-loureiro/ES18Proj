@@ -82,4 +82,14 @@ public class Room {
 		return booking;
 	}
 
+	public Booking getBooking(String reference) {
+		for (Booking booking : this.bookings) {
+			if (booking.getReference().equals(reference)
+					|| (booking.isCancelled() && booking.getCancel().equals(reference))) {
+				return booking;
+			}
+		}
+		return null;
+	}
+
 }

@@ -8,6 +8,7 @@ public class Booking {
 	private static int counter = 0;
 
 	private final String reference;
+	private String cancel;
 	private final LocalDate arrival;
 	private final LocalDate departure;
 
@@ -33,6 +34,10 @@ public class Booking {
 		return this.reference;
 	}
 
+	public String getCancel() {
+		return this.cancel;
+	}
+
 	LocalDate getArrival() {
 		return this.arrival;
 	}
@@ -42,6 +47,10 @@ public class Booking {
 	}
 
 	boolean conflict(LocalDate arrival, LocalDate departure) {
+		if (isCancelled()) {
+			return false;
+		}
+
 		if (departure.isBefore(arrival)) {
 			throw new HotelException();
 		}
@@ -60,6 +69,15 @@ public class Booking {
 		}
 
 		return false;
+	}
+
+	public String cancel() {
+		this.cancel = this.reference + "CANCEL";
+		return this.cancel;
+	}
+
+	public boolean isCancelled() {
+		return this.cancel != null;
 	}
 
 }

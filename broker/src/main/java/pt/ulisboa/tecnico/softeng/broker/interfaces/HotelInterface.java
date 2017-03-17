@@ -11,12 +11,11 @@ public class HotelInterface {
 		return Hotel.reserveRoom(type, arrival, departure);
 	}
 
-	public static String cancelBooking(String roomBooking) {
-		// TODO invoke remote
-		return null;
+	public static String cancelBooking(String roomConfirmation) {
+		return Hotel.cancelBooking(roomConfirmation);
 	}
 
-	public static RoomBookingData getRoomBookingData(String roomBooking) {
+	public static RoomBookingData getRoomBookingData(String roomConfirmation) {
 		// TODO invoke remote
 		return null;
 	}

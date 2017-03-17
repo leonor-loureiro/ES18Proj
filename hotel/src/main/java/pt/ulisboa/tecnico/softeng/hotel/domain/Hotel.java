@@ -73,6 +73,25 @@ public class Hotel {
 		return this.rooms.size();
 	}
 
+	public boolean hasRoom(String number) {
+		for (Room room : this.rooms) {
+			if (room.getNumber().equals(number)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private Booking getBooking(String reference) {
+		for (Room room : this.rooms) {
+			Booking booking = room.getBooking(reference);
+			if (booking != null) {
+				return booking;
+			}
+		}
+		return null;
+	}
+
 	public static String reserveRoom(Room.Type type, LocalDate arrival, LocalDate departure) {
 		for (Hotel hotel : Hotel.hotels) {
 			Room room = hotel.hasVacancy(type, arrival, departure);
@@ -83,13 +102,14 @@ public class Hotel {
 		throw new HotelException();
 	}
 
-	public boolean hasRoom(String number) {
-		for (Room room : this.rooms) {
-			if (room.getNumber().equals(number)) {
-				return true;
+	public static String cancelBooking(String reference) {
+		for (Hotel hotel : hotels) {
+			Booking booking = hotel.getBooking(reference);
+			if (booking != null) {
+				return booking.cancel();
 			}
 		}
-		return false;
+		throw new HotelException();
 	}
 
 }

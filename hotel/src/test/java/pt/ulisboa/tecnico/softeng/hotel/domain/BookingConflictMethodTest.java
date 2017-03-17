@@ -25,13 +25,19 @@ public class BookingConflictMethodTest {
 		Assert.assertFalse(this.booking.conflict(new LocalDate(2016, 12, 9), new LocalDate(2016, 12, 15)));
 	}
 
+	@Test
+	public void noConflictBecauseItIsCancelled() {
+		this.booking.cancel();
+		Assert.assertFalse(this.booking.conflict(this.booking.getArrival(), this.booking.getDeparture()));
+	}
+
 	@Test(expected = HotelException.class)
 	public void argumentsAreInconsistent() {
 		this.booking.conflict(new LocalDate(2016, 12, 15), new LocalDate(2016, 12, 9));
 	}
 
 	public void argumentsSameDay() {
-		this.booking.conflict(new LocalDate(2016, 12, 9), new LocalDate(2016, 12, 9));
+		Assert.assertFalse(this.booking.conflict(new LocalDate(2016, 12, 9), new LocalDate(2016, 12, 9)));
 	}
 
 	@Test
