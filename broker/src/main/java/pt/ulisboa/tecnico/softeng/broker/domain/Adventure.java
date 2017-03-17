@@ -110,24 +110,48 @@ public class Adventure {
 		return this.paymentConfirmation;
 	}
 
+	public void setPaymentConfirmation(String paymentConfirmation) {
+		this.paymentConfirmation = paymentConfirmation;
+	}
+
 	public String getPaymentCancellation() {
 		return this.paymentCancellation;
+	}
+
+	public void setPaymentCancellation(String paymentCancellation) {
+		this.paymentCancellation = paymentCancellation;
 	}
 
 	public String getActivityConfirmation() {
 		return this.activityConfirmation;
 	}
 
+	public void setActivityConfirmation(String activityConfirmation) {
+		this.activityConfirmation = activityConfirmation;
+	}
+
 	public String getActivityCancellation() {
 		return this.activityCancellation;
+	}
+
+	public void setActivityCancellation(String activityCancellation) {
+		this.activityCancellation = activityCancellation;
 	}
 
 	public String getRoomConfirmation() {
 		return this.roomConfirmation;
 	}
 
+	public void setRoomConfirmation(String roomConfirmation) {
+		this.roomConfirmation = roomConfirmation;
+	}
+
 	public String getRoomCancellation() {
 		return this.roomCancellation;
+	}
+
+	public void setRoomCancellation(String roomCancellation) {
+		this.roomCancellation = roomCancellation;
 	}
 
 	public State getState() {
