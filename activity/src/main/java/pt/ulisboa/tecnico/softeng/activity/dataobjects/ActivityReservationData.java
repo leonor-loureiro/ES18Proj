@@ -2,6 +2,10 @@ package pt.ulisboa.tecnico.softeng.activity.dataobjects;
 
 import org.joda.time.LocalDate;
 
+import pt.ulisboa.tecnico.softeng.activity.domain.ActivityOffer;
+import pt.ulisboa.tecnico.softeng.activity.domain.ActivityProvider;
+import pt.ulisboa.tecnico.softeng.activity.domain.Booking;
+
 public class ActivityReservationData {
 	private String reference;
 	private String cancellation;
@@ -10,6 +14,19 @@ public class ActivityReservationData {
 	private LocalDate begin;
 	private LocalDate end;
 	private LocalDate cancellationDate;
+
+	public ActivityReservationData() {
+	}
+
+	public ActivityReservationData(ActivityProvider provider, ActivityOffer offer, Booking booking) {
+		this.reference = booking.getReference();
+		this.cancellation = booking.getCancellation();
+		this.name = provider.getName();
+		this.code = provider.getCode();
+		this.begin = offer.getBegin();
+		this.end = offer.getEnd();
+		this.cancellationDate = booking.getCancellationDate();
+	}
 
 	public String getReference() {
 		return this.reference;

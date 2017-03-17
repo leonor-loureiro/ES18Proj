@@ -1,5 +1,7 @@
 package pt.ulisboa.tecnico.softeng.activity.domain;
 
+import org.joda.time.LocalDate;
+
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
 
 public class Booking {
@@ -7,6 +9,7 @@ public class Booking {
 
 	private final String reference;
 	private String cancel;
+	private LocalDate cancellationDate;
 
 	public Booking(ActivityProvider provider, ActivityOffer offer) {
 		checkArguments(provider, offer);
@@ -26,12 +29,17 @@ public class Booking {
 		return this.reference;
 	}
 
-	public String getCancel() {
+	public String getCancellation() {
 		return this.cancel;
+	}
+
+	public LocalDate getCancellationDate() {
+		return this.cancellationDate;
 	}
 
 	public String cancel() {
 		this.cancel = "CANCEL" + this.reference;
+		this.cancellationDate = new LocalDate();
 		return this.cancel;
 	}
 

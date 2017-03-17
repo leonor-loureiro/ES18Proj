@@ -14,8 +14,7 @@ public class ActivityInterface {
 		return ActivityProvider.cancelReservation(activityConfirmation);
 	}
 
-	public static ActivityReservationData getActivityReservationData(String activityConfirmation) {
-		// TODO Auto-generated method stub
-		return null;
+	public static ActivityReservationData getActivityReservationData(String reference) {
+		return ActivityProvider.getActivityReservationData(reference);
 	}
 }

@@ -31,7 +31,7 @@ public class ActivityProviderCancelReservationMethodTest {
 		String cancel = ActivityProvider.cancelReservation(booking.getReference());
 
 		assertTrue(booking.isCancelled());
-		assertEquals(cancel, booking.getCancel());
+		assertEquals(cancel, booking.getCancellation());
 	}
 
 	@Test(expected = ActivityException.class)

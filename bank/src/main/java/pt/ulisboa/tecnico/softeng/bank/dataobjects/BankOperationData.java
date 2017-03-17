@@ -11,6 +11,9 @@ public class BankOperationData {
 	private int value;
 	private LocalDateTime time;
 
+	public BankOperationData() {
+	}
+
 	public BankOperationData(Operation operation) {
 		this.reference = operation.getReference();
 		this.type = operation.getType().name();

@@ -99,4 +99,8 @@ public class Activity {
 		return null;
 	}
 
+	public Set<ActivityOffer> getOffers() {
+		return this.offers;
+	}
+
 }

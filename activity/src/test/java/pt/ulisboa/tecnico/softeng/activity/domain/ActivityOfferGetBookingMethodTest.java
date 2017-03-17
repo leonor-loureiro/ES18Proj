@@ -35,7 +35,7 @@ public class ActivityOfferGetBookingMethodTest {
 		Booking booking = new Booking(this.provider, this.offer);
 		booking.cancel();
 
-		assertEquals(booking, this.offer.getBooking(booking.getCancel()));
+		assertEquals(booking, this.offer.getBooking(booking.getCancellation()));
 	}
 
 	@Test

@@ -33,11 +33,11 @@ public class ActivityOffer {
 		}
 	}
 
-	LocalDate getBegin() {
+	public LocalDate getBegin() {
 		return this.begin;
 	}
 
-	LocalDate getEnd() {
+	public LocalDate getEnd() {
 		return this.end;
 	}
 
@@ -79,7 +79,7 @@ public class ActivityOffer {
 	public Booking getBooking(String reference) {
 		for (Booking booking : this.bookings) {
 			if (booking.getReference().equals(reference)
-					|| (booking.isCancelled() && booking.getCancel().equals(reference))) {
+					|| (booking.isCancelled() && booking.getCancellation().equals(reference))) {
 				return booking;
 			}
 		}
