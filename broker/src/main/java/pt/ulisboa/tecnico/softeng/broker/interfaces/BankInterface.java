@@ -8,12 +8,11 @@ public class BankInterface {
 		return Bank.processPayment(IBAN, amount);
 	}
 
-	public static String cancelPayment(String paymentConfirmation) {
-		return Bank.cancelPayment(paymentConfirmation);
+	public static String cancelPayment(String reference) {
+		return Bank.cancelPayment(reference);
 	}
 
-	public static BankOperationData getOperationData(String paymentConfirmation) {
-		// TODO Auto-generated method stub
-		return null;
+	public static BankOperationData getOperationData(String reference) {
+		return Bank.getOperationData(reference);
 	}
 }

@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import pt.ulisboa.tecnico.softeng.bank.dataobjects.BankOperationData;
 import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
 
 public class Bank {
@@ -93,6 +94,16 @@ public class Bank {
 		return null;
 	}
 
+	public static Operation getOperationByReference(String reference) {
+		for (Bank bank : Bank.banks) {
+			Operation operation = bank.getOperation(reference);
+			if (operation != null) {
+				return operation;
+			}
+		}
+		return null;
+	}
+
 	public static String processPayment(String IBAN, int amount) {
 		for (Bank bank : Bank.banks) {
 			if (bank.getAccount(IBAN) != null) {
@@ -103,11 +114,17 @@ public class Bank {
 	}
 
 	public static String cancelPayment(String paymentConfirmation) {
-		for (Bank bank : Bank.banks) {
-			Operation operation = bank.getOperation(paymentConfirmation);
-			if (operation != null) {
-				return operation.revert();
-			}
+		Operation operation = getOperationByReference(paymentConfirmation);
+		if (operation != null) {
+			return operation.revert();
+		}
+		throw new BankException();
+	}
+
+	public static BankOperationData getOperationData(String reference) {
+		Operation operation = getOperationByReference(reference);
+		if (operation != null) {
+			return new BankOperationData(operation);
 		}
 		throw new BankException();
 	}

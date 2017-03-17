@@ -2,12 +2,22 @@ package pt.ulisboa.tecnico.softeng.bank.dataobjects;
 
 import org.joda.time.LocalDateTime;
 
+import pt.ulisboa.tecnico.softeng.bank.domain.Operation;
+
 public class BankOperationData {
 	private String reference;
 	private String type;
 	private String iban;
 	private int value;
 	private LocalDateTime time;
+
+	public BankOperationData(Operation operation) {
+		this.reference = operation.getReference();
+		this.type = operation.getType().name();
+		this.iban = operation.getAccount().getIBAN();
+		this.value = operation.getValue();
+		this.time = operation.getTime();
+	}
 
 	public String getReference() {
 		return this.reference;
