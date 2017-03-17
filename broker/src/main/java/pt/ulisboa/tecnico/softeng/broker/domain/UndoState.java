@@ -1,5 +1,7 @@
 package pt.ulisboa.tecnico.softeng.broker.domain;
 
+import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
+import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
 import pt.ulisboa.tecnico.softeng.broker.domain.Adventure.State;
 import pt.ulisboa.tecnico.softeng.broker.exception.RemoteAccessException;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.ActivityInterface;
@@ -16,24 +18,24 @@ public class UndoState extends AdventureState {
 
 	@Override
 	public void process(Adventure adventure) {
-		if (cancelPayment(adventure)) {
+		if (requiresCancelPayment(adventure)) {
 			try {
 				adventure.setPaymentCancellation(BankInterface.cancelPayment(adventure.getPaymentConfirmation()));
-			} catch (HotelException | RemoteAccessException ex) {
+			} catch (BankException | RemoteAccessException ex) {
 				// does not change state
 			}
 		}
 
-		if (cancelActivity(adventure)) {
+		if (requiresCancelActivity(adventure)) {
 			try {
 				adventure.setActivityCancellation(
 						ActivityInterface.cancelReservation(adventure.getActivityConfirmation()));
-			} catch (HotelException | RemoteAccessException ex) {
+			} catch (ActivityException | RemoteAccessException ex) {
 				// does not change state
 			}
 		}
 
-		if (cancelRoom(adventure)) {
+		if (requiresCancelRoom(adventure)) {
 			try {
 				adventure.setRoomCancellation(HotelInterface.cancelBooking(adventure.getRoomConfirmation()));
 			} catch (HotelException | RemoteAccessException ex) {
@@ -41,20 +43,20 @@ public class UndoState extends AdventureState {
 			}
 		}
 
-		if (!cancelPayment(adventure) && !cancelActivity(adventure) && !cancelRoom(adventure)) {
+		if (!requiresCancelPayment(adventure) && !requiresCancelActivity(adventure) && !requiresCancelRoom(adventure)) {
 			adventure.setState(State.CANCELLED);
 		}
 	}
 
-	public boolean cancelRoom(Adventure adventure) {
+	public boolean requiresCancelRoom(Adventure adventure) {
 		return adventure.getRoomConfirmation() != null && adventure.getRoomCancellation() == null;
 	}
 
-	public boolean cancelActivity(Adventure adventure) {
+	public boolean requiresCancelActivity(Adventure adventure) {
 		return adventure.getActivityConfirmation() != null && adventure.getActivityCancellation() == null;
 	}
 
-	public boolean cancelPayment(Adventure adventure) {
+	public boolean requiresCancelPayment(Adventure adventure) {
 		return adventure.getPaymentConfirmation() != null && adventure.getPaymentCancellation() == null;
 	}
 
