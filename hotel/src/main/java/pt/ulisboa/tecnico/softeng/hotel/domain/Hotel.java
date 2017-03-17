@@ -73,7 +73,7 @@ public class Hotel {
 		return this.rooms.size();
 	}
 
-	public static String reserveHotel(Room.Type type, LocalDate arrival, LocalDate departure) {
+	public static String reserveRoom(Room.Type type, LocalDate arrival, LocalDate departure) {
 		for (Hotel hotel : Hotel.hotels) {
 			Room room = hotel.hasVacancy(type, arrival, departure);
 			if (room != null) {

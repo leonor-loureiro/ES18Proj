@@ -7,6 +7,7 @@ import pt.ulisboa.tecnico.softeng.hotel.domain.Room;
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 
 public class BookRoomState extends AdventureState {
+	public static final int MAX_REMOTE_ERRORS = 10;
 
 	@Override
 	public State getState() {
@@ -17,12 +18,16 @@ public class BookRoomState extends AdventureState {
 	public void process(Adventure adventure) {
 		try {
 			adventure.setRoomConfirmation(
-					HotelInterface.reserveHotel(Room.Type.SINGLE, adventure.getBegin(), adventure.getEnd()));
-		} catch (HotelException rae) {
+					HotelInterface.reserveRoom(Room.Type.SINGLE, adventure.getBegin(), adventure.getEnd()));
+		} catch (HotelException he) {
 			adventure.setState(State.UNDO);
+			return;
 		} catch (RemoteAccessException rae) {
-			// TODO: counts the number of consecutive RemoteAccessException
-			// failures, when it is 10 changes the state to UNDO
+			incNumOfRemoteErrors();
+			if (getNumOfRemoteErrors() == MAX_REMOTE_ERRORS) {
+				adventure.setState(State.UNDO);
+			}
+			return;
 		}
 
 		adventure.setState(State.CONFIRMED);
