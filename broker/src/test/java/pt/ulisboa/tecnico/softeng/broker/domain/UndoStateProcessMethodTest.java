@@ -280,11 +280,4 @@ public class UndoStateProcessMethodTest {
 		Assert.assertEquals(State.UNDO, this.adventure.getState());
 	}
 
-	// this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
-	// this.adventure.setPaymentCancellation(PAYMENT_CANCELLATION);
-	// this.adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION);
-	// this.adventure.setActivityCancellation(ACTIVITY_CANCELLATION);
-	// this.adventure.setRoomConfirmation(ROOM_CONFIRMATION);
-	// this.adventure.setRoomCancellation(ROOM_CANCELLATION);
-
 }
