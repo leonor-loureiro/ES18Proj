@@ -10,7 +10,10 @@ import mockit.Expectations;
 import mockit.Injectable;
 import mockit.Mocked;
 import mockit.integration.junit4.JMockit;
+import pt.ulisboa.tecnico.softeng.bank.dataobjects.BankOperationData;
+import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
 import pt.ulisboa.tecnico.softeng.broker.domain.Adventure.State;
+import pt.ulisboa.tecnico.softeng.broker.exception.RemoteAccessException;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.ActivityInterface;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.BankInterface;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.HotelInterface;
@@ -40,6 +43,80 @@ public class CancelledStateProcessMethodTest {
 
 	@Test
 	public void didNotPayed() {
+		this.adventure.process();
+
+		Assert.assertEquals(Adventure.State.CANCELLED, this.adventure.getState());
+	}
+
+	@Test
+	public void cancelledPaymentFirstBankException(@Mocked final BankInterface bankInterface) {
+		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
+		this.adventure.setPaymentCancellation(PAYMENT_CANCELLATION);
+
+		new Expectations() {
+			{
+				BankInterface.getOperationData(PAYMENT_CANCELLATION);
+				this.result = new BankException();
+			}
+		};
+
+		this.adventure.process();
+
+		Assert.assertEquals(Adventure.State.CANCELLED, this.adventure.getState());
+	}
+
+	@Test
+	public void cancelledPaymentFirstRemoteAccessException(@Mocked final BankInterface bankInterface) {
+		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
+		this.adventure.setPaymentCancellation(PAYMENT_CANCELLATION);
+
+		new Expectations() {
+			{
+				BankInterface.getOperationData(PAYMENT_CANCELLATION);
+				this.result = new RemoteAccessException();
+			}
+		};
+
+		this.adventure.process();
+
+		Assert.assertEquals(Adventure.State.CANCELLED, this.adventure.getState());
+	}
+
+	@Test
+	public void cancelledPaymentSecondBankException(@Mocked final BankInterface bankInterface) {
+		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
+		this.adventure.setPaymentCancellation(PAYMENT_CANCELLATION);
+
+		new Expectations() {
+			{
+				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
+				this.result = new BankOperationData();
+
+				BankInterface.getOperationData(PAYMENT_CANCELLATION);
+				this.result = new BankException();
+			}
+		};
+
+		this.adventure.process();
+
+		Assert.assertEquals(Adventure.State.CANCELLED, this.adventure.getState());
+	}
+
+	@Test
+	public void cancelledPaymentSecondRemoteAccessException(@Mocked final BankInterface bankInterface) {
+		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
+		this.adventure.setPaymentCancellation(PAYMENT_CANCELLATION);
+
+		new Expectations() {
+			{
+				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
+				this.result = new BankOperationData();
+
+				BankInterface.getOperationData(PAYMENT_CANCELLATION);
+				this.result = new RemoteAccessException();
+			}
+		};
+
 		this.adventure.process();
 
 		Assert.assertEquals(Adventure.State.CANCELLED, this.adventure.getState());
