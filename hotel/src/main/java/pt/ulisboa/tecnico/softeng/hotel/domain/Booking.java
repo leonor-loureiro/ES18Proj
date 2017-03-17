@@ -51,6 +51,10 @@ public class Booking {
 			return false;
 		}
 
+		if (arrival.equals(departure)) {
+			return true;
+		}
+
 		if (departure.isBefore(arrival)) {
 			throw new HotelException();
 		}
