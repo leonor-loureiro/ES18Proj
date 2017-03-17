@@ -6,6 +6,7 @@ import pt.ulisboa.tecnico.softeng.broker.exception.RemoteAccessException;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.BankInterface;
 
 public class ProcessPaymentState extends AdventureState {
+	private static final int MAX_REMOTE_ERRORS = 3;
 
 	@Override
 	public State getState() {
@@ -18,9 +19,13 @@ public class ProcessPaymentState extends AdventureState {
 			adventure.setPaymentConfirmation(BankInterface.processPayment(adventure.getIBAN(), adventure.getAmount()));
 		} catch (BankException be) {
 			adventure.setState(State.CANCELLED);
+			return;
 		} catch (RemoteAccessException rae) {
-			// TODO: counts the number of consecutive RemoteAccessException
-			// failures, when it is 3 changes the state to UNDO
+			incNumOfRemoteErrors();
+			if (getNumOfRemoteErrors() == MAX_REMOTE_ERRORS) {
+				adventure.setState(State.CANCELLED);
+			}
+			return;
 		}
 
 		adventure.setState(State.RESERVE_ACTIVITY);
