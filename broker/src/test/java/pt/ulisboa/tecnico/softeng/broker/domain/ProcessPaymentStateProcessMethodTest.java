@@ -30,7 +30,7 @@ public class ProcessPaymentStateProcessMethodTest {
 
 	@Before
 	public void setUp() {
-		this.adventure = new Adventure(this.broker, this.begin, this.end, 20, IBAN, 300);
+		this.adventure = new Adventure(this.broker, this.begin, this.end, 20, IBAN, AMOUNT);
 		this.adventure.setState(State.PROCESS_PAYMENT);
 	}
 
@@ -77,12 +77,12 @@ public class ProcessPaymentStateProcessMethodTest {
 	}
 
 	@Test
-	public void threeRemoteAccessException(@Mocked final BankInterface bankInterface) {
+	public void maxRemoteAccessException(@Mocked final BankInterface bankInterface) {
 		new Expectations() {
 			{
 				BankInterface.processPayment(IBAN, AMOUNT);
 				this.result = new RemoteAccessException();
-				this.times = 3;
+				this.times = ProcessPaymentState.MAX_REMOTE_ERRORS;
 			}
 		};
 
@@ -91,6 +91,22 @@ public class ProcessPaymentStateProcessMethodTest {
 		this.adventure.process();
 
 		Assert.assertEquals(State.CANCELLED, this.adventure.getState());
+	}
+
+	@Test
+	public void maxMinusOneRemoteAccessException(@Mocked final BankInterface bankInterface) {
+		new Expectations() {
+			{
+				BankInterface.processPayment(IBAN, AMOUNT);
+				this.result = new RemoteAccessException();
+				this.times = ProcessPaymentState.MAX_REMOTE_ERRORS - 1;
+			}
+		};
+
+		this.adventure.process();
+		this.adventure.process();
+
+		Assert.assertEquals(State.PROCESS_PAYMENT, this.adventure.getState());
 	}
 
 	@Test

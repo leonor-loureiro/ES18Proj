@@ -6,7 +6,7 @@ import pt.ulisboa.tecnico.softeng.broker.exception.RemoteAccessException;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.BankInterface;
 
 public class ProcessPaymentState extends AdventureState {
-	private static final int MAX_REMOTE_ERRORS = 3;
+	public static final int MAX_REMOTE_ERRORS = 3;
 
 	@Override
 	public State getState() {

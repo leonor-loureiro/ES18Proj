@@ -21,7 +21,6 @@ import pt.ulisboa.tecnico.softeng.broker.interfaces.HotelInterface;
 @RunWith(JMockit.class)
 public class CancelledStateProcessMethodTest {
 	private static final String IBAN = "BK01987654321";
-	private static final int AMOUNT = 300;
 	private static final String PAYMENT_CONFIRMATION = "PaymentConfirmation";
 	private static final String PAYMENT_CANCELLATION = "PaymentCancellation";
 	private static final String ACTIVITY_CONFIRMATION = "ActivityConfirmation";

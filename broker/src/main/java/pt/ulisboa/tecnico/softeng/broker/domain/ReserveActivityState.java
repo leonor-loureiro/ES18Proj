@@ -6,6 +6,7 @@ import pt.ulisboa.tecnico.softeng.broker.exception.RemoteAccessException;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.ActivityInterface;
 
 public class ReserveActivityState extends AdventureState {
+	public static final int MAX_REMOTE_ERRORS = 5;
 
 	@Override
 	public State getState() {
@@ -19,9 +20,13 @@ public class ReserveActivityState extends AdventureState {
 					ActivityInterface.reserveActivity(adventure.getBegin(), adventure.getEnd(), adventure.getAge()));
 		} catch (ActivityException ae) {
 			adventure.setState(State.UNDO);
+			return;
 		} catch (RemoteAccessException rae) {
-			// TODO: counts the number of consecutive RemoteAccessException
-			// failures, when it is 5 changes the state to UNDO
+			incNumOfRemoteErrors();
+			if (getNumOfRemoteErrors() == MAX_REMOTE_ERRORS) {
+				adventure.setState(State.UNDO);
+			}
+			return;
 		}
 
 		if (adventure.getBegin().equals(adventure.getEnd())) {
@@ -29,7 +34,6 @@ public class ReserveActivityState extends AdventureState {
 		} else {
 			adventure.setState(State.BOOK_ROOM);
 		}
-
 	}
 
 }
