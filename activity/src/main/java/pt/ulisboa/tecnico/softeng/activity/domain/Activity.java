@@ -8,6 +8,9 @@ import org.joda.time.LocalDate;
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
 
 public class Activity {
+	private static final int MIN_AGE = 18;
+	private static final int MAX_AGE = 100;
+
 	private static int counter = 0;
 
 	private final String name;
@@ -34,7 +37,7 @@ public class Activity {
 			throw new ActivityException();
 		}
 
-		if (minAge < 18 || maxAge >= 100 || minAge > maxAge) {
+		if (minAge < MIN_AGE || maxAge >= MAX_AGE || minAge > maxAge) {
 			throw new ActivityException();
 		}
 
@@ -78,7 +81,7 @@ public class Activity {
 			if (matchAge(age) && offer.available(begin, end)) {
 				result.add(offer);
 			}
-		}
+		}		
 		return result;
 	}
 
