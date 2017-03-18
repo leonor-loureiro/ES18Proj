@@ -13,7 +13,7 @@ import pt.ulisboa.tecnico.softeng.hotel.dataobjects.RoomBookingData;
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 
 public class ConfirmedState extends AdventureState {
-	public static int MAX_REMOTE_ERRORS = 4;
+	public static int MAX_REMOTE_ERRORS = 20;
 	public static int MAX_BANK_EXCEPTIONS = 5;
 
 	private int numberOfBankExceptions = 0;

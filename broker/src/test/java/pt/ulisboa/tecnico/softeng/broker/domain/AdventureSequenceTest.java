@@ -9,11 +9,14 @@ import mockit.Injectable;
 import mockit.Mocked;
 import mockit.StrictExpectations;
 import mockit.integration.junit4.JMockit;
+import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
+import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
 import pt.ulisboa.tecnico.softeng.broker.domain.Adventure.State;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.ActivityInterface;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.BankInterface;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.HotelInterface;
 import pt.ulisboa.tecnico.softeng.hotel.domain.Room.Type;
+import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 
 @RunWith(JMockit.class)
 public class AdventureSequenceTest {
@@ -88,6 +91,122 @@ public class AdventureSequenceTest {
 		adventure.process();
 
 		Assert.assertEquals(State.CONFIRMED, adventure.getState());
+	}
+
+	@Test
+	public void unsuccessSequenceOne(@Mocked final BankInterface bankInterface,
+			@Mocked final ActivityInterface activityInterface, @Mocked final HotelInterface roomInterface) {
+		new StrictExpectations() {
+			{
+				BankInterface.processPayment(IBAN, AMOUNT);
+				this.result = new BankException();
+			}
+		};
+
+		Adventure adventure = new Adventure(this.broker, arrival, departure, AGE, IBAN, AMOUNT);
+
+		adventure.process();
+
+		Assert.assertEquals(State.CANCELLED, adventure.getState());
+	}
+
+	@Test
+	public void unsuccessSequenceTwo(@Mocked final BankInterface bankInterface,
+			@Mocked final ActivityInterface activityInterface, @Mocked final HotelInterface roomInterface) {
+		new StrictExpectations() {
+			{
+				BankInterface.processPayment(IBAN, AMOUNT);
+				this.result = PAYMENT_CONFIRMATION;
+
+				ActivityInterface.reserveActivity(arrival, departure, AGE);
+				this.result = new ActivityException();
+
+				BankInterface.cancelPayment(PAYMENT_CONFIRMATION);
+				this.result = PAYMENT_CANCELLATION;
+			}
+		};
+
+		Adventure adventure = new Adventure(this.broker, arrival, departure, AGE, IBAN, AMOUNT);
+
+		adventure.process();
+		adventure.process();
+		adventure.process();
+
+		Assert.assertEquals(State.CANCELLED, adventure.getState());
+	}
+
+	@Test
+	public void unsuccessSequenceThree(@Mocked final BankInterface bankInterface,
+			@Mocked final ActivityInterface activityInterface, @Mocked final HotelInterface roomInterface) {
+		new StrictExpectations() {
+			{
+				BankInterface.processPayment(IBAN, AMOUNT);
+				this.result = PAYMENT_CONFIRMATION;
+
+				ActivityInterface.reserveActivity(arrival, departure, AGE);
+				this.result = ACTIVITY_CONFIRMATION;
+
+				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure);
+				this.result = new HotelException();
+
+				BankInterface.cancelPayment(PAYMENT_CONFIRMATION);
+				this.result = PAYMENT_CANCELLATION;
+
+				ActivityInterface.cancelReservation(ACTIVITY_CONFIRMATION);
+				this.result = ACTIVITY_CANCELLATION;
+			}
+		};
+
+		Adventure adventure = new Adventure(this.broker, arrival, departure, AGE, IBAN, AMOUNT);
+
+		adventure.process();
+		adventure.process();
+		adventure.process();
+		adventure.process();
+
+		Assert.assertEquals(State.CANCELLED, adventure.getState());
+	}
+
+	@Test
+	public void unsuccessSequenceFour(@Mocked final BankInterface bankInterface,
+			@Mocked final ActivityInterface activityInterface, @Mocked final HotelInterface roomInterface) {
+		new StrictExpectations() {
+			{
+				BankInterface.processPayment(IBAN, AMOUNT);
+				this.result = PAYMENT_CONFIRMATION;
+
+				ActivityInterface.reserveActivity(arrival, departure, AGE);
+				this.result = ACTIVITY_CONFIRMATION;
+
+				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure);
+				this.result = ROOM_CONFIRMATION;
+
+				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
+				this.result = new BankException();
+				this.times = ConfirmedState.MAX_BANK_EXCEPTIONS;
+
+				BankInterface.cancelPayment(PAYMENT_CONFIRMATION);
+				this.result = PAYMENT_CANCELLATION;
+
+				ActivityInterface.cancelReservation(ACTIVITY_CONFIRMATION);
+				this.result = ACTIVITY_CANCELLATION;
+
+				HotelInterface.cancelBooking(ROOM_CONFIRMATION);
+				this.result = ROOM_CANCELLATION;
+			}
+		};
+
+		Adventure adventure = new Adventure(this.broker, arrival, departure, AGE, IBAN, AMOUNT);
+
+		adventure.process();
+		adventure.process();
+		adventure.process();
+		for (int i = 0; i < ConfirmedState.MAX_BANK_EXCEPTIONS; i++) {
+			adventure.process();
+		}
+		adventure.process();
+
+		Assert.assertEquals(State.CANCELLED, adventure.getState());
 	}
 
 }
