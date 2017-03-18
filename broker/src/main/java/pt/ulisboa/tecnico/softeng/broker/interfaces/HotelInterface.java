@@ -1,5 +1,7 @@
 package pt.ulisboa.tecnico.softeng.broker.interfaces;
 
+import java.util.Set;
+
 import org.joda.time.LocalDate;
 
 import pt.ulisboa.tecnico.softeng.hotel.dataobjects.RoomBookingData;
@@ -17,5 +19,9 @@ public class HotelInterface {
 
 	public static RoomBookingData getRoomBookingData(String reference) {
 		return Hotel.getRoomBookingData(reference);
+	}
+
+	public static Set<String> bulkBooking(int number, LocalDate arrival, LocalDate departure) {
+		return Hotel.bulkBooking(number, arrival, departure);
 	}
 }

@@ -125,4 +125,12 @@ public class Hotel {
 		throw new HotelException();
 	}
 
+	public static Set<String> bulkBooking(int number, LocalDate arrival, LocalDate departure) {
+		// TODO: verify consistency of arguments, return the
+		// references for 'number' new bookings, it does not matter if they are
+		// single of double. If there aren't enough rooms available it throws a
+		// hotel exception
+		throw new HotelException();
+	}
+
 }
