@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import pt.ulisboa.tecnico.softeng.bank.dataobjects.BankOperationData;
 import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
 
 public class Bank {
@@ -99,6 +100,16 @@ public class Bank {
 				return bank.getAccount(IBAN).withdraw(amount);
 			}
 		}
+		throw new BankException();
+	}
+
+	public static String cancelPayment(String reference) {
+		// TODO implement
+		throw new BankException();
+	}
+
+	public static BankOperationData getOperationData(String reference) {
+		// TODO implement
 		throw new BankException();
 	}
 

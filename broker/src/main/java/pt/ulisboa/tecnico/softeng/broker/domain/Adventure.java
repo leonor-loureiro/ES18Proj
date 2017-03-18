@@ -234,7 +234,7 @@ public class Adventure {
 			break;
 		case BOOK_ROOM:
 			try {
-				this.roomConfirmation = HotelInterface.reserveHotel(Room.Type.SINGLE, this.begin, this.end);
+				this.roomConfirmation = HotelInterface.reserveRoom(Room.Type.SINGLE, this.begin, this.end);
 			} catch (HotelException rae) {
 				setState(State.UNDO);
 			} catch (RemoteAccessException rae) {

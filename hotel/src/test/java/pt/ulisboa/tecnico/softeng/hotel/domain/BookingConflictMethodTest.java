@@ -31,7 +31,7 @@ public class BookingConflictMethodTest {
 	}
 
 	public void argumentsSameDay() {
-		this.booking.conflict(new LocalDate(2016, 12, 9), new LocalDate(2016, 12, 9));
+		Assert.assertFalse(this.booking.conflict(new LocalDate(2016, 12, 9), new LocalDate(2016, 12, 9)));
 	}
 
 	@Test

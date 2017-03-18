@@ -7,6 +7,7 @@ import java.util.Set;
 
 import org.joda.time.LocalDate;
 
+import pt.ulisboa.tecnico.softeng.activity.dataobjects.ActivityReservationData;
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
 
 public class ActivityProvider {
@@ -75,6 +76,16 @@ public class ActivityProvider {
 				return new Booking(provider, offers.get(0)).getReference();
 			}
 		}
+		throw new ActivityException();
+	}
+
+	public static String cancelReservation(String activityConfirmation) {
+		// TODO implement
+		throw new ActivityException();
+	}
+
+	public static ActivityReservationData getActivityReservationData(String reference) {
+		// TODO implement
 		throw new ActivityException();
 	}
 
