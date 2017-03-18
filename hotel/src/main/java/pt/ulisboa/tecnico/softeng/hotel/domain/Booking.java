@@ -8,7 +8,8 @@ public class Booking {
 	private static int counter = 0;
 
 	private final String reference;
-	private String cancel;
+	private String cancellation;
+	private LocalDate cancellationDate;
 	private final LocalDate arrival;
 	private final LocalDate departure;
 
@@ -34,16 +35,20 @@ public class Booking {
 		return this.reference;
 	}
 
-	public String getCancel() {
-		return this.cancel;
+	public String getCancellation() {
+		return this.cancellation;
 	}
 
-	LocalDate getArrival() {
+	public LocalDate getArrival() {
 		return this.arrival;
 	}
 
-	LocalDate getDeparture() {
+	public LocalDate getDeparture() {
 		return this.departure;
+	}
+
+	public LocalDate getCancellationDate() {
+		return this.cancellationDate;
 	}
 
 	boolean conflict(LocalDate arrival, LocalDate departure) {
@@ -76,12 +81,13 @@ public class Booking {
 	}
 
 	public String cancel() {
-		this.cancel = this.reference + "CANCEL";
-		return this.cancel;
+		this.cancellation = this.reference + "CANCEL";
+		this.cancellationDate = new LocalDate();
+		return this.cancellation;
 	}
 
 	public boolean isCancelled() {
-		return this.cancel != null;
+		return this.cancellation != null;
 	}
 
 }

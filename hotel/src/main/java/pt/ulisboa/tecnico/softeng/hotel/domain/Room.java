@@ -37,15 +37,15 @@ public class Room {
 		}
 	}
 
-	Hotel getHotel() {
+	public Hotel getHotel() {
 		return this.hotel;
 	}
 
-	String getNumber() {
+	public String getNumber() {
 		return this.number;
 	}
 
-	Type getType() {
+	public Type getType() {
 		return this.type;
 	}
 
@@ -85,7 +85,7 @@ public class Room {
 	public Booking getBooking(String reference) {
 		for (Booking booking : this.bookings) {
 			if (booking.getReference().equals(reference)
-					|| (booking.isCancelled() && booking.getCancel().equals(reference))) {
+					|| (booking.isCancelled() && booking.getCancellation().equals(reference))) {
 				return booking;
 			}
 		}

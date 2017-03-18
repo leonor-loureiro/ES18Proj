@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.joda.time.LocalDate;
 
+import pt.ulisboa.tecnico.softeng.hotel.dataobjects.RoomBookingData;
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 
 public class Hotel {
@@ -53,11 +54,11 @@ public class Hotel {
 		return null;
 	}
 
-	String getCode() {
+	public String getCode() {
 		return this.code;
 	}
 
-	String getName() {
+	public String getName() {
 		return this.name;
 	}
 
@@ -107,6 +108,18 @@ public class Hotel {
 			Booking booking = hotel.getBooking(reference);
 			if (booking != null) {
 				return booking.cancel();
+			}
+		}
+		throw new HotelException();
+	}
+
+	public static RoomBookingData getRoomBookingData(String reference) {
+		for (Hotel hotel : hotels) {
+			for (Room room : hotel.rooms) {
+				Booking booking = room.getBooking(reference);
+				if (booking != null) {
+					return new RoomBookingData(room, booking);
+				}
 			}
 		}
 		throw new HotelException();

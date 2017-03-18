@@ -33,7 +33,7 @@ public class RoomGetBookingMethodTest {
 	public void successCancelled() {
 		this.booking.cancel();
 
-		assertEquals(this.booking, this.room.getBooking(this.booking.getCancel()));
+		assertEquals(this.booking, this.room.getBooking(this.booking.getCancellation()));
 	}
 
 	@Test

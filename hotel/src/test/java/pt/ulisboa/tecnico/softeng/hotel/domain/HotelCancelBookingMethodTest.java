@@ -28,7 +28,7 @@ public class HotelCancelBookingMethodTest {
 		String cancel = Hotel.cancelBooking(this.booking.getReference());
 
 		Assert.assertTrue(this.booking.isCancelled());
-		Assert.assertEquals(cancel, this.booking.getCancel());
+		Assert.assertEquals(cancel, this.booking.getCancellation());
 	}
 
 	@Test(expected = HotelException.class)

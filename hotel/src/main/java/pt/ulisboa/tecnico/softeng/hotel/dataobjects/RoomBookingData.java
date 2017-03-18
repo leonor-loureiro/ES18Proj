@@ -2,6 +2,9 @@ package pt.ulisboa.tecnico.softeng.hotel.dataobjects;
 
 import org.joda.time.LocalDate;
 
+import pt.ulisboa.tecnico.softeng.hotel.domain.Booking;
+import pt.ulisboa.tecnico.softeng.hotel.domain.Room;
+
 public class RoomBookingData {
 	private String reference;
 	private String cancellation;
@@ -12,6 +15,21 @@ public class RoomBookingData {
 	private LocalDate arrival;
 	private LocalDate departure;
 	private LocalDate cancellationDate;
+
+	public RoomBookingData() {
+	}
+
+	public RoomBookingData(Room room, Booking booking) {
+		this.reference = booking.getReference();
+		this.cancellation = booking.getCancellation();
+		this.hotelName = room.getHotel().getName();
+		this.hotelCode = room.getHotel().getCode();
+		this.roomNumber = room.getNumber();
+		this.roomType = room.getType().name();
+		this.arrival = booking.getArrival();
+		this.departure = booking.getDeparture();
+		this.cancellationDate = booking.getCancellationDate();
+	}
 
 	public String getReference() {
 		return this.reference;

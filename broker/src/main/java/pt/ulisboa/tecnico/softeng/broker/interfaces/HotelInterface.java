@@ -15,8 +15,7 @@ public class HotelInterface {
 		return Hotel.cancelBooking(roomConfirmation);
 	}
 
-	public static RoomBookingData getRoomBookingData(String roomConfirmation) {
-		// TODO invoke remote
-		return null;
+	public static RoomBookingData getRoomBookingData(String reference) {
+		return Hotel.getRoomBookingData(reference);
 	}
 }
