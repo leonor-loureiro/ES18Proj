@@ -294,7 +294,7 @@ public class BulkRoomBookingProcessBookingMethodTest {
 	}
 
 	@Test
-	public void remoteExceptionValueIsResetByRemoteException(@Mocked final HotelInterface roomInterface) {
+	public void remoteExceptionValueIsResetByHotelException(@Mocked final HotelInterface roomInterface) {
 		new StrictExpectations() {
 			{
 				HotelInterface.bulkBooking(NUMBER, arrival, departure);
