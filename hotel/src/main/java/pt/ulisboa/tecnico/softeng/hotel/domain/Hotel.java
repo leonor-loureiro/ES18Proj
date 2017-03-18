@@ -126,11 +126,36 @@ public class Hotel {
 	}
 
 	public static Set<String> bulkBooking(int number, LocalDate arrival, LocalDate departure) {
-		// TODO: verify consistency of arguments, return the
-		// references for 'number' new bookings, it does not matter if they are
-		// single of double. If there aren't enough rooms available it throws a
-		// hotel exception
-		throw new HotelException();
+		if (number < 1) {
+			throw new HotelException();
+		}
+
+		Set<Room> rooms = getAvailableRooms(number, arrival, departure);
+		if (rooms.size() < number) {
+			throw new HotelException();
+		}
+
+		Set<String> references = new HashSet<>();
+		for (Room room : rooms) {
+			references.add(room.reserve(room.getType(), arrival, departure).getReference());
+		}
+
+		return references;
+	}
+
+	static Set<Room> getAvailableRooms(int number, LocalDate arrival, LocalDate departure) {
+		Set<Room> rooms = new HashSet<>();
+		for (Hotel hotel : hotels) {
+			for (Room room : hotel.rooms) {
+				if (room.isFree(room.getType(), arrival, departure)) {
+					rooms.add(room);
+					if (rooms.size() == number) {
+						return rooms;
+					}
+				}
+			}
+		}
+		return rooms;
 	}
 
 }
