@@ -12,11 +12,16 @@ import pt.ulisboa.tecnico.softeng.hotel.domain.Room.Type;
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 
 public class BulkRoomBooking {
+	public static final int MAX_HOTEL_EXCEPTIONS = 3;
+	public static final int MAX_REMOTE_ERRORS = 10;
+
 	private final Set<String> references = new HashSet<>();
 	private final int number;
 	private final LocalDate arrival;
 	private final LocalDate departure;
-	private final boolean cancelled = false;
+	private boolean cancelled = false;
+	private int numberOfHotelExceptions = 0;
+	private int numberOfRemoteErrors = 0;
 
 	public BulkRoomBooking(int number, LocalDate arrival, LocalDate departure) {
 		this.number = number;
@@ -41,17 +46,27 @@ public class BulkRoomBooking {
 	}
 
 	public void processBooking() {
-		if (this.references.size() > 0 || this.cancelled) {
+		if (this.cancelled) {
 			return;
 		}
 
 		try {
 			this.references.addAll(HotelInterface.bulkBooking(this.number, this.arrival, this.departure));
 		} catch (HotelException he) {
-			// TODO: tries 3 consecutive times before cancelled
+			this.numberOfHotelExceptions++;
+			if (this.numberOfHotelExceptions == MAX_HOTEL_EXCEPTIONS) {
+				this.cancelled = true;
+			}
+			return;
 		} catch (RemoteAccessException rae) {
-			// TODO: tries 10 consecutive times before become cancelled
+			this.numberOfHotelExceptions++;
+			if (this.numberOfHotelExceptions == MAX_REMOTE_ERRORS) {
+				this.cancelled = true;
+			}
+			return;
 		}
+		this.numberOfHotelExceptions = 0;
+		this.numberOfRemoteErrors = 0;
 	}
 
 	public String getReference(Type type) {
