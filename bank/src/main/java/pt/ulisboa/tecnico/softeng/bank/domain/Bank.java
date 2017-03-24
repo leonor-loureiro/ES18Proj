@@ -5,12 +5,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import pt.ist.fenixframework.FenixFramework;
 import pt.ulisboa.tecnico.softeng.bank.dataobjects.BankOperationData;
 import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
 
-public class Bank {
-	public static Set<Bank> banks = new HashSet<>();
-
+public class Bank extends Bank_Base {
 	public static final int CODE_SIZE = 4;
 
 	private final String name;
@@ -25,7 +24,13 @@ public class Bank {
 		this.name = name;
 		this.code = code;
 
-		Bank.banks.add(this);
+		FenixFramework.getDomainRoot().addBank(this);
+	}
+
+	public void delete() {
+		setRoot(null);
+
+		deleteDomainObject();
 	}
 
 	private void checkArguments(String name, String code) {
@@ -37,7 +42,7 @@ public class Bank {
 			throw new BankException();
 		}
 
-		for (Bank bank : banks) {
+		for (Bank bank : FenixFramework.getDomainRoot().getBankSet()) {
 			if (bank.getCode().equals(code)) {
 				throw new BankException();
 			}
@@ -94,8 +99,17 @@ public class Bank {
 		return null;
 	}
 
+	public static Bank getBankByCode(String code) {
+		for (Bank bank : FenixFramework.getDomainRoot().getBankSet()) {
+			if (bank.getCode().equals(code)) {
+				return bank;
+			}
+		}
+		return null;
+	}
+
 	public static Operation getOperationByReference(String reference) {
-		for (Bank bank : Bank.banks) {
+		for (Bank bank : FenixFramework.getDomainRoot().getBankSet()) {
 			Operation operation = bank.getOperation(reference);
 			if (operation != null) {
 				return operation;
@@ -105,7 +119,7 @@ public class Bank {
 	}
 
 	public static String processPayment(String IBAN, int amount) {
-		for (Bank bank : Bank.banks) {
+		for (Bank bank : FenixFramework.getDomainRoot().getBankSet()) {
 			if (bank.getAccount(IBAN) != null) {
 				return bank.getAccount(IBAN).withdraw(amount);
 			}

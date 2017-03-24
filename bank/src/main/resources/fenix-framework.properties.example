@@ -1,0 +1,7 @@
+# Copy this file to fenix-framework.properties 
+# and replace password by your mysql root password
+dbAlias=//localhost:3306/adventures
+dbUsername=root
+dbPassword=password
+updateRepositoryStructureIfNeeded=true
+canCreateDomainMetaObjects=false

@@ -1,19 +1,17 @@
 package pt.ulisboa.tecnico.softeng.bank.domain;
 
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
 
-public class ClientContructorMethodTest {
+public class ClientContructorMethodTest extends RollbackTestAbstractClass {
 	private static final String CLIENT_NAME = "António";
 
 	private Bank bank;
 
-	@Before
-	public void setUp() {
+	@Override
+	public void populate4Test() {
 		this.bank = new Bank("Money", "BK01");
 	}
 
@@ -44,11 +42,6 @@ public class ClientContructorMethodTest {
 	@Test(expected = BankException.class)
 	public void emptyClientName() {
 		new Client(this.bank, "");
-	}
-
-	@After
-	public void tearDown() {
-		Bank.banks.clear();
 	}
 
 }
