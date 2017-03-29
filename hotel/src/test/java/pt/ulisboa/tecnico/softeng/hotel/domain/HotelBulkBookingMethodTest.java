@@ -8,6 +8,7 @@ import java.util.Set;
 import org.joda.time.LocalDate;
 import org.junit.Test;
 
+import pt.ist.fenixframework.FenixFramework;
 import pt.ulisboa.tecnico.softeng.hotel.domain.Room.Type;
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 
@@ -45,7 +46,9 @@ public class HotelBulkBookingMethodTest extends RollbackTestAbstractClass {
 
 	@Test(expected = HotelException.class)
 	public void noRooms() {
-		Hotel.hotels.clear();
+		for (Hotel hotel : FenixFramework.getDomainRoot().getHotelSet()) {
+			hotel.delete();
+		}
 		this.hotel = new Hotel("XPTO124", "Paris");
 
 		Hotel.bulkBooking(3, this.arrival, this.departure);

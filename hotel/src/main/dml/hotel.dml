@@ -1,0 +1,14 @@
+package pt.ulisboa.tecnico.softeng.hotel.domain;
+
+class Hotel {
+}
+
+relation DomainRootHasHotels {
+	.pt.ist.fenixframework.DomainRoot playsRole root {
+		multiplicity 1..1;
+	}
+	
+	Hotel playsRole hotel {
+		multiplicity 0..*;
+	}
+}
