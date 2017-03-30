@@ -14,8 +14,9 @@ public class BookingConflictMethodTest extends RollbackTestAbstractClass {
 	@Override
 	public void populate4Test() {
 		Hotel hotel = new Hotel("XPTO123", "Londres");
+		Room room = new Room(hotel, "01", Room.Type.SINGLE);
 
-		this.booking = new Booking(hotel, this.arrival, this.departure);
+		this.booking = new Booking(room, this.arrival, this.departure);
 	}
 
 	@Test

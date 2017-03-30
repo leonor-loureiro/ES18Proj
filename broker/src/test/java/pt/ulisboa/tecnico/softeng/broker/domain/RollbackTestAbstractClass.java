@@ -9,7 +9,6 @@ import org.junit.Before;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.fenixframework.core.WriteOnReadError;
 import pt.ulisboa.tecnico.softeng.activity.domain.ActivityProvider;
-import pt.ulisboa.tecnico.softeng.hotel.domain.Hotel;
 
 public abstract class RollbackTestAbstractClass {
 	@Before
@@ -25,7 +24,6 @@ public abstract class RollbackTestAbstractClass {
 
 	@After
 	public void tearDown() {
-		Hotel.hotels.clear();
 		ActivityProvider.providers.clear();
 		Broker.brokers.clear();
 
