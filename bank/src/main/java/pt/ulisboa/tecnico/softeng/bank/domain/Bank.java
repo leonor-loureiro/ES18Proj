@@ -1,10 +1,5 @@
 package pt.ulisboa.tecnico.softeng.bank.domain;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import pt.ist.fenixframework.FenixFramework;
 import pt.ulisboa.tecnico.softeng.bank.dataobjects.BankOperationData;
 import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
@@ -12,23 +7,29 @@ import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
 public class Bank extends Bank_Base {
 	public static final int CODE_SIZE = 4;
 
-	private final String name;
-	private final String code;
-	private final Set<Account> accounts = new HashSet<>();
-	private final Set<Client> clients = new HashSet<>();
-	private final List<Operation> log = new ArrayList<>();
-
 	public Bank(String name, String code) {
 		checkArguments(name, code);
 
-		this.name = name;
-		this.code = code;
+		setName(name);
+		setCode(code);
 
 		FenixFramework.getDomainRoot().addBank(this);
 	}
 
 	public void delete() {
 		setRoot(null);
+
+		for (Client client : getClientSet()) {
+			client.delete();
+		}
+
+		for (Account account : getAccountSet()) {
+			account.delete();
+		}
+
+		for (Operation operation : getOperationSet()) {
+			operation.delete();
+		}
 
 		deleteDomainObject();
 	}
@@ -49,40 +50,16 @@ public class Bank extends Bank_Base {
 		}
 	}
 
-	String getName() {
-		return this.name;
-	}
-
-	String getCode() {
-		return this.code;
-	}
-
-	int getNumberOfAccounts() {
-		return this.accounts.size();
-	}
-
 	int getNumberOfClients() {
-		return this.clients.size();
-	}
-
-	void addAccount(Account account) {
-		this.accounts.add(account);
+		return getClientSet().size();
 	}
 
 	boolean hasClient(Client client) {
-		return this.clients.contains(client);
-	}
-
-	void addClient(Client client) {
-		this.clients.add(client);
-	}
-
-	void addLog(Operation operation) {
-		this.log.add(operation);
+		return getClientSet().contains(client);
 	}
 
 	public Account getAccount(String IBAN) {
-		for (Account account : this.accounts) {
+		for (Account account : getAccountSet()) {
 			if (account.getIBAN().equals(IBAN)) {
 				return account;
 			}
@@ -91,7 +68,7 @@ public class Bank extends Bank_Base {
 	}
 
 	public Operation getOperation(String reference) {
-		for (Operation operation : this.log) {
+		for (Operation operation : getOperationSet()) {
 			if (operation.getReference().equals(reference)) {
 				return operation;
 			}

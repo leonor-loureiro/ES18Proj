@@ -21,7 +21,7 @@ public class BankConstructorTest extends RollbackTestAbstractClass {
 		Assert.assertEquals(BANK_NAME, bank.getName());
 		Assert.assertEquals(BANK_CODE, bank.getCode());
 		Assert.assertEquals(1, FenixFramework.getDomainRoot().getBankSet().size());
-		Assert.assertEquals(0, bank.getNumberOfAccounts());
+		Assert.assertEquals(0, bank.getAccountSet().size());
 		Assert.assertEquals(0, bank.getNumberOfClients());
 	}
 
