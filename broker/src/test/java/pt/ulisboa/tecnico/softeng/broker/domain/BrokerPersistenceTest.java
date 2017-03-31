@@ -58,6 +58,9 @@ public class BrokerPersistenceTest {
 		assertEquals(AGE, adventure.getAge());
 		assertEquals(IBAN, adventure.getIBAN());
 		assertEquals(AMOUNT, adventure.getAmount());
+
+		assertEquals(Adventure.State.PROCESS_PAYMENT, adventure.getState().getValue());
+		assertEquals(0, adventure.getState().getNumOfRemoteErrors());
 	}
 
 	@After
