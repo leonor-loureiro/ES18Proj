@@ -2,7 +2,6 @@ package pt.ulisboa.tecnico.softeng.broker.domain;
 
 import org.joda.time.LocalDate;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -18,7 +17,7 @@ import pt.ulisboa.tecnico.softeng.hotel.domain.Room.Type;
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 
 @RunWith(JMockit.class)
-public class BookRoomStateMethodTest {
+public class BookRoomStateMethodTest extends RollbackTestAbstractClass {
 	private static final String IBAN = "BK01987654321";
 	private static final int AMOUNT = 300;
 	private static final int AGE = 20;
@@ -30,8 +29,8 @@ public class BookRoomStateMethodTest {
 	@Injectable
 	private Broker broker;
 
-	@Before
-	public void setUp() {
+	@Override
+	public void populate4Test() {
 		this.adventure = new Adventure(this.broker, arrival, departure, AGE, IBAN, AMOUNT);
 		this.adventure.setState(State.BOOK_ROOM);
 	}

@@ -19,7 +19,7 @@ import pt.ulisboa.tecnico.softeng.hotel.domain.Room.Type;
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 
 @RunWith(JMockit.class)
-public class AdventureSequenceTest {
+public class AdventureSequenceTest extends RollbackTestAbstractClass {
 	private static final String IBAN = "BK01987654321";
 	private static final int AMOUNT = 300;
 	private static final int AGE = 20;
@@ -34,6 +34,10 @@ public class AdventureSequenceTest {
 
 	@Injectable
 	private Broker broker;
+
+	@Override
+	public void populate4Test() {
+	}
 
 	@Test
 	public void successSequenceOne(@Mocked final BankInterface bankInterface,

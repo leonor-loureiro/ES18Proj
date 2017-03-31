@@ -6,7 +6,6 @@ import static org.junit.Assert.assertNull;
 import java.util.Arrays;
 
 import org.joda.time.LocalDate;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -20,7 +19,7 @@ import pt.ulisboa.tecnico.softeng.hotel.dataobjects.RoomBookingData;
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 
 @RunWith(JMockit.class)
-public class BulkRoomBookingGetReferenceMethodTest {
+public class BulkRoomBookingGetReferenceMethodTest extends RollbackTestAbstractClass {
 	private static final String SINGLE = "SINGLE";
 	private static final String DOUBLE = "DOUBLE";
 	private static final String REF_1 = "ref1";
@@ -30,8 +29,8 @@ public class BulkRoomBookingGetReferenceMethodTest {
 	private static final LocalDate departure = new LocalDate(2016, 12, 21);
 	private BulkRoomBooking bulk;
 
-	@Before
-	public void setUp() {
+	@Override
+	public void populate4Test() {
 		this.bulk = new BulkRoomBooking(NUMBER, arrival, departure);
 		this.bulk.getReferences().addAll(Arrays.asList(REF_1, REF_2));
 	}

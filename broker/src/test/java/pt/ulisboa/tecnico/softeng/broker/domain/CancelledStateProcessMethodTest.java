@@ -2,7 +2,6 @@ package pt.ulisboa.tecnico.softeng.broker.domain;
 
 import org.joda.time.LocalDate;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -20,7 +19,7 @@ import pt.ulisboa.tecnico.softeng.broker.interfaces.BankInterface;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.HotelInterface;
 
 @RunWith(JMockit.class)
-public class CancelledStateProcessMethodTest {
+public class CancelledStateProcessMethodTest extends RollbackTestAbstractClass {
 	private static final String IBAN = "BK01987654321";
 	private static final String PAYMENT_CONFIRMATION = "PaymentConfirmation";
 	private static final String PAYMENT_CANCELLATION = "PaymentCancellation";
@@ -35,8 +34,8 @@ public class CancelledStateProcessMethodTest {
 	@Injectable
 	private Broker broker;
 
-	@Before
-	public void setUp() {
+	@Override
+	public void populate4Test() {
 		this.adventure = new Adventure(this.broker, this.begin, this.end, 20, IBAN, 300);
 		this.adventure.setState(State.CANCELLED);
 	}

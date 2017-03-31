@@ -25,7 +25,6 @@ public abstract class RollbackTestAbstractClass {
 	@After
 	public void tearDown() {
 		ActivityProvider.providers.clear();
-		Broker.brokers.clear();
 
 		try {
 			FenixFramework.getTransactionManager().rollback();
