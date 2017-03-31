@@ -82,12 +82,17 @@ public class Bank extends Bank_Base {
 	}
 
 	public Account getAccount(String IBAN) {
+		if (IBAN == null || IBAN.trim().equals("")) {
+			throw new BankException();
+		}
+
 		for (Account account : this.accounts) {
 			if (account.getIBAN().equals(IBAN)) {
 				return account;
 			}
 		}
-		throw new BankException();
+
+		return null;
 	}
 
 	public Operation getOperation(String reference) {

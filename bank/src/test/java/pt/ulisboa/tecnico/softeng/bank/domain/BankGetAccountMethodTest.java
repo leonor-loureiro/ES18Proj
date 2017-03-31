@@ -1,5 +1,7 @@
 package pt.ulisboa.tecnico.softeng.bank.domain;
 
+import static org.junit.Assert.assertNull;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -39,17 +41,17 @@ public class BankGetAccountMethodTest extends RollbackTestAbstractClass {
 		this.bank.getAccount("    ");
 	}
 
-	@Test(expected = BankException.class)
+	@Test
 	public void emptySetOfAccounts() {
-		this.bank.getAccount("XPTO");
+		assertNull(this.bank.getAccount("XPTO"));
 	}
 
-	@Test(expected = BankException.class)
+	@Test
 	public void severalAccountsDoNoMatch() {
 		new Account(this.bank, this.client);
 		new Account(this.bank, this.client);
 
-		this.bank.getAccount("XPTO");
+		assertNull(this.bank.getAccount("XPTO"));
 	}
 
 }
