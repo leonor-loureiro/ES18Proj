@@ -3,8 +3,6 @@ package pt.ulisboa.tecnico.softeng.broker.domain;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-import java.util.Arrays;
-
 import org.joda.time.LocalDate;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,8 +29,9 @@ public class BulkRoomBookingGetReferenceMethodTest extends RollbackTestAbstractC
 
 	@Override
 	public void populate4Test() {
-		this.bulk = new BulkRoomBooking(NUMBER, arrival, departure);
-		this.bulk.getReferences().addAll(Arrays.asList(REF_1, REF_2));
+		this.bulk = new BulkRoomBooking(new Broker("BK1111", "Traveling"), NUMBER, arrival, departure);
+		new Reference(this.bulk, REF_1);
+		new Reference(this.bulk, REF_2);
 	}
 
 	@Test

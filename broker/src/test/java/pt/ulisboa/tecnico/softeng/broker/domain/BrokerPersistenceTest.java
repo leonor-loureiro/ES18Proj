@@ -1,6 +1,7 @@
 package pt.ulisboa.tecnico.softeng.broker.domain;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
 
 public class BrokerPersistenceTest {
+	private static final String REF_ONE = "REF_ONE";
 	private static final String BROKER_NAME = "Happy Going";
 	private static final String BROKER_CODE = "BK1017";
 	private static final int AGE = 20;
@@ -35,6 +37,10 @@ public class BrokerPersistenceTest {
 		Broker broker = new Broker(BROKER_CODE, BROKER_NAME);
 
 		new Adventure(broker, this.begin, this.end, AGE, IBAN, AMOUNT);
+
+		BulkRoomBooking bulk = new BulkRoomBooking(broker, 100, this.begin, this.end);
+
+		new Reference(bulk, REF_ONE);
 	}
 
 	@Atomic(mode = TxMode.READ)
@@ -47,6 +53,7 @@ public class BrokerPersistenceTest {
 		assertEquals(BROKER_CODE, broker.getCode());
 		assertEquals(BROKER_NAME, broker.getName());
 		assertEquals(1, broker.getAdventureSet().size());
+		assertEquals(1, broker.getRoomBulkBookingSet().size());
 
 		List<Adventure> adventures = new ArrayList<>(broker.getAdventureSet());
 		Adventure adventure = adventures.get(0);
@@ -61,6 +68,23 @@ public class BrokerPersistenceTest {
 
 		assertEquals(Adventure.State.PROCESS_PAYMENT, adventure.getState().getValue());
 		assertEquals(0, adventure.getState().getNumOfRemoteErrors());
+
+		List<BulkRoomBooking> bulks = new ArrayList<>(broker.getRoomBulkBookingSet());
+		BulkRoomBooking bulk = bulks.get(0);
+
+		assertNotNull(bulk);
+		assertEquals(this.begin, bulk.getArrival());
+		assertEquals(this.end, bulk.getDeparture());
+		assertEquals(100, bulk.getNumber());
+		assertFalse(bulk.getCancelled());
+		assertEquals(0, bulk.getNumberOfHotelExceptions());
+		assertEquals(0, bulk.getNumberOfRemoteErrors());
+		assertEquals(1, bulk.getReferenceSet().size());
+
+		List<Reference> references = new ArrayList<>(bulk.getReferenceSet());
+		Reference reference = references.get(0);
+
+		assertEquals(REF_ONE, reference.getValue());
 	}
 
 	@After
