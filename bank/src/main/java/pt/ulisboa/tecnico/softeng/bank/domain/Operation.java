@@ -1,6 +1,6 @@
 package pt.ulisboa.tecnico.softeng.bank.domain;
 
-import org.joda.time.LocalDateTime;
+import org.joda.time.DateTime;
 
 import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
 
@@ -15,7 +15,7 @@ public class Operation {
 	private final Type type;
 	private final Account account;
 	private final int value;
-	private final LocalDateTime time;
+	private final DateTime time;
 
 	public Operation(Type type, Account account, int value) {
 		checkArguments(type, account, value);
@@ -24,7 +24,7 @@ public class Operation {
 		this.type = type;
 		this.account = account;
 		this.value = value;
-		this.time = LocalDateTime.now();
+		this.time = DateTime.now();
 
 		account.getBank().addLog(this);
 	}
@@ -51,7 +51,7 @@ public class Operation {
 		return this.value;
 	}
 
-	public LocalDateTime getTime() {
+	public DateTime getTime() {
 		return this.time;
 	}
 
