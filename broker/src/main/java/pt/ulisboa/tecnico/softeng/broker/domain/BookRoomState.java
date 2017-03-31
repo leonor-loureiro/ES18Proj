@@ -6,31 +6,31 @@ import pt.ulisboa.tecnico.softeng.broker.interfaces.HotelInterface;
 import pt.ulisboa.tecnico.softeng.hotel.domain.Room;
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 
-public class BookRoomState extends AdventureState {
+public class BookRoomState extends BookRoomState_Base {
 	public static final int MAX_REMOTE_ERRORS = 10;
 
 	@Override
-	public State getState() {
+	public State getValue() {
 		return State.BOOK_ROOM;
 	}
 
 	@Override
-	public void process(Adventure adventure) {
+	public void process() {
 		try {
-			adventure.setRoomConfirmation(
-					HotelInterface.reserveRoom(Room.Type.SINGLE, adventure.getBegin(), adventure.getEnd()));
+			getAdventure().setRoomConfirmation(
+					HotelInterface.reserveRoom(Room.Type.SINGLE, getAdventure().getBegin(), getAdventure().getEnd()));
 		} catch (HotelException he) {
-			adventure.setState(State.UNDO);
+			getAdventure().setState(State.UNDO);
 			return;
 		} catch (RemoteAccessException rae) {
 			incNumOfRemoteErrors();
 			if (getNumOfRemoteErrors() == MAX_REMOTE_ERRORS) {
-				adventure.setState(State.UNDO);
+				getAdventure().setState(State.UNDO);
 			}
 			return;
 		}
 
-		adventure.setState(State.CONFIRMED);
+		getAdventure().setState(State.CONFIRMED);
 	}
 
 }

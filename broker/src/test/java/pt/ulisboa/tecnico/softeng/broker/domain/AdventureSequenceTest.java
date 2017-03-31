@@ -68,7 +68,7 @@ public class AdventureSequenceTest extends RollbackTestAbstractClass {
 		adventure.process();
 		adventure.process();
 
-		Assert.assertEquals(State.CONFIRMED, adventure.getState());
+		Assert.assertEquals(State.CONFIRMED, adventure.getState().getValue());
 	}
 
 	@Test
@@ -94,7 +94,7 @@ public class AdventureSequenceTest extends RollbackTestAbstractClass {
 		adventure.process();
 		adventure.process();
 
-		Assert.assertEquals(State.CONFIRMED, adventure.getState());
+		Assert.assertEquals(State.CONFIRMED, adventure.getState().getValue());
 	}
 
 	@Test
@@ -111,7 +111,7 @@ public class AdventureSequenceTest extends RollbackTestAbstractClass {
 
 		adventure.process();
 
-		Assert.assertEquals(State.CANCELLED, adventure.getState());
+		Assert.assertEquals(State.CANCELLED, adventure.getState().getValue());
 	}
 
 	@Test
@@ -136,7 +136,7 @@ public class AdventureSequenceTest extends RollbackTestAbstractClass {
 		adventure.process();
 		adventure.process();
 
-		Assert.assertEquals(State.CANCELLED, adventure.getState());
+		Assert.assertEquals(State.CANCELLED, adventure.getState().getValue());
 	}
 
 	@Test
@@ -168,7 +168,7 @@ public class AdventureSequenceTest extends RollbackTestAbstractClass {
 		adventure.process();
 		adventure.process();
 
-		Assert.assertEquals(State.CANCELLED, adventure.getState());
+		Assert.assertEquals(State.CANCELLED, adventure.getState().getValue());
 	}
 
 	@Test
@@ -210,7 +210,7 @@ public class AdventureSequenceTest extends RollbackTestAbstractClass {
 		}
 		adventure.process();
 
-		Assert.assertEquals(State.CANCELLED, adventure.getState());
+		Assert.assertEquals(State.CANCELLED, adventure.getState().getValue());
 	}
 
 }

@@ -9,55 +9,56 @@ import pt.ulisboa.tecnico.softeng.broker.interfaces.BankInterface;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.HotelInterface;
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 
-public class UndoState extends AdventureState {
+public class UndoState extends UndoState_Base {
 
 	@Override
-	public State getState() {
+	public State getValue() {
 		return State.UNDO;
 	}
 
 	@Override
-	public void process(Adventure adventure) {
-		if (requiresCancelPayment(adventure)) {
+	public void process() {
+		if (requiresCancelPayment()) {
 			try {
-				adventure.setPaymentCancellation(BankInterface.cancelPayment(adventure.getPaymentConfirmation()));
+				getAdventure()
+						.setPaymentCancellation(BankInterface.cancelPayment(getAdventure().getPaymentConfirmation()));
 			} catch (BankException | RemoteAccessException ex) {
 				// does not change state
 			}
 		}
 
-		if (requiresCancelActivity(adventure)) {
+		if (requiresCancelActivity()) {
 			try {
-				adventure.setActivityCancellation(
-						ActivityInterface.cancelReservation(adventure.getActivityConfirmation()));
+				getAdventure().setActivityCancellation(
+						ActivityInterface.cancelReservation(getAdventure().getActivityConfirmation()));
 			} catch (ActivityException | RemoteAccessException ex) {
 				// does not change state
 			}
 		}
 
-		if (requiresCancelRoom(adventure)) {
+		if (requiresCancelRoom()) {
 			try {
-				adventure.setRoomCancellation(HotelInterface.cancelBooking(adventure.getRoomConfirmation()));
+				getAdventure().setRoomCancellation(HotelInterface.cancelBooking(getAdventure().getRoomConfirmation()));
 			} catch (HotelException | RemoteAccessException ex) {
 				// does not change state
 			}
 		}
 
-		if (!requiresCancelPayment(adventure) && !requiresCancelActivity(adventure) && !requiresCancelRoom(adventure)) {
-			adventure.setState(State.CANCELLED);
+		if (!requiresCancelPayment() && !requiresCancelActivity() && !requiresCancelRoom()) {
+			getAdventure().setState(State.CANCELLED);
 		}
 	}
 
-	public boolean requiresCancelRoom(Adventure adventure) {
-		return adventure.getRoomConfirmation() != null && adventure.getRoomCancellation() == null;
+	public boolean requiresCancelRoom() {
+		return getAdventure().getRoomConfirmation() != null && getAdventure().getRoomCancellation() == null;
 	}
 
-	public boolean requiresCancelActivity(Adventure adventure) {
-		return adventure.getActivityConfirmation() != null && adventure.getActivityCancellation() == null;
+	public boolean requiresCancelActivity() {
+		return getAdventure().getActivityConfirmation() != null && getAdventure().getActivityCancellation() == null;
 	}
 
-	public boolean requiresCancelPayment(Adventure adventure) {
-		return adventure.getPaymentConfirmation() != null && adventure.getPaymentCancellation() == null;
+	public boolean requiresCancelPayment() {
+		return getAdventure().getPaymentConfirmation() != null && getAdventure().getPaymentCancellation() == null;
 	}
 
 }

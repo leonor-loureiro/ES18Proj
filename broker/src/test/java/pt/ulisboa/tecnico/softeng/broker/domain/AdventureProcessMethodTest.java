@@ -49,7 +49,7 @@ public class AdventureProcessMethodTest extends RollbackTestAbstractClass {
 		adventure.process();
 		adventure.process();
 
-		assertEquals(Adventure.State.CONFIRMED, adventure.getState());
+		assertEquals(Adventure.State.CONFIRMED, adventure.getState().getValue());
 		assertNotNull(adventure.getPaymentConfirmation());
 		assertNotNull(adventure.getRoomConfirmation());
 		assertNotNull(adventure.getActivityConfirmation());
@@ -62,7 +62,7 @@ public class AdventureProcessMethodTest extends RollbackTestAbstractClass {
 		adventure.process();
 		adventure.process();
 
-		assertEquals(Adventure.State.CONFIRMED, adventure.getState());
+		assertEquals(Adventure.State.CONFIRMED, adventure.getState().getValue());
 		assertNotNull(adventure.getPaymentConfirmation());
 		assertNotNull(adventure.getActivityConfirmation());
 	}

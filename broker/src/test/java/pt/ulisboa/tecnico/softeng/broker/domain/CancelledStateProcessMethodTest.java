@@ -46,7 +46,7 @@ public class CancelledStateProcessMethodTest extends RollbackTestAbstractClass {
 
 		this.adventure.process();
 
-		Assert.assertEquals(Adventure.State.CANCELLED, this.adventure.getState());
+		Assert.assertEquals(Adventure.State.CANCELLED, this.adventure.getState().getValue());
 
 		new Verifications() {
 			{
@@ -76,7 +76,7 @@ public class CancelledStateProcessMethodTest extends RollbackTestAbstractClass {
 
 		this.adventure.process();
 
-		Assert.assertEquals(Adventure.State.CANCELLED, this.adventure.getState());
+		Assert.assertEquals(Adventure.State.CANCELLED, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -93,7 +93,7 @@ public class CancelledStateProcessMethodTest extends RollbackTestAbstractClass {
 
 		this.adventure.process();
 
-		Assert.assertEquals(Adventure.State.CANCELLED, this.adventure.getState());
+		Assert.assertEquals(Adventure.State.CANCELLED, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -113,7 +113,7 @@ public class CancelledStateProcessMethodTest extends RollbackTestAbstractClass {
 
 		this.adventure.process();
 
-		Assert.assertEquals(Adventure.State.CANCELLED, this.adventure.getState());
+		Assert.assertEquals(Adventure.State.CANCELLED, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -133,7 +133,7 @@ public class CancelledStateProcessMethodTest extends RollbackTestAbstractClass {
 
 		this.adventure.process();
 
-		Assert.assertEquals(Adventure.State.CANCELLED, this.adventure.getState());
+		Assert.assertEquals(Adventure.State.CANCELLED, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -151,7 +151,7 @@ public class CancelledStateProcessMethodTest extends RollbackTestAbstractClass {
 
 		this.adventure.process();
 
-		Assert.assertEquals(Adventure.State.CANCELLED, this.adventure.getState());
+		Assert.assertEquals(Adventure.State.CANCELLED, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -174,7 +174,7 @@ public class CancelledStateProcessMethodTest extends RollbackTestAbstractClass {
 
 		this.adventure.process();
 
-		Assert.assertEquals(Adventure.State.CANCELLED, this.adventure.getState());
+		Assert.assertEquals(Adventure.State.CANCELLED, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -201,7 +201,7 @@ public class CancelledStateProcessMethodTest extends RollbackTestAbstractClass {
 
 		this.adventure.process();
 
-		Assert.assertEquals(Adventure.State.CANCELLED, this.adventure.getState());
+		Assert.assertEquals(Adventure.State.CANCELLED, this.adventure.getState().getValue());
 	}
 
 }
