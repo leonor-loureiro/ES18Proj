@@ -15,22 +15,22 @@ import pt.ulisboa.tecnico.softeng.broker.interfaces.HotelInterface;
 import pt.ulisboa.tecnico.softeng.hotel.dataobjects.RoomBookingData;
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 
-public class CancelledState extends AdventureState {
+public class CancelledState extends CancelledState_Base {
 	private static Logger logger = LoggerFactory.getLogger(CancelledState.class);
 
 	@Override
-	public State getState() {
+	public State getValue() {
 		return State.CANCELLED;
 	}
 
 	@Override
-	public void process(Adventure adventure) {
+	public void process() {
 		logger.debug("process");
 
 		BankOperationData operation;
-		if (adventure.getPaymentCancellation() != null) {
+		if (getAdventure().getPaymentCancellation() != null) {
 			try {
-				operation = BankInterface.getOperationData(adventure.getPaymentConfirmation());
+				operation = BankInterface.getOperationData(getAdventure().getPaymentConfirmation());
 			} catch (BankException | RemoteAccessException e) {
 				return;
 			}
@@ -39,7 +39,7 @@ public class CancelledState extends AdventureState {
 			System.out.println("Value: " + operation.getValue());
 
 			try {
-				operation = BankInterface.getOperationData(adventure.getPaymentCancellation());
+				operation = BankInterface.getOperationData(getAdventure().getPaymentCancellation());
 			} catch (BankException | RemoteAccessException e) {
 				return;
 			}
@@ -48,10 +48,10 @@ public class CancelledState extends AdventureState {
 			System.out.println("Value: " + operation.getValue());
 		}
 
-		if (adventure.getActivityCancellation() != null) {
+		if (getAdventure().getActivityCancellation() != null) {
 			ActivityReservationData data;
 			try {
-				data = ActivityInterface.getActivityReservationData(adventure.getActivityCancellation());
+				data = ActivityInterface.getActivityReservationData(getAdventure().getActivityCancellation());
 			} catch (ActivityException | RemoteAccessException e) {
 				return;
 			}
@@ -63,10 +63,10 @@ public class CancelledState extends AdventureState {
 
 		}
 
-		if (adventure.getRoomCancellation() != null) {
+		if (getAdventure().getRoomCancellation() != null) {
 			RoomBookingData data;
 			try {
-				data = HotelInterface.getRoomBookingData(adventure.getRoomCancellation());
+				data = HotelInterface.getRoomBookingData(getAdventure().getRoomCancellation());
 			} catch (HotelException | RemoteAccessException e) {
 				return;
 			}

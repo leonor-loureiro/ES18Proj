@@ -46,7 +46,7 @@ public class BookRoomStateMethodTest extends RollbackTestAbstractClass {
 
 		this.adventure.process();
 
-		Assert.assertEquals(State.CONFIRMED, this.adventure.getState());
+		Assert.assertEquals(State.CONFIRMED, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -60,7 +60,7 @@ public class BookRoomStateMethodTest extends RollbackTestAbstractClass {
 
 		this.adventure.process();
 
-		Assert.assertEquals(State.UNDO, this.adventure.getState());
+		Assert.assertEquals(State.UNDO, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -74,7 +74,7 @@ public class BookRoomStateMethodTest extends RollbackTestAbstractClass {
 
 		this.adventure.process();
 
-		Assert.assertEquals(State.BOOK_ROOM, this.adventure.getState());
+		Assert.assertEquals(State.BOOK_ROOM, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -91,7 +91,7 @@ public class BookRoomStateMethodTest extends RollbackTestAbstractClass {
 			this.adventure.process();
 		}
 
-		Assert.assertEquals(State.UNDO, this.adventure.getState());
+		Assert.assertEquals(State.UNDO, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -108,7 +108,7 @@ public class BookRoomStateMethodTest extends RollbackTestAbstractClass {
 			this.adventure.process();
 		}
 
-		Assert.assertEquals(State.BOOK_ROOM, this.adventure.getState());
+		Assert.assertEquals(State.BOOK_ROOM, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -139,7 +139,7 @@ public class BookRoomStateMethodTest extends RollbackTestAbstractClass {
 		this.adventure.process();
 		this.adventure.process();
 
-		Assert.assertEquals(State.CONFIRMED, this.adventure.getState());
+		Assert.assertEquals(State.CONFIRMED, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -166,7 +166,7 @@ public class BookRoomStateMethodTest extends RollbackTestAbstractClass {
 		this.adventure.process();
 		this.adventure.process();
 
-		Assert.assertEquals(State.UNDO, this.adventure.getState());
+		Assert.assertEquals(State.UNDO, this.adventure.getState().getValue());
 	}
 
 }

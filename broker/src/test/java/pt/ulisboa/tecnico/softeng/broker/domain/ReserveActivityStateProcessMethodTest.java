@@ -48,7 +48,7 @@ public class ReserveActivityStateProcessMethodTest extends RollbackTestAbstractC
 
 		sameDayAdventure.process();
 
-		Assert.assertEquals(State.CONFIRMED, sameDayAdventure.getState());
+		Assert.assertEquals(State.CONFIRMED, sameDayAdventure.getState().getValue());
 	}
 
 	@Test
@@ -62,7 +62,7 @@ public class ReserveActivityStateProcessMethodTest extends RollbackTestAbstractC
 
 		this.adventure.process();
 
-		Assert.assertEquals(State.BOOK_ROOM, this.adventure.getState());
+		Assert.assertEquals(State.BOOK_ROOM, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -76,7 +76,7 @@ public class ReserveActivityStateProcessMethodTest extends RollbackTestAbstractC
 
 		this.adventure.process();
 
-		Assert.assertEquals(State.UNDO, this.adventure.getState());
+		Assert.assertEquals(State.UNDO, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -90,7 +90,7 @@ public class ReserveActivityStateProcessMethodTest extends RollbackTestAbstractC
 
 		this.adventure.process();
 
-		Assert.assertEquals(State.RESERVE_ACTIVITY, this.adventure.getState());
+		Assert.assertEquals(State.RESERVE_ACTIVITY, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -109,7 +109,7 @@ public class ReserveActivityStateProcessMethodTest extends RollbackTestAbstractC
 		this.adventure.process();
 		this.adventure.process();
 
-		Assert.assertEquals(State.UNDO, this.adventure.getState());
+		Assert.assertEquals(State.UNDO, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -127,7 +127,7 @@ public class ReserveActivityStateProcessMethodTest extends RollbackTestAbstractC
 		this.adventure.process();
 		this.adventure.process();
 
-		Assert.assertEquals(State.RESERVE_ACTIVITY, this.adventure.getState());
+		Assert.assertEquals(State.RESERVE_ACTIVITY, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -156,7 +156,7 @@ public class ReserveActivityStateProcessMethodTest extends RollbackTestAbstractC
 		this.adventure.process();
 		this.adventure.process();
 
-		Assert.assertEquals(State.BOOK_ROOM, this.adventure.getState());
+		Assert.assertEquals(State.BOOK_ROOM, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -183,6 +183,6 @@ public class ReserveActivityStateProcessMethodTest extends RollbackTestAbstractC
 		this.adventure.process();
 		this.adventure.process();
 
-		Assert.assertEquals(State.UNDO, this.adventure.getState());
+		Assert.assertEquals(State.UNDO, this.adventure.getState().getValue());
 	}
 }

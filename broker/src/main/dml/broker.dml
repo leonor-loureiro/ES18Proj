@@ -38,3 +38,22 @@ relation BrokerHasAdventures {
 	}
 }
 
+class AdventureState {
+	int numOfRemoteErrors;
+}
+
+class ProcessPaymentState extends AdventureState;
+class ReserveActivityState extends AdventureState;
+class BookRoomState extends AdventureState;
+class ConfirmedState extends AdventureState;
+class UndoState extends AdventureState;
+class CancelledState extends AdventureState;
+
+relation AdventureHasState {
+	Adventure playsRole adventure {
+		multiplicity 0..1;
+	}
+	AdventureState playsRole state {
+		multiplicity 1..1;
+	}
+}

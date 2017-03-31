@@ -54,7 +54,7 @@ public class UndoStateProcessMethodTest extends RollbackTestAbstractClass {
 
 		this.adventure.process();
 
-		Assert.assertEquals(State.CANCELLED, this.adventure.getState());
+		Assert.assertEquals(State.CANCELLED, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -69,7 +69,7 @@ public class UndoStateProcessMethodTest extends RollbackTestAbstractClass {
 
 		this.adventure.process();
 
-		Assert.assertEquals(State.UNDO, this.adventure.getState());
+		Assert.assertEquals(State.UNDO, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -84,7 +84,7 @@ public class UndoStateProcessMethodTest extends RollbackTestAbstractClass {
 
 		this.adventure.process();
 
-		Assert.assertEquals(State.UNDO, this.adventure.getState());
+		Assert.assertEquals(State.UNDO, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -104,7 +104,7 @@ public class UndoStateProcessMethodTest extends RollbackTestAbstractClass {
 
 		this.adventure.process();
 
-		Assert.assertEquals(State.CANCELLED, this.adventure.getState());
+		Assert.assertEquals(State.CANCELLED, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -121,7 +121,7 @@ public class UndoStateProcessMethodTest extends RollbackTestAbstractClass {
 
 		this.adventure.process();
 
-		Assert.assertEquals(State.CANCELLED, this.adventure.getState());
+		Assert.assertEquals(State.CANCELLED, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -141,7 +141,7 @@ public class UndoStateProcessMethodTest extends RollbackTestAbstractClass {
 
 		this.adventure.process();
 
-		Assert.assertEquals(State.UNDO, this.adventure.getState());
+		Assert.assertEquals(State.UNDO, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -161,7 +161,7 @@ public class UndoStateProcessMethodTest extends RollbackTestAbstractClass {
 
 		this.adventure.process();
 
-		Assert.assertEquals(State.UNDO, this.adventure.getState());
+		Assert.assertEquals(State.UNDO, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -185,7 +185,7 @@ public class UndoStateProcessMethodTest extends RollbackTestAbstractClass {
 
 		this.adventure.process();
 
-		Assert.assertEquals(State.CANCELLED, this.adventure.getState());
+		Assert.assertEquals(State.CANCELLED, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -206,7 +206,7 @@ public class UndoStateProcessMethodTest extends RollbackTestAbstractClass {
 
 		this.adventure.process();
 
-		Assert.assertEquals(State.CANCELLED, this.adventure.getState());
+		Assert.assertEquals(State.CANCELLED, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -227,7 +227,7 @@ public class UndoStateProcessMethodTest extends RollbackTestAbstractClass {
 
 		this.adventure.process();
 
-		Assert.assertEquals(State.CANCELLED, this.adventure.getState());
+		Assert.assertEquals(State.CANCELLED, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -251,7 +251,7 @@ public class UndoStateProcessMethodTest extends RollbackTestAbstractClass {
 
 		this.adventure.process();
 
-		Assert.assertEquals(State.UNDO, this.adventure.getState());
+		Assert.assertEquals(State.UNDO, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -276,7 +276,7 @@ public class UndoStateProcessMethodTest extends RollbackTestAbstractClass {
 
 		this.adventure.process();
 
-		Assert.assertEquals(State.UNDO, this.adventure.getState());
+		Assert.assertEquals(State.UNDO, this.adventure.getState().getValue());
 	}
 
 }

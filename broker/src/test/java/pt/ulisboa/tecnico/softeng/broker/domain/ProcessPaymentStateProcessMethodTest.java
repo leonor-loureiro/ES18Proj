@@ -44,7 +44,7 @@ public class ProcessPaymentStateProcessMethodTest extends RollbackTestAbstractCl
 
 		this.adventure.process();
 
-		Assert.assertEquals(State.RESERVE_ACTIVITY, this.adventure.getState());
+		Assert.assertEquals(State.RESERVE_ACTIVITY, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -58,7 +58,7 @@ public class ProcessPaymentStateProcessMethodTest extends RollbackTestAbstractCl
 
 		this.adventure.process();
 
-		Assert.assertEquals(State.CANCELLED, this.adventure.getState());
+		Assert.assertEquals(State.CANCELLED, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -72,7 +72,7 @@ public class ProcessPaymentStateProcessMethodTest extends RollbackTestAbstractCl
 
 		this.adventure.process();
 
-		Assert.assertEquals(State.PROCESS_PAYMENT, this.adventure.getState());
+		Assert.assertEquals(State.PROCESS_PAYMENT, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -89,7 +89,7 @@ public class ProcessPaymentStateProcessMethodTest extends RollbackTestAbstractCl
 		this.adventure.process();
 		this.adventure.process();
 
-		Assert.assertEquals(State.CANCELLED, this.adventure.getState());
+		Assert.assertEquals(State.CANCELLED, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -105,7 +105,7 @@ public class ProcessPaymentStateProcessMethodTest extends RollbackTestAbstractCl
 		this.adventure.process();
 		this.adventure.process();
 
-		Assert.assertEquals(State.PROCESS_PAYMENT, this.adventure.getState());
+		Assert.assertEquals(State.PROCESS_PAYMENT, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -134,7 +134,7 @@ public class ProcessPaymentStateProcessMethodTest extends RollbackTestAbstractCl
 		this.adventure.process();
 		this.adventure.process();
 
-		Assert.assertEquals(State.RESERVE_ACTIVITY, this.adventure.getState());
+		Assert.assertEquals(State.RESERVE_ACTIVITY, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -163,7 +163,7 @@ public class ProcessPaymentStateProcessMethodTest extends RollbackTestAbstractCl
 		this.adventure.process();
 		this.adventure.process();
 
-		Assert.assertEquals(State.CANCELLED, this.adventure.getState());
+		Assert.assertEquals(State.CANCELLED, this.adventure.getState().getValue());
 	}
 
 }

@@ -57,7 +57,7 @@ public class ConfirmedStateProcessMethodTest extends RollbackTestAbstractClass {
 
 		this.adventure.process();
 
-		Assert.assertEquals(State.CONFIRMED, this.adventure.getState());
+		Assert.assertEquals(State.CONFIRMED, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -75,7 +75,7 @@ public class ConfirmedStateProcessMethodTest extends RollbackTestAbstractClass {
 
 		this.adventure.process();
 
-		Assert.assertEquals(State.CONFIRMED, this.adventure.getState());
+		Assert.assertEquals(State.CONFIRMED, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -92,7 +92,7 @@ public class ConfirmedStateProcessMethodTest extends RollbackTestAbstractClass {
 
 		this.adventure.process();
 
-		Assert.assertEquals(State.CONFIRMED, this.adventure.getState());
+		Assert.assertEquals(State.CONFIRMED, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -112,7 +112,7 @@ public class ConfirmedStateProcessMethodTest extends RollbackTestAbstractClass {
 			this.adventure.process();
 		}
 
-		Assert.assertEquals(State.UNDO, this.adventure.getState());
+		Assert.assertEquals(State.UNDO, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -132,7 +132,7 @@ public class ConfirmedStateProcessMethodTest extends RollbackTestAbstractClass {
 			this.adventure.process();
 		}
 
-		Assert.assertEquals(State.CONFIRMED, this.adventure.getState());
+		Assert.assertEquals(State.CONFIRMED, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -149,7 +149,7 @@ public class ConfirmedStateProcessMethodTest extends RollbackTestAbstractClass {
 
 		this.adventure.process();
 
-		Assert.assertEquals(State.CONFIRMED, this.adventure.getState());
+		Assert.assertEquals(State.CONFIRMED, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -169,7 +169,7 @@ public class ConfirmedStateProcessMethodTest extends RollbackTestAbstractClass {
 			this.adventure.process();
 		}
 
-		Assert.assertEquals(State.UNDO, this.adventure.getState());
+		Assert.assertEquals(State.UNDO, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -189,7 +189,7 @@ public class ConfirmedStateProcessMethodTest extends RollbackTestAbstractClass {
 			this.adventure.process();
 		}
 
-		Assert.assertEquals(State.CONFIRMED, this.adventure.getState());
+		Assert.assertEquals(State.CONFIRMED, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -209,7 +209,7 @@ public class ConfirmedStateProcessMethodTest extends RollbackTestAbstractClass {
 
 		this.adventure.process();
 
-		Assert.assertEquals(State.CONFIRMED, this.adventure.getState());
+		Assert.assertEquals(State.CONFIRMED, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -235,7 +235,7 @@ public class ConfirmedStateProcessMethodTest extends RollbackTestAbstractClass {
 			this.adventure.process();
 		}
 
-		Assert.assertEquals(State.UNDO, this.adventure.getState());
+		Assert.assertEquals(State.UNDO, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -261,7 +261,7 @@ public class ConfirmedStateProcessMethodTest extends RollbackTestAbstractClass {
 			this.adventure.process();
 		}
 
-		Assert.assertEquals(State.CONFIRMED, this.adventure.getState());
+		Assert.assertEquals(State.CONFIRMED, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -283,7 +283,7 @@ public class ConfirmedStateProcessMethodTest extends RollbackTestAbstractClass {
 
 		this.adventure.process();
 
-		Assert.assertEquals(State.CONFIRMED, this.adventure.getState());
+		Assert.assertEquals(State.CONFIRMED, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -311,7 +311,7 @@ public class ConfirmedStateProcessMethodTest extends RollbackTestAbstractClass {
 			this.adventure.process();
 		}
 
-		Assert.assertEquals(State.UNDO, this.adventure.getState());
+		Assert.assertEquals(State.UNDO, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -339,7 +339,7 @@ public class ConfirmedStateProcessMethodTest extends RollbackTestAbstractClass {
 			this.adventure.process();
 		}
 
-		Assert.assertEquals(State.CONFIRMED, this.adventure.getState());
+		Assert.assertEquals(State.CONFIRMED, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -359,7 +359,7 @@ public class ConfirmedStateProcessMethodTest extends RollbackTestAbstractClass {
 
 		this.adventure.process();
 
-		Assert.assertEquals(State.UNDO, this.adventure.getState());
+		Assert.assertEquals(State.UNDO, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -381,7 +381,7 @@ public class ConfirmedStateProcessMethodTest extends RollbackTestAbstractClass {
 
 		this.adventure.process();
 
-		Assert.assertEquals(State.UNDO, this.adventure.getState());
+		Assert.assertEquals(State.UNDO, this.adventure.getState().getValue());
 	}
 
 }

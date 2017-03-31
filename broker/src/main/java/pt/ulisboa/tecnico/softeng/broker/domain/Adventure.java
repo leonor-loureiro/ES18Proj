@@ -15,8 +15,6 @@ public class Adventure extends Adventure_Base {
 
 	private static int counter = 0;
 
-	private AdventureState state;
-
 	public Adventure(Broker broker, LocalDate begin, LocalDate end, int age, String IBAN, int amount) {
 		checkArguments(broker, begin, end, age, IBAN, amount);
 
@@ -36,6 +34,8 @@ public class Adventure extends Adventure_Base {
 
 	public void delete() {
 		setBroker(null);
+
+		getState().delete();
 
 		deleteDomainObject();
 	}
@@ -58,29 +58,29 @@ public class Adventure extends Adventure_Base {
 		}
 	}
 
-	public State getState() {
-		return this.state.getState();
-	}
-
 	public void setState(State state) {
+		if (getState() != null) {
+			getState().delete();
+		}
+
 		switch (state) {
 		case PROCESS_PAYMENT:
-			this.state = new ProcessPaymentState();
+			setState(new ProcessPaymentState());
 			break;
 		case RESERVE_ACTIVITY:
-			this.state = new ReserveActivityState();
+			setState(new ReserveActivityState());
 			break;
 		case BOOK_ROOM:
-			this.state = new BookRoomState();
+			setState(new BookRoomState());
 			break;
 		case UNDO:
-			this.state = new UndoState();
+			setState(new UndoState());
 			break;
 		case CONFIRMED:
-			this.state = new ConfirmedState();
+			setState(new ConfirmedState());
 			break;
 		case CANCELLED:
-			this.state = new CancelledState();
+			setState(new CancelledState());
 			break;
 		default:
 			new BrokerException();
@@ -90,7 +90,7 @@ public class Adventure extends Adventure_Base {
 
 	public void process() {
 		// logger.debug("process ID:{}, state:{} ", this.ID, getState().name());
-		this.state.process(this);
+		getState().process();
 	}
 
 	public boolean cancelRoom() {
