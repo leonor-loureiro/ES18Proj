@@ -1,6 +1,8 @@
 package pt.ulisboa.tecnico.softeng.hotel.domain;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.joda.time.LocalDate;
@@ -52,6 +54,16 @@ public class Hotel {
 			}
 		}
 		return null;
+	}
+
+	public Set<Room> getAvailableRooms(LocalDate arrival, LocalDate departure) {
+		Set<Room> availableRooms = new HashSet<>();
+		for (Room room : this.rooms) {
+			if (room.isFree(room.getType(), arrival, departure)) {
+				availableRooms.add(room);
+			}
+		}
+		return availableRooms;
 	}
 
 	public String getCode() {
@@ -130,32 +142,28 @@ public class Hotel {
 			throw new HotelException();
 		}
 
-		Set<Room> rooms = getAvailableRooms(number, arrival, departure);
+		List<Room> rooms = getAvailableRooms(number, arrival, departure);
 		if (rooms.size() < number) {
 			throw new HotelException();
 		}
 
 		Set<String> references = new HashSet<>();
-		for (Room room : rooms) {
-			references.add(room.reserve(room.getType(), arrival, departure).getReference());
+		for (int i = 0; i < number; i++) {
+			references.add(rooms.get(i).reserve(rooms.get(i).getType(), arrival, departure).getReference());
 		}
 
 		return references;
 	}
 
-	static Set<Room> getAvailableRooms(int number, LocalDate arrival, LocalDate departure) {
-		Set<Room> rooms = new HashSet<>();
+	static List<Room> getAvailableRooms(int number, LocalDate arrival, LocalDate departure) {
+		List<Room> availableRooms = new ArrayList<>();
 		for (Hotel hotel : hotels) {
-			for (Room room : hotel.rooms) {
-				if (room.isFree(room.getType(), arrival, departure)) {
-					rooms.add(room);
-					if (rooms.size() == number) {
-						return rooms;
-					}
-				}
+			availableRooms.addAll(hotel.getAvailableRooms(arrival, departure));
+			if (availableRooms.size() >= number) {
+				return availableRooms;
 			}
 		}
-		return rooms;
+		return availableRooms;
 	}
 
 }
