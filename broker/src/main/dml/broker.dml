@@ -1,0 +1,40 @@
+package pt.ulisboa.tecnico.softeng.broker.domain;
+
+class Broker {
+	String code;
+	String name;
+}
+
+relation DomainRootHasBrokerApplication {
+	.pt.ist.fenixframework.DomainRoot playsRole root {
+		multiplicity 1..1;
+	}
+	Broker playsRole broker {
+		multiplicity 0..*;
+	}
+}
+
+class Adventure {
+	String ID;
+	LocalDate begin;
+	LocalDate end;
+	int age;
+	String IBAN;
+	int amount;
+	String paymentConfirmation;
+	String paymentCancellation;
+	String roomConfirmation;
+	String roomCancellation;
+	String activityConfirmation;
+	String activityCancellation;
+}
+
+relation BrokerHasAdventures {
+	Broker playsRole broker {
+		multiplicity 1..1;
+	}
+	Adventure playsRole adventure {
+		multiplicity 0..*;
+	}
+}
+

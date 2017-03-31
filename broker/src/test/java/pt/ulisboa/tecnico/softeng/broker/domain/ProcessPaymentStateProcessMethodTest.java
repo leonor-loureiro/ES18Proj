@@ -2,7 +2,6 @@ package pt.ulisboa.tecnico.softeng.broker.domain;
 
 import org.joda.time.LocalDate;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -17,7 +16,7 @@ import pt.ulisboa.tecnico.softeng.broker.exception.RemoteAccessException;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.BankInterface;
 
 @RunWith(JMockit.class)
-public class ProcessPaymentStateProcessMethodTest {
+public class ProcessPaymentStateProcessMethodTest extends RollbackTestAbstractClass {
 	private static final String IBAN = "BK01987654321";
 	private static final int AMOUNT = 300;
 	private static final String PAYMENT_CONFIRMATION = "PaymentConfirmation";
@@ -28,8 +27,8 @@ public class ProcessPaymentStateProcessMethodTest {
 	@Injectable
 	private Broker broker;
 
-	@Before
-	public void setUp() {
+	@Override
+	public void populate4Test() {
 		this.adventure = new Adventure(this.broker, this.begin, this.end, 20, IBAN, AMOUNT);
 		this.adventure.setState(State.PROCESS_PAYMENT);
 	}

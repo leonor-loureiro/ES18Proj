@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 
 import org.joda.time.LocalDate;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -18,14 +17,14 @@ import pt.ulisboa.tecnico.softeng.broker.interfaces.HotelInterface;
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 
 @RunWith(JMockit.class)
-public class BulkRoomBookingProcessBookingMethodTest {
+public class BulkRoomBookingProcessBookingMethodTest extends RollbackTestAbstractClass {
 	private static final int NUMBER = 20;
 	private static final LocalDate arrival = new LocalDate(2016, 12, 19);
 	private static final LocalDate departure = new LocalDate(2016, 12, 21);
 	private BulkRoomBooking bulk;
 
-	@Before
-	public void setUp() {
+	@Override
+	public void populate4Test() {
 		this.bulk = new BulkRoomBooking(NUMBER, arrival, departure);
 	}
 

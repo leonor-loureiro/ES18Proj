@@ -1,12 +1,16 @@
 package pt.ulisboa.tecnico.softeng.broker.domain;
 
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 
+import pt.ist.fenixframework.FenixFramework;
 import pt.ulisboa.tecnico.softeng.broker.exception.BrokerException;
 
-public class BrokerConstructorMethodTest {
+public class BrokerConstructorMethodTest extends RollbackTestAbstractClass {
+
+	@Override
+	public void populate4Test() {
+	}
 
 	@Test
 	public void success() {
@@ -14,8 +18,8 @@ public class BrokerConstructorMethodTest {
 
 		Assert.assertEquals("BR01", broker.getCode());
 		Assert.assertEquals("WeExplore", broker.getName());
-		Assert.assertEquals(0, broker.getNumberOfAdventures());
-		Assert.assertTrue(Broker.brokers.contains(broker));
+		Assert.assertEquals(0, broker.getAdventureSet().size());
+		Assert.assertTrue(FenixFramework.getDomainRoot().getBrokerSet().contains(broker));
 	}
 
 	@Test
@@ -24,7 +28,7 @@ public class BrokerConstructorMethodTest {
 			new Broker(null, "WeExplore");
 			Assert.fail();
 		} catch (BrokerException be) {
-			Assert.assertEquals(0, Broker.brokers.size());
+			Assert.assertEquals(0, FenixFramework.getDomainRoot().getBrokerSet().size());
 		}
 	}
 
@@ -34,7 +38,7 @@ public class BrokerConstructorMethodTest {
 			new Broker("", "WeExplore");
 			Assert.fail();
 		} catch (BrokerException be) {
-			Assert.assertEquals(0, Broker.brokers.size());
+			Assert.assertEquals(0, FenixFramework.getDomainRoot().getBrokerSet().size());
 		}
 	}
 
@@ -44,7 +48,7 @@ public class BrokerConstructorMethodTest {
 			new Broker("  ", "WeExplore");
 			Assert.fail();
 		} catch (BrokerException be) {
-			Assert.assertEquals(0, Broker.brokers.size());
+			Assert.assertEquals(0, FenixFramework.getDomainRoot().getBrokerSet().size());
 		}
 	}
 
@@ -56,8 +60,8 @@ public class BrokerConstructorMethodTest {
 			new Broker("BR01", "WeExploreX");
 			Assert.fail();
 		} catch (BrokerException be) {
-			Assert.assertEquals(1, Broker.brokers.size());
-			Assert.assertTrue(Broker.brokers.contains(broker));
+			Assert.assertEquals(1, FenixFramework.getDomainRoot().getBrokerSet().size());
+			Assert.assertTrue(FenixFramework.getDomainRoot().getBrokerSet().contains(broker));
 		}
 	}
 
@@ -67,7 +71,7 @@ public class BrokerConstructorMethodTest {
 			new Broker("BR01", null);
 			Assert.fail();
 		} catch (BrokerException be) {
-			Assert.assertEquals(0, Broker.brokers.size());
+			Assert.assertEquals(0, FenixFramework.getDomainRoot().getBrokerSet().size());
 		}
 	}
 
@@ -77,7 +81,7 @@ public class BrokerConstructorMethodTest {
 			new Broker("BR01", "");
 			Assert.fail();
 		} catch (BrokerException be) {
-			Assert.assertEquals(0, Broker.brokers.size());
+			Assert.assertEquals(0, FenixFramework.getDomainRoot().getBrokerSet().size());
 		}
 	}
 
@@ -87,13 +91,8 @@ public class BrokerConstructorMethodTest {
 			new Broker("BR01", "    ");
 			Assert.fail();
 		} catch (BrokerException be) {
-			Assert.assertEquals(0, Broker.brokers.size());
+			Assert.assertEquals(0, FenixFramework.getDomainRoot().getBrokerSet().size());
 		}
-	}
-
-	@After
-	public void tearDown() {
-		Broker.brokers.clear();
 	}
 
 }

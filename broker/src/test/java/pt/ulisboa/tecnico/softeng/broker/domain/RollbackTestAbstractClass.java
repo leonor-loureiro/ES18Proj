@@ -27,7 +27,6 @@ public abstract class RollbackTestAbstractClass {
 	public void tearDown() {
 		Hotel.hotels.clear();
 		ActivityProvider.providers.clear();
-		Broker.brokers.clear();
 
 		try {
 			FenixFramework.getTransactionManager().rollback();
