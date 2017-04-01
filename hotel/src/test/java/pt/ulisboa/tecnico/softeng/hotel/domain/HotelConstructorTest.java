@@ -16,7 +16,7 @@ public class HotelConstructorTest extends RollbackTestAbstractClass {
 
 		Assert.assertEquals(HOTEL_NAME, hotel.getName());
 		Assert.assertTrue(hotel.getCode().length() == Hotel.CODE_SIZE);
-		Assert.assertEquals(0, hotel.getNumberOfRooms());
+		Assert.assertEquals(0, hotel.getRoomSet().size());
 		Assert.assertEquals(1, FenixFramework.getDomainRoot().getHotelSet().size());
 	}
 

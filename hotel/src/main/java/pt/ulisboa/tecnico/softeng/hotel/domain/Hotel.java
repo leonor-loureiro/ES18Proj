@@ -81,10 +81,6 @@ public class Hotel extends Hotel_Base {
 		super.addRoom(room);
 	}
 
-	int getNumberOfRooms() {
-		return getRoomSet().size();
-	}
-
 	public boolean hasRoom(String number) {
 		for (Room room : getRoomSet()) {
 			if (room.getNumber().equals(number)) {

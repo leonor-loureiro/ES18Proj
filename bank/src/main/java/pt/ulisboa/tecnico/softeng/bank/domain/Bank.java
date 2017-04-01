@@ -50,14 +50,6 @@ public class Bank extends Bank_Base {
 		}
 	}
 
-	int getNumberOfClients() {
-		return getClientSet().size();
-	}
-
-	boolean hasClient(Client client) {
-		return getClientSet().contains(client);
-	}
-
 	public Account getAccount(String IBAN) {
 		if (IBAN == null || IBAN.trim().equals("")) {
 			throw new BankException();

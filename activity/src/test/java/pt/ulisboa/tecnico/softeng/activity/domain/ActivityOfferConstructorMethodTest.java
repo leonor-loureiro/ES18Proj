@@ -26,8 +26,8 @@ public class ActivityOfferConstructorMethodTest extends RollbackTestAbstractClas
 
 		Assert.assertEquals(this.begin, offer.getBegin());
 		Assert.assertEquals(this.end, offer.getEnd());
-		Assert.assertEquals(1, this.activity.getNumberOfOffers());
-		Assert.assertEquals(0, offer.getNumberOfBookings());
+		Assert.assertEquals(1, this.activity.getActivityOfferSet().size());
+		Assert.assertEquals(0, offer.getNumberActiveOfBookings());
 	}
 
 	@Test(expected = ActivityException.class)
@@ -51,8 +51,8 @@ public class ActivityOfferConstructorMethodTest extends RollbackTestAbstractClas
 
 		Assert.assertEquals(this.begin, offer.getBegin());
 		Assert.assertEquals(this.begin, offer.getEnd());
-		Assert.assertEquals(1, this.activity.getNumberOfOffers());
-		Assert.assertEquals(0, offer.getNumberOfBookings());
+		Assert.assertEquals(1, this.activity.getActivityOfferSet().size());
+		Assert.assertEquals(0, offer.getNumberActiveOfBookings());
 	}
 
 	@Test(expected = ActivityException.class)

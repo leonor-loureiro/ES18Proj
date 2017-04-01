@@ -38,10 +38,6 @@ public class Room extends Room_Base {
 		}
 	}
 
-	int getNumberOfBookings() {
-		return getBookingSet().size();
-	}
-
 	boolean isFree(Type type, LocalDate arrival, LocalDate departure) {
 		if (!type.equals(getType())) {
 			return false;

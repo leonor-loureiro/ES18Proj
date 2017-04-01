@@ -28,7 +28,7 @@ public class BookingContructorMethodTest extends RollbackTestAbstractClass {
 
 		Assert.assertTrue(booking.getReference().startsWith(this.provider.getCode()));
 		Assert.assertTrue(booking.getReference().length() > ActivityProvider.CODE_SIZE);
-		Assert.assertEquals(1, this.offer.getNumberOfBookings());
+		Assert.assertEquals(1, this.offer.getNumberActiveOfBookings());
 	}
 
 	@Test(expected = ActivityException.class)
@@ -50,7 +50,7 @@ public class BookingContructorMethodTest extends RollbackTestAbstractClass {
 			new Booking(this.provider, this.offer);
 			fail();
 		} catch (ActivityException ae) {
-			Assert.assertEquals(3, this.offer.getNumberOfBookings());
+			Assert.assertEquals(3, this.offer.getNumberActiveOfBookings());
 		}
 	}
 
@@ -62,7 +62,7 @@ public class BookingContructorMethodTest extends RollbackTestAbstractClass {
 		booking.cancel();
 		new Booking(this.provider, this.offer);
 
-		Assert.assertEquals(3, this.offer.getNumberOfBookings());
+		Assert.assertEquals(3, this.offer.getNumberActiveOfBookings());
 	}
 
 }

@@ -31,7 +31,7 @@ public class Account extends Account_Base {
 			throw new BankException();
 		}
 
-		if (!bank.hasClient(client)) {
+		if (!bank.getClientSet().contains(client)) {
 			throw new BankException();
 		}
 

@@ -23,7 +23,7 @@ public class RoomConstructorMethodTest extends RollbackTestAbstractClass {
 		Assert.assertEquals(this.hotel, room.getHotel());
 		Assert.assertEquals("01", room.getNumber());
 		Assert.assertEquals(Type.DOUBLE, room.getType());
-		Assert.assertEquals(1, this.hotel.getNumberOfRooms());
+		Assert.assertEquals(1, this.hotel.getRoomSet().size());
 	}
 
 	@Test(expected = HotelException.class)
@@ -58,7 +58,7 @@ public class RoomConstructorMethodTest extends RollbackTestAbstractClass {
 			new Room(this.hotel, "01", Type.DOUBLE);
 			fail();
 		} catch (HotelException he) {
-			Assert.assertEquals(1, this.hotel.getNumberOfRooms());
+			Assert.assertEquals(1, this.hotel.getRoomSet().size());
 		}
 	}
 

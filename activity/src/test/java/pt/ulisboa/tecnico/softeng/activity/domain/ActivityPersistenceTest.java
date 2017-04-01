@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Test;
 
@@ -14,10 +15,13 @@ import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
 
 public class ActivityPersistenceTest {
-
 	private static final String ACTIVITY_NAME = "Activity_Name";
 	private static final String PROVIDER_NAME = "Wicket";
 	private static final String PROVIDER_CODE = "A12345";
+	private static final int CAPACITY = 25;
+
+	private final LocalDate begin = new LocalDate(2017, 04, 01);
+	private final LocalDate end = new LocalDate(2017, 04, 15);
 
 	@Test
 	public void success() {
@@ -29,7 +33,9 @@ public class ActivityPersistenceTest {
 	public void atomicProcess() {
 		ActivityProvider activityProvider = new ActivityProvider(PROVIDER_CODE, PROVIDER_NAME);
 
-		new Activity(activityProvider, ACTIVITY_NAME, 18, 65, 25);
+		Activity activity = new Activity(activityProvider, ACTIVITY_NAME, 18, 65, CAPACITY);
+
+		new ActivityOffer(activity, this.begin, this.end);
 	}
 
 	@Atomic(mode = TxMode.READ)
@@ -50,7 +56,15 @@ public class ActivityPersistenceTest {
 		assertTrue(activity.getCode().startsWith(PROVIDER_CODE));
 		assertEquals(18, activity.getMinAge());
 		assertEquals(65, activity.getMaxAge());
-		assertEquals(25, activity.getCapacity());
+		assertEquals(CAPACITY, activity.getCapacity());
+		assertEquals(1, activity.getActivityOfferSet().size());
+
+		List<ActivityOffer> offers = new ArrayList<>(activity.getActivityOfferSet());
+		ActivityOffer offer = offers.get(0);
+
+		assertEquals(this.begin, offer.getBegin());
+		assertEquals(this.end, offer.getEnd());
+		assertEquals(CAPACITY, offer.getCapacity());
 	}
 
 	@After

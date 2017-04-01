@@ -21,7 +21,7 @@ public class ClientContructorMethodTest extends RollbackTestAbstractClass {
 
 		Assert.assertEquals(CLIENT_NAME, client.getName());
 		Assert.assertTrue(client.getID().length() >= 1);
-		Assert.assertTrue(this.bank.hasClient(client));
+		Assert.assertTrue(this.bank.getClientSet().contains(client));
 	}
 
 	@Test(expected = BankException.class)
