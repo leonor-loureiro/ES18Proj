@@ -1,0 +1,15 @@
+package pt.ulisboa.tecnico.softeng.activity.domain;
+
+class ActivityProvider {
+	String name;
+	String code;
+} 
+
+relation DomainRootHasActivityProviders {
+	.pt.ist.fenixframework.DomainRoot playsRole root {
+		multiplicity 1..1;
+	}
+	ActivityProvider playsRole activityProvider {
+		multiplicity 0..*;
+	}
+}
