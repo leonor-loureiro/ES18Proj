@@ -1,6 +1,7 @@
 package pt.ulisboa.tecnico.softeng.activity.domain;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,8 +15,9 @@ import pt.ist.fenixframework.FenixFramework;
 
 public class ActivityPersistenceTest {
 
-	private static final String NAME = "Wicket";
-	private static final String CODE = "A12345";
+	private static final String ACTIVITY_NAME = "Activity_Name";
+	private static final String PROVIDER_NAME = "Wicket";
+	private static final String PROVIDER_CODE = "A12345";
 
 	@Test
 	public void success() {
@@ -25,7 +27,9 @@ public class ActivityPersistenceTest {
 
 	@Atomic(mode = TxMode.WRITE)
 	public void atomicProcess() {
-		ActivityProvider activityProvider = new ActivityProvider(CODE, NAME);
+		ActivityProvider activityProvider = new ActivityProvider(PROVIDER_CODE, PROVIDER_NAME);
+
+		new Activity(activityProvider, ACTIVITY_NAME, 18, 65, 25);
 	}
 
 	@Atomic(mode = TxMode.READ)
@@ -35,8 +39,18 @@ public class ActivityPersistenceTest {
 		List<ActivityProvider> providers = new ArrayList<>(FenixFramework.getDomainRoot().getActivityProviderSet());
 		ActivityProvider provider = providers.get(0);
 
-		assertEquals(CODE, provider.getCode());
-		assertEquals(NAME, provider.getName());
+		assertEquals(PROVIDER_CODE, provider.getCode());
+		assertEquals(PROVIDER_NAME, provider.getName());
+		assertEquals(1, provider.getActivitySet().size());
+
+		List<Activity> activities = new ArrayList<>(provider.getActivitySet());
+		Activity activity = activities.get(0);
+
+		assertEquals(ACTIVITY_NAME, activity.getName());
+		assertTrue(activity.getCode().startsWith(PROVIDER_CODE));
+		assertEquals(18, activity.getMinAge());
+		assertEquals(65, activity.getMaxAge());
+		assertEquals(25, activity.getCapacity());
 	}
 
 	@After

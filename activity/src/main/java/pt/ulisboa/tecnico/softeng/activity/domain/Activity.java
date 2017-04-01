@@ -7,29 +7,30 @@ import org.joda.time.LocalDate;
 
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
 
-public class Activity {
+public class Activity extends Activity_Base {
 	private static final int MIN_AGE = 18;
 	private static final int MAX_AGE = 100;
 
 	private static int counter = 0;
 
-	private final String name;
-	private final String code;
-	private final int minAge;
-	private final int maxAge;
-	private final int capacity;
 	private final Set<ActivityOffer> offers = new HashSet<>();
 
 	public Activity(ActivityProvider provider, String name, int minAge, int maxAge, int capacity) {
 		checkArguments(provider, name, minAge, maxAge, capacity);
 
-		this.code = provider.getCode() + Integer.toString(++Activity.counter);
-		this.name = name;
-		this.minAge = minAge;
-		this.maxAge = maxAge;
-		this.capacity = capacity;
+		setCode(provider.getCode() + Integer.toString(++Activity.counter));
+		setName(name);
+		setMinAge(minAge);
+		setMaxAge(maxAge);
+		setCapacity(capacity);
 
-		provider.addActivity(this);
+		setActivityProvider(provider);
+	}
+
+	public void delete() {
+		setActivityProvider(null);
+
+		deleteDomainObject();
 	}
 
 	private void checkArguments(ActivityProvider provider, String name, int minAge, int maxAge, int capacity) {
@@ -45,26 +46,6 @@ public class Activity {
 			throw new ActivityException();
 		}
 
-	}
-
-	String getName() {
-		return this.name;
-	}
-
-	String getCode() {
-		return this.code;
-	}
-
-	int getMinAge() {
-		return this.minAge;
-	}
-
-	int getMaxAge() {
-		return this.maxAge;
-	}
-
-	int getCapacity() {
-		return this.capacity;
 	}
 
 	int getNumberOfOffers() {
@@ -86,7 +67,7 @@ public class Activity {
 	}
 
 	boolean matchAge(int age) {
-		return age >= this.minAge && age <= this.maxAge;
+		return age >= getMinAge() && age <= getMaxAge();
 	}
 
 	public Booking getBooking(String reference) {

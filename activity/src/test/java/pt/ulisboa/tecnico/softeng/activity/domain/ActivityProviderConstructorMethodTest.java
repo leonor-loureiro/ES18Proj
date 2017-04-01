@@ -23,7 +23,7 @@ public class ActivityProviderConstructorMethodTest extends RollbackTestAbstractC
 		Assert.assertEquals(PROVIDER_NAME, provider.getName());
 		Assert.assertTrue(provider.getCode().length() == ActivityProvider.CODE_SIZE);
 		Assert.assertEquals(1, FenixFramework.getDomainRoot().getActivityProviderSet().size());
-		Assert.assertEquals(0, provider.getNumberOfActivities());
+		Assert.assertEquals(0, provider.getActivitySet().size());
 	}
 
 	@Test(expected = ActivityException.class)
