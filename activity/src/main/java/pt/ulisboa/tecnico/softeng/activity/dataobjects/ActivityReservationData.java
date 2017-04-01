@@ -20,7 +20,7 @@ public class ActivityReservationData {
 
 	public ActivityReservationData(ActivityProvider provider, ActivityOffer offer, Booking booking) {
 		this.reference = booking.getReference();
-		this.cancellation = booking.getCancellation();
+		this.cancellation = booking.getCancel();
 		this.name = provider.getName();
 		this.code = provider.getCode();
 		this.begin = offer.getBegin();

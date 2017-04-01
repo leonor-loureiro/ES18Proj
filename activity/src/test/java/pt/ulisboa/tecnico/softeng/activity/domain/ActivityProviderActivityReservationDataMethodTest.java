@@ -25,7 +25,7 @@ public class ActivityProviderActivityReservationDataMethodTest extends RollbackT
 		Activity activity = new Activity(this.provider, "Bush Walking", 18, 80, 3);
 
 		this.offer = new ActivityOffer(activity, this.begin, this.end);
-		this.booking = new Booking(this.provider, this.offer);
+		this.booking = new Booking(this.offer);
 	}
 
 	@Test
@@ -44,10 +44,10 @@ public class ActivityProviderActivityReservationDataMethodTest extends RollbackT
 	@Test
 	public void successCancelled() {
 		this.booking.cancel();
-		ActivityReservationData data = ActivityProvider.getActivityReservationData(this.booking.getCancellation());
+		ActivityReservationData data = ActivityProvider.getActivityReservationData(this.booking.getCancel());
 
 		assertEquals(this.booking.getReference(), data.getReference());
-		assertEquals(this.booking.getCancellation(), data.getCancellation());
+		assertEquals(this.booking.getCancel(), data.getCancellation());
 		assertEquals(NAME, data.getName());
 		assertEquals(CODE, data.getCode());
 		assertEquals(this.begin, data.getBegin());

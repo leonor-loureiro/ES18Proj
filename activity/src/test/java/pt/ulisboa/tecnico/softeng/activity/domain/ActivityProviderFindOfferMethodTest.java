@@ -119,7 +119,7 @@ public class ActivityProviderFindOfferMethodTest extends RollbackTestAbstractCla
 	public void oneMatchActivityOfferAndOtherNoCapacity() {
 		Activity otherActivity = new Activity(this.provider, "Bush Walking", MIN_AGE, MAX_AGE, 1);
 		ActivityOffer otherActivityOffer = new ActivityOffer(otherActivity, this.begin, this.end);
-		new Booking(this.provider, otherActivityOffer);
+		new Booking(otherActivityOffer);
 
 		List<ActivityOffer> offers = this.provider.findOffer(this.begin, this.end, AGE);
 

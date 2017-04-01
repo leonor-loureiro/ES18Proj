@@ -24,7 +24,7 @@ public class BookingContructorMethodTest extends RollbackTestAbstractClass {
 
 	@Test
 	public void success() {
-		Booking booking = new Booking(this.provider, this.offer);
+		Booking booking = new Booking(this.offer);
 
 		Assert.assertTrue(booking.getReference().startsWith(this.provider.getCode()));
 		Assert.assertTrue(booking.getReference().length() > ActivityProvider.CODE_SIZE);
@@ -32,22 +32,17 @@ public class BookingContructorMethodTest extends RollbackTestAbstractClass {
 	}
 
 	@Test(expected = ActivityException.class)
-	public void nullProvider() {
-		new Booking(null, this.offer);
-	}
-
-	@Test(expected = ActivityException.class)
 	public void nullOffer() {
-		new Booking(this.provider, null);
+		new Booking(null);
 	}
 
 	@Test
 	public void bookingEqualCapacity() {
-		new Booking(this.provider, this.offer);
-		new Booking(this.provider, this.offer);
-		new Booking(this.provider, this.offer);
+		new Booking(this.offer);
+		new Booking(this.offer);
+		new Booking(this.offer);
 		try {
-			new Booking(this.provider, this.offer);
+			new Booking(this.offer);
 			fail();
 		} catch (ActivityException ae) {
 			Assert.assertEquals(3, this.offer.getNumberActiveOfBookings());
@@ -56,11 +51,11 @@ public class BookingContructorMethodTest extends RollbackTestAbstractClass {
 
 	@Test
 	public void bookingEqualCapacityButHasCancelled() {
-		new Booking(this.provider, this.offer);
-		new Booking(this.provider, this.offer);
-		Booking booking = new Booking(this.provider, this.offer);
+		new Booking(this.offer);
+		new Booking(this.offer);
+		Booking booking = new Booking(this.offer);
 		booking.cancel();
-		new Booking(this.provider, this.offer);
+		new Booking(this.offer);
 
 		Assert.assertEquals(3, this.offer.getNumberActiveOfBookings());
 	}

@@ -1,6 +1,8 @@
 package pt.ulisboa.tecnico.softeng.activity.domain;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -35,7 +37,9 @@ public class ActivityPersistenceTest {
 
 		Activity activity = new Activity(activityProvider, ACTIVITY_NAME, 18, 65, CAPACITY);
 
-		new ActivityOffer(activity, this.begin, this.end);
+		ActivityOffer activityOffer = new ActivityOffer(activity, this.begin, this.end);
+
+		new Booking(activityOffer);
 	}
 
 	@Atomic(mode = TxMode.READ)
@@ -65,6 +69,14 @@ public class ActivityPersistenceTest {
 		assertEquals(this.begin, offer.getBegin());
 		assertEquals(this.end, offer.getEnd());
 		assertEquals(CAPACITY, offer.getCapacity());
+		assertEquals(1, offer.getBookingSet().size());
+
+		List<Booking> bookings = new ArrayList<>(offer.getBookingSet());
+		Booking booking = bookings.get(0);
+
+		assertNotNull(booking.getReference());
+		assertNull(booking.getCancel());
+		assertNull(booking.getCancellationDate());
 	}
 
 	@After

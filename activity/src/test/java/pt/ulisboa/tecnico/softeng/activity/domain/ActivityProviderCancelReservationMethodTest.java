@@ -24,17 +24,17 @@ public class ActivityProviderCancelReservationMethodTest extends RollbackTestAbs
 
 	@Test
 	public void success() {
-		Booking booking = new Booking(this.provider, this.offer);
+		Booking booking = new Booking(this.offer);
 
 		String cancel = ActivityProvider.cancelReservation(booking.getReference());
 
 		assertTrue(booking.isCancelled());
-		assertEquals(cancel, booking.getCancellation());
+		assertEquals(cancel, booking.getCancel());
 	}
 
 	@Test(expected = ActivityException.class)
 	public void doesNotExist() {
-		new Booking(this.provider, this.offer);
+		new Booking(this.offer);
 
 		ActivityProvider.cancelReservation("XPTO");
 	}

@@ -80,7 +80,7 @@ public class ActivityProvider extends ActivityProvider_Base {
 		for (ActivityProvider provider : FenixFramework.getDomainRoot().getActivityProviderSet()) {
 			offers = provider.findOffer(begin, end, age);
 			if (!offers.isEmpty()) {
-				return new Booking(provider, offers.get(0)).getReference();
+				return new Booking(offers.get(0)).getReference();
 			}
 		}
 		throw new ActivityException();
