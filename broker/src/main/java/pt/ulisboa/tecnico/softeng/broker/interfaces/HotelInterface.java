@@ -4,24 +4,30 @@ import java.util.Set;
 
 import org.joda.time.LocalDate;
 
-import pt.ulisboa.tecnico.softeng.hotel.dataobjects.RoomBookingData;
-import pt.ulisboa.tecnico.softeng.hotel.domain.Hotel;
-import pt.ulisboa.tecnico.softeng.hotel.domain.Room;
+import pt.ulisboa.tecnico.softeng.broker.dataobjects.RoomBookingData;
 
 public class HotelInterface {
-	public static String reserveRoom(Room.Type type, LocalDate arrival, LocalDate departure) {
-		return Hotel.reserveRoom(type, arrival, departure);
+	public static enum RoomType {
+		SINGLE, DOUBLE
+	}
+
+	public static String reserveRoom(RoomType type, LocalDate arrival, LocalDate departure) {
+		// TODO: implement in the final version as a rest invocation
+		return null;
 	}
 
 	public static String cancelBooking(String roomConfirmation) {
-		return Hotel.cancelBooking(roomConfirmation);
+		// TODO: implement in the final version as a rest invocation
+		return null;
 	}
 
 	public static RoomBookingData getRoomBookingData(String reference) {
-		return Hotel.getRoomBookingData(reference);
+		// TODO: implement in the final version as a rest invocation
+		return null;
 	}
 
 	public static Set<String> bulkBooking(int number, LocalDate arrival, LocalDate departure) {
-		return Hotel.bulkBooking(number, arrival, departure);
+		// TODO: implement in the final version as a rest invocation
+		return null;
 	}
 }

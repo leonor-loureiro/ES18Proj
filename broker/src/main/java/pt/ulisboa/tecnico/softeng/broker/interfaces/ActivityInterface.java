@@ -2,19 +2,21 @@ package pt.ulisboa.tecnico.softeng.broker.interfaces;
 
 import org.joda.time.LocalDate;
 
-import pt.ulisboa.tecnico.softeng.activity.dataobjects.ActivityReservationData;
-import pt.ulisboa.tecnico.softeng.activity.domain.ActivityProvider;
+import pt.ulisboa.tecnico.softeng.broker.dataobjects.ActivityReservationData;
 
 public class ActivityInterface {
 	public static String reserveActivity(LocalDate begin, LocalDate end, int age) {
-		return ActivityProvider.reserveActivity(begin, end, age);
+		// TODO: implement in the final version as a rest invocation
+		return null;
 	}
 
 	public static String cancelReservation(String activityConfirmation) {
-		return ActivityProvider.cancelReservation(activityConfirmation);
+		// TODO: implement in the final version as a rest invocation
+		return null;
 	}
 
 	public static ActivityReservationData getActivityReservationData(String reference) {
-		return ActivityProvider.getActivityReservationData(reference);
+		// TODO: implement in the final version as a rest invocation
+		return null;
 	}
 }

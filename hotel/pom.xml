@@ -10,7 +10,6 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	</parent>
 
 	<artifactId>hotel</artifactId>
-	<packaging>jar</packaging>
 
 	<build>
 		<plugins>

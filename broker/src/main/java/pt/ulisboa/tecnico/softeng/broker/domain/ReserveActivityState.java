@@ -1,7 +1,7 @@
 package pt.ulisboa.tecnico.softeng.broker.domain;
 
-import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
 import pt.ulisboa.tecnico.softeng.broker.domain.Adventure.State;
+import pt.ulisboa.tecnico.softeng.broker.exception.ActivityException;
 import pt.ulisboa.tecnico.softeng.broker.exception.RemoteAccessException;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.ActivityInterface;
 
