@@ -50,6 +50,13 @@ public class Bank extends Bank_Base {
 		}
 	}
 
+	@Override
+	public int getCounter() {
+		int counter = super.getCounter() + 1;
+		setCounter(counter);
+		return counter;
+	}
+
 	public Account getAccount(String IBAN) {
 		if (IBAN == null || IBAN.trim().equals("")) {
 			throw new BankException();

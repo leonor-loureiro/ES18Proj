@@ -47,6 +47,13 @@ public class ActivityProvider extends ActivityProvider_Base {
 		}
 	}
 
+	@Override
+	public int getCounter() {
+		int counter = super.getCounter() + 1;
+		setCounter(counter);
+		return counter;
+	}
+
 	public List<ActivityOffer> findOffer(LocalDate begin, LocalDate end, int age) {
 		List<ActivityOffer> result = new ArrayList<>();
 		for (Activity activity : getActivitySet()) {

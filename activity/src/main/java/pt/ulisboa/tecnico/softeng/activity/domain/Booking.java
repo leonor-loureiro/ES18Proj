@@ -5,12 +5,12 @@ import org.joda.time.LocalDate;
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
 
 public class Booking extends Booking_Base {
-	private static int counter = 0;
 
 	public Booking(ActivityOffer offer) {
 		checkArguments(offer);
 
-		setReference(offer.getActivity().getActivityProvider().getCode() + Integer.toString(++Booking.counter));
+		setReference(offer.getActivity().getActivityProvider().getCode()
+				+ Integer.toString(offer.getActivity().getActivityProvider().getCounter()));
 
 		setActivityOffer(offer);
 	}

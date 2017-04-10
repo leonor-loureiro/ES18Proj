@@ -13,12 +13,10 @@ public class Adventure extends Adventure_Base {
 		PROCESS_PAYMENT, RESERVE_ACTIVITY, BOOK_ROOM, UNDO, CONFIRMED, CANCELLED
 	}
 
-	private static int counter = 0;
-
 	public Adventure(Broker broker, LocalDate begin, LocalDate end, int age, String IBAN, int amount) {
 		checkArguments(broker, begin, end, age, IBAN, amount);
 
-		setID(broker.getCode() + Integer.toString(++counter));
+		setID(broker.getCode() + Integer.toString(broker.getCounter()));
 		setBegin(begin);
 		setEnd(end);
 		setAge(age);

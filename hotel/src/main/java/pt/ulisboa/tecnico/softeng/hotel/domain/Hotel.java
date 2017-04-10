@@ -49,6 +49,13 @@ public class Hotel extends Hotel_Base {
 		}
 	}
 
+	@Override
+	public int getCounter() {
+		int counter = super.getCounter() + 1;
+		setCounter(counter);
+		return counter;
+	}
+
 	public Room hasVacancy(Room.Type type, LocalDate arrival, LocalDate departure) {
 		if (type == null || arrival == null || departure == null) {
 			throw new HotelException();

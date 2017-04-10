@@ -52,6 +52,13 @@ public class Broker extends Broker_Base {
 		}
 	}
 
+	@Override
+	public int getCounter() {
+		int counter = super.getCounter() + 1;
+		setCounter(counter);
+		return counter;
+	}
+
 	public void bulkBooking(int number, LocalDate arrival, LocalDate departure) {
 		BulkRoomBooking bulkBooking = new BulkRoomBooking(this, number, arrival, departure);
 		bulkBooking.processBooking();
