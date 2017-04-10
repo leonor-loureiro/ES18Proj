@@ -1,22 +1,25 @@
 package pt.ulisboa.tecnico.softeng.broker.domain;
 
-import pt.ulisboa.tecnico.softeng.broker.dataobjects.ActivityReservationData;
-import pt.ulisboa.tecnico.softeng.broker.dataobjects.BankOperationData;
-import pt.ulisboa.tecnico.softeng.broker.dataobjects.RoomBookingData;
 import pt.ulisboa.tecnico.softeng.broker.domain.Adventure.State;
-import pt.ulisboa.tecnico.softeng.broker.exception.ActivityException;
-import pt.ulisboa.tecnico.softeng.broker.exception.BankException;
-import pt.ulisboa.tecnico.softeng.broker.exception.HotelException;
-import pt.ulisboa.tecnico.softeng.broker.exception.RemoteAccessException;
-import pt.ulisboa.tecnico.softeng.broker.interfaces.ActivityInterface;
-import pt.ulisboa.tecnico.softeng.broker.interfaces.BankInterface;
-import pt.ulisboa.tecnico.softeng.broker.interfaces.HotelInterface;
+import pt.ulisboa.tecnico.softeng.broker.services.remote.ActivityInterface;
+import pt.ulisboa.tecnico.softeng.broker.services.remote.BankInterface;
+import pt.ulisboa.tecnico.softeng.broker.services.remote.HotelInterface;
+import pt.ulisboa.tecnico.softeng.broker.services.remote.dataobjects.ActivityReservationData;
+import pt.ulisboa.tecnico.softeng.broker.services.remote.dataobjects.BankOperationData;
+import pt.ulisboa.tecnico.softeng.broker.services.remote.dataobjects.RoomBookingData;
+import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.ActivityException;
+import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.BankException;
+import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.HotelException;
+import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.RemoteAccessException;
 
 public class ConfirmedState extends ConfirmedState_Base {
 	public static int MAX_REMOTE_ERRORS = 20;
 	public static int MAX_BANK_EXCEPTIONS = 5;
 
-	private int numberOfBankExceptions = 0;
+	public ConfirmedState() {
+		super();
+		setNumberOfBankExceptions(0);
+	}
 
 	@Override
 	public State getValue() {
@@ -29,8 +32,8 @@ public class ConfirmedState extends ConfirmedState_Base {
 		try {
 			operation = BankInterface.getOperationData(getAdventure().getPaymentConfirmation());
 		} catch (BankException be) {
-			this.numberOfBankExceptions++;
-			if (this.numberOfBankExceptions == MAX_BANK_EXCEPTIONS) {
+			setNumberOfBankExceptions(getNumberOfBankExceptions() + 1);
+			if (getNumberOfBankExceptions() == MAX_BANK_EXCEPTIONS) {
 				getAdventure().setState(State.UNDO);
 			}
 			return;
@@ -42,7 +45,7 @@ public class ConfirmedState extends ConfirmedState_Base {
 			return;
 		}
 		resetNumOfRemoteErrors();
-		this.numberOfBankExceptions = 0;
+		setNumberOfBankExceptions(0);
 
 		ActivityReservationData reservation;
 		try {

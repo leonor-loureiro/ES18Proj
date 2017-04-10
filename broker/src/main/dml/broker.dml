@@ -45,7 +45,9 @@ class AdventureState {
 class ProcessPaymentState extends AdventureState;
 class ReserveActivityState extends AdventureState;
 class BookRoomState extends AdventureState;
-class ConfirmedState extends AdventureState;
+class ConfirmedState extends AdventureState {
+	int numberOfBankExceptions;
+}
 class UndoState extends AdventureState;
 class CancelledState extends AdventureState;
 

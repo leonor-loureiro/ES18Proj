@@ -1,8 +1,8 @@
-package pt.ulisboa.tecnico.softeng.broker.interfaces;
+package pt.ulisboa.tecnico.softeng.broker.services.remote;
 
 import org.joda.time.LocalDate;
 
-import pt.ulisboa.tecnico.softeng.broker.dataobjects.ActivityReservationData;
+import pt.ulisboa.tecnico.softeng.broker.services.remote.dataobjects.ActivityReservationData;
 
 public class ActivityInterface {
 	public static String reserveActivity(LocalDate begin, LocalDate end, int age) {

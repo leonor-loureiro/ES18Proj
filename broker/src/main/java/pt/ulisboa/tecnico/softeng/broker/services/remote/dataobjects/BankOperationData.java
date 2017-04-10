@@ -1,4 +1,4 @@
-package pt.ulisboa.tecnico.softeng.broker.dataobjects;
+package pt.ulisboa.tecnico.softeng.broker.services.remote.dataobjects;
 
 import org.joda.time.DateTime;
 

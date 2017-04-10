@@ -1,6 +1,6 @@
-package pt.ulisboa.tecnico.softeng.broker.interfaces;
+package pt.ulisboa.tecnico.softeng.broker.services.remote;
 
-import pt.ulisboa.tecnico.softeng.broker.dataobjects.BankOperationData;
+import pt.ulisboa.tecnico.softeng.broker.services.remote.dataobjects.BankOperationData;
 
 public class BankInterface {
 	public static String processPayment(String IBAN, int amount) {

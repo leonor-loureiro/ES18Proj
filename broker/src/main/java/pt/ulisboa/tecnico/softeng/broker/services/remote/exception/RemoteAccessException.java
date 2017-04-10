@@ -1,4 +1,4 @@
-package pt.ulisboa.tecnico.softeng.broker.exception;
+package pt.ulisboa.tecnico.softeng.broker.services.remote.exception;
 
 public class RemoteAccessException extends RuntimeException {
 	public RemoteAccessException() {
