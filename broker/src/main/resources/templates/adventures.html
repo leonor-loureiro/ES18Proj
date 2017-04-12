@@ -13,8 +13,9 @@
 <body>
 	<div class="container">
 		<h2>
-			Welcome to Broker <span th:text="${broker.name}">Name</span>
+			Welcome to Broker <span th:text="${broker.name}">Name</span> Adventures
 		</h2>
+		<a class="btn btn-default pull-right" th:href="@{/brokers}">Brokers</a>
 		<br/>
 		<h3>Create Adventure</h3>
 		<p class="text-danger" th:text="${error}">Error</p>
@@ -23,7 +24,7 @@
 			<label>End: </label> <input class="form-control" type="date" th:field="*{end}" />  
 			<label>Age: </label> <input class="form-control" type="number" th:field="*{age}" /> 
 			<label>IBAN: </label> <input class="form-control" type="text" th:field="*{iban}" /> 
-			<label>Amount: </label> <input class="form-control" type="number" th:value="*{amount}" th:field="*{amount}" /> 
+			<label>Amount: </label> <input class="form-control" type="number" th:value="*{amount}" th:field="*{amount}" />
 			<input class="btn btn-primary" type="submit" value="Submit" />
 		</form>
 		<br/>

@@ -10,6 +10,10 @@
 </head>
 <body>
 	<div class="container">
+		<h2>
+			Welcome to Brokers' Manager
+		</h2>
+		<br/>
 		<h3>Create Broker</h3>
 		<p class="text-danger" th:text="${error}">Error</p>
 		<form class="form-inline" th:action="@{/brokers}" th:object="${broker}" method="post">
@@ -24,7 +28,8 @@
 				<tr>
 					<th>Name</th>
 					<th>Code</th>
-					<th>Page</th>
+					<th>Adventures</th>
+					<th>Bulks</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -33,6 +38,8 @@
 					<td th:text="${broker.code}">Code</td>
 					<td><a
 						th:href="@{/brokers/broker/{code}/adventures(code=${broker.code})}">Link</a></td>
+					<td><a
+						th:href="@{/brokers/broker/{code}/bulks(code=${broker.code})}">Link</a></td>
 				</tr>
 			</tbody>
 		</table>

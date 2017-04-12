@@ -5,21 +5,42 @@ import java.util.List;
 
 import pt.ulisboa.tecnico.softeng.broker.domain.Adventure;
 import pt.ulisboa.tecnico.softeng.broker.domain.Broker;
+import pt.ulisboa.tecnico.softeng.broker.domain.BulkRoomBooking;
 
 public class BrokerData {
+	public static enum CopyDepth {
+		SHALLOW, BULKS, ADVENTURES
+	};
+
 	private String name;
 	private String code;
 	private List<AdventureData> adventures = new ArrayList<>();
+	private List<BulkData> bulks = new ArrayList<>();
 
 	public BrokerData() {
 	}
 
-	public BrokerData(Broker broker) {
+	public BrokerData(Broker broker, CopyDepth depth) {
 		this.name = broker.getName();
 		this.code = broker.getCode();
-		for (Adventure adventure : broker.getAdventureSet()) {
-			this.adventures.add(new AdventureData(adventure));
+
+		switch (depth) {
+		case ADVENTURES:
+			for (Adventure adventure : broker.getAdventureSet()) {
+				this.adventures.add(new AdventureData(adventure));
+			}
+			break;
+		case BULKS:
+			for (BulkRoomBooking bulkRoomBooking : broker.getRoomBulkBookingSet()) {
+				this.bulks.add(new BulkData(bulkRoomBooking));
+			}
+			break;
+		case SHALLOW:
+			break;
+		default:
+			break;
 		}
+
 	}
 
 	public String getName() {
@@ -44,6 +65,14 @@ public class BrokerData {
 
 	public void setAdventures(List<AdventureData> adventures) {
 		this.adventures = adventures;
+	}
+
+	public List<BulkData> getBulks() {
+		return this.bulks;
+	}
+
+	public void setBulks(List<BulkData> bulks) {
+		this.bulks = bulks;
 	}
 
 }

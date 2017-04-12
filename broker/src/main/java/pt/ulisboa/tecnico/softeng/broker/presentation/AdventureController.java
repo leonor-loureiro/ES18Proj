@@ -1,4 +1,4 @@
-package pt.ulisboa.tecnico.softeng.broker.controller;
+package pt.ulisboa.tecnico.softeng.broker.presentation;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +13,7 @@ import pt.ulisboa.tecnico.softeng.broker.exception.BrokerException;
 import pt.ulisboa.tecnico.softeng.broker.services.local.BrokerInterface;
 import pt.ulisboa.tecnico.softeng.broker.services.local.dataobjects.AdventureData;
 import pt.ulisboa.tecnico.softeng.broker.services.local.dataobjects.BrokerData;
+import pt.ulisboa.tecnico.softeng.broker.services.local.dataobjects.BrokerData.CopyDepth;
 
 @Controller
 @RequestMapping(value = "/brokers/broker/{brokerCode}/adventures")
@@ -20,10 +21,10 @@ public class AdventureController {
 	private static Logger logger = LoggerFactory.getLogger(AdventureController.class);
 
 	@RequestMapping(method = RequestMethod.GET)
-	public String showBroker(Model model, @PathVariable String brokerCode) {
-		logger.info("showBroker code:{}", brokerCode);
+	public String showAdventures(Model model, @PathVariable String brokerCode) {
+		logger.info("showAdventures code:{}", brokerCode);
 
-		BrokerData brokerData = BrokerInterface.getBrokerByCode(brokerCode);
+		BrokerData brokerData = BrokerInterface.getBrokerDataByCode(brokerCode, CopyDepth.ADVENTURES);
 
 		if (brokerData == null) {
 			model.addAttribute("error", "Error: it does not exist a broker with the code " + brokerCode);
@@ -33,14 +34,14 @@ public class AdventureController {
 		} else {
 			model.addAttribute("adventure", new AdventureData());
 			model.addAttribute("broker", brokerData);
-			return "broker";
+			return "adventures";
 		}
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public String adventureSubmit(Model model, @PathVariable String brokerCode,
+	public String submitAdventure(Model model, @PathVariable String brokerCode,
 			@ModelAttribute AdventureData adventureData) {
-		logger.info("adventureSubmit brokerCode:{}, begin:{}, end:{}, age:{}, iban:{}, ", brokerCode,
+		logger.info("adventureSubmit brokerCode:{}, begin:{}, end:{}, age:{}, iban:{}, amount:{}", brokerCode,
 				adventureData.getBegin(), adventureData.getEnd(), adventureData.getAge(), adventureData.getIban(),
 				adventureData.getAmount());
 
@@ -49,10 +50,11 @@ public class AdventureController {
 		} catch (BrokerException be) {
 			model.addAttribute("error", "Error: it was not possible to create the adventure");
 			model.addAttribute("adventure", adventureData);
-			model.addAttribute("broker", BrokerInterface.getBrokerByCode(brokerCode));
-			return "broker";
+			model.addAttribute("broker", BrokerInterface.getBrokerDataByCode(brokerCode, CopyDepth.ADVENTURES));
+			return "adventures";
 		}
 
 		return "redirect:/brokers/broker/" + brokerCode + "/adventures";
 	}
+
 }

@@ -1,4 +1,4 @@
-package pt.ulisboa.tecnico.softeng.broker.controller;
+package pt.ulisboa.tecnico.softeng.broker.presentation;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

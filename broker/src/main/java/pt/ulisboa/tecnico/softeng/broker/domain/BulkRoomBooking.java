@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.joda.time.LocalDate;
 
+import pt.ulisboa.tecnico.softeng.broker.exception.BrokerException;
 import pt.ulisboa.tecnico.softeng.broker.services.remote.HotelInterface;
 import pt.ulisboa.tecnico.softeng.broker.services.remote.dataobjects.RoomBookingData;
 import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.HotelException;
@@ -15,6 +16,8 @@ public class BulkRoomBooking extends BulkRoomBooking_Base {
 	public static final int MAX_REMOTE_ERRORS = 10;
 
 	public BulkRoomBooking(Broker broker, int number, LocalDate arrival, LocalDate departure) {
+		checkArguments(number, arrival, departure);
+
 		setNumber(number);
 		setArrival(arrival);
 		setDeparture(departure);
@@ -30,6 +33,13 @@ public class BulkRoomBooking extends BulkRoomBooking_Base {
 		}
 
 		deleteDomainObject();
+	}
+
+	private void checkArguments(int number, LocalDate arrival, LocalDate departure) {
+		if (number < 1 || arrival == null || departure == null || departure.isBefore(arrival)) {
+			throw new BrokerException();
+		}
+
 	}
 
 	public Set<String> getReferences() {
