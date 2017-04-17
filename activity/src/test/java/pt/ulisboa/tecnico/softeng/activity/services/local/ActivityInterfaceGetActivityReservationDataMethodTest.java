@@ -1,4 +1,4 @@
-package pt.ulisboa.tecnico.softeng.activity.domain;
+package pt.ulisboa.tecnico.softeng.activity.services.local;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -7,10 +7,16 @@ import static org.junit.Assert.assertNull;
 import org.joda.time.LocalDate;
 import org.junit.Test;
 
-import pt.ulisboa.tecnico.softeng.activity.dataobjects.ActivityReservationData;
+import pt.ulisboa.tecnico.softeng.activity.domain.Activity;
+import pt.ulisboa.tecnico.softeng.activity.domain.ActivityOffer;
+import pt.ulisboa.tecnico.softeng.activity.domain.ActivityProvider;
+import pt.ulisboa.tecnico.softeng.activity.domain.Booking;
+import pt.ulisboa.tecnico.softeng.activity.domain.RollbackTestAbstractClass;
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
+import pt.ulisboa.tecnico.softeng.activity.services.local.ActivityInterface;
+import pt.ulisboa.tecnico.softeng.activity.services.local.dataobjects.ActivityReservationData;
 
-public class ActivityProviderActivityReservationDataMethodTest extends RollbackTestAbstractClass {
+public class ActivityInterfaceGetActivityReservationDataMethodTest extends RollbackTestAbstractClass {
 	private static final String NAME = "ExtremeAdventure";
 	private static final String CODE = "XtremX";
 	private final LocalDate begin = new LocalDate(2016, 12, 19);
@@ -30,7 +36,7 @@ public class ActivityProviderActivityReservationDataMethodTest extends RollbackT
 
 	@Test
 	public void success() {
-		ActivityReservationData data = ActivityProvider.getActivityReservationData(this.booking.getReference());
+		ActivityReservationData data = ActivityInterface.getActivityReservationData(this.booking.getReference());
 
 		assertEquals(this.booking.getReference(), data.getReference());
 		assertNull(data.getCancellation());
@@ -44,7 +50,7 @@ public class ActivityProviderActivityReservationDataMethodTest extends RollbackT
 	@Test
 	public void successCancelled() {
 		this.booking.cancel();
-		ActivityReservationData data = ActivityProvider.getActivityReservationData(this.booking.getCancel());
+		ActivityReservationData data = ActivityInterface.getActivityReservationData(this.booking.getCancel());
 
 		assertEquals(this.booking.getReference(), data.getReference());
 		assertEquals(this.booking.getCancel(), data.getCancellation());
@@ -57,17 +63,17 @@ public class ActivityProviderActivityReservationDataMethodTest extends RollbackT
 
 	@Test(expected = ActivityException.class)
 	public void nullReference() {
-		ActivityProvider.getActivityReservationData(null);
+		ActivityInterface.getActivityReservationData(null);
 	}
 
 	@Test(expected = ActivityException.class)
 	public void emptyReference() {
-		ActivityProvider.getActivityReservationData("");
+		ActivityInterface.getActivityReservationData("");
 	}
 
 	@Test(expected = ActivityException.class)
 	public void notExistsReference() {
-		ActivityProvider.getActivityReservationData("XPTO");
+		ActivityInterface.getActivityReservationData("XPTO");
 	}
 
 }

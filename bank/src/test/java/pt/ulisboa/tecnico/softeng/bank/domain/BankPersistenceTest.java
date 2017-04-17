@@ -37,7 +37,10 @@ public class BankPersistenceTest {
 
 	@Atomic(mode = TxMode.READ)
 	public void atomicAssert() {
-		Bank bank = Bank.getBankByCode(BANK_CODE);
+		assertEquals(1, FenixFramework.getDomainRoot().getBankSet().size());
+
+		List<Bank> banks = new ArrayList<>(FenixFramework.getDomainRoot().getBankSet());
+		Bank bank = banks.get(0);
 
 		assertEquals(BANK_NAME, bank.getName());
 		assertEquals(BANK_CODE, bank.getCode());

@@ -1,4 +1,4 @@
-package pt.ulisboa.tecnico.softeng.activity.dataobjects;
+package pt.ulisboa.tecnico.softeng.activity.services.local.dataobjects;
 
 import org.joda.time.LocalDate;
 

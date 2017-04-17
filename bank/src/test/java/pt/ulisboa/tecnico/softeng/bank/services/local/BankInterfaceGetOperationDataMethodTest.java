@@ -1,15 +1,20 @@
-package pt.ulisboa.tecnico.softeng.bank.domain;
+package pt.ulisboa.tecnico.softeng.bank.services.local;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 
-import pt.ulisboa.tecnico.softeng.bank.dataobjects.BankOperationData;
+import pt.ulisboa.tecnico.softeng.bank.domain.Account;
+import pt.ulisboa.tecnico.softeng.bank.domain.Bank;
+import pt.ulisboa.tecnico.softeng.bank.domain.Client;
+import pt.ulisboa.tecnico.softeng.bank.domain.RollbackTestAbstractClass;
 import pt.ulisboa.tecnico.softeng.bank.domain.Operation.Type;
 import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
+import pt.ulisboa.tecnico.softeng.bank.services.local.BankInterface;
+import pt.ulisboa.tecnico.softeng.bank.services.local.dataobjects.BankOperationData;
 
-public class BankGetOperationDataMethodTest extends RollbackTestAbstractClass {
+public class BankInterfaceGetOperationDataMethodTest extends RollbackTestAbstractClass {
 	private static int AMOUNT = 100;
 	private Bank bank;
 	private Account account;
@@ -25,7 +30,7 @@ public class BankGetOperationDataMethodTest extends RollbackTestAbstractClass {
 
 	@Test
 	public void success() {
-		BankOperationData data = Bank.getOperationData(this.reference);
+		BankOperationData data = BankInterface.getOperationData(this.reference);
 
 		assertEquals(this.reference, data.getReference());
 		assertEquals(this.account.getIBAN(), data.getIban());
@@ -36,17 +41,17 @@ public class BankGetOperationDataMethodTest extends RollbackTestAbstractClass {
 
 	@Test(expected = BankException.class)
 	public void nullReference() {
-		Bank.getOperationData(null);
+		BankInterface.getOperationData(null);
 	}
 
 	@Test(expected = BankException.class)
 	public void emptyReference() {
-		Bank.getOperationData("");
+		BankInterface.getOperationData("");
 	}
 
 	@Test(expected = BankException.class)
 	public void referenceNotExists() {
-		Bank.getOperationData("XPTO");
+		BankInterface.getOperationData("XPTO");
 	}
 
 }

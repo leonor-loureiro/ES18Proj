@@ -1,4 +1,4 @@
-package pt.ulisboa.tecnico.softeng.bank.dataobjects;
+package pt.ulisboa.tecnico.softeng.bank.services.local.dataobjects;
 
 import org.joda.time.DateTime;
 

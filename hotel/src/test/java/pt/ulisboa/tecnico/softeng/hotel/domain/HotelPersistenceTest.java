@@ -41,14 +41,17 @@ public class HotelPersistenceTest {
 
 	@Atomic(mode = TxMode.READ)
 	public void atomicAssert() {
-		Hotel hotel = Hotel.getHotelByCode(HOTEL_CODE);
+		assertEquals(1, FenixFramework.getDomainRoot().getHotelSet().size());
+
+		List<Hotel> hotels = new ArrayList<>(FenixFramework.getDomainRoot().getHotelSet());
+		Hotel hotel = hotels.get(0);
 
 		assertEquals(HOTEL_NAME, hotel.getName());
 		assertEquals(HOTEL_CODE, hotel.getCode());
 		assertEquals(1, hotel.getRoomSet().size());
 
-		List<Room> hotels = new ArrayList<>(hotel.getRoomSet());
-		Room room = hotels.get(0);
+		List<Room> rooms = new ArrayList<>(hotel.getRoomSet());
+		Room room = rooms.get(0);
 
 		assertEquals(ROOM_NUMBER, room.getNumber());
 		assertEquals(Type.DOUBLE, room.getType());

@@ -1,4 +1,4 @@
-package pt.ulisboa.tecnico.softeng.hotel.domain;
+package pt.ulisboa.tecnico.softeng.hotel.services.local;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -6,11 +6,16 @@ import static org.junit.Assert.assertNull;
 import org.joda.time.LocalDate;
 import org.junit.Test;
 
-import pt.ulisboa.tecnico.softeng.hotel.dataobjects.RoomBookingData;
+import pt.ulisboa.tecnico.softeng.hotel.domain.Booking;
+import pt.ulisboa.tecnico.softeng.hotel.domain.Hotel;
+import pt.ulisboa.tecnico.softeng.hotel.domain.RollbackTestAbstractClass;
+import pt.ulisboa.tecnico.softeng.hotel.domain.Room;
 import pt.ulisboa.tecnico.softeng.hotel.domain.Room.Type;
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
+import pt.ulisboa.tecnico.softeng.hotel.services.local.HotelInterface;
+import pt.ulisboa.tecnico.softeng.hotel.services.local.dataobjects.RoomBookingData;
 
-public class HotelGetRoomBookingDataMethodTest extends RollbackTestAbstractClass {
+public class HotelInterfaceGetRoomBookingDataMethodTest extends RollbackTestAbstractClass {
 	private final LocalDate arrival = new LocalDate(2016, 12, 19);
 	private final LocalDate departure = new LocalDate(2016, 12, 24);
 	private Hotel hotel;
@@ -26,7 +31,7 @@ public class HotelGetRoomBookingDataMethodTest extends RollbackTestAbstractClass
 
 	@Test
 	public void success() {
-		RoomBookingData data = Hotel.getRoomBookingData(this.booking.getReference());
+		RoomBookingData data = HotelInterface.getRoomBookingData(this.booking.getReference());
 
 		assertEquals(this.booking.getReference(), data.getReference());
 		assertNull(data.getCancellation());
@@ -42,7 +47,7 @@ public class HotelGetRoomBookingDataMethodTest extends RollbackTestAbstractClass
 	@Test
 	public void successCancellation() {
 		this.booking.cancel();
-		RoomBookingData data = Hotel.getRoomBookingData(this.booking.getCancellation());
+		RoomBookingData data = HotelInterface.getRoomBookingData(this.booking.getCancellation());
 
 		assertEquals(this.booking.getReference(), data.getReference());
 		assertEquals(this.booking.getCancellation(), data.getCancellation());
@@ -57,17 +62,17 @@ public class HotelGetRoomBookingDataMethodTest extends RollbackTestAbstractClass
 
 	@Test(expected = HotelException.class)
 	public void nullReference() {
-		Hotel.getRoomBookingData(null);
+		HotelInterface.getRoomBookingData(null);
 	}
 
 	@Test(expected = HotelException.class)
 	public void emptyReference() {
-		Hotel.getRoomBookingData("");
+		HotelInterface.getRoomBookingData("");
 	}
 
 	@Test(expected = HotelException.class)
 	public void referenceDoesNotExist() {
-		Hotel.getRoomBookingData("XPTO");
+		HotelInterface.getRoomBookingData("XPTO");
 	}
 
 }

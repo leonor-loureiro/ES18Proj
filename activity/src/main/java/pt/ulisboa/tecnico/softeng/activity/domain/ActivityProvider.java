@@ -6,7 +6,6 @@ import java.util.List;
 import org.joda.time.LocalDate;
 
 import pt.ist.fenixframework.FenixFramework;
-import pt.ulisboa.tecnico.softeng.activity.dataobjects.ActivityReservationData;
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
 
 public class ActivityProvider extends ActivityProvider_Base {
@@ -62,7 +61,7 @@ public class ActivityProvider extends ActivityProvider_Base {
 		return result;
 	}
 
-	private Booking getBooking(String reference) {
+	public Booking getBooking(String reference) {
 		for (Activity activity : getActivitySet()) {
 			Booking booking = activity.getBooking(reference);
 			if (booking != null) {
@@ -70,49 +69,6 @@ public class ActivityProvider extends ActivityProvider_Base {
 			}
 		}
 		return null;
-	}
-
-	private static Booking getBookingByReference(String reference) {
-		for (ActivityProvider provider : FenixFramework.getDomainRoot().getActivityProviderSet()) {
-			Booking booking = provider.getBooking(reference);
-			if (booking != null) {
-				return booking;
-			}
-		}
-		return null;
-	}
-
-	public static String reserveActivity(LocalDate begin, LocalDate end, int age) {
-		List<ActivityOffer> offers;
-		for (ActivityProvider provider : FenixFramework.getDomainRoot().getActivityProviderSet()) {
-			offers = provider.findOffer(begin, end, age);
-			if (!offers.isEmpty()) {
-				return new Booking(offers.get(0)).getReference();
-			}
-		}
-		throw new ActivityException();
-	}
-
-	public static String cancelReservation(String reference) {
-		Booking booking = getBookingByReference(reference);
-		if (booking != null) {
-			return booking.cancel();
-		}
-		throw new ActivityException();
-	}
-
-	public static ActivityReservationData getActivityReservationData(String reference) {
-		for (ActivityProvider provider : FenixFramework.getDomainRoot().getActivityProviderSet()) {
-			for (Activity activity : provider.getActivitySet()) {
-				for (ActivityOffer offer : activity.getActivityOfferSet()) {
-					Booking booking = offer.getBooking(reference);
-					if (booking != null) {
-						return new ActivityReservationData(provider, offer, booking);
-					}
-				}
-			}
-		}
-		throw new ActivityException();
 	}
 
 }

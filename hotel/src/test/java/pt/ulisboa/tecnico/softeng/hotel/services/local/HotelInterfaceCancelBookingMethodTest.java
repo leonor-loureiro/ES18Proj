@@ -1,13 +1,18 @@
-package pt.ulisboa.tecnico.softeng.hotel.domain;
+package pt.ulisboa.tecnico.softeng.hotel.services.local;
 
 import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
 
+import pt.ulisboa.tecnico.softeng.hotel.domain.Booking;
+import pt.ulisboa.tecnico.softeng.hotel.domain.Hotel;
+import pt.ulisboa.tecnico.softeng.hotel.domain.RollbackTestAbstractClass;
+import pt.ulisboa.tecnico.softeng.hotel.domain.Room;
 import pt.ulisboa.tecnico.softeng.hotel.domain.Room.Type;
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
+import pt.ulisboa.tecnico.softeng.hotel.services.local.HotelInterface;
 
-public class HotelCancelBookingMethodTest extends RollbackTestAbstractClass {
+public class HotelInterfaceCancelBookingMethodTest extends RollbackTestAbstractClass {
 	private final LocalDate arrival = new LocalDate(2016, 12, 19);
 	private final LocalDate departure = new LocalDate(2016, 12, 21);
 	private Hotel hotel;
@@ -23,7 +28,7 @@ public class HotelCancelBookingMethodTest extends RollbackTestAbstractClass {
 
 	@Test
 	public void success() {
-		String cancel = Hotel.cancelBooking(this.booking.getReference());
+		String cancel = HotelInterface.cancelBooking(this.booking.getReference());
 
 		Assert.assertTrue(this.booking.isCancelled());
 		Assert.assertEquals(cancel, this.booking.getCancellation());
@@ -31,17 +36,17 @@ public class HotelCancelBookingMethodTest extends RollbackTestAbstractClass {
 
 	@Test(expected = HotelException.class)
 	public void doesNotExist() {
-		Hotel.cancelBooking("XPTO");
+		HotelInterface.cancelBooking("XPTO");
 	}
 
 	@Test(expected = HotelException.class)
 	public void nullReference() {
-		Hotel.cancelBooking(null);
+		HotelInterface.cancelBooking(null);
 	}
 
 	@Test(expected = HotelException.class)
 	public void emptyReference() {
-		Hotel.cancelBooking("");
+		HotelInterface.cancelBooking("");
 	}
 
 }

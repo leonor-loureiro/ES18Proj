@@ -1,12 +1,17 @@
-package pt.ulisboa.tecnico.softeng.bank.domain;
+package pt.ulisboa.tecnico.softeng.bank.services.local;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import pt.ulisboa.tecnico.softeng.bank.domain.Account;
+import pt.ulisboa.tecnico.softeng.bank.domain.Bank;
+import pt.ulisboa.tecnico.softeng.bank.domain.Client;
+import pt.ulisboa.tecnico.softeng.bank.domain.RollbackTestAbstractClass;
 import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
+import pt.ulisboa.tecnico.softeng.bank.services.local.BankInterface;
 
-public class BankProcessPaymentMethodTest extends RollbackTestAbstractClass {
+public class BankInterfaceProcessPaymentMethodTest extends RollbackTestAbstractClass {
 	private Bank bank;
 	private Account account;
 	private String iban;
@@ -22,7 +27,7 @@ public class BankProcessPaymentMethodTest extends RollbackTestAbstractClass {
 
 	@Test
 	public void success() {
-		Bank.processPayment(this.iban, 100);
+		BankInterface.processPayment(this.iban, 100);
 
 		assertEquals(400, this.account.getBalance());
 	}
@@ -35,38 +40,38 @@ public class BankProcessPaymentMethodTest extends RollbackTestAbstractClass {
 		String otherIban = otherAccount.getIBAN();
 		otherAccount.deposit(1000);
 
-		Bank.processPayment(otherIban, 100);
+		BankInterface.processPayment(otherIban, 100);
 		assertEquals(900, otherAccount.getBalance());
 
-		Bank.processPayment(this.iban, 100);
+		BankInterface.processPayment(this.iban, 100);
 		assertEquals(400, this.account.getBalance());
 	}
 
 	@Test(expected = BankException.class)
 	public void nullIban() {
-		Bank.processPayment(null, 100);
+		BankInterface.processPayment(null, 100);
 	}
 
 	@Test(expected = BankException.class)
 	public void emptyIban() {
-		Bank.processPayment("  ", 100);
+		BankInterface.processPayment("  ", 100);
 	}
 
 	@Test(expected = BankException.class)
 	public void zeroAmount() {
-		Bank.processPayment(this.iban, 0);
+		BankInterface.processPayment(this.iban, 0);
 	}
 
 	@Test
 	public void oneAmount() {
-		Bank.processPayment(this.iban, 1);
+		BankInterface.processPayment(this.iban, 1);
 
 		assertEquals(499, this.account.getBalance());
 	}
 
 	@Test(expected = BankException.class)
 	public void notExistIban() {
-		Bank.processPayment("other", 0);
+		BankInterface.processPayment("other", 0);
 	}
 
 }

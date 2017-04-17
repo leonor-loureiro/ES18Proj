@@ -1,4 +1,4 @@
-package pt.ulisboa.tecnico.softeng.activity.domain;
+package pt.ulisboa.tecnico.softeng.activity.services.local;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -6,9 +6,15 @@ import static org.junit.Assert.assertTrue;
 import org.joda.time.LocalDate;
 import org.junit.Test;
 
+import pt.ulisboa.tecnico.softeng.activity.domain.Activity;
+import pt.ulisboa.tecnico.softeng.activity.domain.ActivityOffer;
+import pt.ulisboa.tecnico.softeng.activity.domain.ActivityProvider;
+import pt.ulisboa.tecnico.softeng.activity.domain.Booking;
+import pt.ulisboa.tecnico.softeng.activity.domain.RollbackTestAbstractClass;
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
+import pt.ulisboa.tecnico.softeng.activity.services.local.ActivityInterface;
 
-public class ActivityProviderCancelReservationMethodTest extends RollbackTestAbstractClass {
+public class ActivityInterfaceCancelReservationMethodTest extends RollbackTestAbstractClass {
 	private ActivityProvider provider;
 	private ActivityOffer offer;
 
@@ -26,7 +32,7 @@ public class ActivityProviderCancelReservationMethodTest extends RollbackTestAbs
 	public void success() {
 		Booking booking = new Booking(this.offer);
 
-		String cancel = ActivityProvider.cancelReservation(booking.getReference());
+		String cancel = ActivityInterface.cancelReservation(booking.getReference());
 
 		assertTrue(booking.isCancelled());
 		assertEquals(cancel, booking.getCancel());
@@ -36,7 +42,7 @@ public class ActivityProviderCancelReservationMethodTest extends RollbackTestAbs
 	public void doesNotExist() {
 		new Booking(this.offer);
 
-		ActivityProvider.cancelReservation("XPTO");
+		ActivityInterface.cancelReservation("XPTO");
 	}
 
 }
