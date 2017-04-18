@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.joda.time.LocalDate;
 
@@ -14,9 +15,21 @@ import pt.ulisboa.tecnico.softeng.hotel.domain.Booking;
 import pt.ulisboa.tecnico.softeng.hotel.domain.Hotel;
 import pt.ulisboa.tecnico.softeng.hotel.domain.Room;
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
+import pt.ulisboa.tecnico.softeng.hotel.services.local.dataobjects.HotelData;
 import pt.ulisboa.tecnico.softeng.hotel.services.local.dataobjects.RoomBookingData;
 
 public class HotelInterface {
+
+	@Atomic(mode = TxMode.READ)
+	public static List<HotelData> getHotels() {
+		return FenixFramework.getDomainRoot().getHotelSet().stream().map(h -> new HotelData(h))
+				.collect(Collectors.toList());
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	public static void createHotel(HotelData hotelData) {
+		new Hotel(hotelData.getCode(), hotelData.getName());
+	}
 
 	@Atomic(mode = TxMode.WRITE)
 	public static String reserveRoom(Room.Type type, LocalDate arrival, LocalDate departure) {
