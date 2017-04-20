@@ -104,4 +104,8 @@ public class Hotel extends Hotel_Base {
 		return null;
 	}
 
+	public Room getRoomByNumber(String number) {
+		return getRoomSet().stream().filter(r -> r.getNumber().equals(number)).findFirst().orElse(null);
+	}
+
 }

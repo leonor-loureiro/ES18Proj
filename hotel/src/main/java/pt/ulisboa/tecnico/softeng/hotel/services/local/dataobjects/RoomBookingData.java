@@ -1,9 +1,9 @@
 package pt.ulisboa.tecnico.softeng.hotel.services.local.dataobjects;
 
 import org.joda.time.LocalDate;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import pt.ulisboa.tecnico.softeng.hotel.domain.Booking;
-import pt.ulisboa.tecnico.softeng.hotel.domain.Room;
 
 public class RoomBookingData {
 	private String reference;
@@ -12,20 +12,23 @@ public class RoomBookingData {
 	private String hotelCode;
 	private String roomNumber;
 	private String roomType;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate arrival;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate departure;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate cancellationDate;
 
 	public RoomBookingData() {
 	}
 
-	public RoomBookingData(Room room, Booking booking) {
+	public RoomBookingData(Booking booking) {
 		this.reference = booking.getReference();
 		this.cancellation = booking.getCancellation();
-		this.hotelName = room.getHotel().getName();
-		this.hotelCode = room.getHotel().getCode();
-		this.roomNumber = room.getNumber();
-		this.roomType = room.getType().name();
+		this.hotelName = booking.getRoom().getHotel().getName();
+		this.hotelCode = booking.getRoom().getHotel().getCode();
+		this.roomNumber = booking.getRoom().getNumber();
+		this.roomType = booking.getRoom().getType().name();
 		this.arrival = booking.getArrival();
 		this.departure = booking.getDeparture();
 		this.cancellationDate = booking.getCancellationDate();
