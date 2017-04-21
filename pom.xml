@@ -22,6 +22,7 @@
 
 		<version.junit.junit>4.12</version.junit.junit>
 		<version.org.jmockit.jmockit>1.30</version.org.jmockit.jmockit>
+		<version.com.lazerycode.jmeter>2.1.0</version.com.lazerycode.jmeter>
 
 		<version.org.slf4j>1.7.25</version.org.slf4j>
 		<version.ch.qos.logback>1.2.3</version.ch.qos.logback>
@@ -35,6 +36,23 @@
 		<fenix.framework.codeGeneratorClassName>pt.ist.fenixframework.backend.jvstmojb.codeGenerator.FenixCodeGeneratorOneBoxPerObject</fenix.framework.codeGeneratorClassName>
 		<fenix.framework.backend>jvstm-ojb</fenix.framework.backend>
 	</properties>
+
+	<profiles>
+		<profile>
+			<id>jmeter</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<configuration>
+							<skipTests>true</skipTests>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 
 	<build>
 		<finalName>broker</finalName>
@@ -82,6 +100,29 @@
 				</plugin>
 			</plugins>
 		</pluginManagement>
+		
+		<plugins>
+			<!-- JMeter -->
+			<plugin>
+				<groupId>com.lazerycode.jmeter</groupId>
+				<artifactId>jmeter-maven-plugin</artifactId>
+				<version>${version.com.lazerycode.jmeter}</version>
+				<inherited>false</inherited>
+				<executions>
+					<execution>
+						<id>jmeter-tests</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>jmeter</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<jmeterVersion>3.1</jmeterVersion>
+					<testFilesDirectory>jmeter/tests/</testFilesDirectory>
+				</configuration>
+			</plugin>
+		</plugins>
 	</build>
 
 	<dependencies>
