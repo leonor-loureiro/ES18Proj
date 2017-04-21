@@ -69,17 +69,7 @@ public class ActivityInterface {
 			throw new ActivityException();
 		}
 
-		ActivityOffer off = new ActivityOffer(activity, offer.getBegin(), offer.getEnd());
-
-		new Booking(off);
-		new Booking(off);
-		new Booking(off);
-		new Booking(off);
-		new Booking(off);
-		new Booking(off);
-		new Booking(off);
-		new Booking(off);
-		new Booking(off);
+		new ActivityOffer(activity, offer.getBegin(), offer.getEnd());
 	}
 
 	@Atomic(mode = TxMode.WRITE)
