@@ -28,6 +28,12 @@ public class ActivityReservationData {
 		this.cancellationDate = booking.getCancellationDate();
 	}
 
+	public ActivityReservationData(Booking booking) {
+		this.reference = booking.getReference();
+		this.cancellation = booking.getCancel();
+		this.cancellationDate = booking.getCancellationDate();
+	}
+
 	public String getReference() {
 		return this.reference;
 	}
