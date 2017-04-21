@@ -16,7 +16,7 @@ import pt.ulisboa.tecnico.softeng.broker.services.local.dataobjects.BrokerData;
 import pt.ulisboa.tecnico.softeng.broker.services.local.dataobjects.BrokerData.CopyDepth;
 
 @Controller
-@RequestMapping(value = "/brokers/broker/{brokerCode}/adventures")
+@RequestMapping(value = "/brokers/{brokerCode}/adventures")
 public class AdventureController {
 	private static Logger logger = LoggerFactory.getLogger(AdventureController.class);
 
@@ -54,7 +54,7 @@ public class AdventureController {
 			return "adventures";
 		}
 
-		return "redirect:/brokers/broker/" + brokerCode + "/adventures";
+		return "redirect:/brokers/" + brokerCode + "/adventures";
 	}
 
 }
