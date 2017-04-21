@@ -37,9 +37,9 @@
 					<td th:text="${broker.name}">Name</td>
 					<td th:text="${broker.code}">Code</td>
 					<td><a
-						th:href="@{/brokers/broker/{code}/adventures(code=${broker.code})}">Link</a></td>
+						th:href="@{/brokers/{code}/adventures(code=${broker.code})}">Link</a></td>
 					<td><a
-						th:href="@{/brokers/broker/{code}/bulks(code=${broker.code})}">Link</a></td>
+						th:href="@{/brokers/{code}/bulks(code=${broker.code})}">Link</a></td>
 				</tr>
 			</tbody>
 		</table>

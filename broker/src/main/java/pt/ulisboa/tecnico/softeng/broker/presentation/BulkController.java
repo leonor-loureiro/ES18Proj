@@ -16,7 +16,7 @@ import pt.ulisboa.tecnico.softeng.broker.services.local.dataobjects.BrokerData.C
 import pt.ulisboa.tecnico.softeng.broker.services.local.dataobjects.BulkData;
 
 @Controller
-@RequestMapping(value = "/brokers/broker/{brokerCode}/bulks")
+@RequestMapping(value = "/brokers/{brokerCode}/bulks")
 public class BulkController {
 	private static Logger logger = LoggerFactory.getLogger(AdventureController.class);
 
@@ -52,7 +52,7 @@ public class BulkController {
 			return "bulks";
 		}
 
-		return "redirect:/brokers/broker/" + brokerCode + "/bulks";
+		return "redirect:/brokers/" + brokerCode + "/bulks";
 	}
 
 }

@@ -16,7 +16,7 @@ import pt.ulisboa.tecnico.softeng.hotel.services.local.dataobjects.RoomBookingDa
 import pt.ulisboa.tecnico.softeng.hotel.services.local.dataobjects.RoomData;
 
 @Controller
-@RequestMapping(value = "/hotels/hotel/{code}/rooms/room/{number}/bookings")
+@RequestMapping(value = "/hotels/{code}/rooms/{number}/bookings")
 public class BookingController {
 	private static Logger logger = LoggerFactory.getLogger(BookingController.class);
 
@@ -54,6 +54,6 @@ public class BookingController {
 			return "bookings";
 		}
 
-		return "redirect:/hotels/hotel/" + code + "/rooms/room/" + number + "/bookings";
+		return "redirect:/hotels/" + code + "/rooms/" + number + "/bookings";
 	}
 }

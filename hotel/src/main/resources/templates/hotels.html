@@ -36,7 +36,7 @@
 					<td th:text="${hotel.name}">Name</td>
 					<td th:text="${hotel.code}">Code</td>
 				 	<td><a
-						th:href="@{/hotels/hotel/{code}/rooms(code=${hotel.code})}">Rooms</a></td>
+						th:href="@{/hotels/{code}/rooms(code=${hotel.code})}">Rooms</a></td>
 				</tr>
 			</tbody>
 		</table>

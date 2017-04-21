@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>Broker's Manager Welcome</title>
+<title>Adventures</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
 <link rel="stylesheet"
@@ -19,7 +19,7 @@
 		<br/>
 		<h3>Create Adventure</h3>
 		<p class="text-danger" th:text="${error}">Error</p>
-		<form class="form-inline" th:action="@{/brokers/broker/{code}/adventures(code=${broker.code})}" th:object="${adventure}" method="post">
+		<form class="form-inline" th:action="@{/brokers/{code}/adventures(code=${broker.code})}" th:object="${adventure}" method="post">
 	 		<label>Begin: </label> <input class="form-control" type="date" th:field="*{begin}" /> 
 			<label>End: </label> <input class="form-control" type="date" th:field="*{end}" />  
 			<label>Age: </label> <input class="form-control" type="number" th:field="*{age}" /> 
