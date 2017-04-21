@@ -27,7 +27,7 @@ public class HotelController {
 
 	@RequestMapping(method = RequestMethod.POST)
 	public String hotelSubmit(Model model, @ModelAttribute HotelData hotelData) {
-		logger.info("brokerSubmit name:{}, code:{}", hotelData.getName(), hotelData.getCode());
+		logger.info("hotelSubmit name:{}, code:{}", hotelData.getName(), hotelData.getCode());
 
 		try {
 			HotelInterface.createHotel(hotelData);
@@ -40,4 +40,5 @@ public class HotelController {
 
 		return "redirect:/hotels";
 	}
+
 }
