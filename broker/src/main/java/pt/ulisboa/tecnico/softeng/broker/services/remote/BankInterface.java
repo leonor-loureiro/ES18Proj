@@ -30,13 +30,36 @@ public class BankInterface {
 	}
 
 	public static String cancelPayment(String reference) {
-		// TODO: implement in the final version as a rest invocation
-		return null;
+		logger.info("cancelPayment reference:{}", reference);
+
+		RestTemplate restTemplate = new RestTemplate();
+		try {
+			String result = restTemplate.postForObject(ENDPOINT + "/rest/banks/cancel?reference=" + reference, null,
+					String.class);
+			return result;
+		} catch (HttpClientErrorException e) {
+			throw new BankException();
+		} catch (Exception e) {
+			throw new RemoteAccessException();
+		}
 	}
 
 	public static BankOperationData getOperationData(String reference) {
-		// TODO: implement in the final version as a rest invocation
-		return null;
+		logger.info("getOperationData reference:{}", reference);
+
+		RestTemplate restTemplate = new RestTemplate();
+		try {
+			BankOperationData result = restTemplate
+					.getForObject(ENDPOINT + "/rest/banks/operation?reference=" + reference, BankOperationData.class);
+			logger.info("getOperationData iban:{}", result.getIban());
+			return result;
+		} catch (HttpClientErrorException e) {
+			throw new BankException();
+		} catch (Exception e) {
+			logger.info("getOperationData REMOTE");
+
+			throw new RemoteAccessException();
+		}
 	}
 
 }

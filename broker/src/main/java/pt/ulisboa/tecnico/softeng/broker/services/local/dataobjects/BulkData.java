@@ -9,6 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import pt.ulisboa.tecnico.softeng.broker.domain.BulkRoomBooking;
 
 public class BulkData {
+	private String id;
 	private Integer number;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate arrival;
@@ -22,6 +23,7 @@ public class BulkData {
 	}
 
 	public BulkData(BulkRoomBooking bulkRoomBooking) {
+		this.id = bulkRoomBooking.getId();
 		this.number = bulkRoomBooking.getNumber();
 		this.arrival = bulkRoomBooking.getArrival();
 		this.departure = bulkRoomBooking.getDeparture();
@@ -30,9 +32,14 @@ public class BulkData {
 
 		this.references = bulkRoomBooking.getReferenceSet().stream().map(r -> r.getValue())
 				.collect(Collectors.toList());
+	}
 
-		this.references.add("fjhkdsl");
-		this.references.add("jkfhglkfdsg");
+	public String getId() {
+		return this.id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public Integer getNumber() {

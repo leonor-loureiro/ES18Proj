@@ -1,5 +1,7 @@
 package pt.ulisboa.tecnico.softeng.broker.services.remote;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.joda.time.LocalDate;
@@ -37,17 +39,45 @@ public class HotelInterface {
 	}
 
 	public static String cancelBooking(String roomConfirmation) {
-		// TODO: implement in the final version as a rest invocation
-		return null;
+		logger.info("cancelBooking roomConfirmation:{}", roomConfirmation);
+		RestTemplate restTemplate = new RestTemplate();
+		try {
+			String result = restTemplate.postForObject(ENDPOINT + "/rest/hotels/cancel?reference=" + roomConfirmation,
+					null, String.class);
+			return result;
+		} catch (HttpClientErrorException e) {
+			throw new HotelException();
+		} catch (Exception e) {
+			throw new RemoteAccessException();
+		}
 	}
 
 	public static RoomBookingData getRoomBookingData(String reference) {
-		// TODO: implement in the final version as a rest invocation
-		return null;
+		logger.info("getRoomBookingData reference:{}", reference);
+		RestTemplate restTemplate = new RestTemplate();
+		try {
+			RoomBookingData result = restTemplate.getForObject(ENDPOINT + "/rest/hotels/booking?reference=" + reference,
+					RoomBookingData.class);
+			return result;
+		} catch (HttpClientErrorException e) {
+			throw new HotelException();
+		} catch (Exception e) {
+			throw new RemoteAccessException();
+		}
 	}
 
 	public static Set<String> bulkBooking(int number, LocalDate arrival, LocalDate departure) {
-		// TODO: implement in the final version as a rest invocation
-		return null;
+		logger.info("bulkBooking number:{}, arrival:{}, departure:{}", number, arrival, departure);
+		RestTemplate restTemplate = new RestTemplate();
+		try {
+			String[] result = restTemplate.postForObject(
+					ENDPOINT + "/rest/hotels/bulk?number=" + number + "&arrival=" + arrival + "&departure=" + departure,
+					null, String[].class);
+			return new HashSet<>(Arrays.asList(result));
+		} catch (HttpClientErrorException e) {
+			throw new HotelException();
+		} catch (Exception e) {
+			throw new RemoteAccessException();
+		}
 	}
 }

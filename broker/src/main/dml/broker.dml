@@ -62,6 +62,7 @@ relation AdventureHasState {
 }
 
 class BulkRoomBooking {
+	String id;
 	int number;
 	LocalDate arrival;
 	LocalDate departure;

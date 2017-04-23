@@ -55,4 +55,13 @@ public class BulkController {
 		return "redirect:/brokers/" + brokerCode + "/bulks";
 	}
 
+	@RequestMapping(value = "/{bulkId}/process", method = RequestMethod.POST)
+	public String processBulk(Model model, @PathVariable String brokerCode, @PathVariable String bulkId) {
+		logger.info("processBulk brokerCode:{}, bulkId:{}, ", brokerCode, bulkId);
+
+		BrokerInterface.processBulk(brokerCode, bulkId);
+
+		return "redirect:/brokers/" + brokerCode + "/bulks";
+	}
+
 }

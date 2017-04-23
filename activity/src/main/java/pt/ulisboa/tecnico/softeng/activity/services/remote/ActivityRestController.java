@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
 import pt.ulisboa.tecnico.softeng.activity.services.local.ActivityInterface;
+import pt.ulisboa.tecnico.softeng.activity.services.local.dataobjects.ActivityReservationData;
 
 @RestController
 @RequestMapping(value = "/rest/providers")
@@ -29,4 +30,25 @@ public class ActivityRestController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
+
+	@RequestMapping(value = "/cancel", method = RequestMethod.POST)
+	public ResponseEntity<String> cancel(@RequestParam String reference) {
+		logger.info("cancel reference:{}", reference);
+		try {
+			return new ResponseEntity<>(ActivityInterface.cancelReservation(reference), HttpStatus.OK);
+		} catch (ActivityException be) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
+
+	@RequestMapping(value = "/reservation", method = RequestMethod.GET)
+	public ResponseEntity<ActivityReservationData> reservation(@RequestParam String reference) {
+		logger.info("reservation reference:{}", reference);
+		try {
+			return new ResponseEntity<>(ActivityInterface.getActivityReservationData(reference), HttpStatus.OK);
+		} catch (ActivityException be) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
+
 }

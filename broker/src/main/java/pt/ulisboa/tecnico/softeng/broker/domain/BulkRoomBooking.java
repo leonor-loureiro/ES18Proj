@@ -18,6 +18,7 @@ public class BulkRoomBooking extends BulkRoomBooking_Base {
 	public BulkRoomBooking(Broker broker, int number, LocalDate arrival, LocalDate departure) {
 		checkArguments(number, arrival, departure);
 
+		setId(Integer.toString(broker.getCounter()));
 		setNumber(number);
 		setArrival(arrival);
 		setDeparture(departure);
@@ -47,7 +48,7 @@ public class BulkRoomBooking extends BulkRoomBooking_Base {
 	}
 
 	public void processBooking() {
-		if (getCancelled()) {
+		if (getCancelled() || getReferenceSet().size() != 0) {
 			return;
 		}
 

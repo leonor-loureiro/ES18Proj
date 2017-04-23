@@ -31,12 +31,30 @@ public class ActivityInterface {
 	}
 
 	public static String cancelReservation(String activityConfirmation) {
-		// TODO: implement in the final version as a rest invocation
-		return null;
+		logger.info("cancelReservation activityConfirmation:{}", activityConfirmation);
+		RestTemplate restTemplate = new RestTemplate();
+		try {
+			String result = restTemplate.postForObject(
+					ENDPOINT + "/rest/providers/cancel?reference=" + activityConfirmation, null, String.class);
+			return result;
+		} catch (HttpClientErrorException e) {
+			throw new ActivityException();
+		} catch (Exception e) {
+			throw new RemoteAccessException();
+		}
 	}
 
 	public static ActivityReservationData getActivityReservationData(String reference) {
-		// TODO: implement in the final version as a rest invocation
-		return null;
+		logger.info("getActivityReservationData reference:{}", reference);
+		RestTemplate restTemplate = new RestTemplate();
+		try {
+			ActivityReservationData result = restTemplate.getForObject(
+					ENDPOINT + "/rest/providers/reservation?reference=" + reference, ActivityReservationData.class);
+			return result;
+		} catch (HttpClientErrorException e) {
+			throw new ActivityException();
+		} catch (Exception e) {
+			throw new RemoteAccessException();
+		}
 	}
 }

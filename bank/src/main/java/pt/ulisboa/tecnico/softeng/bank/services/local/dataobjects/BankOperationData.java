@@ -1,7 +1,5 @@
 package pt.ulisboa.tecnico.softeng.bank.services.local.dataobjects;
 
-import org.joda.time.DateTime;
-
 import pt.ulisboa.tecnico.softeng.bank.domain.Operation;
 
 public class BankOperationData {
@@ -9,7 +7,7 @@ public class BankOperationData {
 	private String type;
 	private String iban;
 	private int value;
-	private DateTime time;
+	private String time;
 
 	public BankOperationData() {
 	}
@@ -19,7 +17,7 @@ public class BankOperationData {
 		this.type = operation.getType().name();
 		this.iban = operation.getAccount().getIBAN();
 		this.value = operation.getValue();
-		this.time = operation.getTime();
+		this.time = operation.getTime().toString();
 	}
 
 	public String getReference() {
@@ -54,11 +52,11 @@ public class BankOperationData {
 		this.value = value;
 	}
 
-	public DateTime getTime() {
+	public String getTime() {
 		return this.time;
 	}
 
-	public void setTime(DateTime time) {
+	public void setTime(String time) {
 		this.time = time;
 	}
 }

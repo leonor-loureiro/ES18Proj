@@ -64,6 +64,15 @@ public class BrokerInterface {
 		adventure.process();
 	}
 
+	@Atomic(mode = TxMode.WRITE)
+	public static void processBulk(String brokerCode, String bulkId) {
+		BulkRoomBooking bulkRoomBooking = FenixFramework.getDomainRoot().getBrokerSet().stream()
+				.filter(b -> b.getCode().equals(brokerCode)).flatMap(b -> b.getRoomBulkBookingSet().stream())
+				.filter(r -> r.getId().equals(bulkId)).findFirst().orElse(null);
+
+		bulkRoomBooking.processBooking();
+	}
+
 	private static Broker getBrokerByCode(String code) {
 		for (Broker broker : FenixFramework.getDomainRoot().getBrokerSet()) {
 			if (broker.getCode().equals(code)) {

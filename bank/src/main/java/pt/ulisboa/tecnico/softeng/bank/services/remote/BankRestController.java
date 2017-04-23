@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
 import pt.ulisboa.tecnico.softeng.bank.services.local.BankInterface;
+import pt.ulisboa.tecnico.softeng.bank.services.local.dataobjects.BankOperationData;
 
 @RestController
 @RequestMapping(value = "/rest/banks")
@@ -27,4 +28,26 @@ public class BankRestController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
+
+	@RequestMapping(value = "/cancel", method = RequestMethod.POST)
+	public ResponseEntity<String> cancelPayment(@RequestParam String reference) {
+		logger.info("cancelPayment reference:{}", reference);
+		try {
+			return new ResponseEntity<>(BankInterface.cancelPayment(reference), HttpStatus.OK);
+		} catch (BankException be) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
+
+	@RequestMapping(value = "/operation", method = RequestMethod.GET)
+	public ResponseEntity<BankOperationData> getOperationData(@RequestParam String reference) {
+		logger.info("getOperationData reference:{}", reference);
+		try {
+			BankOperationData result = BankInterface.getOperationData(reference);
+			return new ResponseEntity<>(result, HttpStatus.OK);
+		} catch (BankException be) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
+
 }
