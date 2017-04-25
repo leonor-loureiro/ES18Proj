@@ -40,4 +40,13 @@ public class BrokerController {
 
 		return "redirect:/brokers";
 	}
+
+	@RequestMapping(method = RequestMethod.DELETE)
+	public String deleteBrokers(Model model) {
+		logger.info("deleteBrokers");
+
+		BrokerInterface.deleteBrokers();
+
+		return "redirect:/brokers";
+	}
 }

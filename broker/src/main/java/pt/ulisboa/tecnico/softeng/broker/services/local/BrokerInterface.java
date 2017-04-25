@@ -73,6 +73,13 @@ public class BrokerInterface {
 		bulkRoomBooking.processBooking();
 	}
 
+	@Atomic(mode = TxMode.WRITE)
+	public static void deleteBrokers() {
+		for (Broker broker : FenixFramework.getDomainRoot().getBrokerSet()) {
+			broker.delete();
+		}
+	}
+
 	private static Broker getBrokerByCode(String code) {
 		for (Broker broker : FenixFramework.getDomainRoot().getBrokerSet()) {
 			if (broker.getCode().equals(code)) {
