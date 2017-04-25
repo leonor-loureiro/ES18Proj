@@ -55,6 +55,31 @@ public class BrokerInterface {
 
 	}
 
+	@Atomic(mode = TxMode.WRITE)
+	public static void processAdventure(String brokerCode, String id) {
+		Adventure adventure = FenixFramework.getDomainRoot().getBrokerSet().stream()
+				.filter(b -> b.getCode().equals(brokerCode)).flatMap(b -> b.getAdventureSet().stream())
+				.filter(a -> a.getID().equals(id)).findFirst().orElse(null);
+
+		adventure.process();
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	public static void processBulk(String brokerCode, String bulkId) {
+		BulkRoomBooking bulkRoomBooking = FenixFramework.getDomainRoot().getBrokerSet().stream()
+				.filter(b -> b.getCode().equals(brokerCode)).flatMap(b -> b.getRoomBulkBookingSet().stream())
+				.filter(r -> r.getId().equals(bulkId)).findFirst().orElse(null);
+
+		bulkRoomBooking.processBooking();
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	public static void deleteBrokers() {
+		for (Broker broker : FenixFramework.getDomainRoot().getBrokerSet()) {
+			broker.delete();
+		}
+	}
+
 	private static Broker getBrokerByCode(String code) {
 		for (Broker broker : FenixFramework.getDomainRoot().getBrokerSet()) {
 			if (broker.getCode().equals(code)) {

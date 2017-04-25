@@ -45,6 +45,7 @@
 					<th>Room Cancellation</th>
 					<th>Activity Confirmation</th>
 					<th>Activity Cancellation</th>
+					<th>Process</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -62,6 +63,9 @@
 					<td th:text="${adventure.roomCancellation}">Room Cancellation</td>
 					<td th:text="${adventure.activityConfirmation}">Activity Confirmation</td>
 					<td th:text="${adventure.activityCancellation}">Activity Cancellation</td>
+					<td> <form class="form-inline" th:action="@{/brokers/{code}/adventures/{id}/process(code=${broker.code},id=${adventure.id})}" method="post">
+						 <input class="btn btn-primary" type="submit" value="Submit" />
+					</form></td>
 				</tr>
 			</tbody>
 		</table>
