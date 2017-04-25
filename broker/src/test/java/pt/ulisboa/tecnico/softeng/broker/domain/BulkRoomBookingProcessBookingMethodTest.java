@@ -43,21 +43,18 @@ public class BulkRoomBookingProcessBookingMethodTest extends RollbackTestAbstrac
 	}
 
 	@Test
-	public void successTwice(@Mocked final HotelInterface roomInterface) {
+	public void successFirstFailSecond(@Mocked final HotelInterface roomInterface) {
 		new StrictExpectations() {
 			{
 				HotelInterface.bulkBooking(NUMBER, arrival, departure);
 				this.result = new HashSet<>(Arrays.asList("ref1", "ref2"));
-
-				HotelInterface.bulkBooking(NUMBER, arrival, departure);
-				this.result = new HashSet<>(Arrays.asList("ref3", "ref4"));
 			}
 		};
 
 		this.bulk.processBooking();
 		this.bulk.processBooking();
 
-		assertEquals(4, this.bulk.getReferences().size());
+		assertEquals(2, this.bulk.getReferences().size());
 	}
 
 	@Test
@@ -66,10 +63,6 @@ public class BulkRoomBookingProcessBookingMethodTest extends RollbackTestAbstrac
 			{
 				HotelInterface.bulkBooking(NUMBER, arrival, departure);
 				this.result = new HashSet<>(Arrays.asList("ref1", "ref2"));
-
-				HotelInterface.bulkBooking(NUMBER, arrival, departure);
-				this.result = new HotelException();
-				this.times = 3;
 			}
 		};
 
@@ -149,14 +142,6 @@ public class BulkRoomBookingProcessBookingMethodTest extends RollbackTestAbstrac
 
 				HotelInterface.bulkBooking(NUMBER, arrival, departure);
 				this.result = new HashSet<>(Arrays.asList("ref1", "ref2"));
-
-				HotelInterface.bulkBooking(NUMBER, arrival, departure);
-				this.result = new HotelException();
-				this.times = BulkRoomBooking.MAX_HOTEL_EXCEPTIONS - 1;
-
-				HotelInterface.bulkBooking(NUMBER, arrival, departure);
-				this.result = new HashSet<>(Arrays.asList("ref3", "ref4"));
-
 			}
 		};
 
@@ -167,7 +152,7 @@ public class BulkRoomBookingProcessBookingMethodTest extends RollbackTestAbstrac
 		this.bulk.processBooking();
 		this.bulk.processBooking();
 
-		assertEquals(4, this.bulk.getReferences().size());
+		assertEquals(2, this.bulk.getReferences().size());
 	}
 
 	@Test
@@ -269,14 +254,6 @@ public class BulkRoomBookingProcessBookingMethodTest extends RollbackTestAbstrac
 
 				HotelInterface.bulkBooking(NUMBER, arrival, departure);
 				this.result = new HashSet<>(Arrays.asList("ref1", "ref2"));
-
-				HotelInterface.bulkBooking(NUMBER, arrival, departure);
-				this.result = new RemoteAccessException();
-				this.times = BulkRoomBooking.MAX_REMOTE_ERRORS - 1;
-
-				HotelInterface.bulkBooking(NUMBER, arrival, departure);
-				this.result = new HashSet<>(Arrays.asList("ref3", "ref4"));
-
 			}
 		};
 
@@ -289,7 +266,7 @@ public class BulkRoomBookingProcessBookingMethodTest extends RollbackTestAbstrac
 		}
 		this.bulk.processBooking();
 
-		assertEquals(4, this.bulk.getReferences().size());
+		assertEquals(2, this.bulk.getReferences().size());
 	}
 
 	@Test
