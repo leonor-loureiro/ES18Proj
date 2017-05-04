@@ -122,6 +122,11 @@ public class HotelInterface {
 		return references;
 	}
 
+	@Atomic(mode = TxMode.WRITE)
+	public static void deleteHotels() {
+		FenixFramework.getDomainRoot().getHotelSet().stream().forEach(h -> h.delete());
+	}
+
 	static List<Room> getAvailableRooms(int number, LocalDate arrival, LocalDate departure) {
 		List<Room> availableRooms = new ArrayList<>();
 		for (Hotel hotel : FenixFramework.getDomainRoot().getHotelSet()) {

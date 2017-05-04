@@ -139,6 +139,11 @@ public class BankInterface {
 		throw new BankException();
 	}
 
+	@Atomic(mode = TxMode.WRITE)
+	public static void deleteBanks() {
+		FenixFramework.getDomainRoot().getBankSet().stream().forEach(b -> b.delete());
+	}
+
 	private static Operation getOperationByReference(String reference) {
 		for (Bank bank : FenixFramework.getDomainRoot().getBankSet()) {
 			Operation operation = bank.getOperation(reference);

@@ -108,6 +108,11 @@ public class ActivityInterface {
 		throw new ActivityException();
 	}
 
+	@Atomic(mode = TxMode.WRITE)
+	public static void deleteActivityProviders() {
+		FenixFramework.getDomainRoot().getActivityProviderSet().stream().forEach(p -> p.delete());
+	}
+
 	private static Booking getBookingByReference(String reference) {
 		for (ActivityProvider provider : FenixFramework.getDomainRoot().getActivityProviderSet()) {
 			Booking booking = provider.getBooking(reference);
@@ -132,4 +137,5 @@ public class ActivityInterface {
 		return provider.getActivitySet().stream().filter(a -> a.getCode().equals(codeActivity)).findFirst()
 				.orElse(null);
 	}
+
 }

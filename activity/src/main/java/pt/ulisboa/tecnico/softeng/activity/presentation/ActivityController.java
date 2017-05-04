@@ -4,12 +4,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
 import pt.ulisboa.tecnico.softeng.activity.services.local.ActivityInterface;
 import pt.ulisboa.tecnico.softeng.activity.services.local.dataobjects.ActivityData;
 import pt.ulisboa.tecnico.softeng.activity.services.local.dataobjects.ActivityProviderData;
@@ -35,24 +33,6 @@ public class ActivityController {
 		model.addAttribute("activity", new ActivityData());
 		model.addAttribute("provider", providerData);
 		return "activities";
-	}
-
-	@RequestMapping(method = RequestMethod.POST)
-	public String activitySubmit(Model model, @PathVariable String code, @ModelAttribute ActivityData activity) {
-		logger.info(
-				"activitySubmit providerCode:{}, activityName:{}, activityMinAge:{}, activityMaxAge:{}, activityCapacity:{}",
-				code, activity.getName(), activity.getMinAge(), activity.getMaxAge(), activity.getCapacity());
-
-		try {
-			ActivityInterface.createActivity(code, activity);
-		} catch (ActivityException be) {
-			model.addAttribute("error", "Error: it was not possible to create the activity");
-			model.addAttribute("activity", activity);
-			model.addAttribute("provider", ActivityInterface.getProviderDataByCode(code));
-			return "activities";
-		}
-
-		return "redirect:/providers/" + code + "/activities";
 	}
 
 }
