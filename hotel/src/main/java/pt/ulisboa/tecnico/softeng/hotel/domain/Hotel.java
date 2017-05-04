@@ -47,9 +47,9 @@ public class Hotel extends Hotel_Base {
 	}
 
 	@Override
-	public int getCounter() {
-		int counter = super.getCounter() + 1;
-		setCounter(counter);
+	public int getBookingCounter() {
+		int counter = super.getBookingCounter() + 1;
+		setBookingCounter(counter);
 		return counter;
 	}
 

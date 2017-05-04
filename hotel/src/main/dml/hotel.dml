@@ -5,7 +5,7 @@ enum pt.ulisboa.tecnico.softeng.hotel.domain.Room.Type as RoomType;
 class Hotel {
 	String code;
 	String name;
-	int counter;
+	int bookingCounter;
 }
 
 relation DomainRootHasHotels {

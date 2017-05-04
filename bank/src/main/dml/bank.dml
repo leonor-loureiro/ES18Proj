@@ -5,7 +5,9 @@ enum pt.ulisboa.tecnico.softeng.bank.domain.Operation.Type as OperationType;
 class Bank {
 	String name;
 	String code;
-	int counter;
+	int clientCounter;
+	int accountCounter;
+	int operationCounter;
 }
 
 relation DomainRootHasBankApplication {

@@ -7,7 +7,7 @@ public class Account extends Account_Base {
 	public Account(Bank bank, Client client) {
 		checkArguments(bank, client);
 
-		setIBAN(bank.getCode() + Integer.toString(bank.getCounter()));
+		setIBAN(bank.getCode() + Integer.toString(bank.getAccountCounter()));
 		setBalance(0);
 
 		setClient(client);
