@@ -50,9 +50,23 @@ public class Bank extends Bank_Base {
 	}
 
 	@Override
-	public int getCounter() {
-		int counter = super.getCounter() + 1;
-		setCounter(counter);
+	public int getClientCounter() {
+		int counter = super.getClientCounter() + 1;
+		setClientCounter(counter);
+		return counter;
+	}
+
+	@Override
+	public int getAccountCounter() {
+		int counter = super.getAccountCounter() + 1;
+		setAccountCounter(counter);
+		return counter;
+	}
+
+	@Override
+	public int getOperationCounter() {
+		int counter = super.getOperationCounter() + 1;
+		setOperationCounter(counter);
 		return counter;
 	}
 

@@ -18,7 +18,7 @@ public class BulkRoomBooking extends BulkRoomBooking_Base {
 	public BulkRoomBooking(Broker broker, int number, LocalDate arrival, LocalDate departure) {
 		checkArguments(number, arrival, departure);
 
-		setId(Integer.toString(broker.getCounter()));
+		setId(Integer.toString(broker.getBulkCounter()));
 		setNumber(number);
 		setArrival(arrival);
 		setDeparture(departure);

@@ -47,9 +47,16 @@ public class ActivityProvider extends ActivityProvider_Base {
 	}
 
 	@Override
-	public int getCounter() {
-		int counter = super.getCounter() + 1;
-		setCounter(counter);
+	public int getActivityCounter() {
+		int counter = super.getActivityCounter() + 1;
+		setActivityCounter(counter);
+		return counter;
+	}
+
+	@Override
+	public int getBookingCounter() {
+		int counter = super.getBookingCounter() + 1;
+		setBookingCounter(counter);
 		return counter;
 	}
 

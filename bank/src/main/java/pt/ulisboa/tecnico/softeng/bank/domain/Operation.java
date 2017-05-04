@@ -12,7 +12,7 @@ public class Operation extends Operation_Base {
 	public Operation(Type type, Account account, int value) {
 		checkArguments(type, account, value);
 
-		setReference(account.getBank().getCode() + Integer.toString(account.getBank().getCounter()));
+		setReference(account.getBank().getCode() + Integer.toString(account.getBank().getOperationCounter()));
 		setType(type);
 		setValue(value);
 		setTime(DateTime.now());

@@ -16,7 +16,7 @@ public class Adventure extends Adventure_Base {
 	public Adventure(Broker broker, LocalDate begin, LocalDate end, int age, String IBAN, int amount) {
 		checkArguments(broker, begin, end, age, IBAN, amount);
 
-		setID(broker.getCode() + Integer.toString(broker.getCounter()));
+		setID(broker.getCode() + Integer.toString(broker.getAdventureCounter()));
 		setBegin(begin);
 		setEnd(end);
 		setAge(age);

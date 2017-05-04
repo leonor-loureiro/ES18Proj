@@ -7,7 +7,7 @@ public class Client extends Client_Base {
 	public Client(Bank bank, String name) {
 		checkArguments(bank, name);
 
-		setID(Integer.toString(bank.getCounter()));
+		setID(Integer.toString(bank.getClientCounter()));
 		setName(name);
 
 		setBank(bank);

@@ -53,9 +53,16 @@ public class Broker extends Broker_Base {
 	}
 
 	@Override
-	public int getCounter() {
-		int counter = super.getCounter() + 1;
-		setCounter(counter);
+	public int getAdventureCounter() {
+		int counter = super.getAdventureCounter() + 1;
+		setAdventureCounter(counter);
+		return counter;
+	}
+
+	@Override
+	public int getBulkCounter() {
+		int counter = super.getBulkCounter() + 1;
+		setBulkCounter(counter);
 		return counter;
 	}
 

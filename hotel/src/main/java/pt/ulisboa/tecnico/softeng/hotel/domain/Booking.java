@@ -12,7 +12,7 @@ public class Booking extends Booking_Base {
 			throw new HotelException();
 		}
 
-		setReference(room.getHotel().getCode() + Integer.toString(room.getHotel().getCounter()));
+		setReference(room.getHotel().getCode() + Integer.toString(room.getHotel().getBookingCounter()));
 		setArrival(arrival);
 		setDeparture(departure);
 

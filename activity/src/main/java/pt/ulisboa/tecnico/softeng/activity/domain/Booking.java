@@ -10,7 +10,7 @@ public class Booking extends Booking_Base {
 		checkArguments(offer);
 
 		setReference(offer.getActivity().getActivityProvider().getCode()
-				+ Integer.toString(offer.getActivity().getActivityProvider().getCounter()));
+				+ Integer.toString(offer.getActivity().getActivityProvider().getBookingCounter()));
 
 		setActivityOffer(offer);
 	}
