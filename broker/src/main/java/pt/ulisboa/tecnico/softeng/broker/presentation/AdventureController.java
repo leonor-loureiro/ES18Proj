@@ -59,7 +59,7 @@ public class AdventureController {
 
 	@RequestMapping(value = "/{id}/process", method = RequestMethod.POST)
 	public String processAdventure(Model model, @PathVariable String brokerCode, @PathVariable String id) {
-		logger.info("processAdventure brokerCode:{}, adventureId:{}", id);
+		logger.info("processAdventure brokerCode:{}, adventureId:{}", brokerCode, id);
 
 		BrokerInterface.processAdventure(brokerCode, id);
 

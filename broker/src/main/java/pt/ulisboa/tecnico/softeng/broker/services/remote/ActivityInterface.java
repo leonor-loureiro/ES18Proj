@@ -24,8 +24,10 @@ public class ActivityInterface {
 					String.class);
 			return result;
 		} catch (HttpClientErrorException e) {
+			logger.info("reserveActivity HttpClientErrorException begin:{}, end:{}, age:{}", begin, end, age);
 			throw new ActivityException();
 		} catch (Exception e) {
+			logger.info("reserveActivity Exception begin:{}, end:{}, age:{}", begin, end, age);
 			throw new RemoteAccessException();
 		}
 	}
@@ -38,8 +40,10 @@ public class ActivityInterface {
 					ENDPOINT + "/rest/providers/cancel?reference=" + activityConfirmation, null, String.class);
 			return result;
 		} catch (HttpClientErrorException e) {
+			logger.info("cancelReservation HttpClientErrorException activityConfirmation:{}", activityConfirmation);
 			throw new ActivityException();
 		} catch (Exception e) {
+			logger.info("cancelReservation Exception activityConfirmation:{}", activityConfirmation);
 			throw new RemoteAccessException();
 		}
 	}
@@ -52,8 +56,10 @@ public class ActivityInterface {
 					ENDPOINT + "/rest/providers/reservation?reference=" + reference, ActivityReservationData.class);
 			return result;
 		} catch (HttpClientErrorException e) {
+			logger.info("getActivityReservationData HttpClientErrorException:{}", reference);
 			throw new ActivityException();
 		} catch (Exception e) {
+			logger.info("getActivityReservationData Exception:{}", reference);
 			throw new RemoteAccessException();
 		}
 	}

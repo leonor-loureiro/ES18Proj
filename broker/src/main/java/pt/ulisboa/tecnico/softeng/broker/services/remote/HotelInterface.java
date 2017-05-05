@@ -32,8 +32,10 @@ public class HotelInterface {
 					null, String.class);
 			return result;
 		} catch (HttpClientErrorException e) {
+			logger.info("reserveRoom HttpClientErrorException arrival:{}, departure:{}", arrival, departure);
 			throw new HotelException();
 		} catch (Exception e) {
+			logger.info("reserveRoom RemoteAccessException arrival:{}, departure:{}", arrival, departure);
 			throw new RemoteAccessException();
 		}
 	}
@@ -46,8 +48,10 @@ public class HotelInterface {
 					null, String.class);
 			return result;
 		} catch (HttpClientErrorException e) {
+			logger.info("cancelBooking HttpClientErrorException roomConfirmation:{}", roomConfirmation);
 			throw new HotelException();
 		} catch (Exception e) {
+			logger.info("cancelBooking RemoteAccessException roomConfirmation:{}", roomConfirmation);
 			throw new RemoteAccessException();
 		}
 	}
@@ -60,8 +64,10 @@ public class HotelInterface {
 					RoomBookingData.class);
 			return result;
 		} catch (HttpClientErrorException e) {
+			logger.info("getRoomBookingData HttpClientErrorException reference:{}", reference);
 			throw new HotelException();
 		} catch (Exception e) {
+			logger.info("getRoomBookingData Exception reference:{}", reference);
 			throw new RemoteAccessException();
 		}
 	}

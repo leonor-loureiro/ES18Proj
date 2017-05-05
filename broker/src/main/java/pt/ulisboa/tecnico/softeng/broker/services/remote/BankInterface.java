@@ -23,8 +23,10 @@ public class BankInterface {
 					ENDPOINT + "/rest/banks/accounts/" + iban + "/processPayment?amount=" + amount, null, String.class);
 			return result;
 		} catch (HttpClientErrorException e) {
+			logger.info("processPayment HttpClientErrorException  iban:{}, amount:{}", iban, amount);
 			throw new BankException();
 		} catch (Exception e) {
+			logger.info("processPayment Exception  iban:{}, amount:{}", iban, amount);
 			throw new RemoteAccessException();
 		}
 	}
@@ -38,8 +40,10 @@ public class BankInterface {
 					String.class);
 			return result;
 		} catch (HttpClientErrorException e) {
+			logger.info("cancelPayment HttpClientErrorException reference:{}", reference);
 			throw new BankException();
 		} catch (Exception e) {
+			logger.info("cancelPayment Exception reference:{}", reference);
 			throw new RemoteAccessException();
 		}
 	}
@@ -54,10 +58,10 @@ public class BankInterface {
 			logger.info("getOperationData iban:{}", result.getIban());
 			return result;
 		} catch (HttpClientErrorException e) {
+			logger.info("getOperationData HttpClientErrorException reference:{}", reference);
 			throw new BankException();
 		} catch (Exception e) {
-			logger.info("getOperationData REMOTE");
-
+			logger.info("getOperationData Exception reference:{}", reference);
 			throw new RemoteAccessException();
 		}
 	}
