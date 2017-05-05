@@ -15,13 +15,12 @@ public class ActivityInterface {
 
 	private static String ENDPOINT = "http://localhost:8081";
 
-	public static String reserveActivity(LocalDate begin, LocalDate end, int age) {
-		logger.info("reserveActivity begin:{}, end:{}, age:{}", begin, end, age);
+	public static String reserveActivity(LocalDate begin, LocalDate end, int age, String adventureId) {
+		logger.info("reserveActivity begin:{}, end:{}, age:{}, adventureId:{}", begin, end, age, adventureId);
 		RestTemplate restTemplate = new RestTemplate();
 		try {
-			String result = restTemplate.postForObject(
-					ENDPOINT + "/rest/providers/reserve?begin=" + begin + "&end=" + end + "&age=" + age, null,
-					String.class);
+			String result = restTemplate.postForObject(ENDPOINT + "/rest/providers/reserve?begin=" + begin + "&end="
+					+ end + "&age=" + age + "&adventureId=" + adventureId, null, String.class);
 			return result;
 		} catch (HttpClientErrorException e) {
 			throw new ActivityException();

@@ -17,7 +17,7 @@ public class ReserveActivityState extends ReserveActivityState_Base {
 	public void process() {
 		try {
 			getAdventure().setActivityConfirmation(ActivityInterface.reserveActivity(getAdventure().getBegin(),
-					getAdventure().getEnd(), getAdventure().getAge()));
+					getAdventure().getEnd(), getAdventure().getAge(), getAdventure().getID()));
 		} catch (ActivityException ae) {
 			getAdventure().setState(State.UNDO);
 			return;

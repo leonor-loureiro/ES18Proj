@@ -108,4 +108,11 @@ public class Hotel extends Hotel_Base {
 		return getRoomSet().stream().filter(r -> r.getNumber().equals(number)).findFirst().orElse(null);
 	}
 
+	public Booking getBooking4AdventureId(String adventureId) {
+		return getRoomSet().stream().flatMap(r -> r.getBookingSet().stream())
+				.filter(b -> b.getAdventureId() != null && b.getAdventureId().equals(adventureId)).findFirst()
+				.orElse(null);
+
+	}
+
 }

@@ -69,11 +69,18 @@ public class HotelInterface {
 	}
 
 	@Atomic(mode = TxMode.WRITE)
-	public static String reserveRoom(Room.Type type, LocalDate arrival, LocalDate departure) {
+	public static String reserveRoom(Room.Type type, LocalDate arrival, LocalDate departure, String adventureId) {
+		Booking booking = getBooking4AdventureId(adventureId);
+		if (booking != null) {
+			return booking.getReference();
+		}
+
 		for (Hotel hotel : FenixFramework.getDomainRoot().getHotelSet()) {
 			Room room = hotel.hasVacancy(type, arrival, departure);
 			if (room != null) {
-				return room.reserve(type, arrival, departure).getReference();
+				Booking newBooking = room.reserve(type, arrival, departure);
+				newBooking.setAdventureId(adventureId);
+				return newBooking.getReference();
 			}
 		}
 		throw new HotelException();
@@ -83,7 +90,7 @@ public class HotelInterface {
 	public static String cancelBooking(String reference) {
 		for (Hotel hotel : FenixFramework.getDomainRoot().getHotelSet()) {
 			Booking booking = hotel.getBooking(reference);
-			if (booking != null) {
+			if (booking != null && booking.getCancellation() == null) {
 				return booking.cancel();
 			}
 		}
@@ -149,6 +156,16 @@ public class HotelInterface {
 			return null;
 		}
 		return room;
+	}
+
+	private static Booking getBooking4AdventureId(String adventureId) {
+		for (Hotel hotel : FenixFramework.getDomainRoot().getHotelSet()) {
+			Booking booking = hotel.getBooking4AdventureId(adventureId);
+			if (booking != null) {
+				return booking;
+			}
+		}
+		return null;
 	}
 
 }

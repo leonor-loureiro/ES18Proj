@@ -14,13 +14,13 @@ public class BankInterface {
 
 	private static String ENDPOINT = "http://localhost:8082";
 
-	public static String processPayment(String iban, int amount) {
-		logger.info("processPayment iban:{}, amount:{}", iban, amount);
+	public static String processPayment(String iban, int amount, String adventureId) {
+		logger.info("processPayment iban:{}, amount:{}, adventureId:{}", iban, amount, adventureId);
 
 		RestTemplate restTemplate = new RestTemplate();
 		try {
-			String result = restTemplate.postForObject(
-					ENDPOINT + "/rest/banks/accounts/" + iban + "/processPayment?amount=" + amount, null, String.class);
+			String result = restTemplate.postForObject(ENDPOINT + "/rest/banks/accounts/" + iban
+					+ "/processPayment?amount=" + amount + "&adventureId=" + adventureId, null, String.class);
 			return result;
 		} catch (HttpClientErrorException e) {
 			throw new BankException();

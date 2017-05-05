@@ -93,6 +93,15 @@ public class Bank extends Bank_Base {
 		return null;
 	}
 
+	public Operation getOperationbyAdventureId(String adventureId) {
+		for (Operation operation : getOperationSet()) {
+			if (operation.getAdventureId() != null && operation.getAdventureId().equals(adventureId)) {
+				return operation;
+			}
+		}
+		return null;
+	}
+
 	public Client getClientById(String id) {
 		return getClientSet().stream().filter(c -> c.getID().equals(id)).findFirst().orElse(null);
 	}

@@ -23,17 +23,20 @@ public class HotelInterface {
 		SINGLE, DOUBLE
 	}
 
-	public static String reserveRoom(RoomType type, LocalDate arrival, LocalDate departure) {
-		logger.info("reserveRoom arrival:{}, departure:{}", arrival, departure);
+	public static String reserveRoom(RoomType type, LocalDate arrival, LocalDate departure, String adventureId) {
+		logger.info("reserveRoom arrival:{}, departure:{}, adventureId:{}", arrival, departure, adventureId);
 		RestTemplate restTemplate = new RestTemplate();
 		try {
-			String result = restTemplate.postForObject(
-					ENDPOINT + "/rest/hotels/reserve?type=" + type + "&arrival=" + arrival + "&departure=" + departure,
-					null, String.class);
+			String result = restTemplate.postForObject(ENDPOINT + "/rest/hotels/reserve?type=" + type + "&arrival="
+					+ arrival + "&departure=" + departure + "&adventureId=" + adventureId, null, String.class);
 			return result;
 		} catch (HttpClientErrorException e) {
+			logger.info("reserveRoom HttpClientErrorException arrival:{}, departure:{}, adventureId:{}", arrival,
+					departure, adventureId);
 			throw new HotelException();
 		} catch (Exception e) {
+			logger.info("reserveRoom Exception arrival:{}, departure:{}, adventureId:{}", arrival, departure,
+					adventureId);
 			throw new RemoteAccessException();
 		}
 	}

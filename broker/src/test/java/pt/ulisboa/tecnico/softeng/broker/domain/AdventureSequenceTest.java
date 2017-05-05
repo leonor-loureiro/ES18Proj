@@ -44,13 +44,13 @@ public class AdventureSequenceTest extends RollbackTestAbstractClass {
 			@Mocked final ActivityInterface activityInterface, @Mocked final HotelInterface roomInterface) {
 		new StrictExpectations() {
 			{
-				BankInterface.processPayment(IBAN, AMOUNT);
+				BankInterface.processPayment(IBAN, AMOUNT, this.anyString);
 				this.result = PAYMENT_CONFIRMATION;
 
-				ActivityInterface.reserveActivity(arrival, departure, AGE);
+				ActivityInterface.reserveActivity(arrival, departure, AGE, this.anyString);
 				this.result = ACTIVITY_CONFIRMATION;
 
-				HotelInterface.reserveRoom(RoomType.SINGLE, arrival, departure);
+				HotelInterface.reserveRoom(RoomType.SINGLE, arrival, departure, this.anyString);
 				this.result = ROOM_CONFIRMATION;
 
 				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
@@ -76,10 +76,10 @@ public class AdventureSequenceTest extends RollbackTestAbstractClass {
 			@Mocked final ActivityInterface activityInterface, @Mocked final HotelInterface roomInterface) {
 		new StrictExpectations() {
 			{
-				BankInterface.processPayment(IBAN, AMOUNT);
+				BankInterface.processPayment(IBAN, AMOUNT, this.anyString);
 				this.result = PAYMENT_CONFIRMATION;
 
-				ActivityInterface.reserveActivity(arrival, arrival, AGE);
+				ActivityInterface.reserveActivity(arrival, arrival, AGE, this.anyString);
 				this.result = ACTIVITY_CONFIRMATION;
 
 				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
@@ -102,7 +102,7 @@ public class AdventureSequenceTest extends RollbackTestAbstractClass {
 			@Mocked final ActivityInterface activityInterface, @Mocked final HotelInterface roomInterface) {
 		new StrictExpectations() {
 			{
-				BankInterface.processPayment(IBAN, AMOUNT);
+				BankInterface.processPayment(IBAN, AMOUNT, this.anyString);
 				this.result = new BankException();
 			}
 		};
@@ -119,10 +119,10 @@ public class AdventureSequenceTest extends RollbackTestAbstractClass {
 			@Mocked final ActivityInterface activityInterface, @Mocked final HotelInterface roomInterface) {
 		new StrictExpectations() {
 			{
-				BankInterface.processPayment(IBAN, AMOUNT);
+				BankInterface.processPayment(IBAN, AMOUNT, this.anyString);
 				this.result = PAYMENT_CONFIRMATION;
 
-				ActivityInterface.reserveActivity(arrival, departure, AGE);
+				ActivityInterface.reserveActivity(arrival, departure, AGE, this.anyString);
 				this.result = new ActivityException();
 
 				BankInterface.cancelPayment(PAYMENT_CONFIRMATION);
@@ -144,13 +144,13 @@ public class AdventureSequenceTest extends RollbackTestAbstractClass {
 			@Mocked final ActivityInterface activityInterface, @Mocked final HotelInterface roomInterface) {
 		new StrictExpectations() {
 			{
-				BankInterface.processPayment(IBAN, AMOUNT);
+				BankInterface.processPayment(IBAN, AMOUNT, this.anyString);
 				this.result = PAYMENT_CONFIRMATION;
 
-				ActivityInterface.reserveActivity(arrival, departure, AGE);
+				ActivityInterface.reserveActivity(arrival, departure, AGE, this.anyString);
 				this.result = ACTIVITY_CONFIRMATION;
 
-				HotelInterface.reserveRoom(RoomType.SINGLE, arrival, departure);
+				HotelInterface.reserveRoom(RoomType.SINGLE, arrival, departure, this.anyString);
 				this.result = new HotelException();
 
 				BankInterface.cancelPayment(PAYMENT_CONFIRMATION);
@@ -176,13 +176,13 @@ public class AdventureSequenceTest extends RollbackTestAbstractClass {
 			@Mocked final ActivityInterface activityInterface, @Mocked final HotelInterface roomInterface) {
 		new StrictExpectations() {
 			{
-				BankInterface.processPayment(IBAN, AMOUNT);
+				BankInterface.processPayment(IBAN, AMOUNT, this.anyString);
 				this.result = PAYMENT_CONFIRMATION;
 
-				ActivityInterface.reserveActivity(arrival, departure, AGE);
+				ActivityInterface.reserveActivity(arrival, departure, AGE, this.anyString);
 				this.result = ACTIVITY_CONFIRMATION;
 
-				HotelInterface.reserveRoom(RoomType.SINGLE, arrival, departure);
+				HotelInterface.reserveRoom(RoomType.SINGLE, arrival, departure, this.anyString);
 				this.result = ROOM_CONFIRMATION;
 
 				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
