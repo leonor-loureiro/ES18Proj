@@ -37,6 +37,7 @@ class Booking {
 	LocalDate cancellationDate;
 	LocalDate arrival;
 	LocalDate departure;
+	String adventureId;
 }
 
 relation RoomHasBookings {

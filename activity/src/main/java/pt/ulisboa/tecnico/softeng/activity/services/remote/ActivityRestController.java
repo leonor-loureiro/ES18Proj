@@ -22,10 +22,11 @@ public class ActivityRestController {
 
 	@RequestMapping(value = "/reserve", method = RequestMethod.POST)
 	public ResponseEntity<String> reserve(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate begin,
-			@DateTimeFormat(pattern = "yyyy-MM-dd") @RequestParam LocalDate end, @RequestParam int age) {
-		logger.info("reserve begin:{}, end:{}, age:{}", begin, end, age);
+			@DateTimeFormat(pattern = "yyyy-MM-dd") @RequestParam LocalDate end, @RequestParam int age,
+			@RequestParam String adventureId) {
+		logger.info("reserve begin:{}, end:{}, age:{}, adventureId:{}", begin, end, age, adventureId);
 		try {
-			return new ResponseEntity<>(ActivityInterface.reserveActivity(begin, end, age), HttpStatus.OK);
+			return new ResponseEntity<>(ActivityInterface.reserveActivity(begin, end, age, adventureId), HttpStatus.OK);
 		} catch (ActivityException be) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}

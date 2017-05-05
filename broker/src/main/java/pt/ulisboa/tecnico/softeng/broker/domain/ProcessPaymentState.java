@@ -16,8 +16,8 @@ public class ProcessPaymentState extends ProcessPaymentState_Base {
 	@Override
 	public void process() {
 		try {
-			getAdventure().setPaymentConfirmation(
-					BankInterface.processPayment(getAdventure().getIBAN(), getAdventure().getAmount()));
+			getAdventure().setPaymentConfirmation(BankInterface.processPayment(getAdventure().getIBAN(),
+					getAdventure().getAmount(), getAdventure().getID()));
 		} catch (BankException be) {
 			getAdventure().setState(State.CANCELLED);
 			return;

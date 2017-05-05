@@ -39,7 +39,7 @@ public class BookRoomStateMethodTest extends RollbackTestAbstractClass {
 	public void successBookRoom(@Mocked final HotelInterface hotelInterface) {
 		new StrictExpectations() {
 			{
-				HotelInterface.reserveRoom(RoomType.SINGLE, arrival, departure);
+				HotelInterface.reserveRoom(RoomType.SINGLE, arrival, departure, this.anyString);
 				this.result = ROOM_CONFIRMATION;
 			}
 		};
@@ -53,7 +53,7 @@ public class BookRoomStateMethodTest extends RollbackTestAbstractClass {
 	public void hotelException(@Mocked final HotelInterface hotelInterface) {
 		new StrictExpectations() {
 			{
-				HotelInterface.reserveRoom(RoomType.SINGLE, arrival, departure);
+				HotelInterface.reserveRoom(RoomType.SINGLE, arrival, departure, this.anyString);
 				this.result = new HotelException();
 			}
 		};
@@ -67,7 +67,7 @@ public class BookRoomStateMethodTest extends RollbackTestAbstractClass {
 	public void singleRemoteAccessException(@Mocked final HotelInterface hotelInterface) {
 		new StrictExpectations() {
 			{
-				HotelInterface.reserveRoom(RoomType.SINGLE, arrival, departure);
+				HotelInterface.reserveRoom(RoomType.SINGLE, arrival, departure, this.anyString);
 				this.result = new RemoteAccessException();
 			}
 		};
@@ -81,7 +81,7 @@ public class BookRoomStateMethodTest extends RollbackTestAbstractClass {
 	public void maxRemoteAccessException(@Mocked final HotelInterface hotelInterface) {
 		new StrictExpectations() {
 			{
-				HotelInterface.reserveRoom(RoomType.SINGLE, arrival, departure);
+				HotelInterface.reserveRoom(RoomType.SINGLE, arrival, departure, this.anyString);
 				this.result = new RemoteAccessException();
 				this.times = BookRoomState.MAX_REMOTE_ERRORS;
 			}
@@ -98,7 +98,7 @@ public class BookRoomStateMethodTest extends RollbackTestAbstractClass {
 	public void maxMinusOneRemoteAccessException(@Mocked final HotelInterface hotelInterface) {
 		new StrictExpectations() {
 			{
-				HotelInterface.reserveRoom(RoomType.SINGLE, arrival, departure);
+				HotelInterface.reserveRoom(RoomType.SINGLE, arrival, departure, this.anyString);
 				this.result = new RemoteAccessException();
 				this.times = BookRoomState.MAX_REMOTE_ERRORS - 1;
 			}
@@ -115,7 +115,7 @@ public class BookRoomStateMethodTest extends RollbackTestAbstractClass {
 	public void fiveRemoteAccessExceptionOneSuccess(@Mocked final HotelInterface hotelInterface) {
 		new StrictExpectations() {
 			{
-				HotelInterface.reserveRoom(RoomType.SINGLE, arrival, departure);
+				HotelInterface.reserveRoom(RoomType.SINGLE, arrival, departure, this.anyString);
 				this.result = new Delegate() {
 					int i = 0;
 
@@ -146,7 +146,7 @@ public class BookRoomStateMethodTest extends RollbackTestAbstractClass {
 	public void oneRemoteAccessExceptionOneActivityException(@Mocked final HotelInterface hotelInterface) {
 		new StrictExpectations() {
 			{
-				HotelInterface.reserveRoom(RoomType.SINGLE, arrival, departure);
+				HotelInterface.reserveRoom(RoomType.SINGLE, arrival, departure, this.anyString);
 				this.result = new Delegate() {
 					int i = 0;
 

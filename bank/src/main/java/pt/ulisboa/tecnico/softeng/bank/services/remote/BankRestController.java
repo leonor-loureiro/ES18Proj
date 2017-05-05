@@ -20,10 +20,11 @@ public class BankRestController {
 	private static Logger logger = LoggerFactory.getLogger(BankRestController.class);
 
 	@RequestMapping(value = "/accounts/{iban}/processPayment", method = RequestMethod.POST)
-	public ResponseEntity<String> processPayment(@PathVariable String iban, @RequestParam int amount) {
-		logger.info("processPayment iban:{}, amount:{}", iban, amount);
+	public ResponseEntity<String> processPayment(@PathVariable String iban, @RequestParam int amount,
+			@RequestParam String adventureId) {
+		logger.info("processPayment iban:{}, amount:{}, adventureId:{}", iban, amount, adventureId);
 		try {
-			return new ResponseEntity<>(BankInterface.processPayment(iban, amount), HttpStatus.OK);
+			return new ResponseEntity<>(BankInterface.processPayment(iban, amount, adventureId), HttpStatus.OK);
 		} catch (BankException be) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}

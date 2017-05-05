@@ -78,4 +78,11 @@ public class ActivityProvider extends ActivityProvider_Base {
 		return null;
 	}
 
+	public Booking getBookingByAdventureId(String adventureId) {
+		return getActivitySet().stream().flatMap(a -> a.getActivityOfferSet().stream())
+				.flatMap(o -> o.getBookingSet().stream())
+				.filter(b -> b.getAdventureId() != null && b.getAdventureId().equals(adventureId)).findFirst()
+				.orElse(null);
+	}
+
 }

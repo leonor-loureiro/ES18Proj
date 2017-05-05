@@ -24,10 +24,12 @@ public class HotelRestController {
 	@RequestMapping(value = "/reserve", method = RequestMethod.POST)
 	public ResponseEntity<String> reserve(@RequestParam Room.Type type,
 			@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate arrival,
-			@DateTimeFormat(pattern = "yyyy-MM-dd") @RequestParam LocalDate departure) {
-		logger.info("reserve type:{}, arrival:{}, departure:{}", type, arrival, departure);
+			@DateTimeFormat(pattern = "yyyy-MM-dd") @RequestParam LocalDate departure,
+			@RequestParam String adventureId) {
+		logger.info("reserve type:{}, arrival:{}, departure:{}, adventureId:{}", type, arrival, departure, adventureId);
 		try {
-			return new ResponseEntity<>(HotelInterface.reserveRoom(type, arrival, departure), HttpStatus.OK);
+			return new ResponseEntity<>(HotelInterface.reserveRoom(type, arrival, departure, adventureId),
+					HttpStatus.OK);
 		} catch (HotelException be) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
