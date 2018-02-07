@@ -56,6 +56,17 @@ public class BookingContructorMethodTest {
 		}
 	}
 
+	@Test
+	public void bookingEqualCapacityButHasCancelled() {
+		new Booking(this.provider, this.offer);
+		new Booking(this.provider, this.offer);
+		Booking booking = new Booking(this.provider, this.offer);
+		booking.cancel();
+		new Booking(this.provider, this.offer);
+
+		Assert.assertEquals(3, this.offer.getNumberOfBookings());
+	}
+
 	@After
 	public void tearDown() {
 		ActivityProvider.providers.clear();

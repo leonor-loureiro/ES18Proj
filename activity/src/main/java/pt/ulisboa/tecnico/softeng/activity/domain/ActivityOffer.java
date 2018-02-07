@@ -33,20 +33,26 @@ public class ActivityOffer {
 		}
 	}
 
-	LocalDate getBegin() {
+	public LocalDate getBegin() {
 		return this.begin;
 	}
 
-	LocalDate getEnd() {
+	public LocalDate getEnd() {
 		return this.end;
 	}
 
 	int getNumberOfBookings() {
-		return this.bookings.size();
+		int count = 0;
+		for (Booking booking : this.bookings) {
+			if (!booking.isCancelled()) {
+				count++;
+			}
+		}
+		return count;
 	}
 
 	void addBooking(Booking booking) {
-		if (this.capacity == this.bookings.size()) {
+		if (this.capacity == getNumberOfBookings()) {
 			throw new ActivityException();
 		}
 
@@ -68,6 +74,16 @@ public class ActivityOffer {
 
 	boolean hasVacancy() {
 		return this.capacity > getNumberOfBookings();
+	}
+
+	public Booking getBooking(String reference) {
+		for (Booking booking : this.bookings) {
+			if (booking.getReference().equals(reference)
+					|| (booking.isCancelled() && booking.getCancellation().equals(reference))) {
+				return booking;
+			}
+		}
+		return null;
 	}
 
 }

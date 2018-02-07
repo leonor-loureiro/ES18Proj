@@ -4,20 +4,13 @@ import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
-import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
 import pt.ulisboa.tecnico.softeng.broker.exception.BrokerException;
-import pt.ulisboa.tecnico.softeng.broker.interfaces.ActivityInterface;
-import pt.ulisboa.tecnico.softeng.broker.interfaces.BankInterface;
-import pt.ulisboa.tecnico.softeng.broker.interfaces.HotelInterface;
-import pt.ulisboa.tecnico.softeng.hotel.domain.Room;
-import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 
 public class Adventure {
 	private static Logger logger = LoggerFactory.getLogger(Adventure.class);
 
 	public static enum State {
-		INITIAL, PAYED, CONFIRMED, CANCELED
+		PROCESS_PAYMENT, RESERVE_ACTIVITY, BOOK_ROOM, UNDO, CONFIRMED, CANCELLED
 	}
 
 	private static int counter = 0;
@@ -29,11 +22,14 @@ public class Adventure {
 	private final int age;
 	private final String IBAN;
 	private final int amount;
-	private String bankPayment;
-	private String roomBooking;
-	private String activityBooking;
+	private String paymentConfirmation;
+	private String paymentCancellation;
+	private String roomConfirmation;
+	private String roomCancellation;
+	private String activityConfirmation;
+	private String activityCancellation;
 
-	private State state;
+	private AdventureState state;
 
 	public Adventure(Broker broker, LocalDate begin, LocalDate end, int age, String IBAN, int amount) {
 		checkArguments(broker, begin, end, age, IBAN, amount);
@@ -45,9 +41,10 @@ public class Adventure {
 		this.age = age;
 		this.IBAN = IBAN;
 		this.amount = amount;
-		this.state = State.INITIAL;
 
 		broker.addAdventure(this);
+
+		setState(State.PROCESS_PAYMENT);
 	}
 
 	private void checkArguments(Broker broker, LocalDate begin, LocalDate end, int age, String IBAN, int amount) {
@@ -96,62 +93,99 @@ public class Adventure {
 		return this.amount;
 	}
 
-	public String getBankPayment() {
-		return this.bankPayment;
+	public String getPaymentConfirmation() {
+		return this.paymentConfirmation;
 	}
 
-	public String getRoomBooking() {
-		return this.roomBooking;
+	public void setPaymentConfirmation(String paymentConfirmation) {
+		this.paymentConfirmation = paymentConfirmation;
 	}
 
-	public String getActivityBooking() {
-		return this.activityBooking;
+	public String getPaymentCancellation() {
+		return this.paymentCancellation;
+	}
+
+	public void setPaymentCancellation(String paymentCancellation) {
+		this.paymentCancellation = paymentCancellation;
+	}
+
+	public String getActivityConfirmation() {
+		return this.activityConfirmation;
+	}
+
+	public void setActivityConfirmation(String activityConfirmation) {
+		this.activityConfirmation = activityConfirmation;
+	}
+
+	public String getActivityCancellation() {
+		return this.activityCancellation;
+	}
+
+	public void setActivityCancellation(String activityCancellation) {
+		this.activityCancellation = activityCancellation;
+	}
+
+	public String getRoomConfirmation() {
+		return this.roomConfirmation;
+	}
+
+	public void setRoomConfirmation(String roomConfirmation) {
+		this.roomConfirmation = roomConfirmation;
+	}
+
+	public String getRoomCancellation() {
+		return this.roomCancellation;
+	}
+
+	public void setRoomCancellation(String roomCancellation) {
+		this.roomCancellation = roomCancellation;
 	}
 
 	public State getState() {
-		return this.state;
+		return this.state.getState();
+	}
+
+	public void setState(State state) {
+		switch (state) {
+		case PROCESS_PAYMENT:
+			this.state = new ProcessPaymentState();
+			break;
+		case RESERVE_ACTIVITY:
+			this.state = new ReserveActivityState();
+			break;
+		case BOOK_ROOM:
+			this.state = new BookRoomState();
+			break;
+		case UNDO:
+			this.state = new UndoState();
+			break;
+		case CONFIRMED:
+			this.state = new ConfirmedState();
+			break;
+		case CANCELLED:
+			this.state = new CancelledState();
+			break;
+		default:
+			new BrokerException();
+			break;
+		}
 	}
 
 	public void process() {
-		logger.debug("process ID:{} ", this.ID);
+		logger.debug("process ID:{}, state:{} ", this.ID, getState().name());
+		this.state.process(this);
+	}
 
-		switch (this.state) {
-		case INITIAL:
-			try {
-				this.bankPayment = BankInterface.processPayment(this.IBAN, this.amount);
-				this.state = State.PAYED;
-			} catch (BankException be) {
+	public boolean cancelRoom() {
+		return getRoomConfirmation() != null && getRoomCancellation() == null;
+	}
 
-			}
-			break;
-		case PAYED:
-			if (this.roomBooking == null) {
-				try {
-					this.roomBooking = HotelInterface.reserveHotel(Room.Type.SINGLE, this.begin, this.end);
-				} catch (HotelException e) {
+	public boolean cancelActivity() {
+		return getActivityConfirmation() != null && getActivityCancellation() == null;
+	}
 
-				}
-			}
-
-			if (this.activityBooking == null) {
-				try {
-					this.activityBooking = ActivityInterface.reserveActivity(this.begin, this.end, this.age);
-				} catch (ActivityException e) {
-
-				}
-			}
-
-			if (this.roomBooking != null && this.activityBooking != null) {
-				this.state = State.CONFIRMED;
-			}
-			break;
-		case CONFIRMED:
-			break;
-		case CANCELED:
-			break;
-		default:
-			throw new BrokerException();
-		}
+	public boolean cancelPayment() {
+		return getPaymentConfirmation() != null && getPaymentCancellation() == null;
 	}
 
 }

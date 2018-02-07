@@ -49,13 +49,13 @@ public class OperationConstructorMethodTest {
 
 	@Test
 	public void oneAmount() {
-		new Operation(Type.DEPOSIT, this.account, 1);
+		Operation operation = new Operation(Type.DEPOSIT, this.account, 1);
+		Assert.assertEquals(operation, this.bank.getOperation(operation.getReference()));
 	}
 
 	@Test(expected = BankException.class)
 	public void negativeAmount() {
-		Operation operation = new Operation(Type.WITHDRAW, this.account, -1000);
-		Assert.assertEquals(operation, this.bank.getOperation(operation.getReference()));
+		new Operation(Type.WITHDRAW, this.account, -1000);
 	}
 
 	@After

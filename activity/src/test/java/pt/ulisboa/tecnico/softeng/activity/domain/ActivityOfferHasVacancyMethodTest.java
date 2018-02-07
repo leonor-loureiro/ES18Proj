@@ -42,6 +42,27 @@ public class ActivityOfferHasVacancyMethodTest {
 		Assert.assertTrue(this.offer.hasVacancy());
 	}
 
+	@Test
+	public void hasCancelledBookings() {
+		new Booking(this.provider, this.offer);
+		new Booking(this.provider, this.offer);
+		Booking booking = new Booking(this.provider, this.offer);
+		booking.cancel();
+
+		Assert.assertTrue(this.offer.hasVacancy());
+	}
+
+	@Test
+	public void hasCancelledBookingsButFull() {
+		new Booking(this.provider, this.offer);
+		new Booking(this.provider, this.offer);
+		Booking booking = new Booking(this.provider, this.offer);
+		booking.cancel();
+		new Booking(this.provider, this.offer);
+
+		Assert.assertFalse(this.offer.hasVacancy());
+	}
+
 	@After
 	public void tearDown() {
 		ActivityProvider.providers.clear();

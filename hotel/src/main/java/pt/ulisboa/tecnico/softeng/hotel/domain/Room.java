@@ -37,15 +37,15 @@ public class Room {
 		}
 	}
 
-	Hotel getHotel() {
+	public Hotel getHotel() {
 		return this.hotel;
 	}
 
-	String getNumber() {
+	public String getNumber() {
 		return this.number;
 	}
 
-	Type getType() {
+	public Type getType() {
 		return this.type;
 	}
 
@@ -80,6 +80,16 @@ public class Room {
 		this.bookings.add(booking);
 
 		return booking;
+	}
+
+	public Booking getBooking(String reference) {
+		for (Booking booking : this.bookings) {
+			if (booking.getReference().equals(reference)
+					|| (booking.isCancelled() && booking.getCancellation().equals(reference))) {
+				return booking;
+			}
+		}
+		return null;
 	}
 
 }
