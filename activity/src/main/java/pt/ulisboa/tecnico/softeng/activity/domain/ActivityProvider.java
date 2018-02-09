@@ -96,7 +96,7 @@ public class ActivityProvider {
 				return new Booking(provider, offers.get(0)).getReference();
 			}
 		}
-		throw new ActivityException();
+		throw new ActivityException("Impossible to make a reservation.");
 	}
 
 	public static String cancelReservation(String reference) {
