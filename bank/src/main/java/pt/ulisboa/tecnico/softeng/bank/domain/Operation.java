@@ -56,14 +56,10 @@ public class Operation {
 	}
 
 	public String revert() {
-		switch (this.type) {
-		case DEPOSIT:
-			return this.account.withdraw(this.value);
-		case WITHDRAW:
-			return this.account.deposit(this.value);
-		default:
-			throw new BankException();
-
+		if (this.type == Type.DEPOSIT) {
+            return this.account.withdraw(this.value);
+        } else {
+		    return this.account.deposit(this.value);
 		}
 
 	}

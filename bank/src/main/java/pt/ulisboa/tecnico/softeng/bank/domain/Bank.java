@@ -110,7 +110,7 @@ public class Bank {
 				return bank.getAccount(IBAN).withdraw(amount);
 			}
 		}
-		throw new BankException();
+		throw new BankException("Could not process payment");
 	}
 
 	public static String cancelPayment(String paymentConfirmation) {
