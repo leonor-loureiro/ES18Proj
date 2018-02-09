@@ -110,7 +110,7 @@ public class Hotel {
 				return booking.cancel();
 			}
 		}
-		throw new HotelException();
+		throw new HotelException("There are no hotels!");
 	}
 
 	public static RoomBookingData getRoomBookingData(String reference) {
@@ -157,5 +157,9 @@ public class Hotel {
 		}
 		return rooms;
 	}
+
+	public void removeRooms() {
+	    rooms.clear();
+    }
 
 }
