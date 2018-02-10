@@ -31,7 +31,7 @@ public class Broker {
 
 	private void checkCode(String code) {
 		if (code == null || code.trim().length() == 0) {
-			throw new BrokerException();
+			throw new BrokerException("Name cannot be null");
 		}
 
 		for (Broker broker : Broker.brokers) {
