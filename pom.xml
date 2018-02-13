@@ -171,6 +171,7 @@
 		<module>hotel</module>
 		<module>activity</module>
 		<module>broker</module>
+		<module>iva</module>
 	</modules>
 </project>
 
