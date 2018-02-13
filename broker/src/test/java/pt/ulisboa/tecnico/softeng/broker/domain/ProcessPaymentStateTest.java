@@ -18,6 +18,7 @@ import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
 
 public class ProcessPaymentStateTest {
+
     private final LocalDate begin = new LocalDate(2016, 12, 19);
     private final LocalDate end = new LocalDate(2016, 12, 21);
     private Broker broker;
@@ -25,6 +26,10 @@ public class ProcessPaymentStateTest {
 
     @Before
     public void setUp() {
+        Broker.brokers.clear();
+        Bank.banks.clear();
+        ActivityProvider.providers.clear();
+
         this.broker = new Broker("BR01", "eXtremeADVENTURE");
 
         Bank bank = new Bank("Money", "BK01");

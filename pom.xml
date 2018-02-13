@@ -25,6 +25,7 @@
 
 		<!-- Coverage -->
 		<version.jacoco.maven.plugin>0.8.0</version.jacoco.maven.plugin>
+
 		<coverage.class.ratio>0.7</coverage.class.ratio>
 		<coverage.instruction.ratio>0.7</coverage.instruction.ratio>
 		<coverage.method.ratio>0.7</coverage.method.ratio>
