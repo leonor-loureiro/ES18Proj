@@ -1,4 +1,4 @@
-package pt.ulisboa.tecnico.softeng.iva.dataobjects;
+package pt.ulisboa.tecnico.softeng.tax.dataobjects;
 
 import org.joda.time.LocalDate;
 

@@ -1,6 +1,6 @@
-package pt.ulisboa.tecnico.softeng.iva.domain;
+package pt.ulisboa.tecnico.softeng.tax.domain;
 
-import pt.ulisboa.tecnico.softeng.iva.exception.IvaException;
+import pt.ulisboa.tecnico.softeng.tax.exception.IvaException;
 
 public class ItemType {
 	public final String name;

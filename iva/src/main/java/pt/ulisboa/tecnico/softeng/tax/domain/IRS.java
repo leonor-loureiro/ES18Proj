@@ -1,10 +1,10 @@
-package pt.ulisboa.tecnico.softeng.iva.domain;
+package pt.ulisboa.tecnico.softeng.tax.domain;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import pt.ulisboa.tecnico.softeng.iva.dataobjects.InvoiceData;
-import pt.ulisboa.tecnico.softeng.iva.exception.IvaException;
+import pt.ulisboa.tecnico.softeng.tax.dataobjects.InvoiceData;
+import pt.ulisboa.tecnico.softeng.tax.exception.IvaException;
 
 public class IRS {
 	private final Set<TaxPayer> taxPayers = new HashSet<>();

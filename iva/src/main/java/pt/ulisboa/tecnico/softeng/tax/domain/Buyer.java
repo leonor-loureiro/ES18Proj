@@ -1,12 +1,13 @@
-package pt.ulisboa.tecnico.softeng.iva.domain;
+package pt.ulisboa.tecnico.softeng.tax.domain;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public class Seller extends TaxPayer {
+public class Buyer extends TaxPayer {
+	private final static int PERCENTAGE = 5;
 	private final Set<Invoice> invoices = new HashSet<>();
 
-	public Seller(String NIF, String name, String address) {
+	public Buyer(String NIF, String name, String address) {
 		super(NIF, name, address);
 	}
 
@@ -24,14 +25,13 @@ public class Seller extends TaxPayer {
 		return null;
 	}
 
-	public float toPay(int year) {
+	public float taxReturn(int year) {
 		float result = 0;
 		for (Invoice invoice : this.invoices) {
 			if (invoice.getDate().getYear() == year) {
-				result = +invoice.getIva();
+				result = +invoice.getIva() * PERCENTAGE / 100;
 			}
 		}
 		return result;
 	}
-
 }

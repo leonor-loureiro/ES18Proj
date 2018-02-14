@@ -1,4 +1,4 @@
-package pt.ulisboa.tecnico.softeng.iva.domain;
+package pt.ulisboa.tecnico.softeng.tax.domain;
 
 import static org.junit.Assert.assertEquals;
 
@@ -7,8 +7,13 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import pt.ulisboa.tecnico.softeng.iva.dataobjects.InvoiceData;
-import pt.ulisboa.tecnico.softeng.iva.exception.IvaException;
+import pt.ulisboa.tecnico.softeng.tax.dataobjects.InvoiceData;
+import pt.ulisboa.tecnico.softeng.tax.domain.Buyer;
+import pt.ulisboa.tecnico.softeng.tax.domain.IRS;
+import pt.ulisboa.tecnico.softeng.tax.domain.Invoice;
+import pt.ulisboa.tecnico.softeng.tax.domain.ItemType;
+import pt.ulisboa.tecnico.softeng.tax.domain.Seller;
+import pt.ulisboa.tecnico.softeng.tax.exception.IvaException;
 
 public class IRSSubmitInvoiceTest {
 	private static final String SELLER_NIF = "123456789";

@@ -1,4 +1,4 @@
-package pt.ulisboa.tecnico.softeng.iva.exception;
+package pt.ulisboa.tecnico.softeng.tax.exception;
 
 public class IvaException extends RuntimeException {
   public IvaException() {

@@ -1,4 +1,4 @@
-package pt.ulisboa.tecnico.softeng.iva.domain;
+package pt.ulisboa.tecnico.softeng.tax.domain;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -7,7 +7,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import pt.ulisboa.tecnico.softeng.iva.exception.IvaException;
+import pt.ulisboa.tecnico.softeng.tax.domain.IRS;
+import pt.ulisboa.tecnico.softeng.tax.domain.ItemType;
+import pt.ulisboa.tecnico.softeng.tax.exception.IvaException;
 
 public class ItemTypeConstructorTest {
 	private static final String CAR = "CAR";
