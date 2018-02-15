@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import pt.ulisboa.tecnico.softeng.tax.dataobjects.InvoiceData;
-import pt.ulisboa.tecnico.softeng.tax.exception.IvaException;
 
 public class IRS {
 	private final Set<TaxPayer> taxPayers = new HashSet<>();
@@ -36,10 +35,6 @@ public class IRS {
 	}
 
 	void addItemType(ItemType itemType) {
-		if (getTaxPayerByNIF(itemType.getName()) != null) {
-			throw new IvaException();
-		}
-
 		this.itemTypes.add(itemType);
 	}
 

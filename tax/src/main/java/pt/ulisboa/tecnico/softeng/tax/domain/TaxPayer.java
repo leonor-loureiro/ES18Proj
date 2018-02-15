@@ -1,8 +1,13 @@
 package pt.ulisboa.tecnico.softeng.tax.domain;
 
-import pt.ulisboa.tecnico.softeng.tax.exception.IvaException;
+import java.util.HashSet;
+import java.util.Set;
+
+import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 
 public abstract class TaxPayer {
+	protected final Set<Invoice> invoices = new HashSet<>();
+
 	private final String NIF;
 	private String name;
 	private String address;
@@ -18,18 +23,39 @@ public abstract class TaxPayer {
 	}
 
 	private void checkArguments(String NIF, String name, String address) {
+		if (NIF == null || NIF.length() != 9) {
+			throw new TaxException();
+		}
+
 		if (name == null || name.length() == 0) {
-			throw new IvaException();
+			throw new TaxException();
 		}
 
 		if (address == null || address.length() == 0) {
-			throw new IvaException();
+			throw new TaxException();
 		}
 
 		if (IRS.getIRS().getTaxPayerByNIF(NIF) != null) {
-			throw new IvaException();
+			throw new TaxException();
 		}
 
+	}
+
+	public void addInvoice(Invoice invoice) {
+		this.invoices.add(invoice);
+	}
+
+	public Invoice getInvoiceByReference(String invoiceReference) {
+		if (invoiceReference == null || invoiceReference.isEmpty()) {
+			throw new TaxException();
+		}
+
+		for (Invoice invoice : this.invoices) {
+			if (invoice.getReference().equals(invoiceReference)) {
+				return invoice;
+			}
+		}
+		return null;
 	}
 
 	public String getNIF() {
@@ -52,5 +78,4 @@ public abstract class TaxPayer {
 		this.address = address;
 	}
 
-	public abstract Invoice getInvoice(String invoiceReference);
 }

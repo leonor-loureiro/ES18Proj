@@ -2,14 +2,14 @@ package pt.ulisboa.tecnico.softeng.tax.domain;
 
 import org.joda.time.LocalDate;
 
-import pt.ulisboa.tecnico.softeng.tax.exception.IvaException;
+import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 
 public class Invoice {
 	private static int counter = 0;
 
 	private final String reference;
 	private final float value;
-	private float iva;
+	private final float iva;
 	private final LocalDate date;
 	private final ItemType itemType;
 	private final Seller seller;
@@ -32,23 +32,23 @@ public class Invoice {
 
 	private void checkArguments(float value, LocalDate date, ItemType itemType, Seller seller, Buyer buyer) {
 		if (value <= 0.0f) {
-			throw new IvaException();
+			throw new TaxException();
 		}
 
 		if (date == null) {
-			throw new IvaException();
+			throw new TaxException();
 		}
 
 		if (itemType == null) {
-			throw new IvaException();
+			throw new TaxException();
 		}
 
 		if (seller == null) {
-			throw new IvaException();
+			throw new TaxException();
 		}
 
 		if (buyer == null) {
-			throw new IvaException();
+			throw new TaxException();
 		}
 	}
 
@@ -58,10 +58,6 @@ public class Invoice {
 
 	public float getIva() {
 		return this.iva;
-	}
-
-	public void setIva(float iva) {
-		this.iva = iva;
 	}
 
 	public float getValue() {

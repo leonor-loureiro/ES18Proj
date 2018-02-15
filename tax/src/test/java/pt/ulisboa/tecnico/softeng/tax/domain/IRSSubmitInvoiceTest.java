@@ -13,7 +13,7 @@ import pt.ulisboa.tecnico.softeng.tax.domain.IRS;
 import pt.ulisboa.tecnico.softeng.tax.domain.Invoice;
 import pt.ulisboa.tecnico.softeng.tax.domain.ItemType;
 import pt.ulisboa.tecnico.softeng.tax.domain.Seller;
-import pt.ulisboa.tecnico.softeng.tax.exception.IvaException;
+import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 
 public class IRSSubmitInvoiceTest {
 	private static final String SELLER_NIF = "123456789";
@@ -37,7 +37,7 @@ public class IRSSubmitInvoiceTest {
 		InvoiceData invoiceData = new InvoiceData(SELLER_NIF, BUYER_NIF, FOOD, VALUE, this.date);
 		String invoiceReference = this.irs.submitInvoice(invoiceData);
 
-		Invoice invoice = this.irs.getTaxPayerByNIF(SELLER_NIF).getInvoice(invoiceReference);
+		Invoice invoice = this.irs.getTaxPayerByNIF(SELLER_NIF).getInvoiceByReference(invoiceReference);
 
 		assertEquals(invoiceReference, invoice.getReference());
 		assertEquals(SELLER_NIF, invoice.getSeller().getNIF());
@@ -47,55 +47,55 @@ public class IRSSubmitInvoiceTest {
 		assertEquals(this.date, invoice.getDate());
 	}
 
-	@Test(expected = IvaException.class)
+	@Test(expected = TaxException.class)
 	public void nullSellerNIF() {
 		InvoiceData invoiceData = new InvoiceData(null, BUYER_NIF, FOOD, VALUE, this.date);
 		this.irs.submitInvoice(invoiceData);
 	}
 
-	@Test(expected = IvaException.class)
+	@Test(expected = TaxException.class)
 	public void emptySellerNIF() {
 		InvoiceData invoiceData = new InvoiceData("", BUYER_NIF, FOOD, VALUE, this.date);
 		this.irs.submitInvoice(invoiceData);
 	}
 
-	@Test(expected = IvaException.class)
+	@Test(expected = TaxException.class)
 	public void nullBuyerNIF() {
 		InvoiceData invoiceData = new InvoiceData(SELLER_NIF, null, FOOD, VALUE, this.date);
 		this.irs.submitInvoice(invoiceData);
 	}
 
-	@Test(expected = IvaException.class)
+	@Test(expected = TaxException.class)
 	public void emptyBuyerNIF() {
 		InvoiceData invoiceData = new InvoiceData(SELLER_NIF, "", FOOD, VALUE, this.date);
 		this.irs.submitInvoice(invoiceData);
 	}
 
-	@Test(expected = IvaException.class)
+	@Test(expected = TaxException.class)
 	public void nullItemType() {
 		InvoiceData invoiceData = new InvoiceData(SELLER_NIF, BUYER_NIF, null, VALUE, this.date);
 		this.irs.submitInvoice(invoiceData);
 	}
 
-	@Test(expected = IvaException.class)
+	@Test(expected = TaxException.class)
 	public void emptyItemType() {
 		InvoiceData invoiceData = new InvoiceData(SELLER_NIF, BUYER_NIF, "", VALUE, this.date);
 		this.irs.submitInvoice(invoiceData);
 	}
 
-	@Test(expected = IvaException.class)
+	@Test(expected = TaxException.class)
 	public void zeroValue() {
 		InvoiceData invoiceData = new InvoiceData(SELLER_NIF, BUYER_NIF, FOOD, 0.0f, this.date);
 		this.irs.submitInvoice(invoiceData);
 	}
 
-	@Test(expected = IvaException.class)
+	@Test(expected = TaxException.class)
 	public void negativeValue() {
 		InvoiceData invoiceData = new InvoiceData(SELLER_NIF, BUYER_NIF, FOOD, -23.7f, this.date);
 		this.irs.submitInvoice(invoiceData);
 	}
 
-	@Test(expected = IvaException.class)
+	@Test(expected = TaxException.class)
 	public void nullDate() {
 		InvoiceData invoiceData = new InvoiceData(SELLER_NIF, BUYER_NIF, FOOD, -23.7f, null);
 		this.irs.submitInvoice(invoiceData);

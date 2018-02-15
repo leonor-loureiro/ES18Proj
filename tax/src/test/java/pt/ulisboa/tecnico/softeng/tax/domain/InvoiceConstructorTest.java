@@ -1,18 +1,14 @@
 package pt.ulisboa.tecnico.softeng.tax.domain;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import pt.ulisboa.tecnico.softeng.tax.domain.Buyer;
-import pt.ulisboa.tecnico.softeng.tax.domain.IRS;
-import pt.ulisboa.tecnico.softeng.tax.domain.Invoice;
-import pt.ulisboa.tecnico.softeng.tax.domain.ItemType;
-import pt.ulisboa.tecnico.softeng.tax.domain.Seller;
-import pt.ulisboa.tecnico.softeng.tax.exception.IvaException;
+import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 
 public class InvoiceConstructorTest {
 	private static final String SELLER_NIF = "123456789";
@@ -22,14 +18,12 @@ public class InvoiceConstructorTest {
 	private static final int TAX = 23;
 	private final LocalDate date = new LocalDate(2018, 02, 13);
 
-	private IRS irs;
 	private Seller seller;
 	private Buyer buyer;
 	private ItemType itemType;
 
 	@Before
 	public void setUp() {
-		this.irs = IRS.getIRS();
 		this.seller = new Seller(SELLER_NIF, "José Vendido", "Somewhere");
 		this.buyer = new Buyer(BUYER_NIF, "Manuel Comprado", "Anywhere");
 		this.itemType = new ItemType(FOOD, TAX);
@@ -39,40 +33,44 @@ public class InvoiceConstructorTest {
 	public void success() {
 		Invoice invoice = new Invoice(VALUE, this.date, this.itemType, this.seller, this.buyer);
 
+		assertNotNull(invoice.getReference());
 		assertEquals(VALUE, invoice.getValue(), 0.0f);
 		assertEquals(this.date, invoice.getDate());
 		assertEquals(this.itemType, invoice.getItemType());
 		assertEquals(this.seller, invoice.getSeller());
 		assertEquals(this.buyer, invoice.getBuyer());
 		assertEquals(VALUE * TAX / 100.0, invoice.getIva(), 0.00001f);
+
+		assertEquals(invoice, this.seller.getInvoiceByReference(invoice.getReference()));
+		assertEquals(invoice, this.buyer.getInvoiceByReference(invoice.getReference()));
 	}
 
-	@Test(expected = IvaException.class)
+	@Test(expected = TaxException.class)
 	public void nullSeller() {
 		new Invoice(VALUE, this.date, this.itemType, null, this.buyer);
 	}
 
-	@Test(expected = IvaException.class)
+	@Test(expected = TaxException.class)
 	public void nullBuyer() {
 		new Invoice(VALUE, this.date, this.itemType, this.seller, null);
 	}
 
-	@Test(expected = IvaException.class)
+	@Test(expected = TaxException.class)
 	public void nullItemType() {
 		new Invoice(VALUE, this.date, null, this.seller, this.buyer);
 	}
 
-	@Test(expected = IvaException.class)
+	@Test(expected = TaxException.class)
 	public void zeroValue() {
 		new Invoice(0, this.date, this.itemType, this.seller, this.buyer);
 	}
 
-	@Test(expected = IvaException.class)
+	@Test(expected = TaxException.class)
 	public void negativeValue() {
 		new Invoice(-23.6f, this.date, this.itemType, this.seller, this.buyer);
 	}
 
-	@Test(expected = IvaException.class)
+	@Test(expected = TaxException.class)
 	public void nullDate() {
 		new Invoice(VALUE, null, this.itemType, this.seller, this.buyer);
 	}
