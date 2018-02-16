@@ -172,6 +172,7 @@
 		<module>activity</module>
 		<module>broker</module>
 		<module>tax</module>
+		<module>car</module>
 	</modules>
 </project>
 
