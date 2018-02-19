@@ -6,17 +6,57 @@ import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Test;
 
+import pt.ulisboa.tecnico.softeng.car.exception.CarException;
+
 public class RentingConstructorTest {
     private static final String PLATE_CAR = "22-33-HZ";
     private static final String DRIVING_LICENSE = "112233";
+    private static final LocalDate date1 = LocalDate.parse("2018-01-06");
+    private static final LocalDate date2 = LocalDate.parse("2018-01-07");
 
     @Test
     public void success() {
         RentACar rentACar = new RentACar("Eartz");
         Vehicle car = new Car(PLATE_CAR, 10, rentACar);
-        Renting renting = new Renting(DRIVING_LICENSE, new LocalDate(), new LocalDate(), car); 
+        Renting renting = new Renting(DRIVING_LICENSE, date1, date2, car); 
         
         assertEquals(DRIVING_LICENSE, renting.getDrivingLicense());
+    }
+    
+    @Test(expected = CarException.class)
+    public void endBeforeBegin() {
+        RentACar rentACar = new RentACar("Eartz");
+        Vehicle car = new Car(PLATE_CAR, 10, rentACar);
+        new Renting(DRIVING_LICENSE, date2, date1, car); 
+    }
+
+    @Test(expected = CarException.class)
+    public void noDrivingLicense() {
+        RentACar rentACar = new RentACar("Eartz");
+        Vehicle car = new Car(PLATE_CAR, 10, rentACar);
+        new Renting(null, date1, date2, car); 
+    }
+
+    @Test(expected = CarException.class)
+    public void noCar() {
+        new Renting(DRIVING_LICENSE, date1, date2, null); 
+    }
+
+    @Test
+    public void checkout() {
+        RentACar rentACar = new RentACar("Eartz");
+        Vehicle car = new Car(PLATE_CAR, 10, rentACar);
+        Renting renting = new Renting(DRIVING_LICENSE, date1, date2, car); 
+        renting.checkout(100);
+        assertEquals(110, car.getKilometers());
+    }
+    
+    @Test(expected = CarException.class)
+    public void endBeforeBeginCheckAvailability() {
+        RentACar rentACar = new RentACar("Eartz");
+        Vehicle car = new Car(PLATE_CAR, 10, rentACar);
+        Renting renting = new Renting(DRIVING_LICENSE, date1, date2, car);
+        renting.conflict(date2, date1);
     }
 
     @After

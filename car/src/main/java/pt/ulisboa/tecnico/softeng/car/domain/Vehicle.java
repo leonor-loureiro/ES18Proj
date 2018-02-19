@@ -66,7 +66,7 @@ public abstract class Vehicle {
         return rentACar;
     }
     
-    boolean isFree(LocalDate begin, LocalDate end) {
+    public boolean isFree(LocalDate begin, LocalDate end) {
         for (Renting renting : rentings) {
             if (renting.conflict(begin, end)){
                 return false;
@@ -77,7 +77,7 @@ public abstract class Vehicle {
     
     
     
-    Renting rent(String drivingLicense, LocalDate begin, LocalDate end) {
+    public Renting rent(String drivingLicense, LocalDate begin, LocalDate end) {
         if (begin == null || end == null || !isFree(begin, end)) {
             throw new CarException();
         }
@@ -88,7 +88,7 @@ public abstract class Vehicle {
         return renting;
     }
 
-    int getNumberOfRentings() {
+    public int getNumberOfRentings() {
         return this.rentings.size();
     }
     

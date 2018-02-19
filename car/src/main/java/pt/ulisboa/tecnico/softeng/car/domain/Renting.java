@@ -17,11 +17,11 @@ public class Renting {
     private LocalDate begin;
     private LocalDate end;
     private int kilometers = -1;
-    private Vehicle vehicle;
+    private final Vehicle vehicle;
     
     public Renting(String drivingLicense, LocalDate begin, LocalDate end,
             Vehicle vehicle) {
-        super();
+    	checkArguments(drivingLicense, begin, end, vehicle);
         this.reference = Integer.toString(++Renting.counter);
         this.drivingLicense = drivingLicense;
         this.begin = begin;
@@ -30,7 +30,13 @@ public class Renting {
         
         rentings.add(this);
     }
-    /**
+
+	private void checkArguments(String drivingLicense, LocalDate begin,
+								LocalDate end, Vehicle vehicle) {
+		if (drivingLicense == null || begin == null || end == null || vehicle == null || end.isBefore(begin))
+			throw new CarException();
+	}
+	/**
      * @return the reference
      */
     public String getReference() {
@@ -90,16 +96,10 @@ public class Renting {
     public Vehicle getVehicle() {
         return vehicle;
     }
-    /**
-     * @param vehicle the vehicle to set
-     */
-    public void setVehicle(Vehicle vehicle) {
-        this.vehicle = vehicle;
-    }
     
     public boolean conflict(LocalDate begin, LocalDate end) {
         if (end.isBefore(begin)) {
-            throw new CarException();
+            throw new CarException("Error: end date is before begin date.");
         }
         else if ((begin.equals(this.begin) || begin.isAfter(this.begin)) && begin.isBefore(this.end)) {
             return true;
