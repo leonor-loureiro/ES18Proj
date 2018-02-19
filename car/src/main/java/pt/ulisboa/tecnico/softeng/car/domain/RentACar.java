@@ -10,7 +10,7 @@ import org.joda.time.LocalDate;
 import pt.ulisboa.tecnico.softeng.car.exception.CarException;
 
 public class RentACar {
-    public static Set<RentACar> rentACars = new HashSet<>();
+    public static final Set<RentACar> rentACars = new HashSet<>();
 
     private static int counter;
     
@@ -67,13 +67,13 @@ public class RentACar {
     }
     
     public Set<Vehicle> getAvailableVehicles(Class<?> cls, LocalDate begin, LocalDate end) {
-        Set<Vehicle> vehicles = new HashSet<>();
+        Set<Vehicle> availableVehicles = new HashSet<>();
         for (Vehicle vehicle: this.vehicles.values()) {
             if (cls == vehicle.getClass() && vehicle.isFree(begin, end)){
-                vehicles.add(vehicle);
+                availableVehicles.add(vehicle);
             }
         }
-        return vehicles;
+        return availableVehicles;
     }
     
     public Set<Vehicle> getAvailableMotorcycles(LocalDate begin, LocalDate end) {

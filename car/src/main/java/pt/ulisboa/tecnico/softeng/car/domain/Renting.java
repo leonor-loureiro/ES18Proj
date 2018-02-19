@@ -8,7 +8,7 @@ import org.joda.time.LocalDate;
 import pt.ulisboa.tecnico.softeng.car.exception.CarException;
 
 public class Renting {
-    public static Set<Renting> rentings = new HashSet<>();
+    public static final Set<Renting> rentings = new HashSet<>();
 
     private static int counter;
 
