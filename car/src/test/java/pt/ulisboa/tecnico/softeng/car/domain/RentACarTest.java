@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import pt.ulisboa.tecnico.softeng.car.dataobjects.RentingData;
 
-public class RentACarConstructorTest {
+public class RentACarTest {
     private static final String NAME = "eartz";
     private static final String PLATE_CAR = "aa-00-11";
     private static final String DRIVING_LICENSE = "123xyz";

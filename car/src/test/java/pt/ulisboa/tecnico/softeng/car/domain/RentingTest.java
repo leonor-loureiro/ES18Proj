@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import pt.ulisboa.tecnico.softeng.car.exception.CarException;
 
-public class RentingConstructorTest {
+public class RentingTest {
     private static final String PLATE_CAR = "22-33-HZ";
     private static final String DRIVING_LICENSE = "112233";
     private static final LocalDate date1 = LocalDate.parse("2018-01-06");
