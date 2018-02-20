@@ -7,6 +7,7 @@ import java.util.Set;
 
 import org.joda.time.LocalDate;
 
+import pt.ulisboa.tecnico.softeng.car.dataobjects.RentingData;
 import pt.ulisboa.tecnico.softeng.car.exception.CarException;
 
 public class RentACar {
@@ -99,5 +100,13 @@ public class RentACar {
     
     public static Set<Vehicle> getAllAvailableCars(LocalDate begin, LocalDate end) {
         return getAllAvailableVehicles(Car.class, begin, end);
+    }
+    
+    public static RentingData getRentingData(String reference) {
+        Renting renting = Renting.getRenting(reference);
+        if (renting != null){
+            return new RentingData(renting);
+        }
+        throw new CarException();
     }
 }
