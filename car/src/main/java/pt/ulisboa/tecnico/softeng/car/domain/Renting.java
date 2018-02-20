@@ -13,7 +13,7 @@ public class Renting {
     private static int counter;
 
     private final String reference;
-    private String drivingLicense;
+    private final String drivingLicense;
     private LocalDate begin;
     private LocalDate end;
     private int kilometers = -1;
@@ -47,12 +47,6 @@ public class Renting {
      */
     public String getDrivingLicense() {
         return drivingLicense;
-    }
-    /**
-     * @param drivingLicense the drivingLicense to set
-     */
-    public void setDrivingLicense(String drivingLicense) {
-        this.drivingLicense = drivingLicense;
     }
     /**
      * @return the begin
@@ -101,13 +95,15 @@ public class Renting {
         if (end.isBefore(begin)) {
             throw new CarException("Error: end date is before begin date.");
         }
-        else if ((begin.equals(this.begin) || begin.isAfter(this.begin)) && begin.isBefore(this.end)) {
+        else if ((begin.equals(this.getBegin()) || begin.isAfter(this.getBegin()))
+                && (begin.isBefore(this.getEnd()) || begin.equals(this.getEnd()))) {
             return true;
         }
-        else if ((end.equals(this.end) || end.isBefore(this.end)) && end.isAfter(this.begin)) {
+        else if ((end.equals(this.getEnd()) || end.isBefore(this.getEnd()))
+                && (end.isAfter(this.getBegin()) || end.isEqual(this.getBegin()))) {
             return true;
         }
-        else if ((begin.isBefore(this.begin) && end.isAfter(this.end))) {
+        else if ((begin.isBefore(this.getBegin()) && end.isAfter(this.getEnd()))) {
             return true;
         }
 

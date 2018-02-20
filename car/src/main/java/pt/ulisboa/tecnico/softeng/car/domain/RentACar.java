@@ -94,7 +94,7 @@ public class RentACar {
         return vehicles;
     }
     public static Set<Vehicle> getAllAvailableMotorcycles(LocalDate begin, LocalDate end) {
-        return RentACar.getAllAvailableVehicles(Motorcycle.class, begin, end);
+        return getAllAvailableVehicles(Motorcycle.class, begin, end);
     }
     
     public static Set<Vehicle> getAllAvailableCars(LocalDate begin, LocalDate end) {

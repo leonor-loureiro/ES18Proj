@@ -23,6 +23,7 @@ public abstract class Vehicle {
         this.rentACar = rentACar;
         
         vehicles.add(this);
+        rentACar.addVehicle(this);
     }
     private void checkArguments(String plate, int kilometers, RentACar rentACar) {
         if (plate == null || plate.isEmpty()){
@@ -50,13 +51,10 @@ public abstract class Vehicle {
     /**
      * @param kilometers the kilometers to set
      */
-    public void setKilometers(int kilometers) {
-        this.kilometers = kilometers;
-    }
-    /**
-     * @param kilometers the kilometers to set
-     */
     public void addKilometers(int kilometers) {
+        if (kilometers < 0){
+            throw new CarException();
+        }
         this.kilometers += kilometers;
     }
     /**
