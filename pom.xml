@@ -34,8 +34,6 @@
 	</properties>
 
 	<build>
-		<finalName>broker</finalName>
-
 		<pluginManagement>
 			<plugins>
 				<!-- Compile -->
@@ -67,20 +65,6 @@
 						<execution>
 							<id>default-report</id>
 							<phase>prepare-package</phase>
-							<goals>
-								<goal>report</goal>
-							</goals>
-						</execution>
-						<execution>
-							<id>prepare-report</id>
-							<phase>package</phase>
-							<goals>
-								<goal>report</goal>
-							</goals>
-						</execution>
-						<execution>
-							<id>jacoco-site</id>
-							<phase>verify</phase>
 							<goals>
 								<goal>report</goal>
 							</goals>
