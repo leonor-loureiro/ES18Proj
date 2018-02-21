@@ -158,4 +158,7 @@ public class Hotel {
 		return rooms;
 	}
 
+    public void removeRooms() {
+        rooms.clear();
+    }
 }

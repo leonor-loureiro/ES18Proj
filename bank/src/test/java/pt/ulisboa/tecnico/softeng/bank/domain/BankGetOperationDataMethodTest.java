@@ -50,7 +50,7 @@ public class BankGetOperationDataMethodTest {
 	public void referenceNotExists() {
 		Bank.getOperationData("XPTO");
 	}
-
+	
 	@After
 	public void tearDown() {
 		Bank.banks.clear();
