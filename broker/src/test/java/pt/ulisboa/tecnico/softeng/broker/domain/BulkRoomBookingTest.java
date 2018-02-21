@@ -10,6 +10,7 @@ import org.junit.Test;
 
 public class BulkRoomBookingTest {
 
+<<<<<<< HEAD
 	private final LocalDate begin = new LocalDate(2016, 12, 19);
 	private final LocalDate end = new LocalDate(2016, 12, 21);
 
@@ -62,3 +63,57 @@ public class BulkRoomBookingTest {
 		Broker.brokers.clear();
 	}
 }
+=======
+    private final LocalDate begin = new LocalDate(2016, 12, 19);
+    private final LocalDate end = new LocalDate(2016, 12, 21);
+
+    private Broker broker;
+
+    @Before
+    public void setUp() {
+        Broker.brokers.clear();
+
+        this.broker = new Broker("BR01", "WeExplore");
+    }
+
+    @Test
+    public void success() {
+        BulkRoomBooking bulk = new BulkRoomBooking(2, this.begin, this.end);
+
+        assertEquals(0, bulk.getReferences().size());
+        assertEquals(2, bulk.getNumber());
+        assertEquals(this.begin, bulk.getArrival());
+        assertEquals(this.end, bulk.getDeparture());
+    }
+
+    @Test
+    public void processBulkBooking() {
+        BulkRoomBooking bulk = new BulkRoomBooking(2, this.begin, this.end);
+
+        bulk.processBooking();
+
+        assertEquals(0, bulk.getReferences().size());
+        assertEquals(2, bulk.getNumber());
+        assertEquals(this.begin, bulk.getArrival());
+        assertEquals(this.end, bulk.getDeparture());
+    }
+
+    @Test
+    public void getRefBooking() {
+        BulkRoomBooking bulk = new BulkRoomBooking(2, this.begin, this.end);
+
+        bulk.processBooking();
+
+        assertEquals(0, bulk.getReferences().size());
+        assertEquals(2, bulk.getNumber());
+        assertEquals(this.begin, bulk.getArrival());
+        assertEquals(this.end, bulk.getDeparture());
+        assertNull(bulk.getReference("CR7"));
+    }
+
+    @After
+    public void tearDown() {
+        Broker.brokers.clear();
+    }
+}
+>>>>>>> adv1.1

@@ -10,12 +10,18 @@ import pt.ulisboa.tecnico.softeng.activity.domain.ActivityProvider;
 import pt.ulisboa.tecnico.softeng.bank.domain.Account;
 import pt.ulisboa.tecnico.softeng.bank.domain.Bank;
 import pt.ulisboa.tecnico.softeng.bank.domain.Client;
+<<<<<<< HEAD
 import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
+=======
+>>>>>>> adv1.1
 import pt.ulisboa.tecnico.softeng.hotel.domain.Hotel;
 import pt.ulisboa.tecnico.softeng.hotel.domain.Room;
 
 import static junit.framework.TestCase.assertEquals;
+<<<<<<< HEAD
 import static junit.framework.TestCase.assertTrue;
+=======
+>>>>>>> adv1.1
 
 public class ProcessPaymentStateTest {
 
@@ -64,4 +70,8 @@ public class ProcessPaymentStateTest {
         Broker.brokers.clear();
     }
 
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> adv1.1

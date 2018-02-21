@@ -11,7 +11,11 @@ public class AdventureStateTest {
 
     @Before
     public void setUp() {
+<<<<<<< HEAD
          advState = new AdventureState() {
+=======
+        advState = new AdventureState() {
+>>>>>>> adv1.1
             @Override
             public Adventure.State getState() {
                 return null;

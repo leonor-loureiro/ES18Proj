@@ -59,4 +59,8 @@ public class ActivityProviderReserveActivityMethodTest {
         Assert.assertTrue(act.startsWith("XtremX"));
     }
 
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> adv1.1

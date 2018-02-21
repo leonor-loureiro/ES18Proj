@@ -158,8 +158,14 @@ public class Hotel {
 		return rooms;
 	}
 
+<<<<<<< HEAD
 	public void removeRooms() {
 	    rooms.clear();
     }
 
+=======
+    public void removeRooms() {
+        rooms.clear();
+    }
+>>>>>>> adv1.1
 }
