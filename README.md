@@ -6,7 +6,7 @@ To run tests execute: mvn clean install
 | ---------- | ----------------------- | -------------------------------- | ---------------| ----- |
 |    84702   | Antonio Terra           | antonio.terra@tecnico.ulisboa.pt |   wimpytoaster |   1   |
 |    84774   | Tomás Carrasco          | tomasbccarrasco@gmail.com        |   CarrascoII   |   2   |
-|            |                         |                                  |                |   3   |
+|    84709   | Diogo Andrade           | diogo.freire.dandrade@gmail.com  |   dfAndrade    |   3   |
 |            |                         |                                  |                |   4   |
 |            |                         |                                  |                |   5   |
 |            |                         |                                  |                |   6   |
