@@ -50,8 +50,4 @@ public class HotelReserveRoomMethodTest {
         Hotel.hotels.clear();
     }
 
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> adv1.1

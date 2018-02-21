@@ -10,24 +10,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 public class BankProcessPaymentTest {
-<<<<<<< HEAD
-	private Bank bank;
-	private Account account;
-	private String reference;
 
-	@Before
-	public void setUp() {
-		this.bank = new Bank("Money", "BK01");
-		Client client = new Client(this.bank, "António");
-		this.account = new Account(this.bank, client);
-		this.reference = this.account.deposit(100);
-	}
-
-	@Test
-	public void success() {
-	    String iban = account.getIBAN();
-		String newReference = Bank.processPayment(iban, 50);
-=======
     private Bank bank;
     private Account account;
     private String reference;
@@ -44,18 +27,14 @@ public class BankProcessPaymentTest {
     public void success() {
         String iban = account.getIBAN();
         String newReference = Bank.processPayment(iban, 50);
->>>>>>> adv1.1
 
         assertNotNull(newReference);
         assertTrue(newReference.startsWith("BK01"));
 
         assertNotNull(this.bank.getOperation(newReference));
         assertEquals(Operation.Type.WITHDRAW, this.bank.getOperation(newReference).getType());
-<<<<<<< HEAD
 	}
-=======
-    }
->>>>>>> adv1.1
+
 
 
     @Test(expected = BankException.class)
@@ -76,7 +55,6 @@ public class BankProcessPaymentTest {
     @Test(expected = BankException.class)
     public void noBanks() {
         Bank.banks.clear();
-<<<<<<< HEAD
 	    Bank.processPayment(account.getIBAN(), 10);
     }
 
@@ -86,14 +64,3 @@ public class BankProcessPaymentTest {
 	}
 
 }
-=======
-        Bank.processPayment(account.getIBAN(), 10);
-    }
-
-    @After
-    public void tearDown() {
-        Bank.banks.clear();
-    }
-
-}
->>>>>>> adv1.1
