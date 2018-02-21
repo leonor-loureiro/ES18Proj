@@ -75,6 +75,15 @@ public class InvoiceConstructorTest {
 		new Invoice(VALUE, null, this.itemType, this.seller, this.buyer);
 	}
 
+	@Test(expected = TaxException.class)
+	public void before1970() {
+		new Invoice(VALUE, new LocalDate(1969, 12, 31), this.itemType, this.seller, this.buyer);
+	}
+
+	public void equal1970() {
+		new Invoice(VALUE, new LocalDate(1970, 01, 01), this.itemType, this.seller, this.buyer);
+	}
+
 	@After
 	public void tearDown() {
 		IRS.getIRS().clearAll();

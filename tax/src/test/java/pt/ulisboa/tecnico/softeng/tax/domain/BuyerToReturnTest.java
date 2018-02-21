@@ -7,6 +7,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
+
 public class BuyerToReturnTest {
 	private static final String SELLER_NIF = "123456789";
 	private static final String BUYER_NIF = "987654321";
@@ -51,6 +53,17 @@ public class BuyerToReturnTest {
 	@Test
 	public void noInvoices() {
 		float value = this.buyer.taxReturn(2018);
+
+		assertEquals(0.0f, value, 0.00f);
+	}
+
+	@Test(expected = TaxException.class)
+	public void before1970() {
+		this.buyer.taxReturn(1969);
+	}
+
+	public void equal1970() {
+		float value = this.buyer.taxReturn(1969);
 
 		assertEquals(0.0f, value, 0.00f);
 	}

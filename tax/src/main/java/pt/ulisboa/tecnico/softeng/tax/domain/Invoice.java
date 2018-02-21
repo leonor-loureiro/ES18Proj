@@ -35,7 +35,7 @@ public class Invoice {
 			throw new TaxException();
 		}
 
-		if (date == null) {
+		if (date == null || date.getYear() < 1970) {
 			throw new TaxException();
 		}
 

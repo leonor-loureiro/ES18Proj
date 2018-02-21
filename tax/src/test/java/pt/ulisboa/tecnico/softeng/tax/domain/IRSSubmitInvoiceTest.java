@@ -8,11 +8,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import pt.ulisboa.tecnico.softeng.tax.dataobjects.InvoiceData;
-import pt.ulisboa.tecnico.softeng.tax.domain.Buyer;
-import pt.ulisboa.tecnico.softeng.tax.domain.IRS;
-import pt.ulisboa.tecnico.softeng.tax.domain.Invoice;
-import pt.ulisboa.tecnico.softeng.tax.domain.ItemType;
-import pt.ulisboa.tecnico.softeng.tax.domain.Seller;
 import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 
 public class IRSSubmitInvoiceTest {
@@ -97,7 +92,18 @@ public class IRSSubmitInvoiceTest {
 
 	@Test(expected = TaxException.class)
 	public void nullDate() {
-		InvoiceData invoiceData = new InvoiceData(SELLER_NIF, BUYER_NIF, FOOD, -23.7f, null);
+		InvoiceData invoiceData = new InvoiceData(SELLER_NIF, BUYER_NIF, FOOD, VALUE, null);
+		this.irs.submitInvoice(invoiceData);
+	}
+
+	@Test(expected = TaxException.class)
+	public void before1970() {
+		InvoiceData invoiceData = new InvoiceData(SELLER_NIF, BUYER_NIF, FOOD, VALUE, new LocalDate(1969, 12, 31));
+		this.irs.submitInvoice(invoiceData);
+	}
+
+	public void equal1970() {
+		InvoiceData invoiceData = new InvoiceData(SELLER_NIF, BUYER_NIF, FOOD, VALUE, new LocalDate(1970, 01, 01));
 		this.irs.submitInvoice(invoiceData);
 	}
 
