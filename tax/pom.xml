@@ -24,6 +24,7 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
                 <configuration>
                     <excludes>
                         <exclude>**/TaxException.class</exclude>
+                        <exclude>**/dataobjects/**</exclude>
                     </excludes>
                 </configuration>
             </plugin>
