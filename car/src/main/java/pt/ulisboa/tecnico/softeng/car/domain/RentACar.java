@@ -104,9 +104,9 @@ public class RentACar {
     
     public static RentingData getRentingData(String reference) {
         Renting renting = Renting.getRenting(reference);
-        if (renting != null){
-            return new RentingData(renting);
+        if (renting == null){
+        	throw new CarException();
         }
-        throw new CarException();
+        return new RentingData(renting);
     }
 }

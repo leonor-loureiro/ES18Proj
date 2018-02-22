@@ -125,4 +125,17 @@ public class RentingData {
     public void setEnd(LocalDate end) {
         this.end = end;
     }
+    
+    /**
+     * @return the end
+     */
+    public String getVehicleType() {
+        return this.vehicleType;
+    }
+    /**
+     * @param end the end to set
+     */
+    public void setVehicleType(String vehicleType) {
+    	this.vehicleType = vehicleType;
+    }
 }
