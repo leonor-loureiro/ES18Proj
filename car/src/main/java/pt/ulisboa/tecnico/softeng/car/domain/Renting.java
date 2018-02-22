@@ -1,20 +1,17 @@
 package pt.ulisboa.tecnico.softeng.car.domain;
 
-import java.util.HashMap;
-import java.util.Map;
 import org.joda.time.LocalDate;
 
 import pt.ulisboa.tecnico.softeng.car.exception.CarException;
 
 public class Renting {
-	public static final Map<String, Renting> rentings = new HashMap<>();
 
 	private static int counter;
 
 	private final String reference;
 	private final String drivingLicense;
-	private LocalDate begin;
-	private LocalDate end;
+	private final LocalDate begin;
+	private final LocalDate end;
 	private int kilometers = -1;
 	private final Vehicle vehicle;
 
@@ -25,12 +22,11 @@ public class Renting {
 		this.begin = begin;
 		this.end = end;
 		this.vehicle = vehicle;
-
-		rentings.put(this.reference, this);
 	}
 
 	private void checkArguments(String drivingLicense, LocalDate begin, LocalDate end, Vehicle vehicle) {
-		if (drivingLicense == null || begin == null || end == null || vehicle == null || end.isBefore(begin))
+		if (drivingLicense == null || drivingLicense.isEmpty() || begin == null || end == null || vehicle == null
+				|| end.isBefore(begin))
 			throw new CarException();
 	}
 
@@ -56,41 +52,10 @@ public class Renting {
 	}
 
 	/**
-	 * @param begin
-	 *            the begin to set
-	 */
-	public void setBegin(LocalDate begin) {
-		this.begin = begin;
-	}
-
-	/**
 	 * @return the end
 	 */
 	public LocalDate getEnd() {
 		return end;
-	}
-
-	/**
-	 * @param end
-	 *            the end to set
-	 */
-	public void setEnd(LocalDate end) {
-		this.end = end;
-	}
-
-	/**
-	 * @return the kilometers
-	 */
-	public int getKilometers() {
-		return kilometers;
-	}
-
-	/**
-	 * @param kilometers
-	 *            the kilometers to set
-	 */
-	public void setKilometers(int kilometers) {
-		this.kilometers = kilometers;
 	}
 
 	/**
@@ -128,21 +93,8 @@ public class Renting {
 	 * @param kilometers
 	 */
 	public void checkout(int kilometers) {
-		if (this.getKilometers() > 0) {
-			throw new CarException();
-		}
-		this.setKilometers(kilometers);
-		this.vehicle.addKilometers(kilometers);
-	}
-
-	
-	/**
-	 * Lookup for a renting using its reference.
-	 * @param reference
-	 * @return the renting with the given reference.
-	 */
-	public static Renting getRenting(String reference) {
-		return rentings.get(reference);
+		this.kilometers = kilometers;
+		this.vehicle.addKilometers(this.kilometers);
 	}
 
 }
