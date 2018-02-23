@@ -5,7 +5,7 @@ import org.joda.time.LocalDate;
 import pt.ulisboa.tecnico.softeng.car.exception.CarException;
 
 public class Renting {
-
+	private static String drivingLicenseFormat = "^[a-zA-Z]+\\d+$";
 	private static int counter;
 
 	private final String reference;
@@ -25,7 +25,7 @@ public class Renting {
 	}
 
 	private void checkArguments(String drivingLicense, LocalDate begin, LocalDate end, Vehicle vehicle) {
-		if (drivingLicense == null || drivingLicense.isEmpty() || begin == null || end == null || vehicle == null
+		if (drivingLicense == null || !drivingLicense.matches(drivingLicenseFormat) || begin == null || end == null || vehicle == null
 				|| end.isBefore(begin))
 			throw new CarException();
 	}

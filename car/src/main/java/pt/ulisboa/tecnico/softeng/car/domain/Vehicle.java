@@ -7,11 +7,8 @@ import org.joda.time.LocalDate;
 
 import pt.ulisboa.tecnico.softeng.car.exception.CarException;
 
-/**
- * @author cruz
- *
- */
 public abstract class Vehicle {
+	private static String plateFormat = "..-..-..";
 
 	private final String plate;
 	private int kilometers;
@@ -29,7 +26,7 @@ public abstract class Vehicle {
 	}
 
 	private void checkArguments(String plate, int kilometers, RentACar rentACar) {
-		if (plate == null || plate.isEmpty()) {
+		if (plate == null || !plate.matches(plateFormat)) {
 			throw new CarException();
 		} else if (kilometers < 0) {
 			throw new CarException();

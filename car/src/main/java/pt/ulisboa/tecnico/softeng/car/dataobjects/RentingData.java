@@ -2,8 +2,6 @@ package pt.ulisboa.tecnico.softeng.car.dataobjects;
 
 import org.joda.time.LocalDate;
 
-import pt.ulisboa.tecnico.softeng.car.domain.Renting;
-
 public class RentingData {
 	private String reference;
 	private String plate;
@@ -15,13 +13,14 @@ public class RentingData {
 	public RentingData() {
 	}
 
-	public RentingData(Renting renting) {
-		this.reference = renting.getReference();
-		this.plate = renting.getVehicle().getPlate();
-		this.drivingLicense = renting.getDrivingLicense();
-		this.rentACarCode = renting.getVehicle().getRentACar().getCode();
-		this.begin = renting.getBegin();
-		this.end = renting.getEnd();
+	public RentingData(String reference, String plate, String drivingLicense, String rentACarCode, LocalDate begin,
+			LocalDate end) {
+		this.reference = reference;
+		this.plate = plate;
+		this.drivingLicense = drivingLicense;
+		this.rentACarCode = rentACarCode;
+		this.begin = begin;
+		this.end = end;
 	}
 
 	/**

@@ -14,7 +14,7 @@ public class VehicleTest {
 	private static final String PLATE_CAR = "22-33-HZ";
 	private static final String PLATE_MOTORCYCLE = "44-33-HZ";
 	private static final String RENT_A_CAR_NAME = "Eartz";
-	private static final String DRIVING_LICENSE = "123XYZ";
+	private static final String DRIVING_LICENSE = "lx1423";
 	private static final LocalDate date1 = LocalDate.parse("2018-01-06");
 	private static final LocalDate date2 = LocalDate.parse("2018-01-07");
 	private static final LocalDate date3 = LocalDate.parse("2018-01-08");
@@ -39,13 +39,25 @@ public class VehicleTest {
 	}
 
 	@Test(expected = CarException.class)
+	public void constructorInvalidLicensePlate() {
+		RentACar rentACar = new RentACar(RENT_A_CAR_NAME);
+		new Car("AA-XX-a", 10, rentACar);
+	}
+	
+	@Test(expected = CarException.class)
+	public void constructorInvalidLicensePlate2() {
+		RentACar rentACar = new RentACar(RENT_A_CAR_NAME);
+		new Car("AA-XX-aaa", 10, rentACar);
+	}
+
+	@Test(expected = CarException.class)
 	public void constructorNegativeKilometers() {
 		RentACar rentACar = new RentACar(RENT_A_CAR_NAME);
 		new Car(PLATE_CAR, -1, rentACar);
 	}
 
 	@Test(expected = CarException.class)
-	public void constructorNoRenACar() {
+	public void constructorNoRentACar() {
 		new Car(PLATE_CAR, 0, null);
 	}
 

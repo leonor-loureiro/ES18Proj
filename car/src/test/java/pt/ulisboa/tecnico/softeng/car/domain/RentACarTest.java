@@ -13,7 +13,7 @@ import pt.ulisboa.tecnico.softeng.car.exception.CarException;
 public class RentACarTest {
 	private static final String NAME = "eartz";
 	private static final String PLATE_CAR = "aa-00-11";
-	private static final String DRIVING_LICENSE = "123xyz";
+	private static final String DRIVING_LICENSE = "br123";
 
 	@Test
 	public void constructorSuccess() {

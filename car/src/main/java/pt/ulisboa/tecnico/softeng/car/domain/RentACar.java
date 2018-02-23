@@ -115,6 +115,13 @@ public class RentACar {
 		if (renting == null) {
 			throw new CarException();
 		}
-		return new RentingData(renting);
+		return new RentingData(
+			renting.getReference(),
+			renting.getVehicle().getPlate(),
+			renting.getDrivingLicense(),
+			renting.getVehicle().getRentACar().getCode(),
+			renting.getBegin(),
+			renting.getEnd()
+		);
 	}
 }

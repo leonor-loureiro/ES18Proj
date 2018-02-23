@@ -12,7 +12,7 @@ import pt.ulisboa.tecnico.softeng.car.exception.CarException;
 
 public class RentingTest {
 	private static final String PLATE_CAR = "22-33-HZ";
-	private static final String DRIVING_LICENSE = "112233";
+	private static final String DRIVING_LICENSE = "br112233";
 	private static final LocalDate date0 = LocalDate.parse("2018-01-05");
 	private static final LocalDate date1 = LocalDate.parse("2018-01-06");
 	private static final LocalDate date2 = LocalDate.parse("2018-01-07");
@@ -40,6 +40,13 @@ public class RentingTest {
 		RentACar rentACar = new RentACar("Eartz");
 		Vehicle car = new Car(PLATE_CAR, 10, rentACar);
 		new Renting("", date1, date2, car);
+	}
+
+	@Test(expected = CarException.class)
+	public void constructorFailDrivingLicenseInvalid() {
+		RentACar rentACar = new RentACar("Eartz");
+		Vehicle car = new Car(PLATE_CAR, 10, rentACar);
+		new Renting("12", date1, date2, car);
 	}
 
 	@Test(expected = CarException.class)
