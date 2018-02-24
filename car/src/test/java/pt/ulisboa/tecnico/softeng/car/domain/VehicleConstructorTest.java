@@ -32,8 +32,13 @@ public class VehicleConstructorTest {
 	}
 
 	@Test(expected = CarException.class)
-	public void noLicensePlate() {
+	public void emptyLicensePlate() {
 		new Car("", 10, rentACar);
+	}
+	
+	@Test(expected = CarException.class)
+	public void nullLicensePlate() {
+		new Car(null, 10, rentACar);
 	}
 
 	@Test(expected = CarException.class)
