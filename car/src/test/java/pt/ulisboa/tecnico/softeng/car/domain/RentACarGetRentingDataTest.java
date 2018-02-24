@@ -10,7 +10,7 @@ import org.junit.Test;
 import pt.ulisboa.tecnico.softeng.car.dataobjects.RentingData;
 import pt.ulisboa.tecnico.softeng.car.exception.CarException;
 
-public class RentACarGetRentingData {
+public class RentACarGetRentingDataTest {
 
 	private static final String NAME1 = "eartz";
 	private static final String PLATE_CAR1 = "aa-00-11";

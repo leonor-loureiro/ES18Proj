@@ -9,7 +9,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class RentACarGetAllAvailableVehicles {
+public class RentACarGetAllAvailableVehiclesTest {
 
 	private static final String NAME1 = "eartz";
 	private static final String NAME2 = "eartz";

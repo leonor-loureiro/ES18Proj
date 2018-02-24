@@ -6,7 +6,7 @@ import org.joda.time.LocalDate;
 import org.junit.Before;
 import org.junit.Test;
 
-public class RentACarGetRenting {
+public class RentACarGetRentingTest {
 	private static final String NAME1 = "eartz";
 	private static final String PLATE_CAR1 = "aa-00-11";
 	private static final String DRIVING_LICENSE = "br123";

@@ -68,14 +68,6 @@ public class RentACar {
 		return availableVehicles;
 	}
 
-	public Set<Vehicle> getAvailableMotorcycles(LocalDate begin, LocalDate end) {
-		return getAvailableVehicles(Motorcycle.class, begin, end);
-	}
-
-	public Set<Vehicle> getAvailableCars(LocalDate begin, LocalDate end) {
-		return getAvailableVehicles(Car.class, begin, end);
-	}
-
 	private static Set<Vehicle> getAllAvailableVehicles(Class<?> cls, LocalDate begin, LocalDate end) {
 		Set<Vehicle> vehicles = new HashSet<>();
 		for (RentACar rentACar : rentACars) {
