@@ -56,6 +56,10 @@
 					<configuration>
 						<destFile>${basedir}/target/coverage-reports/jacoco.exec</destFile>
 						<dataFile>${basedir}/target/coverage-reports/jacoco.exec</dataFile>
+						<excludes>
+							<exclude>**/dataobjects/**</exclude>
+							<exclude>**/exception/**</exclude>
+						</excludes>
 					</configuration>
 					<executions>
 						<execution>
