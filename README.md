@@ -24,8 +24,8 @@ To run tests execute: mvn clean install
 
 	Group 1:
 	
-		- miegas4 is in charge of completing the tests in the broke module.
+		- miegas4 is in charge of completing the tests in the broker module.
 
-		- CarrascoII is in charge of creating tests for the classes 'IRS' and 'Buyer'. Then, has to implement those classes.
+		- CarrascoII is in charge of creating tests for the classes 'IRS' and 'Buyer'. Then, he has to implement those classes.
 	
-		-wimpytoaster is in charge of creating tests for the classes 'Invoice', 'ItemType' and 'Seller'. Then, has to implement those classes.
+		-wimpytoaster is in charge of creating tests for the classes 'Invoice', 'ItemType' and 'Seller'. Then, he has to implement those classes.
