@@ -12,7 +12,17 @@ To run tests execute: mvn clean install
 |    84698   | André Fonseca           | andre.filipe.alves.fonseca@ist.utl.pt|   anfifo         |   2   |
 
 
+	Group Division
+
 |    Group 1    |      Group 2      |
 | ------------- | ----------------  |
 | Tax Module    | Car Module        |
 | Broker Module | Remaining Modules |
+
+
+	Responsabilities
+
+Group 1:
+	- miegas4 is in charge of completing the tests in the broke module.
+	- CarrascoII is in charge of creating tests for the classes 'IRS' and 'Buyer'. Then, has to implement those classes.
+	-wimpytoaster is in charge of creating tests for the classes 'Invoice', 'ItemType' and 'Seller'. Then, has to implement those classes.
