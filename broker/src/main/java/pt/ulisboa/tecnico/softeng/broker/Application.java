@@ -19,7 +19,7 @@ public class Application {
 
 		Broker broker = new Broker("BR01", "Fun");
 		Adventure adventure = new Adventure(broker, new LocalDate(), new LocalDate(), 33, account.getIBAN(), 50);
-		
+
 		adventure.process();
 
 		System.out.println("Your payment reference is " + adventure.getPaymentConfirmation() + " and you have "
