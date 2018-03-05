@@ -20,7 +20,7 @@ To run tests execute: mvn clean install
 | Broker Module | Remaining Modules |
 
 
-	Responsabilities
+	Responsibilities
 
 Group 1:
 
