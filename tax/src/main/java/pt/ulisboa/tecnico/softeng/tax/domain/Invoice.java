@@ -8,4 +8,10 @@ public class Invoice {
 	private float value;
 	private float IVA;
 	private LocalDate date;
+	
+	public Invoice(float value, LocalDate date, String itemType, Seller seller, Buyer buyer) {
+		
+	}
+	
+	
 }

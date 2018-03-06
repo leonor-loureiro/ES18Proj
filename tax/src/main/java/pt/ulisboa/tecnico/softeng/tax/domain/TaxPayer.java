@@ -6,4 +6,7 @@ public class TaxPayer {
 	private String name;
 	private String address;
 	
+	public TaxPayer(String NIF, String name, String address) {
+		
+	}
 }
