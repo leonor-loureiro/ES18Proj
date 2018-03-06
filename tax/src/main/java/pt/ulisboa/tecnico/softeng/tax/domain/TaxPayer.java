@@ -1,6 +1,6 @@
 package pt.ulisboa.tecnico.softeng.tax.domain;
 
-public class TaxPayer {
+public abstract class TaxPayer {
 	
 	private String NIF;
 	private String name;
