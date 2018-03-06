@@ -1,5 +1,7 @@
 package pt.ulisboa.tecnico.softeng.bank.domain;
 
+import static org.junit.Assert.assertNull;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -41,17 +43,15 @@ public class BankGetAccountMethodTest {
 		this.bank.getAccount("    ");
 	}
 
-	@Test(expected = BankException.class)
 	public void emptySetOfAccounts() {
-		this.bank.getAccount("XPTO");
+		assertNull(this.bank.getAccount("XPTO"));
 	}
 
-	@Test(expected = BankException.class)
 	public void severalAccountsDoNoMatch() {
 		new Account(this.bank, this.client);
 		new Account(this.bank, this.client);
 
-		this.bank.getAccount("XPTO");
+		assertNull(this.bank.getAccount("XPTO"));
 	}
 
 	@After
