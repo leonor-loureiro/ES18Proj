@@ -17,8 +17,8 @@ public class IRSGetTaxPayerByNIFTest {
 	@Before
 	public void setUp() {
 		this.irs = IRS.getIRS();
-		new Seller(SELLER_NIF, "José Vendido", "Somewhere");
-		new Buyer(BUYER_NIF, "Manuel Comprado", "Anywhere");
+		new Seller(this.irs, SELLER_NIF, "José Vendido", "Somewhere");
+		new Buyer(this.irs, BUYER_NIF, "Manuel Comprado", "Anywhere");
 	}
 
 	@Test

@@ -5,8 +5,8 @@ import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 public class Buyer extends TaxPayer {
 	private final static int PERCENTAGE = 5;
 
-	public Buyer(String NIF, String name, String address) {
-		super(NIF, name, address);
+	public Buyer(IRS irs, String NIF, String name, String address) {
+		super(irs, NIF, name, address);
 	}
 
 	public float taxReturn(int year) {

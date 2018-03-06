@@ -25,8 +25,9 @@ public class TaxPayerGetInvoiceByReferenceTest {
 
 	@Before
 	public void setUp() {
-		this.seller = new Seller(SELLER_NIF, "José Vendido", "Somewhere");
-		this.buyer = new Buyer(BUYER_NIF, "Manuel Comprado", "Anywhere");
+		IRS irs = IRS.getIRS();
+		this.seller = new Seller(irs, SELLER_NIF, "José Vendido", "Somewhere");
+		this.buyer = new Buyer(irs, BUYER_NIF, "Manuel Comprado", "Anywhere");
 		this.itemType = new ItemType(FOOD, TAX);
 		this.invoice = new Invoice(VALUE, this.date, this.itemType, this.seller, this.buyer);
 	}

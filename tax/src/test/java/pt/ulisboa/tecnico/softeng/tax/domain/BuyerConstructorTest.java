@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
@@ -13,9 +14,16 @@ public class BuyerConstructorTest {
 	private static final String NAME = "José Vendido";
 	private static final String NIF = "123456789";
 
+	IRS irs;
+
+	@Before
+	public void setUp() {
+		this.irs = IRS.getIRS();
+	}
+
 	@Test
 	public void success() {
-		Buyer buyer = new Buyer(NIF, NAME, ADDRESS);
+		Buyer buyer = new Buyer(this.irs, NIF, NAME, ADDRESS);
 
 		assertEquals(NIF, buyer.getNIF());
 		assertEquals(NAME, buyer.getName());
@@ -26,10 +34,10 @@ public class BuyerConstructorTest {
 
 	@Test
 	public void uniqueNIF() {
-		Buyer seller = new Buyer(NIF, NAME, ADDRESS);
+		Buyer seller = new Buyer(this.irs, NIF, NAME, ADDRESS);
 
 		try {
-			new Buyer(NIF, NAME, ADDRESS);
+			new Buyer(this.irs, NIF, NAME, ADDRESS);
 			fail();
 		} catch (TaxException ie) {
 			assertEquals(seller, IRS.getIRS().getTaxPayerByNIF(NIF));
@@ -38,37 +46,37 @@ public class BuyerConstructorTest {
 
 	@Test(expected = TaxException.class)
 	public void nullNIF() {
-		new Buyer(null, NAME, ADDRESS);
+		new Buyer(this.irs, null, NAME, ADDRESS);
 	}
 
 	@Test(expected = TaxException.class)
 	public void emptyNIF() {
-		new Buyer("", NAME, ADDRESS);
+		new Buyer(this.irs, "", NAME, ADDRESS);
 	}
 
 	@Test(expected = TaxException.class)
 	public void nonNineDigitsNIF() {
-		new Buyer("12345678", NAME, ADDRESS);
+		new Buyer(this.irs, "12345678", NAME, ADDRESS);
 	}
 
 	@Test(expected = TaxException.class)
 	public void nullName() {
-		new Buyer(NIF, null, ADDRESS);
+		new Buyer(this.irs, NIF, null, ADDRESS);
 	}
 
 	@Test(expected = TaxException.class)
 	public void emptyName() {
-		new Buyer(NIF, "", ADDRESS);
+		new Buyer(this.irs, NIF, "", ADDRESS);
 	}
 
 	@Test(expected = TaxException.class)
 	public void nullAddress() {
-		new Buyer(NIF, NAME, null);
+		new Buyer(this.irs, NIF, NAME, null);
 	}
 
 	@Test(expected = TaxException.class)
 	public void emptyAddress() {
-		new Buyer(NIF, NAME, "");
+		new Buyer(this.irs, NIF, NAME, "");
 	}
 
 	@After

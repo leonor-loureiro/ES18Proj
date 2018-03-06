@@ -9,17 +9,17 @@ public abstract class TaxPayer {
 	protected final Set<Invoice> invoices = new HashSet<>();
 
 	private final String NIF;
-	private String name;
-	private String address;
+	private final String name;
+	private final String address;
 
-	public TaxPayer(String NIF, String name, String address) {
+	public TaxPayer(IRS irs, String NIF, String name, String address) {
 		checkArguments(NIF, name, address);
 
 		this.NIF = NIF;
 		this.name = name;
 		this.address = address;
 
-		IRS.getIRS().addTaxPayer(this);
+		irs.addTaxPayer(this);
 	}
 
 	private void checkArguments(String NIF, String name, String address) {
@@ -69,5 +69,5 @@ public abstract class TaxPayer {
 	public String getAddress() {
 		return this.address;
 	}
-	
+
 }
