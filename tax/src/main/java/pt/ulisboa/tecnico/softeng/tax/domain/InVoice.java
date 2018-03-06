@@ -2,14 +2,14 @@ package pt.ulisboa.tecnico.softeng.tax.domain;
 
 import org.joda.time.LocalDate;
 
-public class Invoice {
-	
+public class InVoice {
+		
 	private String reference;
 	private float value;
 	private float IVA;
 	private LocalDate date;
 	
-	public Invoice(float value, LocalDate date, String itemType, Seller seller, Buyer buyer) {
+	public InVoice(float value, LocalDate date, String itemType, Seller seller, Buyer buyer) {
 		
 	}
 	
