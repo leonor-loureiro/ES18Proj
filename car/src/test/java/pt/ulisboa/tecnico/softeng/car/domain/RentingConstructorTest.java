@@ -67,6 +67,7 @@ public class RentingConstructorTest {
 	@After
 	public void tearDown() {
 		RentACar.rentACars.clear();
+		Vehicle.plates.clear();
 	}
 
 }

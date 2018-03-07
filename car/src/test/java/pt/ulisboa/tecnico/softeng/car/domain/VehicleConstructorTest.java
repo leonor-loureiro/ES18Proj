@@ -35,7 +35,7 @@ public class VehicleConstructorTest {
 	public void emptyLicensePlate() {
 		new Car("", 10, rentACar);
 	}
-	
+
 	@Test(expected = CarException.class)
 	public void nullLicensePlate() {
 		new Car(null, 10, rentACar);
@@ -50,11 +50,18 @@ public class VehicleConstructorTest {
 	public void invalidLicensePlate2() {
 		new Car("AA-XX-aaa", 10, rentACar);
 	}
-	
+
 	@Test(expected = CarException.class)
 	public void duplicatedPlate() {
 		new Car(PLATE_CAR, 0, rentACar);
 		new Car(PLATE_CAR, 0, rentACar);
+	}
+
+	@Test(expected = CarException.class)
+	public void duplicatedPlateDifferentRentACar() {
+		new Car(PLATE_CAR, 0, rentACar);
+		RentACar rentACar2 = new RentACar(RENT_A_CAR_NAME + "2");
+		new Car(PLATE_CAR, 2, rentACar2);
 	}
 
 	@Test(expected = CarException.class)
@@ -70,6 +77,7 @@ public class VehicleConstructorTest {
 	@After
 	public void tearDown() {
 		RentACar.rentACars.clear();
+		Vehicle.plates.clear();
 	}
 
 }

@@ -1,7 +1,9 @@
 package pt.ulisboa.tecnico.softeng.car.domain;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.joda.time.LocalDate;
 
@@ -9,6 +11,7 @@ import pt.ulisboa.tecnico.softeng.car.exception.CarException;
 
 public abstract class Vehicle {
 	private static String plateFormat = "..-..-..";
+	static Set<String> plates = new HashSet<String>();
 
 	private final String plate;
 	private int kilometers;
@@ -16,17 +19,19 @@ public abstract class Vehicle {
 	public final Map<String, Renting> rentings = new HashMap<>();
 
 	public Vehicle(String plate, int kilometers, RentACar rentACar) {
+		System.out.println(plate);
 		checkArguments(plate, kilometers, rentACar);
 
 		this.plate = plate;
 		this.kilometers = kilometers;
 		this.rentACar = rentACar;
 
+		plates.add(plate.toUpperCase());
 		rentACar.addVehicle(this);
 	}
 
 	private void checkArguments(String plate, int kilometers, RentACar rentACar) {
-		if (plate == null || !plate.matches(plateFormat)) {
+		if (plate == null || !plate.matches(plateFormat) || plates.contains(plate.toUpperCase())) {
 			throw new CarException();
 		} else if (kilometers < 0) {
 			throw new CarException();

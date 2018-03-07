@@ -31,7 +31,7 @@ public class RentACarGetRentingDataTest {
 		RentingData rentingData = RentACar.getRentingData(renting.getReference());
 		assertEquals(renting.getReference(), rentingData.getReference());
 		assertEquals(DRIVING_LICENSE, rentingData.getDrivingLicense());
-		assertEquals(PLATE_CAR1, rentingData.getPlate());
+		assertEquals(0, PLATE_CAR1.compareToIgnoreCase(rentingData.getPlate()));
 		assertEquals(this.car.getRentACar().getCode(), rentingData.getRentACarCode());
 	}
 
@@ -43,5 +43,6 @@ public class RentACarGetRentingDataTest {
 	@After
 	public void tearDown() {
 		RentACar.rentACars.clear();
+		Vehicle.plates.clear();
 	}
 }

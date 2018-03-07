@@ -3,6 +3,7 @@ package pt.ulisboa.tecnico.softeng.car.domain;
 import static org.junit.Assert.*;
 
 import org.joda.time.LocalDate;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -33,4 +34,9 @@ public class RentACarGetRentingTest {
 		assertNull(RentACar.getRenting("a"));
 	}
 
+	@After
+	public void tearDown() {
+		RentACar.rentACars.clear();
+		Vehicle.plates.clear();
+	}
 }

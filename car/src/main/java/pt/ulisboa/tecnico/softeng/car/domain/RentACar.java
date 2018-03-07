@@ -48,9 +48,6 @@ public class RentACar {
 	}
 
 	void addVehicle(Vehicle vehicle) {
-		if (hasVehicle(vehicle.getPlate())) {
-			throw new CarException();
-		}
 		this.vehicles.put(vehicle.getPlate(), vehicle);
 	}
 
