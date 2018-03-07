@@ -6,12 +6,16 @@ import java.util.Map;
 import java.util.Set;
 
 import org.joda.time.LocalDate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import pt.ulisboa.tecnico.softeng.car.exception.CarException;
 
 public abstract class Vehicle {
+	private static Logger logger = LoggerFactory.getLogger(Vehicle.class);
+
 	private static String plateFormat = "..-..-..";
-	static Set<String> plates = new HashSet<String>();
+	private static Set<String> plates = new HashSet<>();
 
 	private final String plate;
 	private int kilometers;
@@ -19,7 +23,7 @@ public abstract class Vehicle {
 	public final Map<String, Renting> rentings = new HashMap<>();
 
 	public Vehicle(String plate, int kilometers, RentACar rentACar) {
-		System.out.println(plate);
+		logger.debug("Vehicle plate: {}", plate);
 		checkArguments(plate, kilometers, rentACar);
 
 		this.plate = plate;
@@ -44,14 +48,14 @@ public abstract class Vehicle {
 	 * @return the plate
 	 */
 	public String getPlate() {
-		return plate;
+		return this.plate;
 	}
 
 	/**
 	 * @return the kilometers
 	 */
 	public int getKilometers() {
-		return kilometers;
+		return this.kilometers;
 	}
 
 	/**
@@ -69,14 +73,14 @@ public abstract class Vehicle {
 	 * @return the rentACar
 	 */
 	public RentACar getRentACar() {
-		return rentACar;
+		return this.rentACar;
 	}
 
 	public boolean isFree(LocalDate begin, LocalDate end) {
 		if (begin == null || end == null) {
 			throw new CarException();
 		}
-		for (Renting renting : rentings.values()) {
+		for (Renting renting : this.rentings.values()) {
 			if (renting.conflict(begin, end)) {
 				return false;
 			}
