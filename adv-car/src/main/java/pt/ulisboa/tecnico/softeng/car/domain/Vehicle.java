@@ -15,7 +15,7 @@ public abstract class Vehicle {
 	private static Logger logger = LoggerFactory.getLogger(Vehicle.class);
 
 	private static String plateFormat = "..-..-..";
-	private static Set<String> plates = new HashSet<>();
+	static Set<String> plates = new HashSet<>();
 
 	private final String plate;
 	private int kilometers;
