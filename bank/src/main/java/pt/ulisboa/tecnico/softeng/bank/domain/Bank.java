@@ -106,8 +106,12 @@ public class Bank {
 
 	public static String processPayment(String IBAN, int amount) {
 		for (Bank bank : Bank.banks) {
-			if (bank.getAccount(IBAN) != null) {
+			try {
+				bank.getAccount(IBAN); 				
 				return bank.getAccount(IBAN).withdraw(amount);
+			}
+			catch(BankException e) {
+				// Keep checking if account in another bank
 			}
 		}
 		throw new BankException();
