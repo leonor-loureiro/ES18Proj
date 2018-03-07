@@ -16,7 +16,7 @@ public class BankProcessPaymentMethodTest {
 	public void setUp() {
 		this.bank = new Bank("Money", "BK01");
 		this.client = new Client(this.bank, "António");
-		account = new Account(this.bank, this.client);
+		this.account = new Account(this.bank, this.client);
 		this.account.deposit(100);
 	}
 
@@ -41,6 +41,15 @@ public class BankProcessPaymentMethodTest {
 		Bank.processPayment("XPTO",50);
 	}
 	
+	@Test
+	public void multipleBanks() {
+		Bank newBank = new Bank("Money1","BK02");
+		Client newClient = new Client(newBank, "Manel");
+		Account newAccount = new Account(newBank, newClient);
+		newAccount.deposit(100);
+		String reference = Bank.processPayment(newAccount.getIBAN(),50);
+		Assert.assertNotNull(reference);
+	}
 	
 	@After
 	public void tearDown() {
