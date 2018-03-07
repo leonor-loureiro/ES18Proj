@@ -57,6 +57,27 @@ public class BulkRoomBookingTest {
         assertNull(bulk.getReference("CR7"));
     }
 
+    @Test
+    public void endBeforeBegin() {
+        BulkRoomBooking bulk = new BulkRoomBooking(2, this.end, this.begin);
+
+        bulk.processBooking();
+        bulk.processBooking();
+        bulk.processBooking();
+        bulk.processBooking();
+
+        assertEquals(0, bulk.getReferences().size());
+    }
+
+    @Test
+    public void datesAreNull() {
+        BulkRoomBooking bulk = new BulkRoomBooking(2, null, null);
+
+        bulk.processBooking();
+
+        assertEquals(0, bulk.getReferences().size());
+    }
+
     @After
     public void tearDown() {
         Broker.brokers.clear();
