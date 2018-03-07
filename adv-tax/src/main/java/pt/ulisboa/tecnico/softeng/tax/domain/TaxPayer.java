@@ -13,7 +13,7 @@ public abstract class TaxPayer {
 	private final String address;
 
 	public TaxPayer(IRS irs, String NIF, String name, String address) {
-		checkArguments(NIF, name, address);
+		checkArguments(irs, NIF, name, address);
 
 		this.NIF = NIF;
 		this.name = name;
@@ -22,7 +22,7 @@ public abstract class TaxPayer {
 		irs.addTaxPayer(this);
 	}
 
-	private void checkArguments(String NIF, String name, String address) {
+	private void checkArguments(IRS irs, String NIF, String name, String address) {
 		if (NIF == null || NIF.length() != 9) {
 			throw new TaxException();
 		}
@@ -35,7 +35,7 @@ public abstract class TaxPayer {
 			throw new TaxException();
 		}
 
-		if (IRS.getIRS().getTaxPayerByNIF(NIF) != null) {
+		if (irs.getTaxPayerByNIF(NIF) != null) {
 			throw new TaxException();
 		}
 
