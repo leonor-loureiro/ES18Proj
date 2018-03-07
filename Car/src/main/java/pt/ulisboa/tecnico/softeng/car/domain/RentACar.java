@@ -1,9 +1,11 @@
-package pt.ulisboa.tecnico.softeng.car;
+package pt.ulisboa.tecnico.softeng.car.domain;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.joda.time.LocalDate;
+
+import pt.ulisboa.tecnico.softeng.car.dataobject.RentingData;
 
 public class RentACar {
 	private String _name;
