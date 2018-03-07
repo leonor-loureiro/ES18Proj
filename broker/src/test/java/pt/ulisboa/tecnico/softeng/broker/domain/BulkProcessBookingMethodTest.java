@@ -68,7 +68,6 @@ public class BulkProcessBookingMethodTest {
 		numberOfRooms = 2;
 		bulk = new BulkRoomBooking(numberOfRooms, arrival, departure);
 		
-		//Gets all bookings made
 		bulk.processBooking();
 
 		Set<String> result = new HashSet<>();
@@ -90,6 +89,18 @@ public class BulkProcessBookingMethodTest {
 		Assert.assertTrue(result.size() == 2); //Must be made 2 Bookings
 		Assert.assertTrue(hasReferenceR1); //Room1 must have a reference
 		Assert.assertTrue(hasReferenceR2); //Room2 must have a reference		
+		
+	}
+	
+	@Test 
+	public void failTooManyBooked() {
+		numberOfRooms = 3;
+		bulk = new BulkRoomBooking(numberOfRooms, arrival, departure);
+		
+		bulk.processBooking();
+		
+		Assert.assertTrue(bulk.getReferences().size() == 0);
+		Assert.assertTrue(bulk.getReferences().equals(new HashSet<String>()));
 		
 	}
 	
