@@ -24,7 +24,7 @@ public class IRSSubmitInvoiceTest {
 		this.irs = IRS.getIRS();
 		new Seller(this.irs, SELLER_NIF, "José Vendido", "Somewhere");
 		new Buyer(this.irs, BUYER_NIF, "Manuel Comprado", "Anywhere");
-		new ItemType(FOOD, VALUE);
+		new ItemType(this.irs, FOOD, VALUE);
 	}
 
 	@Test

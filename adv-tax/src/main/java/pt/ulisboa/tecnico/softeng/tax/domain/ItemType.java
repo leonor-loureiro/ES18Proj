@@ -6,20 +6,20 @@ public class ItemType {
 	public final String name;
 	public int tax;
 
-	public ItemType(String name, int tax) {
-		checkArguments(name, tax);
+	public ItemType(IRS irs, String name, int tax) {
+		checkArguments(irs, name, tax);
 		this.name = name;
 		this.tax = tax;
 
-		IRS.getIRS().addItemType(this);
+		irs.addItemType(this);
 	}
 
-	private void checkArguments(String name, int tax) {
+	private void checkArguments(IRS irs, String name, int tax) {
 		if (name == null || name.isEmpty()) {
 			throw new TaxException();
 		}
 
-		if (IRS.getIRS().getItemTypeByName(name) != null) {
+		if (irs.getItemTypeByName(name) != null) {
 			throw new TaxException();
 		}
 

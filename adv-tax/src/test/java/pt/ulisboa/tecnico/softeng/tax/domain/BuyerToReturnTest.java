@@ -25,7 +25,7 @@ public class BuyerToReturnTest {
 		IRS irs = IRS.getIRS();
 		this.seller = new Seller(irs, SELLER_NIF, "José Vendido", "Somewhere");
 		this.buyer = new Buyer(irs, BUYER_NIF, "Manuel Comprado", "Anywhere");
-		this.itemType = new ItemType(FOOD, TAX);
+		this.itemType = new ItemType(irs, FOOD, TAX);
 	}
 
 	@Test
