@@ -154,12 +154,12 @@
 	</dependencies>
 
 	<modules>
-        <module>adv-tax</module>
-        <module>adv-car</module>
-		<module>adv-bank</module>
-		<module>adv-hotel</module>
-		<module>adv-activity</module>
-		<module>adv-broker</module>
+        	<module>car</module>
+		<module>bank</module>
+		<module>hotel</module>
+		<module>activity</module>
+		<module>broker</module>
+		<module>tax</module>
 	</modules>
 </project>
 
