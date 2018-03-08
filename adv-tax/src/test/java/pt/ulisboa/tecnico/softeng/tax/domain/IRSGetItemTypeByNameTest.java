@@ -17,7 +17,7 @@ public class IRSGetItemTypeByNameTest {
 	@Before
 	public void setUp() {
 		this.irs = IRS.getIRS();
-		new ItemType(FOOD, VALUE);
+		new ItemType(this.irs, FOOD, VALUE);
 	}
 
 	@Test
