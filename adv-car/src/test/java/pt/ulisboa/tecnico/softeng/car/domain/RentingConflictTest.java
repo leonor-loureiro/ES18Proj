@@ -20,7 +20,6 @@ public class RentingConflictTest {
 	private static final String RENT_A_CAR_NAME = "Eartz";
 	private Car car;
 
-
 	@Before
 	public void setUp() {
 		RentACar rentACar = new RentACar(RENT_A_CAR_NAME);
@@ -28,21 +27,41 @@ public class RentingConflictTest {
 	}
 
 	@Test()
-	public void checkAvailability() {
+	public void retingIsBeforeDates() {
 		Renting renting = new Renting(DRIVING_LICENSE, date1, date2, car);
 		assertFalse(renting.conflict(date3, date4));
+	}
+
+	@Test()
+	public void retingIsBeforeDatesSameDayInterval() {
+		Renting renting = new Renting(DRIVING_LICENSE, date1, date2, car);
 		assertFalse(renting.conflict(date3, date3));
+	}
+
+	@Test()
+	public void rentingEndsOnStartDate() {
+		Renting renting = new Renting(DRIVING_LICENSE, date1, date2, car);
 		assertTrue(renting.conflict(date2, date3));
+	}
+
+	@Test()
+	public void rentingStartsOnEndDate() {
+		Renting renting = new Renting(DRIVING_LICENSE, date1, date2, car);
 		assertTrue(renting.conflict(date1, date1));
+	}
+
+	@Test()
+	public void rentingStartsDuringInterval() {
+		Renting renting = new Renting(DRIVING_LICENSE, date1, date2, car);
 		assertTrue(renting.conflict(date0, date3));
 	}
 
 	@Test(expected = CarException.class)
-	public void endBeforeBeginCheckAvailability() {
+	public void endBeforeBegin() {
 		Renting renting = new Renting(DRIVING_LICENSE, date1, date2, car);
 		renting.conflict(date2, date1);
 	}
-	
+
 	@After
 	public void tearDown() {
 		RentACar.rentACars.clear();
