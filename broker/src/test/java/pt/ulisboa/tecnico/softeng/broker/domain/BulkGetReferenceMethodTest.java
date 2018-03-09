@@ -2,6 +2,9 @@ package pt.ulisboa.tecnico.softeng.broker.domain;
 
 import pt.ulisboa.tecnico.softeng.hotel.domain.Hotel;
 import pt.ulisboa.tecnico.softeng.hotel.domain.Room;
+
+import java.util.HashSet;
+
 import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Assert;
@@ -11,7 +14,7 @@ import org.junit.Test;
 
 public class BulkGetReferenceMethodTest {
 
-	private static int numberOfRooms = 4;
+	private int numberOfRooms = 4;
 	private static final LocalDate arrival = new LocalDate(2018, 3, 5);
 	private static final LocalDate departure = new LocalDate(2018, 3, 5);
 	private Hotel h1;
@@ -27,14 +30,13 @@ public class BulkGetReferenceMethodTest {
 		h2 = new Hotel("Hotel02", "S.Roque do Pico Hotel");
 		new Room(h2, "1", Room.Type.DOUBLE);
 		new Room(h2, "2", Room.Type.DOUBLE);
-				
-		bulk = new BulkRoomBooking(numberOfRooms, arrival, departure);
 
+		bulk = new BulkRoomBooking(numberOfRooms, arrival, departure);
+		bulk.processBooking();
 	}
 
 	@Test
 	public void successWithRooms() {
-		bulk.processBooking();
 		
 		String refSingle1 = bulk.getReference(Room.Type.SINGLE.name());
 		String refSingle2 = bulk.getReference(Room.Type.SINGLE.name());
@@ -54,16 +56,34 @@ public class BulkGetReferenceMethodTest {
 	}
 	
 	@Test
-	public void nullArgument() {
-		bulk.processBooking();
-		
+	public void nullArgument() {		
 		Assert.assertNull(bulk.getReference(null));		
+	}
+	
+	@Test 
+	public void cancelledState() {		
+		bulk = getBulkCancelled();
+		Assert.assertNull(bulk.getReference(null));	
 	}
 	
 
 	@After
 	public void tearDown() {
 		Hotel.hotels.clear();
+	}
+	
+	private BulkRoomBooking getBulkCancelled() {
+		numberOfRooms = 10;
+		bulk = new BulkRoomBooking(numberOfRooms, arrival, departure);
+		
+		for (int i = 0; i < BulkRoomBooking.MAX_HOTEL_EXCEPTIONS; i++) {
+			bulk.processBooking();
+		}
+		
+		new Room(h1, "3", Room.Type.SINGLE);
+		bulk.processBooking();
+		
+		return bulk;
 	}
 
 }
