@@ -6,11 +6,12 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import pt.ulisboa.tecnico.softeng.car.exception.CarException;
 
 
 public class CarMethodsTest {
-	private RentACar rentACar;
 	private Car car;
+	private RentACar rentACar;
 	private String drivingLicense = "A123456789";
 	private final LocalDate begin = new LocalDate(2016, 12, 19);
 	private final LocalDate end = new LocalDate(2016, 12, 21);
@@ -29,21 +30,14 @@ public class CarMethodsTest {
 	@Test
 	public void testRent() {
 		Assert.assertNotNull(car.rent(drivingLicense, begin, end));
-	}
-	
-	/**
-	 * begin date = end date
-	 */
-	@Test(expected = CarException.class)
-	public void badDateRent() {	
-		car.rent(drivingLicense, begin, begin);
+		Assert.assertNotNull(car.rent(drivingLicense, begin, begin));
 	}
 	
 	/**
 	 * end date < begin date
 	 */
 	@Test(expected = CarException.class)
-	public void badDateRent2() {
+	public void badDateRent() {
 		car.rent(drivingLicense, end, begin);
 	}
 	
@@ -51,6 +45,9 @@ public class CarMethodsTest {
 	@Test
 	public void testIsFreeTrue() {
 		Assert.assertTrue(car.isFree(begin, end));
+		
+		car.rent(drivingLicense, end, end);
+		Assert.assertTrue(car.isFree(begin, begin));
 	}
 
 	@Test
@@ -59,17 +56,6 @@ public class CarMethodsTest {
 		Assert.assertFalse(car.isFree(begin, end));
 	}
 	
-// Undefined behavior, should be checked when defined
-//
-//	@Test
-//	public void badTestIsFree() {
-//		car.isFree(begin, begin);
-//	}
-//	
-//	@Test
-//	public void badTestIsFree2() {
-//		car.isFree(end, end);
-//	}
 
 
 }
