@@ -11,9 +11,12 @@ public class Seller extends TaxPayer{
 		
 	}
 	
-	public toPay(int YEAR) {
+	public void toPay(int YEAR) {
 		
 	}
 	
+	public Invoice getInvoiceByReference(String INVOICE_REFERENCE) {
+		
+	}
 	
 }

@@ -20,43 +20,43 @@ public class invoiceData {
 		
 	}
 
-	public getSellerNIF() {
+	public String getSellerNIF() {
 		return this.sellerNIF;
 	}
 	
-	public setSellerNIF(String sellerNIF) {
+	public void setSellerNIF(String sellerNIF) {
 		this.sellerNIF = sellerNIF;
 	}
 	
-	public getBuyerNIF() {
+	public String getBuyerNIF() {
 		return this.buyerNIF;
 	}
 	
-	public setBuyerNIF(String buyerNIF) {
+	public void setBuyerNIF(String buyerNIF) {
 		this.buyerNIF = buyerNIF;
 	}
 	
-	public getItemType() {
+	public String getItemType() {
 		return this.itemType;
 	}
 	
-	public setItemType(String itemType) {
+	public void setItemType(String itemType) {
 		this.itemType = itemType;
 	}
 	
-	public getValue() {
+	public float getValue() {
 		return this.value;
 	}
 	
-	public setValue(float value) {
+	public void setValue(float value) {
 		this.value = value;
 	}
 	
-	public getDate() {
+	public LocalDate getDate() {
 		return this.date;
 	}
 	
-	public setDate(LocalData date) {
+	public void setDate(LocalData date) {
 		this.date = date;
 	}
 
