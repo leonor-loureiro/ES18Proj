@@ -6,9 +6,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import mockit.Expectations;
 import mockit.Injectable;
 import mockit.Mocked;
-import mockit.StrictExpectations;
 import mockit.integration.junit4.JMockit;
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
 import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
@@ -46,7 +46,7 @@ public class UndoStateProcessMethodTest {
 	@Test
 	public void successRevertPayment(@Mocked final BankInterface bankInterface) {
 		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				BankInterface.cancelPayment(PAYMENT_CONFIRMATION);
 				this.result = PAYMENT_CANCELLATION;
@@ -61,7 +61,7 @@ public class UndoStateProcessMethodTest {
 	@Test
 	public void successRevertPaymentButBankException(@Mocked final BankInterface bankInterface) {
 		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				BankInterface.cancelPayment(PAYMENT_CONFIRMATION);
 				this.result = new BankException();
@@ -76,7 +76,7 @@ public class UndoStateProcessMethodTest {
 	@Test
 	public void successRevertPaymentButRemoteAccessException(@Mocked final BankInterface bankInterface) {
 		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				BankInterface.cancelPayment(PAYMENT_CONFIRMATION);
 				this.result = new RemoteAccessException();
@@ -93,7 +93,7 @@ public class UndoStateProcessMethodTest {
 			@Mocked final ActivityInterface activityInterface) {
 		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
 		this.adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION);
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				BankInterface.cancelPayment(PAYMENT_CONFIRMATION);
 				this.result = PAYMENT_CANCELLATION;
@@ -113,7 +113,7 @@ public class UndoStateProcessMethodTest {
 			@Mocked final ActivityInterface activityInterface) {
 		this.adventure.setPaymentCancellation(PAYMENT_CANCELLATION);
 		this.adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION);
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				ActivityInterface.cancelReservation(ACTIVITY_CONFIRMATION);
 				this.result = ACTIVITY_CANCELLATION;
@@ -130,7 +130,7 @@ public class UndoStateProcessMethodTest {
 			@Mocked final ActivityInterface activityInterface) {
 		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
 		this.adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION);
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				BankInterface.cancelPayment(PAYMENT_CONFIRMATION);
 				this.result = PAYMENT_CANCELLATION;
@@ -150,7 +150,7 @@ public class UndoStateProcessMethodTest {
 			@Mocked final ActivityInterface activityInterface) {
 		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
 		this.adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION);
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				BankInterface.cancelPayment(PAYMENT_CONFIRMATION);
 				this.result = PAYMENT_CANCELLATION;
@@ -171,7 +171,7 @@ public class UndoStateProcessMethodTest {
 		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
 		this.adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION);
 		this.adventure.setRoomConfirmation(ROOM_CONFIRMATION);
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				BankInterface.cancelPayment(PAYMENT_CONFIRMATION);
 				this.result = PAYMENT_CANCELLATION;
@@ -195,7 +195,7 @@ public class UndoStateProcessMethodTest {
 		this.adventure.setPaymentCancellation(PAYMENT_CANCELLATION);
 		this.adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION);
 		this.adventure.setRoomConfirmation(ROOM_CONFIRMATION);
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				ActivityInterface.cancelReservation(ACTIVITY_CONFIRMATION);
 				this.result = ACTIVITY_CANCELLATION;
@@ -216,7 +216,7 @@ public class UndoStateProcessMethodTest {
 		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
 		this.adventure.setActivityCancellation(ACTIVITY_CANCELLATION);
 		this.adventure.setRoomConfirmation(ROOM_CONFIRMATION);
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				BankInterface.cancelPayment(PAYMENT_CONFIRMATION);
 				this.result = PAYMENT_CANCELLATION;
@@ -237,7 +237,7 @@ public class UndoStateProcessMethodTest {
 		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
 		this.adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION);
 		this.adventure.setRoomConfirmation(ROOM_CONFIRMATION);
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				BankInterface.cancelPayment(PAYMENT_CONFIRMATION);
 				this.result = PAYMENT_CANCELLATION;
@@ -262,7 +262,7 @@ public class UndoStateProcessMethodTest {
 		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
 		this.adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION);
 		this.adventure.setRoomConfirmation(ROOM_CONFIRMATION);
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				BankInterface.cancelPayment(PAYMENT_CONFIRMATION);
 				this.result = PAYMENT_CANCELLATION;

@@ -7,9 +7,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import mockit.Delegate;
+import mockit.Expectations;
 import mockit.Injectable;
 import mockit.Mocked;
-import mockit.StrictExpectations;
 import mockit.integration.junit4.JMockit;
 import pt.ulisboa.tecnico.softeng.broker.domain.Adventure.State;
 import pt.ulisboa.tecnico.softeng.broker.exception.RemoteAccessException;
@@ -38,7 +38,7 @@ public class BookRoomStateMethodTest {
 
 	@Test
 	public void successBookRoom(@Mocked final HotelInterface hotelInterface) {
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure);
 				this.result = ROOM_CONFIRMATION;
@@ -52,7 +52,7 @@ public class BookRoomStateMethodTest {
 
 	@Test
 	public void hotelException(@Mocked final HotelInterface hotelInterface) {
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure);
 				this.result = new HotelException();
@@ -66,7 +66,7 @@ public class BookRoomStateMethodTest {
 
 	@Test
 	public void singleRemoteAccessException(@Mocked final HotelInterface hotelInterface) {
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure);
 				this.result = new RemoteAccessException();
@@ -80,7 +80,7 @@ public class BookRoomStateMethodTest {
 
 	@Test
 	public void maxRemoteAccessException(@Mocked final HotelInterface hotelInterface) {
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure);
 				this.result = new RemoteAccessException();
@@ -97,7 +97,7 @@ public class BookRoomStateMethodTest {
 
 	@Test
 	public void maxMinusOneRemoteAccessException(@Mocked final HotelInterface hotelInterface) {
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure);
 				this.result = new RemoteAccessException();
@@ -114,7 +114,7 @@ public class BookRoomStateMethodTest {
 
 	@Test
 	public void fiveRemoteAccessExceptionOneSuccess(@Mocked final HotelInterface hotelInterface) {
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure);
 				this.result = new Delegate() {
@@ -145,7 +145,7 @@ public class BookRoomStateMethodTest {
 
 	@Test
 	public void oneRemoteAccessExceptionOneActivityException(@Mocked final HotelInterface hotelInterface) {
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure);
 				this.result = new Delegate() {

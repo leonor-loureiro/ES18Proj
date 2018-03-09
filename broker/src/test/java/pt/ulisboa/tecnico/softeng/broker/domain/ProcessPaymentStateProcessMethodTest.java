@@ -7,9 +7,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import mockit.Delegate;
+import mockit.Expectations;
 import mockit.Injectable;
 import mockit.Mocked;
-import mockit.StrictExpectations;
 import mockit.integration.junit4.JMockit;
 import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
 import pt.ulisboa.tecnico.softeng.broker.domain.Adventure.State;
@@ -36,7 +36,7 @@ public class ProcessPaymentStateProcessMethodTest {
 
 	@Test
 	public void success(@Mocked final BankInterface bankInterface) {
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				BankInterface.processPayment(IBAN, AMOUNT);
 				this.result = PAYMENT_CONFIRMATION;
@@ -50,7 +50,7 @@ public class ProcessPaymentStateProcessMethodTest {
 
 	@Test
 	public void bankException(@Mocked final BankInterface bankInterface) {
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				BankInterface.processPayment(IBAN, AMOUNT);
 				this.result = new BankException();
@@ -64,7 +64,7 @@ public class ProcessPaymentStateProcessMethodTest {
 
 	@Test
 	public void singleRemoteAccessException(@Mocked final BankInterface bankInterface) {
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				BankInterface.processPayment(IBAN, AMOUNT);
 				this.result = new RemoteAccessException();
@@ -78,11 +78,10 @@ public class ProcessPaymentStateProcessMethodTest {
 
 	@Test
 	public void maxRemoteAccessException(@Mocked final BankInterface bankInterface) {
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				BankInterface.processPayment(IBAN, AMOUNT);
 				this.result = new RemoteAccessException();
-				this.times = ProcessPaymentState.MAX_REMOTE_ERRORS;
 			}
 		};
 
@@ -95,11 +94,10 @@ public class ProcessPaymentStateProcessMethodTest {
 
 	@Test
 	public void maxMinusOneRemoteAccessException(@Mocked final BankInterface bankInterface) {
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				BankInterface.processPayment(IBAN, AMOUNT);
 				this.result = new RemoteAccessException();
-				this.times = ProcessPaymentState.MAX_REMOTE_ERRORS - 1;
 			}
 		};
 
@@ -111,7 +109,7 @@ public class ProcessPaymentStateProcessMethodTest {
 
 	@Test
 	public void twoRemoteAccessExceptionOneSuccess(@Mocked final BankInterface bankInterface) {
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				BankInterface.processPayment(IBAN, AMOUNT);
 				this.result = new Delegate() {
@@ -140,7 +138,7 @@ public class ProcessPaymentStateProcessMethodTest {
 
 	@Test
 	public void oneRemoteAccessExceptionOneBankException(@Mocked final BankInterface bankInterface) {
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				BankInterface.processPayment(IBAN, AMOUNT);
 

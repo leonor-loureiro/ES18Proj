@@ -4,14 +4,16 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Set;
 
 import org.joda.time.LocalDate;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import mockit.Delegate;
+import mockit.Expectations;
 import mockit.Mocked;
-import mockit.StrictExpectations;
 import mockit.integration.junit4.JMockit;
 import pt.ulisboa.tecnico.softeng.broker.exception.RemoteAccessException;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.HotelInterface;
@@ -31,7 +33,7 @@ public class BulkRoomBookingProcessBookingMethodTest {
 
 	@Test
 	public void success(@Mocked final HotelInterface roomInterface) {
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				HotelInterface.bulkBooking(NUMBER, arrival, departure);
 				this.result = new HashSet<>(Arrays.asList("ref1", "ref2"));
@@ -45,12 +47,10 @@ public class BulkRoomBookingProcessBookingMethodTest {
 
 	@Test
 	public void successTwice(@Mocked final HotelInterface roomInterface) {
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				HotelInterface.bulkBooking(NUMBER, arrival, departure);
 				this.result = new HashSet<>(Arrays.asList("ref1", "ref2"));
-
-				HotelInterface.bulkBooking(NUMBER, arrival, departure);
 				this.result = new HashSet<>(Arrays.asList("ref3", "ref4"));
 			}
 		};
@@ -63,14 +63,11 @@ public class BulkRoomBookingProcessBookingMethodTest {
 
 	@Test
 	public void cancelled(@Mocked final HotelInterface roomInterface) {
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				HotelInterface.bulkBooking(NUMBER, arrival, departure);
 				this.result = new HashSet<>(Arrays.asList("ref1", "ref2"));
-
-				HotelInterface.bulkBooking(NUMBER, arrival, departure);
 				this.result = new HotelException();
-				this.times = 3;
 			}
 		};
 
@@ -85,13 +82,10 @@ public class BulkRoomBookingProcessBookingMethodTest {
 
 	@Test
 	public void oneHotelException(@Mocked final HotelInterface roomInterface) {
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				HotelInterface.bulkBooking(NUMBER, arrival, departure);
 				this.result = new HotelException();
-				this.times = 1;
-
-				HotelInterface.bulkBooking(NUMBER, arrival, departure);
 				this.result = new HashSet<>(Arrays.asList("ref1", "ref2"));
 			}
 		};
@@ -104,11 +98,10 @@ public class BulkRoomBookingProcessBookingMethodTest {
 
 	@Test
 	public void maxHotelException(@Mocked final HotelInterface roomInterface) {
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				HotelInterface.bulkBooking(NUMBER, arrival, departure);
 				this.result = new HotelException();
-				this.times = BulkRoomBooking.MAX_HOTEL_EXCEPTIONS;
 			}
 		};
 
@@ -122,14 +115,21 @@ public class BulkRoomBookingProcessBookingMethodTest {
 
 	@Test
 	public void maxMinusOneHotelException(@Mocked final HotelInterface roomInterface) {
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				HotelInterface.bulkBooking(NUMBER, arrival, departure);
-				this.result = new HotelException();
-				this.times = BulkRoomBooking.MAX_HOTEL_EXCEPTIONS - 1;
+				this.result = new Delegate() {
+					int i = 0;
 
-				HotelInterface.bulkBooking(NUMBER, arrival, departure);
-				this.result = new HashSet<>(Arrays.asList("ref1", "ref2"));
+					Set<String> delegate() {
+						this.i++;
+						if (this.i < BulkRoomBooking.MAX_HOTEL_EXCEPTIONS - 1) {
+							throw new HotelException();
+						} else {
+							return new HashSet<>(Arrays.asList("ref1", "ref2"));
+						}
+					}
+				};
 			}
 		};
 
@@ -142,21 +142,25 @@ public class BulkRoomBookingProcessBookingMethodTest {
 
 	@Test
 	public void hotelExceptionValueIsResetBySuccess(@Mocked final HotelInterface roomInterface) {
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				HotelInterface.bulkBooking(NUMBER, arrival, departure);
-				this.result = new HotelException();
-				this.times = BulkRoomBooking.MAX_HOTEL_EXCEPTIONS - 1;
+				this.result = new Delegate() {
+					int i = 0;
 
-				HotelInterface.bulkBooking(NUMBER, arrival, departure);
-				this.result = new HashSet<>(Arrays.asList("ref1", "ref2"));
-
-				HotelInterface.bulkBooking(NUMBER, arrival, departure);
-				this.result = new HotelException();
-				this.times = BulkRoomBooking.MAX_HOTEL_EXCEPTIONS - 1;
-
-				HotelInterface.bulkBooking(NUMBER, arrival, departure);
-				this.result = new HashSet<>(Arrays.asList("ref3", "ref4"));
+					Set<String> delegate() {
+						this.i++;
+						if (this.i < BulkRoomBooking.MAX_HOTEL_EXCEPTIONS - 1) {
+							throw new HotelException();
+						} else if (this.i == BulkRoomBooking.MAX_HOTEL_EXCEPTIONS - 1) {
+							return new HashSet<>(Arrays.asList("ref1", "ref2"));
+						} else if (this.i < 2 * BulkRoomBooking.MAX_HOTEL_EXCEPTIONS - 1) {
+							throw new HotelException();
+						} else {
+							return new HashSet<>(Arrays.asList("ref3", "ref4"));
+						}
+					}
+				};
 
 			}
 		};
@@ -173,22 +177,25 @@ public class BulkRoomBookingProcessBookingMethodTest {
 
 	@Test
 	public void hotelExceptionValueIsResetByRemoteException(@Mocked final HotelInterface roomInterface) {
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				HotelInterface.bulkBooking(NUMBER, arrival, departure);
-				this.result = new HotelException();
-				this.times = BulkRoomBooking.MAX_HOTEL_EXCEPTIONS - 1;
+				this.result = new Delegate() {
+					int i = 0;
 
-				HotelInterface.bulkBooking(NUMBER, arrival, departure);
-				this.result = new RemoteAccessException();
-
-				HotelInterface.bulkBooking(NUMBER, arrival, departure);
-				this.result = new HotelException();
-				this.times = BulkRoomBooking.MAX_HOTEL_EXCEPTIONS - 1;
-
-				HotelInterface.bulkBooking(NUMBER, arrival, departure);
-				this.result = new HashSet<>(Arrays.asList("ref1", "ref2"));
-
+					Set<String> delegate() {
+						this.i++;
+						if (this.i < BulkRoomBooking.MAX_HOTEL_EXCEPTIONS - 1) {
+							throw new HotelException();
+						} else if (this.i == BulkRoomBooking.MAX_HOTEL_EXCEPTIONS - 1) {
+							throw new RemoteAccessException();
+						} else if (this.i < 2 * BulkRoomBooking.MAX_HOTEL_EXCEPTIONS - 1) {
+							throw new HotelException();
+						} else {
+							return new HashSet<>(Arrays.asList("ref1", "ref2"));
+						}
+					}
+				};
 			}
 		};
 
@@ -204,13 +211,10 @@ public class BulkRoomBookingProcessBookingMethodTest {
 
 	@Test
 	public void oneRemoteException(@Mocked final HotelInterface roomInterface) {
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				HotelInterface.bulkBooking(NUMBER, arrival, departure);
 				this.result = new RemoteAccessException();
-				this.times = 1;
-
-				HotelInterface.bulkBooking(NUMBER, arrival, departure);
 				this.result = new HashSet<>(Arrays.asList("ref1", "ref2"));
 			}
 		};
@@ -223,11 +227,10 @@ public class BulkRoomBookingProcessBookingMethodTest {
 
 	@Test
 	public void maxRemoteException(@Mocked final HotelInterface roomInterface) {
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				HotelInterface.bulkBooking(NUMBER, arrival, departure);
 				this.result = new RemoteAccessException();
-				this.times = BulkRoomBooking.MAX_REMOTE_ERRORS;
 			}
 		};
 
@@ -241,9 +244,21 @@ public class BulkRoomBookingProcessBookingMethodTest {
 
 	@Test
 	public void maxMinusOneRemoteException(@Mocked final HotelInterface roomInterface) {
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				HotelInterface.bulkBooking(NUMBER, arrival, departure);
+				this.result = new Delegate() {
+					int i = 0;
+
+					Set<String> delegate() {
+						this.i++;
+						if (this.i < BulkRoomBooking.MAX_REMOTE_ERRORS - 1) {
+							throw new RemoteAccessException();
+						} else {
+							return new HashSet<>(Arrays.asList("ref1", "ref2"));
+						}
+					}
+				};
 				this.result = new RemoteAccessException();
 				this.times = BulkRoomBooking.MAX_REMOTE_ERRORS - 1;
 
@@ -262,22 +277,25 @@ public class BulkRoomBookingProcessBookingMethodTest {
 
 	@Test
 	public void remoteExceptionValueIsResetBySuccess(@Mocked final HotelInterface roomInterface) {
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				HotelInterface.bulkBooking(NUMBER, arrival, departure);
-				this.result = new RemoteAccessException();
-				this.times = BulkRoomBooking.MAX_REMOTE_ERRORS - 1;
+				this.result = new Delegate() {
+					int i = 0;
 
-				HotelInterface.bulkBooking(NUMBER, arrival, departure);
-				this.result = new HashSet<>(Arrays.asList("ref1", "ref2"));
-
-				HotelInterface.bulkBooking(NUMBER, arrival, departure);
-				this.result = new RemoteAccessException();
-				this.times = BulkRoomBooking.MAX_REMOTE_ERRORS - 1;
-
-				HotelInterface.bulkBooking(NUMBER, arrival, departure);
-				this.result = new HashSet<>(Arrays.asList("ref3", "ref4"));
-
+					Set<String> delegate() {
+						this.i++;
+						if (this.i < BulkRoomBooking.MAX_REMOTE_ERRORS - 1) {
+							throw new RemoteAccessException();
+						} else if (this.i == BulkRoomBooking.MAX_REMOTE_ERRORS - 1) {
+							return new HashSet<>(Arrays.asList("ref1", "ref2"));
+						} else if (this.i < 2 * BulkRoomBooking.MAX_REMOTE_ERRORS - 1) {
+							throw new RemoteAccessException();
+						} else {
+							return new HashSet<>(Arrays.asList("ref3", "ref4"));
+						}
+					}
+				};
 			}
 		};
 
@@ -295,22 +313,25 @@ public class BulkRoomBookingProcessBookingMethodTest {
 
 	@Test
 	public void remoteExceptionValueIsResetByHotelException(@Mocked final HotelInterface roomInterface) {
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				HotelInterface.bulkBooking(NUMBER, arrival, departure);
-				this.result = new RemoteAccessException();
-				this.times = BulkRoomBooking.MAX_REMOTE_ERRORS - 1;
+				this.result = new Delegate() {
+					int i = 0;
 
-				HotelInterface.bulkBooking(NUMBER, arrival, departure);
-				this.result = new HotelException();
-
-				HotelInterface.bulkBooking(NUMBER, arrival, departure);
-				this.result = new RemoteAccessException();
-				this.times = BulkRoomBooking.MAX_REMOTE_ERRORS - 1;
-
-				HotelInterface.bulkBooking(NUMBER, arrival, departure);
-				this.result = new HashSet<>(Arrays.asList("ref1", "ref2"));
-
+					Set<String> delegate() {
+						this.i++;
+						if (this.i < BulkRoomBooking.MAX_REMOTE_ERRORS - 1) {
+							throw new RemoteAccessException();
+						} else if (this.i == BulkRoomBooking.MAX_REMOTE_ERRORS - 1) {
+							throw new HotelException();
+						} else if (this.i < 2 * BulkRoomBooking.MAX_REMOTE_ERRORS - 1) {
+							throw new RemoteAccessException();
+						} else {
+							return new HashSet<>(Arrays.asList("ref1", "ref2"));
+						}
+					}
+				};
 			}
 		};
 

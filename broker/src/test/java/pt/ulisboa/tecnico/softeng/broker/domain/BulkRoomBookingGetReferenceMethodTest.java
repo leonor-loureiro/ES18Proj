@@ -11,8 +11,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import mockit.Delegate;
+import mockit.Expectations;
 import mockit.Mocked;
-import mockit.StrictExpectations;
 import mockit.integration.junit4.JMockit;
 import pt.ulisboa.tecnico.softeng.broker.exception.RemoteAccessException;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.HotelInterface;
@@ -38,7 +38,7 @@ public class BulkRoomBookingGetReferenceMethodTest {
 
 	@Test
 	public void successSINGLE(@Mocked final HotelInterface roomInterface) {
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				HotelInterface.getRoomBookingData(this.anyString);
 				this.result = new Delegate() {
@@ -58,7 +58,7 @@ public class BulkRoomBookingGetReferenceMethodTest {
 
 	@Test
 	public void successDOUBLE(@Mocked final HotelInterface roomInterface) {
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				HotelInterface.getRoomBookingData(this.anyString);
 				this.result = new Delegate() {
@@ -78,7 +78,7 @@ public class BulkRoomBookingGetReferenceMethodTest {
 
 	@Test
 	public void hotelException(@Mocked final HotelInterface roomInterface) {
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				HotelInterface.getRoomBookingData(this.anyString);
 				this.result = new HotelException();
@@ -93,7 +93,7 @@ public class BulkRoomBookingGetReferenceMethodTest {
 
 	@Test
 	public void remoteException(@Mocked final HotelInterface roomInterface) {
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				HotelInterface.getRoomBookingData(this.anyString);
 				this.result = new RemoteAccessException();
@@ -108,7 +108,7 @@ public class BulkRoomBookingGetReferenceMethodTest {
 
 	@Test
 	public void maxRemoteException(@Mocked final HotelInterface roomInterface) {
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				HotelInterface.getRoomBookingData(this.anyString);
 				this.result = new RemoteAccessException();
@@ -126,18 +126,21 @@ public class BulkRoomBookingGetReferenceMethodTest {
 
 	@Test
 	public void maxMinusOneRemoteException(@Mocked final HotelInterface roomInterface) {
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				HotelInterface.getRoomBookingData(this.anyString);
-				this.result = new RemoteAccessException();
-				this.times = BulkRoomBooking.MAX_REMOTE_ERRORS - 1;
-
-				HotelInterface.getRoomBookingData(this.anyString);
 				this.result = new Delegate() {
+					int i = 0;
+
 					RoomBookingData delegate() {
-						RoomBookingData data = new RoomBookingData();
-						data.setRoomType(DOUBLE);
-						return data;
+						this.i++;
+						if (this.i < BulkRoomBooking.MAX_REMOTE_ERRORS - 1) {
+							throw new RemoteAccessException();
+						} else {
+							RoomBookingData data = new RoomBookingData();
+							data.setRoomType(DOUBLE);
+							return data;
+						}
 					}
 				};
 			}
@@ -153,24 +156,25 @@ public class BulkRoomBookingGetReferenceMethodTest {
 
 	@Test
 	public void remoteExceptionValueIsResetBySuccess(@Mocked final HotelInterface roomInterface) {
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				HotelInterface.getRoomBookingData(this.anyString);
-				this.result = new RemoteAccessException();
-				this.times = BulkRoomBooking.MAX_REMOTE_ERRORS - 1;
-
-				HotelInterface.getRoomBookingData(this.anyString);
 				this.result = new Delegate() {
+					int i = 0;
+
 					RoomBookingData delegate() {
-						RoomBookingData data = new RoomBookingData();
-						data.setRoomType(DOUBLE);
-						return data;
+						this.i++;
+						if (this.i < BulkRoomBooking.MAX_REMOTE_ERRORS - 1) {
+							throw new RemoteAccessException();
+						} else if (this.i == BulkRoomBooking.MAX_REMOTE_ERRORS - 1) {
+							RoomBookingData data = new RoomBookingData();
+							data.setRoomType(DOUBLE);
+							return data;
+						} else {
+							throw new RemoteAccessException();
+						}
 					}
 				};
-
-				HotelInterface.getRoomBookingData(this.anyString);
-				this.result = new RemoteAccessException();
-				this.times = BulkRoomBooking.MAX_REMOTE_ERRORS;
 			}
 		};
 
@@ -189,18 +193,23 @@ public class BulkRoomBookingGetReferenceMethodTest {
 
 	@Test
 	public void remoteExceptionValueIsResetByHotelException(@Mocked final HotelInterface roomInterface) {
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				HotelInterface.getRoomBookingData(this.anyString);
-				this.result = new RemoteAccessException();
-				this.times = BulkRoomBooking.MAX_REMOTE_ERRORS - 1;
+				this.result = new Delegate() {
+					int i = 0;
 
-				HotelInterface.getRoomBookingData(this.anyString);
-				this.result = new HotelException();
-
-				HotelInterface.getRoomBookingData(this.anyString);
-				this.result = new RemoteAccessException();
-				this.times = BulkRoomBooking.MAX_REMOTE_ERRORS;
+					RoomBookingData delegate() {
+						this.i++;
+						if (this.i < BulkRoomBooking.MAX_REMOTE_ERRORS - 1) {
+							throw new RemoteAccessException();
+						} else if (this.i == BulkRoomBooking.MAX_REMOTE_ERRORS - 1) {
+							throw new HotelException();
+						} else {
+							throw new RemoteAccessException();
+						}
+					}
+				};
 			}
 		};
 

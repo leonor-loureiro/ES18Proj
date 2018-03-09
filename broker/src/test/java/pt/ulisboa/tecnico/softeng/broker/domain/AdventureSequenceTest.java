@@ -5,9 +5,9 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import mockit.Expectations;
 import mockit.Injectable;
 import mockit.Mocked;
-import mockit.StrictExpectations;
 import mockit.integration.junit4.JMockit;
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
 import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
@@ -38,7 +38,7 @@ public class AdventureSequenceTest {
 	@Test
 	public void successSequenceOne(@Mocked final BankInterface bankInterface,
 			@Mocked final ActivityInterface activityInterface, @Mocked final HotelInterface roomInterface) {
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				BankInterface.processPayment(IBAN, AMOUNT);
 				this.result = PAYMENT_CONFIRMATION;
@@ -70,7 +70,7 @@ public class AdventureSequenceTest {
 	@Test
 	public void successSequenceTwo(@Mocked final BankInterface bankInterface,
 			@Mocked final ActivityInterface activityInterface, @Mocked final HotelInterface roomInterface) {
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				BankInterface.processPayment(IBAN, AMOUNT);
 				this.result = PAYMENT_CONFIRMATION;
@@ -96,7 +96,7 @@ public class AdventureSequenceTest {
 	@Test
 	public void unsuccessSequenceOne(@Mocked final BankInterface bankInterface,
 			@Mocked final ActivityInterface activityInterface, @Mocked final HotelInterface roomInterface) {
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				BankInterface.processPayment(IBAN, AMOUNT);
 				this.result = new BankException();
@@ -113,7 +113,7 @@ public class AdventureSequenceTest {
 	@Test
 	public void unsuccessSequenceTwo(@Mocked final BankInterface bankInterface,
 			@Mocked final ActivityInterface activityInterface, @Mocked final HotelInterface roomInterface) {
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				BankInterface.processPayment(IBAN, AMOUNT);
 				this.result = PAYMENT_CONFIRMATION;
@@ -138,7 +138,7 @@ public class AdventureSequenceTest {
 	@Test
 	public void unsuccessSequenceThree(@Mocked final BankInterface bankInterface,
 			@Mocked final ActivityInterface activityInterface, @Mocked final HotelInterface roomInterface) {
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				BankInterface.processPayment(IBAN, AMOUNT);
 				this.result = PAYMENT_CONFIRMATION;
@@ -170,7 +170,7 @@ public class AdventureSequenceTest {
 	@Test
 	public void unsuccessSequenceFour(@Mocked final BankInterface bankInterface,
 			@Mocked final ActivityInterface activityInterface, @Mocked final HotelInterface roomInterface) {
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				BankInterface.processPayment(IBAN, AMOUNT);
 				this.result = PAYMENT_CONFIRMATION;

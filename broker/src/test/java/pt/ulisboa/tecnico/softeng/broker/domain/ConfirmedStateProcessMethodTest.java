@@ -6,9 +6,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import mockit.Delegate;
+import mockit.Expectations;
 import mockit.Injectable;
 import mockit.Mocked;
-import mockit.StrictExpectations;
 import mockit.integration.junit4.JMockit;
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
 import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
@@ -46,7 +47,7 @@ public class ConfirmedStateProcessMethodTest {
 		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
 		this.adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION);
 		this.adventure.setRoomConfirmation(ROOM_CONFIRMATION);
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
 
@@ -66,7 +67,7 @@ public class ConfirmedStateProcessMethodTest {
 			@Mocked final ActivityInterface activityInterface) {
 		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
 		this.adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION);
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
 
@@ -84,7 +85,7 @@ public class ConfirmedStateProcessMethodTest {
 		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
 		this.adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION);
 		this.adventure.setRoomConfirmation(ROOM_CONFIRMATION);
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
 				this.result = new BankException();
@@ -101,11 +102,10 @@ public class ConfirmedStateProcessMethodTest {
 		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
 		this.adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION);
 		this.adventure.setRoomConfirmation(ROOM_CONFIRMATION);
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
 				this.result = new BankException();
-				this.times = ConfirmedState.MAX_BANK_EXCEPTIONS;
 			}
 		};
 
@@ -121,11 +121,10 @@ public class ConfirmedStateProcessMethodTest {
 		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
 		this.adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION);
 		this.adventure.setRoomConfirmation(ROOM_CONFIRMATION);
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
 				this.result = new BankException();
-				this.times = ConfirmedState.MAX_BANK_EXCEPTIONS - 1;
 			}
 		};
 
@@ -141,7 +140,7 @@ public class ConfirmedStateProcessMethodTest {
 		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
 		this.adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION);
 		this.adventure.setRoomConfirmation(ROOM_CONFIRMATION);
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
 				this.result = new RemoteAccessException();
@@ -158,11 +157,10 @@ public class ConfirmedStateProcessMethodTest {
 		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
 		this.adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION);
 		this.adventure.setRoomConfirmation(ROOM_CONFIRMATION);
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
 				this.result = new RemoteAccessException();
-				this.times = ConfirmedState.MAX_REMOTE_ERRORS;
 			}
 		};
 
@@ -178,11 +176,10 @@ public class ConfirmedStateProcessMethodTest {
 		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
 		this.adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION);
 		this.adventure.setRoomConfirmation(ROOM_CONFIRMATION);
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
 				this.result = new RemoteAccessException();
-				this.times = ConfirmedState.MAX_REMOTE_ERRORS - 1;
 			}
 		};
 
@@ -199,7 +196,7 @@ public class ConfirmedStateProcessMethodTest {
 		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
 		this.adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION);
 		this.adventure.setRoomConfirmation(ROOM_CONFIRMATION);
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
 
@@ -219,16 +216,24 @@ public class ConfirmedStateProcessMethodTest {
 		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
 		this.adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION);
 		this.adventure.setRoomConfirmation(ROOM_CONFIRMATION);
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
+				this.result = new Delegate() {
+					int i = 0;
+
+					void delegate() {
+						this.i++;
+						if (this.i == 1) {
+							// return value is irrelevant
+						} else {
+							throw new RemoteAccessException();
+						}
+					}
+				};
 
 				ActivityInterface.getActivityReservationData(ACTIVITY_CONFIRMATION);
 				this.result = new RemoteAccessException();
-
-				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
-				this.result = new RemoteAccessException();
-				this.times = ConfirmedState.MAX_REMOTE_ERRORS - 1;
 			}
 		};
 
@@ -245,16 +250,24 @@ public class ConfirmedStateProcessMethodTest {
 		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
 		this.adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION);
 		this.adventure.setRoomConfirmation(ROOM_CONFIRMATION);
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
+				this.result = new Delegate() {
+					int i = 0;
+
+					void delegate() {
+						this.i++;
+						if (this.i == 1) {
+							// return value is irrelevant
+						} else {
+							throw new RemoteAccessException();
+						}
+					}
+				};
 
 				ActivityInterface.getActivityReservationData(ACTIVITY_CONFIRMATION);
 				this.result = new RemoteAccessException();
-
-				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
-				this.result = new RemoteAccessException();
-				this.times = ConfirmedState.MAX_REMOTE_ERRORS - 2;
 			}
 		};
 
@@ -271,7 +284,7 @@ public class ConfirmedStateProcessMethodTest {
 		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
 		this.adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION);
 		this.adventure.setRoomConfirmation(ROOM_CONFIRMATION);
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
 
@@ -293,18 +306,26 @@ public class ConfirmedStateProcessMethodTest {
 		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
 		this.adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION);
 		this.adventure.setRoomConfirmation(ROOM_CONFIRMATION);
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
+				this.result = new Delegate() {
+					int i = 0;
+
+					void delegate() {
+						this.i++;
+						if (this.i == 1) {
+							// return value is irrelevant
+						} else {
+							throw new RemoteAccessException();
+						}
+					}
+				};
 
 				ActivityInterface.getActivityReservationData(ACTIVITY_CONFIRMATION);
 
 				HotelInterface.getRoomBookingData(ROOM_CONFIRMATION);
 				this.result = new RemoteAccessException();
-
-				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
-				this.result = new RemoteAccessException();
-				this.times = ConfirmedState.MAX_REMOTE_ERRORS - 1;
 			}
 		};
 
@@ -321,18 +342,26 @@ public class ConfirmedStateProcessMethodTest {
 		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
 		this.adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION);
 		this.adventure.setRoomConfirmation(ROOM_CONFIRMATION);
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
+				this.result = new Delegate() {
+					int i = 0;
+
+					void delegate() {
+						this.i++;
+						if (this.i == 1) {
+							// return value is irrelevant
+						} else {
+							throw new RemoteAccessException();
+						}
+					}
+				};
 
 				ActivityInterface.getActivityReservationData(ACTIVITY_CONFIRMATION);
 
 				HotelInterface.getRoomBookingData(ROOM_CONFIRMATION);
 				this.result = new RemoteAccessException();
-
-				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
-				this.result = new RemoteAccessException();
-				this.times = ConfirmedState.MAX_REMOTE_ERRORS - 2;
 			}
 		};
 
@@ -349,7 +378,7 @@ public class ConfirmedStateProcessMethodTest {
 		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
 		this.adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION);
 		this.adventure.setRoomConfirmation(ROOM_CONFIRMATION);
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
 
@@ -369,7 +398,7 @@ public class ConfirmedStateProcessMethodTest {
 		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
 		this.adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION);
 		this.adventure.setRoomConfirmation(ROOM_CONFIRMATION);
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
 
