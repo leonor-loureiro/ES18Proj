@@ -8,15 +8,20 @@ import org.junit.Test;
 
 
 public class SellerToPayMethodTest {
-
+	private String NIF = "123456789";
+	private String NAME = "Jertrudes";
+	private String ADDRESS = "Porto";
+	
 	@Before
 	public void setUp() {
-		
+		Seller seller = new Seller(NIF, NAME, ADDRESS);
 	}
 
 	@Test
 	public void success() {
+		private int pay = this.seller.toPay(2018);
 		
+		Assert.assertNotNull(pay);
 	}
 
 
