@@ -6,9 +6,13 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class RentingTest {
+import pt.ulisboa.tecnico.softeng.car.exception.RentingException;
+
+
+public class RentingMethodsTest {
 	private RentACar rentACar;
 	private String rentACarCode;
+	private Renting renting;
 	private String drivingLicense = "A123456789";
 	private final LocalDate begin = new LocalDate(2016, 12, 19);
 	private final LocalDate end = new LocalDate(2016, 12, 21);
@@ -18,50 +22,27 @@ public class RentingTest {
 	
 	@Before
 	public void setUp() {
-		rentACar = new rentACar("test");
+		rentACar = new RentACar("test");
 		rentACarCode = rentACar.getCode();
+		renting = new Renting(plate, drivingLicense, rentACarCode, begin, end);
 	}
 	
-	@Test
-	public void testConstructorSuccess() {
-		new Renting(plate, drivingLicense, rentACarCode, begin, end);
-	}
-	
-	
-	// Methods
 	@Test
 	public void testConflict() {
 		Assert.assertTrue(renting.conflict(begin, end));
-	}
-	
-	@Test
-	public void testConflict2() {
 		Assert.assertTrue(renting.conflict(end, end2));
-	}
-	
-	@Test
-	public void testConflict3() {
 		Assert.assertFalse(renting.conflict(begin2, end2));
 	}
 	
-	
 	@Test
-	public void testCheckOutCheckOutSuccess1() {
+	public void testCheckOutCheckOutSuccess() {
 		renting.checkOut(0);
-	}
-	
-	@Test
-	public void testCheckOutSuccess2() {
 		renting.checkOut(200);
 	}
 	
 	@Test(expected = RentingException.class)
 	public void testCheckOutBadKilometers() {
 		renting.checkOut(-1);
-	}
-	
-	@Test(expected = RentingException.class)
-	public void testCheckOutBadKilometers2() {
 		renting.checkOut(-500);
 	}
 
