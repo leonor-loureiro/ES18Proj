@@ -83,6 +83,6 @@ public class BuyerConstructorTest {
 	
 	@After
 	public void tearDown() {
-		.clear();    // falta criar vetor
+		TaxPayer.taxPayers.clear();
 	}
 }
