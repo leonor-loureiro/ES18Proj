@@ -2,7 +2,6 @@ package pt.ulisboa.tecnico.softeng.tax.domain;
 
 import java.util.HashSet;
 import java.util.Set;
-
 import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 
 public class Seller extends TaxPayer{
@@ -11,12 +10,8 @@ public class Seller extends TaxPayer{
 		super(nif, name, address);
 	}
 	
+	
 	public Seller(TaxPayer taxPayer) {
-		
-		if(taxPayer instanceof Buyer || taxPayer instanceof Seller) {
-			throw new TaxException();
-		}
-		
 		String nifTemp = taxPayer.getNif();
 		String nameTemp = taxPayer.getName();
 		String addressTemp = taxPayer.getAddress();
@@ -26,7 +21,9 @@ public class Seller extends TaxPayer{
 		this.nif = nifTemp;
 		this.name = nameTemp;
 		this.address = addressTemp;
+		
 		TaxPayer.taxPayers.add(this);
+		
 		
 	}
 	
