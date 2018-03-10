@@ -7,6 +7,11 @@ import pt.ulisboa.tecnico.softeng.car.exception.CarException;
 public class RentACarConstructorTest {
 	
 	
+	@Test
+	public void success() {
+		new RentACar("Maven1337");
+	}
+	
 	@Test(expected = CarException.class)
 	public void nullName() {
 		new RentACar(null);
@@ -20,10 +25,5 @@ public class RentACarConstructorTest {
 	@Test(expected = CarException.class)
 	public void emptyName2() {
 		new RentACar("            ");
-	}
-	
-	@Test
-	public void success() {
-		new RentACar("Maven1337");
 	}
 }

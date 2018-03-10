@@ -7,9 +7,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import pt.ulisboa.tecnico.softeng.car.dataobject.RentingData;
+import pt.ulisboa.tecnico.softeng.car.exception.CarException;
 
-
-public class RentACarMethodsTest {
+public class RentACarGetAllAvailableCarsMethodsTest {
 	private RentACar rentACar;
 	private String drivingLicense = "A123456789";
 	private final LocalDate begin = new LocalDate(2016, 12, 19);
@@ -22,26 +22,11 @@ public class RentACarMethodsTest {
 	public void setUp() {
 		rentACar = new RentACar("The Bugging");
 	}
-	
-	@Test
-	public void testGetRenting() {
-		Car car = new Car("BA-TM-AN", 2, rentACar);
-		String reference = car.rent(drivingLicense, begin, end);
-		Renting renting = rentACar.getRenting(reference);
-		Assert.assertNotNull(renting);
-		Assert.assertEquals("BA-TM-AN", renting.getPlate());
-	}
 
-	@Test
-	public void testGetRentingNull() {
-		Assert.assertNull(rentACar.getRenting(" "));
-	}
-	
 	
 	@Test
-	public void testGetAllAvailableCarsEmpty() {
-		Assert.assertNull(rentACar.getAllAvailableCars());
-		
+	public void successEmpty() {
+		Assert.assertNull(rentACar.getAllAvailableCars(begin, end));
 	}
 
 	/**
@@ -49,7 +34,7 @@ public class RentACarMethodsTest {
 	 * Proceeds to check if they're found available or not
 	 */
 	@Test
-	public void testGetAllAvailableCars() {
+	public void success() {
 		Car car1 = new Car("AN-FI-FO", 1, rentACar);
 		Car car2 = new Car("ST-EV-EH", 1, rentACar);
 		Car car3 = new Car("SY-ST-EM", 1, rentACar);
@@ -61,11 +46,8 @@ public class RentACarMethodsTest {
 	}
 	
 	
-	/*
-	 * 
-	 */
 	@Test
-	public void testGetAllAvailableCars2() {
+	public void successWithCheckout() {
 		Car car = new Car("AN-FI-FO", 1, rentACar);
 		
 		String reference = car.rent(drivingLicense, begin, end2);
@@ -79,19 +61,19 @@ public class RentACarMethodsTest {
 		Assert.assertFalse(rentACar.getAllAvailableCars(begin, end).contains(car));
 	}
 	
-	@Test
-	public void testGetAllAvailableMotorcycles() {
-		fail("Not yet implemented");
+	@Test(expected = CarException.class)
+	public void dateEndSwitchedWithBegin() {
+		rentACar.getAllAvailableCars(end, begin);
 	}
-
 	
-	@Test
-	public void testGetRentingData() {
-		Car car = new Car("BA-TM-AN", 2, rentACar);
-		String reference = car.rent(drivingLicense, begin, end);
-		RentingData data = rentACar.getRentingData(reference);
-	
-		Assert.assertEquals(data.getReference(), reference);
+	@Test(expected = CarException.class)
+	public void nullBeginDate() {
+		rentACar.getAllAvailableCars(null, end);
 	}
-
+	
+	@Test(expected = CarException.class)
+	public void nullEndDate() {
+		rentACar.getAllAvailableCars(begin, null);
+	}
+		
 }
