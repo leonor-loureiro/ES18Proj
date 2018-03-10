@@ -11,7 +11,6 @@ import pt.ulisboa.tecnico.softeng.car.exception.RentingException;
 
 public class RentingMethodsTest {
 	private RentACar rentACar;
-	private String rentACarCode;
 	private Renting renting;
 	private String drivingLicense = "A123456789";
 	private final LocalDate begin = new LocalDate(2016, 12, 19);
@@ -23,8 +22,7 @@ public class RentingMethodsTest {
 	@Before
 	public void setUp() {
 		rentACar = new RentACar("test");
-		rentACarCode = rentACar.getCode();
-		renting = new Renting(plate, drivingLicense, rentACarCode, begin, end);
+		renting = new Renting(plate, drivingLicense, begin, end);
 	}
 	
 	@Test

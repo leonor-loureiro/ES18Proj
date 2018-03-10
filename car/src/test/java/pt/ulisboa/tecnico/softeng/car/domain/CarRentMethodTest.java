@@ -7,9 +7,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import pt.ulisboa.tecnico.softeng.car.exception.CarException;
+import pt.ulisboa.tecnico.softeng.car.exception.RentingException;
 
 
-public class CarMethodsTest {
+public class CarRentMethodTest {
 	private Car car;
 	private RentACar rentACar;
 	private String drivingLicense = "A123456789";
@@ -28,34 +29,44 @@ public class CarMethodsTest {
 	}
 	
 	@Test
-	public void testRent() {
+	public void success() {
 		Assert.assertNotNull(car.rent(drivingLicense, begin, end));
-		Assert.assertNotNull(car.rent(drivingLicense, begin, begin));
 	}
 	
-	/**
-	 * end date < begin date
-	 */
-	@Test(expected = CarException.class)
-	public void badDateRent() {
+	@Test
+	public void successSameDay() {
+		Assert.assertNotNull(car.rent(drivingLicense, begin, begin));
+	}	
+	
+	@Test(expected = RentingException.class)
+	public void rentingAlreadRentedCar() {
+		Assert.assertNotNull(car.rent(drivingLicense, begin, begin));
+		car.rent(drivingLicense, begin, end);
+	}
+	
+	@Test(expected = RentingException.class)
+	public void switchedStartWithEnd() {
 		car.rent(drivingLicense, end, begin);
 	}
 	
+	@Test(expected = RentingException.class)
+	public void nullBeginDate() {
+		car.rent(drivingLicense, null, begin);
+	}
 	
-	@Test
-	public void testIsFreeTrue() {
-		Assert.assertTrue(car.isFree(begin, end));
+	@Test(expected = RentingException.class)
+	public void nullEndDate() {
+		car.rent(drivingLicense, end, null);
+	}
+	
+	@Test(expected = RentingException.class)
+	public void emptyLicense() {
+		car.rent(" ", end, begin);
+	}
+	
+	@Test(expected = RentingException.class)
+	public void nullLicense() {
+		car.rent(null, end, begin);
+	}
 		
-		car.rent(drivingLicense, end, end);
-		Assert.assertTrue(car.isFree(begin, begin));
-	}
-
-	@Test
-	public void testIsFreeFalse() {
-		car.rent(drivingLicense, begin, end);
-		Assert.assertFalse(car.isFree(begin, end));
-	}
-	
-
-
 }

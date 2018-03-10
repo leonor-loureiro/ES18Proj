@@ -61,6 +61,24 @@ public class RentACarMethodsTest {
 	}
 	
 	
+	/*
+	 * 
+	 */
+	@Test
+	public void testGetAllAvailableCars2() {
+		Car car = new Car("AN-FI-FO", 1, rentACar);
+		
+		String reference = car.rent(drivingLicense, begin, end2);
+		Assert.assertFalse(rentACar.getAllAvailableCars(begin, end).contains(car));
+		
+		Renting renting = rentACar.getRenting(reference);
+		renting.checkOut(20);
+		Assert.assertTrue(rentACar.getAllAvailableCars(begin, end).contains(car));
+		
+		car.rent(drivingLicense, begin, end2);
+		Assert.assertFalse(rentACar.getAllAvailableCars(begin, end).contains(car));
+	}
+	
 	@Test
 	public void testGetAllAvailableMotorcycles() {
 		fail("Not yet implemented");

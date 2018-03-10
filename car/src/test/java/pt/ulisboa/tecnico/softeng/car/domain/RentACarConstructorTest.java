@@ -1,6 +1,5 @@
 package pt.ulisboa.tecnico.softeng.car.domain;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 import pt.ulisboa.tecnico.softeng.car.exception.CarException;
@@ -25,6 +24,6 @@ public class RentACarConstructorTest {
 	
 	@Test
 	public void success() {
-		Assert.assertNotNull(new RentACar("Maven1337"));
+		new RentACar("Maven1337");
 	}
 }
