@@ -1,15 +1,13 @@
 package pt.ulisboa.tecnico.softeng.car.domain;
 
 import org.joda.time.LocalDate;
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import pt.ulisboa.tecnico.softeng.car.dataobject.RentingData;
 import pt.ulisboa.tecnico.softeng.car.exception.CarException;
 
-public class RentACargetAllAvailableMotorcyclesMethodsTest {
+public class RentACarGetAllAvailableMotorcyclesMethodsTest {
 	private RentACar rentACar;
 	private String drivingLicense = "A123456789";
 	private final LocalDate begin = new LocalDate(2016, 12, 19);
