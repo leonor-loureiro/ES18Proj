@@ -6,6 +6,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 
 public class SellerConstructorNNATest {
 	private String NIF = "123456789";
@@ -16,7 +17,7 @@ public class SellerConstructorNNATest {
 	public void success() {
 		Seller seller = new Seller(NIF, NAME, ADDRESS);
 		
-		Assert.assertEquals(NIF, seller.getNIF());
+		Assert.assertEquals(NIF, seller.getNif());
 		Assert.assertEquals(NAME, seller.getName());
 		Assert.assertEquals(ADDRESS, seller.getAddress());
 		Assert.assertTrue(NIF.length() == 9);
@@ -24,7 +25,7 @@ public class SellerConstructorNNATest {
 
 		
 	@Test(expected = TaxException.class)
-	public void nullNIF() {
+	public void nullNif() {
 		Seller seller = new Seller(null, NAME, ADDRESS);
 	}
 

@@ -42,39 +42,39 @@ public class InvoiceConstructorTest {
 	
 	@Test(expected = TaxException.class)
 	public void nullValue() {
-		new Invoice(null, this.date, this.itemtype, this.seller, this.buyer);
+		Invoice invoice = new Invoice(null, this.date, this.itemtype, this.seller, this.buyer);
 	}
 	
 	@Test(expected = TaxException.class)
 	public void nullDate() {
-		new Invoice(this.value, null, this.itemtype, this.seller, this.buyer);
+		Invoice invoice = new Invoice(this.value, null, this.itemtype, this.seller, this.buyer);
 	}
 	
 	@Test(expected = TaxException.class)
 	public void nullItemType() {
-		new Invoice(this.value, this.date, null, this.seller, this.buyer);
+		Invoice invoice = new Invoice(this.value, this.date, null, this.seller, this.buyer);
 	}
 	
 	@Test(expected = TaxException.class)
 	public void nullSeller() {
-		new Invoice(this.value, this.date, this.itemtype, null, this.buyer);
+		Invoice invoice = new Invoice(this.value, this.date, this.itemtype, null, this.buyer);
 	}
 	
 	@Test(expected = TaxException.class)
 	public void nullBuyer() {
-		new Invoice(this.value, this.date, this.itemtype, this.seller, null);
+		Invoice invoice = new Invoice(this.value, this.date, this.itemtype, this.seller, null);
 	}
 	
 	@Test(expected = TaxException.class)
 	public void emptyItemType() {
 		this.itemtype = "";
-		new Invoice(this.value, this.date, this.itemtype, this.seller, this.buyer);
+		Invoice invoice = new Invoice(this.value, this.date, this.itemtype, this.seller, this.buyer);
 	}
 	
 	@Test(expected = TaxException.class)
 	public void blankItemType() {
 		this.itemtype = "    ";
-		new Invoice(this.value, this.date, this.itemtype, this.seller, this.buyer);
+		Invoice invoice = new Invoice(this.value, this.date, this.itemtype, this.seller, this.buyer);
 	}
 	
 	@After

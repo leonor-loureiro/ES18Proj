@@ -11,24 +11,28 @@ public class SellerToPayMethodTest {
 	private String NIF = "123456789";
 	private String NAME = "Jertrudes";
 	private String ADDRESS = "Porto";
+	private int YEAR = 2018;
+	Seller seller;
 	
 	@Before
 	public void setUp() {
-		Seller seller = new Seller(NIF, NAME, ADDRESS);
+		this.seller = new Seller(NIF, NAME, ADDRESS);
 	}
 
 	@Test
 	public void success() {
-		private int pay = this.seller.toPay(2018);
+		double pay = this.seller.toPay(YEAR);
 		
 		Assert.assertNotNull(pay);
 	}
 
-
-
-	@After
-	public void tearDown() {
-		
+	@Test(expected = TaxException.class)
+	public void nullYear() {
+		double pay = this.seller.toPay(null);
 	}
-
+	
+	@Test(expected = TaxException.class)
+	public void lesserThan1970() {
+		seller.toPay(1969);
+	}
 }

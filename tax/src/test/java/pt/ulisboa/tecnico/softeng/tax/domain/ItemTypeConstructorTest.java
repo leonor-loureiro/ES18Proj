@@ -28,7 +28,7 @@ public class ItemTypeConstructorTest {
 	}
 	
 	@Test(expected = TaxException.class)
-	public void itemTypeBlank() {
+	public void blankItemType() {
 		ItemType itemType = new ItemType("   ", TAX);
 	}
 	
@@ -45,6 +45,12 @@ public class ItemTypeConstructorTest {
 	@Test(expected = TaxException.class)
 	public void negativeTAX() {
 		ItemType itemType = new ItemType(ITEM_TYPE, -20);
+	}
+	
+	@Test(expected = TaxException.class)
+	public void itemTypeNotUnique() {
+		ItemType itemType = new ItemType(ITEM_TYPE, TAX);
+		ItemType itemType = new ItemType(ITEM_TYPE, TAX + 10);		
 	}
 	
 	@After
