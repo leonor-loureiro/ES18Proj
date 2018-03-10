@@ -56,7 +56,7 @@ public class invoiceData {
 		return this.date;
 	}
 	
-	public void setDate(LocalData date) {
+	public void setDate(LocalDate date) {
 		this.date = date;
 	}
 

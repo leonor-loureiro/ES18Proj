@@ -10,9 +10,9 @@ public abstract class TaxPayer {
 	
 	static final int NIF_SIZE = 9;
 	
-	private final String nif;
-	private final String name;
-	private String address;
+	protected final String nif;
+	protected final String name;
+	protected String address;
 
 	public TaxPayer(String nif, String name, String address) {
 		checkArguments(nif, name, address);
