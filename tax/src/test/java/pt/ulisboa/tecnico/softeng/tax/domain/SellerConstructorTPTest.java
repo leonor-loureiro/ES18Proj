@@ -32,17 +32,6 @@ public class SellerConstructorTPTest {
 		Seller seller = new Seller(null);
 	}
 	
-	@Test(expected = TaxException.class)
-	public void sellerTaxPayer() {
-		Seller seller2 = new Seller("321654987", "Tomas", "Algarve");
-		Seller seller = new Seller(seller2);
-	}
-
-	@Test(expected = TaxException.class)
-	public void buyerTaxPayer() {
-		Buyer buyer = new Buyer("321813987", "Luisa", "Tras dos Montes");
-		Seller seller = new Seller(buyer);
-	}
 	
 	@Test(expected = TaxException.class)
 	public void duplicatedTaxPayer() {
