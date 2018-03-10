@@ -16,9 +16,9 @@ public class Motorcycle extends Vehicle {
 	}
 
 	@Override
-	public void rent(String drivingLicense, LocalDate begin, LocalDate end) {
+	public String rent(String drivingLicense, LocalDate begin, LocalDate end) {
 		// TODO Auto-generated method stub
-
+		return "rent_reference";
 	}
 
 }
