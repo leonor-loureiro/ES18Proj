@@ -35,7 +35,7 @@ public class Invoice {
 	}
 	
 	private void checkArguments(float value, LocalDate date, String itemType, Seller seller, Buyer buyer) {
-		if (itemType == null || itemType.trim().length() == 0 || value == null || date == null || seller == null || buyer == null) {
+		if (itemType == null || itemType.trim().length() == 0 || value < 0 || date == null || seller == null || buyer == null) {
 			throw new TaxException();
 		}
 
@@ -77,6 +77,10 @@ public class Invoice {
 	
 	public String getReference() {
 		return this.reference;
+	}
+	
+	public static void addInvoice(Invoice invoice) {
+		Invoice.invoices.add(invoice);
 	}
 	
 	public static Set<Invoice> getInvoiceByYear(int YEAR) {

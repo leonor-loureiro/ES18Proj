@@ -12,6 +12,10 @@ public class Seller extends TaxPayer{
 	
 	
 	public Seller(TaxPayer taxPayer) {
+		
+		if (taxPayer instanceof Seller || taxPayer == null) {
+			throw new TaxException();
+		}
 		String nifTemp = taxPayer.getNif();
 		String nameTemp = taxPayer.getName();
 		String addressTemp = taxPayer.getAddress();
