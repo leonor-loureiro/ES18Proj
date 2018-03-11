@@ -44,6 +44,10 @@ public class TaxPayer {
 		}
 	}
 	
+	public static Set<TaxPayer> getTaxPayers() {
+		return taxPayers;
+	}
+	
 	public String getNif() {
 		return this.nif;
 	}

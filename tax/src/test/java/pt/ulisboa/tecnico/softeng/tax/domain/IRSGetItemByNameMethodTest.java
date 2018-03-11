@@ -4,23 +4,22 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.Before;
 import org.junit.After;
+import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 
 public class IRSGetItemByNameMethodTest {
-	private IRS irs;
 	private ItemType item;
 	
 	@Before
 	public void setUp() {
-		this.irs = new IRS();
 		this.item = new ItemType("leite", 21);
 	}
 	
 	@Test
 	public void success() {
-		ItemType data = irs.getItemTypeByName("leite");
+		ItemType data = IRS.getItemTypeByName("leite");
 		
 		Assert.assertNotNull(data);
-		Assert.assertEquals(data.getName(), this.item.getName());
+		Assert.assertEquals(data.getItemType(), this.item.getItemType());
 		Assert.assertEquals(data.getTax(), this.item.getTax());
 	}
 	
