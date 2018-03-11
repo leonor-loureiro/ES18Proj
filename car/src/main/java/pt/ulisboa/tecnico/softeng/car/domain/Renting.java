@@ -27,7 +27,7 @@ public class Renting {
 	}
 	
 	private void checkDates(LocalDate begin, LocalDate end) {
-		if (begin == null || end == null ||begin.isAfter(end))
+		if (begin == null || end == null || begin.isAfter(end))
 			throw new CarException("Renting Exception: Invalid dates");
 	}
 	
@@ -39,7 +39,8 @@ public class Renting {
 
 	public boolean conflict(LocalDate begin, LocalDate end) {
 		checkDates(begin, end);
-		return this.begin.isBefore(end) && this.end.isAfter(begin);	
+		return (this.begin.isBefore(end) || this.begin.isEqual(end)) 
+				&& (this.end.isAfter(begin) || this.end.isEqual(begin));
 	}
 
 	public void checkout(int kilometers) {
