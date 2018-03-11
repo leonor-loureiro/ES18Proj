@@ -52,7 +52,7 @@ public class RentACarGetAllAvailableMotorcyclesMethodsTest {
 		Assert.assertFalse(rentACar.getAllAvailableMotorcycles(begin, end).contains(bike));
 		
 		Renting renting = rentACar.getRenting(reference);
-		renting.checkOut(20);
+		renting.checkout(20);
 		Assert.assertTrue(rentACar.getAllAvailableMotorcycles(begin, end).contains(bike));
 		
 		bike.rent(drivingLicense, begin, end2);

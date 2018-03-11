@@ -7,7 +7,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import pt.ulisboa.tecnico.softeng.car.exception.RentingException;
-
+import pt.ulisboa.tecnico.softeng.car.domain.Car;
+import pt.ulisboa.tecnico.softeng.car.domain.RentACar;
 
 public class RentingConflictMethodTest {
 	private Renting renting;
@@ -16,11 +17,12 @@ public class RentingConflictMethodTest {
 	private final LocalDate end = new LocalDate(2016, 12, 21);
 	private final LocalDate begin2 = new LocalDate(2016, 12, 22);
 	private final LocalDate end2 = new LocalDate(2016, 12, 24);
-	private final String plate = "ST-EV-EH";
 	
 	@Before
 	public void setUp() {
-		renting = new Renting(plate, drivingLicense, begin, end);
+		RentACar rentACar = new RentACar("tester");
+		Car car = new Car("XX-XX-XX", 10, rentACar);
+		renting = new Renting(car, drivingLicense, begin, end);
 	}
 	
 	@Test
@@ -35,7 +37,7 @@ public class RentingConflictMethodTest {
 	@Test
 	public void successWithCheckout() {
 		Assert.assertTrue(renting.conflict(begin, end));
-		renting.checkOut(30);
+		renting.checkout(30);
 		Assert.assertFalse(renting.conflict(begin, end));
 	}
 	
