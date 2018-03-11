@@ -6,6 +6,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 
 public class ItemTypeConstructorTest {
 	private String ITEM_TYPE = "batatas";
@@ -16,20 +17,15 @@ public class ItemTypeConstructorTest {
 		ItemType itemType = new ItemType(ITEM_TYPE, TAX);
 		
 		Assert.assertEquals(ITEM_TYPE, itemType.getItemType());
-		Assert.assertEquals(TAX, itemType.getTAX());
-		Assert.assertTrue(itemType.getTAX() >= 0);
+		Assert.assertEquals(TAX, itemType.getTax());
+		Assert.assertTrue(itemType.getTax() >= 0);
 		Assert.assertEquals(1, ItemType.itemTypes.size());
 	}
 	 
 
 	@Test(expected = TaxException.class)
-	public void nullTAX() {
-		ItemType itemType = new ItemType(ITEM_TYPE, null);
-	}
-	
-	@Test(expected = TaxException.class)
-	public void blankItemType() {
-		ItemType itemType = new ItemType("   ", TAX);
+	public void nullItemType() {
+		ItemType itemType = new ItemType(null, TAX);
 	}
 	
 	@Test(expected = TaxException.class)
@@ -50,12 +46,12 @@ public class ItemTypeConstructorTest {
 	@Test(expected = TaxException.class)
 	public void itemTypeNotUnique() {
 		ItemType itemType = new ItemType(ITEM_TYPE, TAX);
-		ItemType itemType = new ItemType(ITEM_TYPE, TAX + 10);		
+		ItemType itemType2 = new ItemType(ITEM_TYPE, TAX + 10);		
 	}
 	
 	@After
 	public void tearDown() {
-		
+		ItemType.itemTypes.clear();
 	}
 
 }

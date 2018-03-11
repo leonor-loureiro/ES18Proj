@@ -41,7 +41,7 @@ public class SellerConstructorNNATest {
 	
 	@After
 	public void tearDown() {
-		
+		TaxPayer.taxPayers.clear();
 	}
 
 }

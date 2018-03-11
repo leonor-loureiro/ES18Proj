@@ -6,7 +6,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import pt.ulisboa.tecnico.softeng.hotel.domain.Hotel;
+import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 
 
 public class InvoiceConstructorTest {
@@ -16,14 +16,15 @@ public class InvoiceConstructorTest {
 	private Buyer buyer;
 	private Buyer buyer2;
 	private String itemtype;
+	private ItemType type;
 	
 	@Before
 	public void setUp() {
+		this.type = new ItemType("batatas", 23);
 		this.value = 13;
 		this.itemtype = "batatas";
 		this.seller = new Seller("123456789", "Jose", "Sao Roque");
 		this.buyer = new Buyer("987654321", "Manuel", "Lisboa");
-		this.buyer2 = new Buyer("123456789", "Jose", "Sao Roque");
 	}
 
 	@Test
@@ -37,12 +38,7 @@ public class InvoiceConstructorTest {
 	
 	@Test(expected = TaxException.class)
 	public void equalNIFs() {
-		Invoice invoice = new InVoice(this.value, this.date, this.itemtype, this.seller, this.buyer2);
-	}
-	
-	@Test(expected = TaxException.class)
-	public void nullValue() {
-		Invoice invoice = new Invoice(null, this.date, this.itemtype, this.seller, this.buyer);
+		Invoice invoice = new Invoice(this.value, this.date, this.itemtype, this.seller, this.buyer2);
 	}
 	
 	@Test(expected = TaxException.class)
@@ -80,6 +76,8 @@ public class InvoiceConstructorTest {
 	@After
 	public void tearDown() {
 		Invoice.invoices.clear();
+		TaxPayer.taxPayers.clear();
+		ItemType.itemTypes.clear();
 	}
 
 }
