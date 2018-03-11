@@ -1,6 +1,7 @@
 package pt.ulisboa.tecnico.softeng.car.domain;
 
 import org.joda.time.LocalDate;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,10 +19,6 @@ public class CarRentMethodTest {
 	
 	@Before
 	public void setUp() {
-		/*
-		 * If this test is receiving false error reports
-		 * Check for the need to destroy car after each test
-		 */
 		rentACar = new RentACar("Steve");
 		car = new Car(plate, 1, rentACar);
 	}
@@ -67,4 +64,9 @@ public class CarRentMethodTest {
 		car.rent(null, end, begin);
 	}
 		
+	@After
+	public void tearDown() {
+		RentACar.rentACars.clear();
+		Vehicle.plates.clear();
+	}
 }

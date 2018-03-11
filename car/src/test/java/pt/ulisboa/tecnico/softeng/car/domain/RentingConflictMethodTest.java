@@ -55,4 +55,11 @@ public class RentingConflictMethodTest {
 	public void nullEndDate() {
 		renting.conflict(begin, null);
 	}
+	
+	@After
+	public void tearDown() {
+		RentACar.rentACars.clear();
+		Vehicle.plates.clear();
+	}
+	
 }

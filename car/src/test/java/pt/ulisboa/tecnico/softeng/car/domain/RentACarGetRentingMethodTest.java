@@ -1,6 +1,7 @@
 package pt.ulisboa.tecnico.softeng.car.domain;
 
 import org.joda.time.LocalDate;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -48,6 +49,12 @@ public class RentACarGetRentingMethodTest {
 	@Test(expected = CarException.class)
 	public void emptyReference2() {
 		rentACar.getRenting("           ");
+	}
+
+	@After
+	public void tearDown() {
+		RentACar.rentACars.clear();
+		Vehicle.plates.clear();
 	}
 	
 }

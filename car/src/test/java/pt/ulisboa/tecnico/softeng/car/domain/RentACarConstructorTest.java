@@ -1,5 +1,6 @@
 package pt.ulisboa.tecnico.softeng.car.domain;
 
+import org.junit.After;
 import org.junit.Test;
 
 import pt.ulisboa.tecnico.softeng.car.exception.CarException;
@@ -25,5 +26,10 @@ public class RentACarConstructorTest {
 	@Test(expected = CarException.class)
 	public void emptyName2() {
 		new RentACar("            ");
+	}
+	
+	@After
+	public void tearDown() {
+		RentACar.rentACars.clear();
 	}
 }

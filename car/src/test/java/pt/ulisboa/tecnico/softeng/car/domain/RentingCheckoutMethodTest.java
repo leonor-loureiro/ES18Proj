@@ -3,6 +3,7 @@ package pt.ulisboa.tecnico.softeng.car.domain;
 import org.joda.time.LocalDate;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.After;
 
 import pt.ulisboa.tecnico.softeng.car.exception.RentingException;
 import pt.ulisboa.tecnico.softeng.car.domain.Car;
@@ -13,11 +14,12 @@ public class RentingCheckoutMethodTest {
 	private String drivingLicense = "A123456789";
 	private final LocalDate begin = new LocalDate(2016, 12, 19);
 	private final LocalDate end = new LocalDate(2016, 12, 21);
-	private final RentACar rentACar = new RentACar("tester");
-	private final Car car = new Car("XX-XX-XX", 10, rentACar);
 	
 	@Before
 	public void setUp() {
+
+		RentACar rentACar = new RentACar("tester");
+		Car car = new Car("XX-XX-XX", 10, rentACar);
 		renting = new Renting(car, drivingLicense, begin, end);
 	}
 	
@@ -42,4 +44,9 @@ public class RentingCheckoutMethodTest {
 		renting.checkout(-500);
 	}
 	
+	@After
+	public void tearDown() {
+		RentACar.rentACars.clear();
+		Vehicle.plates.clear();
+	}
 }

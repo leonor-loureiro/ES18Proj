@@ -1,6 +1,7 @@
 package pt.ulisboa.tecnico.softeng.car.domain;
 
 import org.joda.time.LocalDate;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -71,4 +72,9 @@ public class RentingConstructorTest {
 		new Renting(car, drivingLicense, begin, null);
 	}
 	
+	@After
+	public void tearDown() {
+		RentACar.rentACars.clear();
+		Vehicle.plates.clear();
+	}
 }

@@ -1,9 +1,11 @@
 package pt.ulisboa.tecnico.softeng.car.domain;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import pt.ulisboa.tecnico.softeng.car.exception.CarException;
+import pt.ulisboa.tecnico.softeng.car.domain.Vehicle;
 
 public class CarConstructorTest {
 	private RentACar rentACar;
@@ -77,4 +79,9 @@ public class CarConstructorTest {
 		new Car(plate, 5, rentACar);		
 	}
 	
+	@After
+	public void tearDown() {
+		RentACar.rentACars.clear();
+		Vehicle.plates.clear();
+	}
 }

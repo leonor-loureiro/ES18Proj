@@ -19,10 +19,6 @@ public class CarIsFreeMethodTest {
 	
 	@Before
 	public void setUp() {
-		/*
-		 * If this test is receiving false error reports
-		 * Check for the need to destroy car after each test
-		 */
 		rentACar = new RentACar("Steve");
 		car = new Car(plate, 1, rentACar);
 	}
@@ -77,6 +73,10 @@ public class CarIsFreeMethodTest {
 		Assert.assertTrue(car.isFree(begin, begin));
 	}
 	
-
+	@After
+	public void tearDown() {
+		RentACar.rentACars.clear();
+		Vehicle.plates.clear();
+	}
 
 }
