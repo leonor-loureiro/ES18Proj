@@ -33,8 +33,8 @@ public class RentACar {
 	}
 	
 	private void checkArguments(String name) {
-		if (name == null || !name.matches("^[a-zA-Z]"))
-			throw new CarException("RentACar Exception: Invalid Name");
+		if (name == null || !name.matches("^[a-zA-Z].*"))
+			throw new CarException("RentACar Exception: Invalid Name \"" + name + "\"");
 	}
 	
 	public Renting getRenting(String reference) {

@@ -1,14 +1,16 @@
 package pt.ulisboa.tecnico.softeng.car.domain;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.joda.time.LocalDate;
 
 import pt.ulisboa.tecnico.softeng.car.exception.CarException;
 
 public abstract class Vehicle {
-	private static List<String> plates;
+	public static Set<String> plates = new HashSet<>();
 	
 	private String plate;
 	private int kilometers;
@@ -36,8 +38,8 @@ public abstract class Vehicle {
 		if (kilometers < 0)
 			throw new CarException("Vehicle Exception: Kilometers cannot be negative");
 		
-		if (!plate.matches("^\\d{2}-\\d{2}-\\d{2}$") || Vehicle.plates.contains(plate))
-			throw new CarException("Vehicle Exception: Invalid plate number");
+		if (!plate.matches("^[a-zA-Z0-9]{2}-[a-zA-Z0-9]{2}-[a-zA-Z0-9]{2}$") || Vehicle.plates.contains(plate))
+			throw new CarException("Vehicle Exception: Invalid plate number \"" + plate + "\"");
 	}
 	
 	public boolean isFree(LocalDate begin, LocalDate end) {
@@ -48,7 +50,7 @@ public abstract class Vehicle {
 	public String rent(String drivingLicense, LocalDate begin, LocalDate end) {
 		checkDates(begin, end);
 		
-		if (!drivingLicense.matches("^[a-zA-Z]"))
+		if (!drivingLicense.matches("^[a-zA-Z]\\d+"))
 			throw new CarException("Vehicle Exception: Invalid driving license");
 		
 		return new Renting(this, drivingLicense, begin, end).getReference();
