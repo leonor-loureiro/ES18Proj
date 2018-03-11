@@ -11,7 +11,7 @@ public class Buyer extends TaxPayer {
 		super(nif, name, address);
 	}
 	
-	private double taxReturn(int year) {
+	public double taxReturn(int year) {
 		checkArguments(year);
 		
 		Set<Invoice> invoices = new HashSet<>();
@@ -20,7 +20,7 @@ public class Buyer extends TaxPayer {
 		double returnValue = 0;
 		double itemIvaValue;
 		for (Invoice invoice : invoices) {
-			itemIvaValue = (invoice.getValue() / ( 1 + (invoice.getItemType().getTax() / 100))) * (invoice.getItemType().getTax());
+			itemIvaValue = (invoice.getValue() / ( 1 + (ItemType.findTaxByType(invoice.getItemType()) / 100))) * ((ItemType.findTaxByType(invoice.getItemType())) / 100);
 			returnValue = returnValue + (itemIvaValue * 0.05);
 		}
 		
