@@ -31,8 +31,8 @@ public class RentACarGetRentingMethodTest {
 		Assert.assertEquals("BA-TM-AN", renting.getPlate());
 	}
 	
-	@Test
-	public void wrongButValidReference() {
+	@Test(expected = CarException.class)
+	public void nonExistingReference() {
 		Assert.assertNull(rentACar.getRenting("123756789"));
 	}
 	
