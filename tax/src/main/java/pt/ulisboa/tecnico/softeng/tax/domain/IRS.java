@@ -1,7 +1,7 @@
 package pt.ulisboa.tecnico.softeng.tax.domain;
 
 import org.joda.time.LocalDate;
-import pt.ulisboa.tecnico.softeng.tax.dataobjects.invoiceData;
+import pt.ulisboa.tecnico.softeng.tax.dataobjects.InvoiceData;
 import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 
 public final class IRS {  // singleton
@@ -31,15 +31,25 @@ public final class IRS {  // singleton
 		throw new TaxException();
 	}
 	
-	public static void submitInvoice(invoiceData invoiceData) {
+	public static void submitInvoice(InvoiceData invoiceData) {
+		checkArguments(invoiceData);
+		
 		float value = invoiceData.getValue();
 		LocalDate date = invoiceData.getDate();
 		String itemType = invoiceData.getItemType();
 		Seller seller = (Seller) getTaxPayerByNIF(invoiceData.getSellerNIF());
 		Buyer buyer = (Buyer) getTaxPayerByNIF(invoiceData.getBuyerNIF());
-		
 		Invoice invoice = new Invoice(value, date, itemType, seller, buyer);
-		
 		Invoice.addInvoice(invoice);
+	}
+	
+	private static void checkArguments(InvoiceData invoiceData) {
+		if(invoiceData == null) {
+			throw new TaxException();
+		}
+		
+		if (invoiceData.getDate() == null || invoiceData.getItemType() == null || invoiceData.getSellerNIF() == null || invoiceData.getBuyerNIF() == null || invoiceData.getItemType().trim().length() == 0) {
+			throw new TaxException();
+		}
 	}
 }
