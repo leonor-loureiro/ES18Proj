@@ -2,18 +2,81 @@ package pt.ulisboa.tecnico.softeng.car.domain;
 
 import org.joda.time.LocalDate;
 
+import pt.ulisboa.tecnico.softeng.car.exception.CarException;
+import pt.ulisboa.tecnico.softeng.car.exception.RentingException;
+
 public class Renting {
-	private String _reference;
-	private String _drivingLicence;
-	private LocalDate _begin;
-	private LocalDate _end;
-	private int _kilometers;
+	private static int counter = 0;
+	private String reference;
+	private String drivingLicense;
+	private Vehicle vehicle;
+	private LocalDate begin;
+	private LocalDate end;
+	private int kilometers;
+
+	public Renting(Vehicle vehicle, String drivingLicense, LocalDate begin, LocalDate end) {
+		checkArguments(vehicle, drivingLicense, begin, end);
+		
+		this.reference      = vehicle.getRentACar().getCode() + Integer.toString(++Renting.counter);
+		this.vehicle        = vehicle;
+		this.drivingLicense = drivingLicense;
+		this.begin          = begin;
+		this.end            = end;
+		
+		vehicle.addLog(this);
+	}
 	
+	private void checkDates(LocalDate begin, LocalDate end) {
+		if (begin == null || end == null || begin.isAfter(end))
+			throw new CarException("Renting Exception: Invalid dates");
+	}
+	
+	private void checkArguments(Vehicle vehicle, String drivingLicense, LocalDate begin, LocalDate end) {
+		checkDates(begin, end);
+		if (vehicle == null || !drivingLicense.matches("^[a-zA-Z]\\d+"))
+			throw new RentingException("Renting Exception: Invalid arguments");
+	}
+
 	public boolean conflict(LocalDate begin, LocalDate end) {
-		return false;
+		checkDates(begin, end);
+		return (this.begin.isBefore(end) || this.begin.isEqual(end)) 
+				&& (this.end.isAfter(begin) || this.end.isEqual(begin));
+	}
+
+	public void checkout(int kilometers) {
+		if (kilometers < 0 )
+			throw new CarException("Renting Exception: kilometers cannot be negative");
+		this.kilometers = kilometers;
+		this.vehicle.addKilometers(kilometers);
+	}
+
+	public String getPlate() {
+		return this.vehicle.getPlate();
+	}
+
+	public String getReference() {
+		return this.reference;
+	}
+
+	public String getDrivingLicense() {
+		return this.drivingLicense;
+	}
+
+	public LocalDate getBegin() {
+		return this.begin;
+	}
+
+	public LocalDate getEnd() {
+		return this.end;
+	}
+
+	public int getKilometers() {
+		return this.kilometers;
+	}
+
+	public String getRentACarCode() {
+		return this.vehicle.getRentACar().getCode();
 	}
 	
-	public int checkOut(int kilometers) {
-		return -1;
-	}
+	
 }

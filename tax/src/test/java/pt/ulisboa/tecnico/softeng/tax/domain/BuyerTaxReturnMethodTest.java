@@ -4,9 +4,10 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 
 public class BuyerTaxReturnMethodTest {
-	private final String year = "1970";
+	private final int year = 1970;
 	private Buyer buyer;
 	
 	@Before
@@ -16,29 +17,14 @@ public class BuyerTaxReturnMethodTest {
 
 	@Test
 	public void success() {
-		int returnValue = Buyer.taxReturn(year);
+		double returnValue = buyer.taxReturn(year);
 		
 		Assert.assertNotNull(returnValue);
 	}
 
 	@Test(expected = TaxException.class)
 	public void lesserThan1970() {
-		Buyer.taxReturn("1969");
-	}
-
-	@Test(expected = TaxException.class)
-	public void nullYear() {
-		Buyer.taxReturn(null);
-	}
-	
-	@Test(expected = TaxException.class)
-	public void blankYear() {
-		Buyer.taxReturn("  ");
-	}
-	
-	@Test(expected = TaxException.class)
-	public void emptyYear() {
-		Buyer.taxReturn("");
+		buyer.taxReturn(1969);
 	}
 	
 	@After

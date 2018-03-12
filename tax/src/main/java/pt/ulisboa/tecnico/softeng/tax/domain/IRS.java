@@ -1,16 +1,55 @@
 package pt.ulisboa.tecnico.softeng.tax.domain;
 
-public class IRS{
+import org.joda.time.LocalDate;
+import pt.ulisboa.tecnico.softeng.tax.dataobjects.InvoiceData;
+import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 
-	private ItemType getItemTypeByName(String name) {
-		
+public final class IRS {  // singleton
+	private static final IRS irs = new IRS();
+	
+	private IRS() {}
+	
+	public static IRS getIRS() {
+		return irs;
 	}
 	
-	private TaxPayer getTaxPayerByNIF(String nif) {
-		
+	public static ItemType getItemTypeByName(String name) {
+		for (ItemType items : ItemType.getItemTypes()) {
+			if (items.getItemType().equals(name)) {
+				return items;
+			}
+		}
+		throw new TaxException();
 	}
 	
-	private void submitInvoice(Invoice invoiceData) { // void temp. por razoes acima
+	public static TaxPayer getTaxPayerByNIF(String nif) {
+		for (TaxPayer payer : TaxPayer.getTaxPayers()) {
+			if (payer.getNif().equals(nif)) {
+				return payer;
+			}
+		}
+		throw new TaxException();
+	}
+	
+	public static void submitInvoice(InvoiceData invoiceData) {
+		checkArguments(invoiceData);
 		
+		float value = invoiceData.getValue();
+		LocalDate date = invoiceData.getDate();
+		String itemType = invoiceData.getItemType();
+		Seller seller = (Seller) getTaxPayerByNIF(invoiceData.getSellerNIF());
+		Buyer buyer = (Buyer) getTaxPayerByNIF(invoiceData.getBuyerNIF());
+		Invoice invoice = new Invoice(value, date, itemType, seller, buyer);
+		Invoice.addInvoice(invoice);
+	}
+	
+	private static void checkArguments(InvoiceData invoiceData) {
+		if(invoiceData == null) {
+			throw new TaxException();
+		}
+		
+		if (invoiceData.getDate() == null || invoiceData.getItemType() == null || invoiceData.getSellerNIF() == null || invoiceData.getBuyerNIF() == null || invoiceData.getItemType().trim().length() == 0) {
+			throw new TaxException();
+		}
 	}
 }

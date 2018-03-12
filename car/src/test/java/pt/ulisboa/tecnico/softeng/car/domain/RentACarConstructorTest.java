@@ -1,12 +1,17 @@
 package pt.ulisboa.tecnico.softeng.car.domain;
 
-import org.junit.Assert;
+import org.junit.After;
 import org.junit.Test;
 
 import pt.ulisboa.tecnico.softeng.car.exception.CarException;
 
 public class RentACarConstructorTest {
 	
+	
+	@Test
+	public void success() {
+		new RentACar("Maven1337");
+	}
 	
 	@Test(expected = CarException.class)
 	public void nullName() {
@@ -23,8 +28,8 @@ public class RentACarConstructorTest {
 		new RentACar("            ");
 	}
 	
-	@Test
-	public void success() {
-		Assert.assertNotNull(new RentACar("Maven1337"));
+	@After
+	public void tearDown() {
+		RentACar.rentACars.clear();
 	}
 }

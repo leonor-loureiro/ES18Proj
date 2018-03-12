@@ -3,18 +3,21 @@ package pt.ulisboa.tecnico.softeng.tax.domain;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
+import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 
 public class BuyerConstructorTest {
 	private static final String NIF = "123456789";
 	private static final String NAME = "Toze";
 	private static final String ADDRESS = "Rua das Couves, no.4";
 	
+	static final int NIF_SIZE = 9;
+	
 	// constructor tests
 	@Test
 	public void sucess() {
 		Buyer buyer = new Buyer(NIF, NAME, ADDRESS);
 		
-		Assert.assertTrue(buyer.getNIF().length() == CODE_SIZE);	
+		Assert.assertTrue(buyer.getNif().length() == NIF_SIZE);	
 	}
 	
 	// nif tests
