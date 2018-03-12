@@ -2,7 +2,6 @@ package pt.ulisboa.tecnico.softeng.car.domain;
 
 import org.joda.time.LocalDate;
 
-import pt.ulisboa.tecnico.softeng.car.exception.CarException;
 import pt.ulisboa.tecnico.softeng.car.exception.RentingException;
 
 public class Renting {
@@ -18,8 +17,8 @@ public class Renting {
 		checkArguments(vehicle, drivingLicense, begin, end);
 		
 		this.reference      = vehicle.getRentACar().getCode() + Integer.toString(++Renting.counter);
-		this.vehicle        = vehicle;
 		this.drivingLicense = drivingLicense;
+		this.vehicle        = vehicle;
 		this.begin          = begin;
 		this.end            = end;
 		
@@ -28,13 +27,13 @@ public class Renting {
 	
 	private void checkDates(LocalDate begin, LocalDate end) {
 		if (begin == null || end == null || begin.isAfter(end))
-			throw new CarException("Renting Exception: Invalid dates");
+			throw new RentingException("Renting Exception: Invalid dates.");
 	}
 	
 	private void checkArguments(Vehicle vehicle, String drivingLicense, LocalDate begin, LocalDate end) {
 		checkDates(begin, end);
-		if (vehicle == null || !drivingLicense.matches("^[a-zA-Z]\\d+"))
-			throw new RentingException("Renting Exception: Invalid arguments");
+		if (vehicle == null || drivingLicense == null || !drivingLicense.matches("^[a-zA-Z]\\d+"))
+			throw new RentingException("Renting Exception: Invalid arguments.");
 	}
 
 	public boolean conflict(LocalDate begin, LocalDate end) {
@@ -45,7 +44,7 @@ public class Renting {
 
 	public void checkout(int kilometers) {
 		if (kilometers < 0 )
-			throw new CarException("Renting Exception: kilometers cannot be negative");
+			throw new RentingException("Renting Exception: kilometers cannot be negative.");
 		this.kilometers = kilometers;
 		this.vehicle.addKilometers(kilometers);
 	}

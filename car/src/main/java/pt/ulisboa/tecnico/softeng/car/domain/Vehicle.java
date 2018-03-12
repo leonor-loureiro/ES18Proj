@@ -10,36 +10,39 @@ import org.joda.time.LocalDate;
 import pt.ulisboa.tecnico.softeng.car.exception.CarException;
 
 public abstract class Vehicle {
-	public static Set<String> plates = new HashSet<>();
+	public static Set<String> plates      = new HashSet<>();
+	private final List<Renting> listRents = new ArrayList<>();
 	
 	private String plate;
 	private int kilometers;
 	private RentACar rentACar;
-	private ArrayList<Renting> listRents;
 	
 	
 	public Vehicle(String plate, int kilometer, RentACar rentACar) {
 		checkArguments(plate, kilometer, rentACar);
-		this.plate = plate;
+		
+		this.plate      = plate;
 		this.kilometers = kilometer;
 		this.rentACar = rentACar;
+		
+		rentACar.addVehicle(this);
 		Vehicle.plates.add(plate);
 	}
 	
 	private void checkDates(LocalDate begin, LocalDate end) {
-		if (begin == null || end == null ||begin.isAfter(end))
-			throw new CarException("Vehicle Exception: Invalid dates");
+		if (begin == null || end == null || begin.isAfter(end))
+			throw new CarException("Vehicle Exception: Invalid dates.");
 	}
 	
 	private void checkArguments(String plate, int kilometers, RentACar rentACar) {
 		if (plate == null || rentACar == null)
-			throw new CarException("Vehicle Exception: Values cannot be null");
+			throw new CarException("Vehicle Exception: Values cannot be null.");
 		
 		if (kilometers < 0)
-			throw new CarException("Vehicle Exception: Kilometers cannot be negative");
+			throw new CarException("Vehicle Exception: Kilometers cannot be negative.");
 		
 		if (!plate.matches("^[a-zA-Z0-9]{2}-[a-zA-Z0-9]{2}-[a-zA-Z0-9]{2}$") || Vehicle.plates.contains(plate))
-			throw new CarException("Vehicle Exception: Invalid plate number \"" + plate + "\"");
+			throw new CarException("Vehicle Exception: Invalid plate number \"" + plate + "\".");
 	}
 	
 	public boolean isFree(LocalDate begin, LocalDate end) {
@@ -49,9 +52,8 @@ public abstract class Vehicle {
 	
 	public String rent(String drivingLicense, LocalDate begin, LocalDate end) {
 		checkDates(begin, end);
-		
 		if (!drivingLicense.matches("^[a-zA-Z]\\d+"))
-			throw new CarException("Vehicle Exception: Invalid driving license");
+			throw new CarException("Vehicle Exception: Invalid driving license.");
 		
 		return new Renting(this, drivingLicense, begin, end).getReference();
 	}
