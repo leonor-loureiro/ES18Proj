@@ -6,15 +6,21 @@ import org.junit.Before;
 import org.junit.Test;
 import org.joda.time.LocalDate;
 import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
-import pt.ulisboa.tecnico.softeng.tax.dataobjects.invoiceData;
+import pt.ulisboa.tecnico.softeng.tax.dataobjects.InvoiceData;
 
 public class IRSSubmitInvoiceMethodTest {
-	private invoiceData invoiceData;
+	private InvoiceData invoiceData;
 	private final LocalDate date = new LocalDate(1997, 1, 31);
+	private Buyer buyer;
+	private Seller seller;
+	private ItemType item;
 	
 	@Before
 	public void setUp() {
-		this.invoiceData = new invoiceData("123456789", "987654321", "leite", (float) 4.99, date);
+		this.buyer = new Buyer("987654321", "Toze", "Rua das Couves, no.4");
+		this.seller = new Seller("123456789", "Tozerino", "Rua das Couves, no.45");
+		this.item = new ItemType("leite", 21);
+		this.invoiceData = new InvoiceData("123456789", "987654321", "leite", (float) 4.99, date);
 	}
 	
 	@Test
@@ -22,6 +28,9 @@ public class IRSSubmitInvoiceMethodTest {
 		IRS.submitInvoice(invoiceData);
 		
 		Assert.assertNotNull(invoiceData);
+		Assert.assertEquals(buyer.getNif(), invoiceData.getBuyerNIF());
+		Assert.assertEquals(seller.getNif(), invoiceData.getSellerNIF());
+		Assert.assertEquals(item.getItemType(), invoiceData.getItemType());
 	}
 
 	@Test(expected = TaxException.class)
@@ -32,5 +41,7 @@ public class IRSSubmitInvoiceMethodTest {
 	@After
 	public void tearDown() {
 		Invoice.invoices.clear();
+		TaxPayer.taxPayers.clear();
+		ItemType.itemTypes.clear();
 	}
 }

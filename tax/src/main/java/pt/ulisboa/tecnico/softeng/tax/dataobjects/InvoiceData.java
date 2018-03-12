@@ -3,14 +3,14 @@ package pt.ulisboa.tecnico.softeng.tax.dataobjects;
 import org.joda.time.LocalDate;
 
 
-public class invoiceData {
+public class InvoiceData {
 	private String sellerNIF;
 	private String buyerNIF;
 	private String itemType;
 	private float value;
 	private LocalDate date;
 
-	public invoiceData(String sellerNIF, String buyerNIF, String itemType, float value, LocalDate date) {
+	public InvoiceData(String sellerNIF, String buyerNIF, String itemType, float value, LocalDate date) {
 		
 		this.sellerNIF = sellerNIF;
 		this.buyerNIF = buyerNIF;

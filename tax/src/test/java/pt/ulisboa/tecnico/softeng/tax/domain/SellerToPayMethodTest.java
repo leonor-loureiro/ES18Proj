@@ -6,6 +6,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 
 public class SellerToPayMethodTest {
 	private String NIF = "123456789";
@@ -25,14 +26,14 @@ public class SellerToPayMethodTest {
 		
 		Assert.assertNotNull(pay);
 	}
-
-	@Test(expected = TaxException.class)
-	public void nullYear() {
-		double pay = this.seller.toPay(null);
-	}
 	
 	@Test(expected = TaxException.class)
 	public void lesserThan1970() {
 		seller.toPay(1969);
+	}
+	
+	@After
+	public void tearDown() {
+		TaxPayer.taxPayers.clear();
 	}
 }

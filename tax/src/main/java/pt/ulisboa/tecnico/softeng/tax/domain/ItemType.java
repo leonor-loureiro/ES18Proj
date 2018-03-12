@@ -30,7 +30,7 @@ public class ItemType {
 		}
 
 		for (ItemType items : itemTypes) {
-			if (items.getItemType().equals(this.itemType)) {
+			if (items.getItemType().equals(itemType)) {
 				throw new TaxException();
 			}
 		}
@@ -44,9 +44,13 @@ public class ItemType {
 		return this.tax;
 	}
 	
+	public static Set<ItemType> getItemTypes() {
+		return ItemType.itemTypes;
+	}
+	
 	public static int findTaxByType(String itemType) {
 		for (ItemType items : itemTypes) {
-			if (items.getItemType().equals(this.itemType)) {
+			if (items.getItemType().equals(itemType)) {
 				return items.getTax();
 			}
 		}

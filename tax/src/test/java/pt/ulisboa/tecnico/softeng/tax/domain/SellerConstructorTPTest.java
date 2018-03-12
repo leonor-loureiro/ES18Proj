@@ -36,11 +36,12 @@ public class SellerConstructorTPTest {
 	@Test(expected = TaxException.class)
 	public void duplicatedTaxPayer() {
 		Seller seller = new Seller(taxPayer);
+		Seller seller2 = new Seller(seller);
 	}
 	
 	@After
 	public void tearDown() {
-		
+		TaxPayer.taxPayers.clear();
 	}
 
 }

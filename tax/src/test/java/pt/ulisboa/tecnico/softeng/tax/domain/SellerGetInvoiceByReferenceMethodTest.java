@@ -18,20 +18,19 @@ public class SellerGetInvoiceByReferenceMethodTest {
 	private final LocalDate date = new LocalDate(2018,3,5);
 	private float value;
 	private String itemtype;
-	Seller seller;
-	Invoice invoice;
-	Buyer buyer;
-	Seller seller2;
+	private Seller seller;
+	private Invoice invoice;
+	private Buyer buyer;
+	private ItemType type;
 	
 	@Before
 	public void setUp() {
-		seller = new Seller(NIF, NAME, ADDRESS);
-		
+		this.seller = new Seller(NIF, NAME, ADDRESS);
+		this.type = new ItemType("batatas", 23);
 		this.value = 13;
 		this.itemtype = "batatas";
-		this.seller2 = new Seller("123456789", "Jose", "Sao Roque");
 		this.buyer = new Buyer("987654321", "Manuel", "Lisboa");
-		this.invoice = new Invoice(this.value, this.date, this.itemtype, this.seller2, this.buyer);
+		this.invoice = new Invoice(this.value, this.date, this.itemtype, this.seller, this.buyer);
 	}
 
 	@Test
@@ -48,6 +47,8 @@ public class SellerGetInvoiceByReferenceMethodTest {
 	@After
 	public void tearDown() {
 		Invoice.invoices.clear();
+		TaxPayer.taxPayers.clear();
+		ItemType.itemTypes.clear();
 	}
 
 }
