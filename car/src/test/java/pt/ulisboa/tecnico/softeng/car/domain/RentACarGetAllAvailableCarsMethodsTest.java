@@ -25,7 +25,7 @@ public class RentACarGetAllAvailableCarsMethodsTest {
 	
 	@Test
 	public void successEmpty() {
-		Assert.assertNull(rentACar.getAllAvailableCars(begin, end));
+		Assert.assertTrue(rentACar.getAllAvailableCars(begin, end).isEmpty());
 	}
 
 	/**
@@ -44,21 +44,6 @@ public class RentACarGetAllAvailableCarsMethodsTest {
 		Assert.assertFalse(rentACar.getAllAvailableCars(begin, end).contains(car3));
 	}
 	
-	
-	@Test
-	public void successWithCheckout() {
-		Car car = new Car("AN-FI-FO", 1, rentACar);
-		
-		String reference = car.rent(drivingLicense, begin, end2);
-		Assert.assertFalse(rentACar.getAllAvailableCars(begin, end).contains(car));
-		
-		Renting renting = rentACar.getRenting(reference);
-		renting.checkout(20);
-		Assert.assertTrue(rentACar.getAllAvailableCars(begin, end).contains(car));
-		
-		car.rent(drivingLicense, begin, end2);
-		Assert.assertFalse(rentACar.getAllAvailableCars(begin, end).contains(car));
-	}
 	
 	@Test(expected = CarException.class)
 	public void dateEndSwitchedWithBegin() {

@@ -62,17 +62,7 @@ public class CarIsFreeMethodTest {
 		car.rent(drivingLicense, begin, end);
 		Assert.assertFalse(car.isFree(end, end));
 	}
-	
-	@Test
-	public void successWithCheckout() {
-		String reference = car.rent(drivingLicense, begin, end);
-		Assert.assertFalse(car.isFree(begin, end));
 		
-		Renting renting = rentACar.getRenting(reference);
-		renting.checkout(20);
-		Assert.assertTrue(car.isFree(begin, begin));
-	}
-	
 	@After
 	public void tearDown() {
 		RentACar.rentACars.clear();
