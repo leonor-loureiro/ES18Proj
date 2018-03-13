@@ -16,7 +16,7 @@ public class HotelReserveRoomMethodTest {
 
     @Before
     public void setUp() {
-        hotel = new Hotel("XPTO123", "Lisboa");
+        hotel = new Hotel("XPTO123", "Lisboa", "NIF", "IBAN");
         this.room = new Room(hotel, "01", Room.Type.SINGLE);
     }
 
