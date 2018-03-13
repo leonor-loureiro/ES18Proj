@@ -16,6 +16,8 @@ public class Buyer extends TaxPayer {
 		
 		Set<Invoice> invoices = new HashSet<>();
 		invoices = Invoice.getInvoiceByYear(year);
+
+		invoices.retainAll(Invoice.getInvoiceByBuyer(this));
 		
 		double returnValue = 0;
 		double itemIvaValue;

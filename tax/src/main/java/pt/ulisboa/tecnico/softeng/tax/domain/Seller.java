@@ -36,7 +36,7 @@ public class Seller extends TaxPayer{
 		
 		Set<Invoice> invoices = new HashSet<>();
 		invoices = Invoice.getInvoiceByYear(YEAR);
-		invoices = Invoice.getInvoiceBySeller(this);
+		invoices.retainAll(Invoice.getInvoiceBySeller(this));
 		
 		double returnValue = 0;
 		for (Invoice invoice : invoices) {
