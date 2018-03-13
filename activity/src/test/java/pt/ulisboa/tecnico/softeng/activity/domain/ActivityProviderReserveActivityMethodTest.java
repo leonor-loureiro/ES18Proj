@@ -47,7 +47,7 @@ public class ActivityProviderReserveActivityMethodTest {
 	@Test
 	public void reserveAcitivity() {
 		Activity activity = new Activity(provider1, "XtremX", MIN_AGE, MAX_AGE, CAPACITY);
-		ActivityOffer offer = new ActivityOffer(activity, new LocalDate(2018, 02, 19), new LocalDate(2018, 12, 20));
+		ActivityOffer offer = new ActivityOffer(activity, new LocalDate(2018, 02, 19), new LocalDate(2018, 12, 20), 30);
 
 		String act = ActivityProvider.reserveActivity(new LocalDate(2018, 02, 19), new LocalDate(2018, 12, 20), 20);
 

@@ -11,24 +11,30 @@ public class ActivityOffer {
 	private final LocalDate begin;
 	private final LocalDate end;
 	private final int capacity;
+	private final int amount;
 	private final Set<Booking> bookings = new HashSet<>();
 
-	public ActivityOffer(Activity activity, LocalDate begin, LocalDate end) {
-		checkArguments(activity, begin, end);
+	public ActivityOffer(Activity activity, LocalDate begin, LocalDate end, int amount) {
+		checkArguments(activity, begin, end, amount);
 
 		this.begin = begin;
 		this.end = end;
 		this.capacity = activity.getCapacity();
+		this.amount = amount;
 
 		activity.addOffer(this);
 	}
 
-	private void checkArguments(Activity activity, LocalDate begin, LocalDate end) {
+	private void checkArguments(Activity activity, LocalDate begin, LocalDate end, int amount) {
 		if (activity == null || begin == null || end == null) {
 			throw new ActivityException();
 		}
 
 		if (end.isBefore(begin)) {
+			throw new ActivityException();
+		}
+
+		if (amount < 1) {
 			throw new ActivityException();
 		}
 	}
@@ -39,6 +45,10 @@ public class ActivityOffer {
 
 	public LocalDate getEnd() {
 		return this.end;
+	}
+
+	public int getAmount() {
+		return this.amount;
 	}
 
 	int getNumberOfBookings() {

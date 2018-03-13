@@ -20,7 +20,7 @@ public class ActivityOfferGetBookingMethodTest {
 		LocalDate begin = new LocalDate(2016, 12, 19);
 		LocalDate end = new LocalDate(2016, 12, 21);
 
-		this.offer = new ActivityOffer(activity, begin, end);
+		this.offer = new ActivityOffer(activity, begin, end, 30);
 	}
 
 	@Test
