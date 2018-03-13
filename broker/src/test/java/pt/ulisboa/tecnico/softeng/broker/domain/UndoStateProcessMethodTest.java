@@ -21,6 +21,9 @@ import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 
 @RunWith(JMockit.class)
 public class UndoStateProcessMethodTest {
+	private static final String BROKER_IBAN = "BROKER_IBAN";
+	private static final String BUYER_NIF = "buyerNIF";
+	private static final String SELLER_NIF = "sellerNIF";
 	private static final String NIF = "123456789";
 	private static final String IBAN = "BK01987654321";
 	private static final int AMOUNT = 300;
@@ -40,7 +43,7 @@ public class UndoStateProcessMethodTest {
 
 	@Before
 	public void setUp() {
-		this.broker = new Broker("Br013", "HappyWeek");
+		this.broker = new Broker("Br013", "HappyWeek", SELLER_NIF, BUYER_NIF, BROKER_IBAN);
 		this.client = new Client(this.broker, IBAN, NIF, AGE);
 
 		this.adventure = new Adventure(this.broker, arrival, departure, this.client, AMOUNT);

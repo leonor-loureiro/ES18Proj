@@ -9,6 +9,9 @@ import org.junit.Test;
 import pt.ulisboa.tecnico.softeng.broker.exception.BrokerException;
 
 public class AdventureConstructorMethodTest {
+	private static final String BROKER_IBAN = "BROKER_IBAN";
+	private static final String BUYER_NIF = "buyerNIF";
+	private static final String SELLER_NIF = "sellerNIF";
 	private static final String OTHER_NIF = "987654321";
 	private static final String NIF = "123456789";
 	private static final int AGE = 20;
@@ -22,7 +25,7 @@ public class AdventureConstructorMethodTest {
 
 	@Before
 	public void setUp() {
-		this.broker = new Broker("BR01", "eXtremeADVENTURE");
+		this.broker = new Broker("BR01", "eXtremeADVENTURE", SELLER_NIF, BUYER_NIF, BROKER_IBAN);
 
 		this.client = new Client(this.broker, IBAN, NIF, AGE);
 	}

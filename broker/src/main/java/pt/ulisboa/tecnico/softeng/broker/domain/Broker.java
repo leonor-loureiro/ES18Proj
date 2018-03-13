@@ -16,22 +16,32 @@ public class Broker {
 
 	private final String code;
 	private final String name;
+	private final String sellerNIF;
+	private final String buyerNIF;
+	private final String IBAN;
 	private final Set<Client> clients = new HashSet<>();
 	private final Set<Adventure> adventures = new HashSet<>();
 	private final Set<BulkRoomBooking> bulkBookings = new HashSet<>();
 
-	public Broker(String code, String name) {
-		checkCode(code);
+	public Broker(String code, String name, String sellerNIF, String buyerNIF, String IBAN) {
+		checkArguments(code, name, sellerNIF, buyerNIF, IBAN);
 		this.code = code;
-
-		checkName(name);
 		this.name = name;
+		this.sellerNIF = sellerNIF;
+		this.buyerNIF = buyerNIF;
+		this.IBAN = IBAN;
 
 		Broker.brokers.add(this);
 	}
 
-	private void checkCode(String code) {
-		if (code == null || code.trim().length() == 0) {
+	private void checkArguments(String code, String name, String sellerNIF, String buyerNIF, String IBAN) {
+		if (code == null || code.trim().length() == 0 || name == null || name.trim().length() == 0 || sellerNIF == null
+				|| sellerNIF.trim().length() == 0 || buyerNIF == null || buyerNIF.trim().length() == 0 || IBAN == null
+				|| IBAN.trim().length() == 0) {
+			throw new BrokerException();
+		}
+
+		if (sellerNIF.equals(buyerNIF)) {
 			throw new BrokerException();
 		}
 
@@ -40,12 +50,14 @@ public class Broker {
 				throw new BrokerException();
 			}
 		}
-	}
 
-	private void checkName(String name) {
-		if (name == null || name.trim().length() == 0) {
-			throw new BrokerException();
+		for (Broker broker : Broker.brokers) {
+			if (broker.getSellerNIF().equals(sellerNIF) || broker.getSellerNIF().equals(buyerNIF)
+					|| broker.getBuyerNIF().equals(sellerNIF) || broker.getBuyerNIF().equals(buyerNIF)) {
+				throw new BrokerException();
+			}
 		}
+
 	}
 
 	String getCode() {
@@ -54,6 +66,18 @@ public class Broker {
 
 	String getName() {
 		return this.name;
+	}
+
+	public String getSellerNIF() {
+		return this.sellerNIF;
+	}
+
+	public String getBuyerNIF() {
+		return this.buyerNIF;
+	}
+
+	public String getIBAN() {
+		return this.IBAN;
 	}
 
 	public int getNumberOfAdventures() {
