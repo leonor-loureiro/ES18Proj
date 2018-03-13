@@ -1,6 +1,7 @@
 package pt.ulisboa.tecnico.softeng.broker.domain;
 
 import org.joda.time.LocalDate;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -8,7 +9,6 @@ import org.junit.runner.RunWith;
 
 import mockit.Delegate;
 import mockit.Expectations;
-import mockit.Injectable;
 import mockit.Mocked;
 import mockit.integration.junit4.JMockit;
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
@@ -18,6 +18,7 @@ import pt.ulisboa.tecnico.softeng.broker.interfaces.ActivityInterface;
 
 @RunWith(JMockit.class)
 public class ReserveActivityStateProcessMethodTest {
+	private static final String NIF = "123456789";
 	private static final String IBAN = "BK01987654321";
 	private static final int AMOUNT = 300;
 	private static final int AGE = 20;
@@ -26,18 +27,21 @@ public class ReserveActivityStateProcessMethodTest {
 	private static final LocalDate end = new LocalDate(2016, 12, 21);
 	private Adventure adventure;
 
-	@Injectable
 	private Broker broker;
+	private Client client;
 
 	@Before
 	public void setUp() {
-		this.adventure = new Adventure(this.broker, begin, end, AGE, IBAN, AMOUNT);
+		this.broker = new Broker("Br013", "HappyWeek");
+		this.client = new Client(this.broker, IBAN, NIF, AGE);
+
+		this.adventure = new Adventure(this.broker, begin, end, this.client, AMOUNT);
 		this.adventure.setState(State.RESERVE_ACTIVITY);
 	}
 
 	@Test
 	public void successNoBookRoom(@Mocked final ActivityInterface activityInterface) {
-		Adventure sameDayAdventure = new Adventure(this.broker, begin, begin, AGE, IBAN, AMOUNT);
+		Adventure sameDayAdventure = new Adventure(this.broker, begin, begin, this.client, AMOUNT);
 		sameDayAdventure.setState(State.RESERVE_ACTIVITY);
 
 		new Expectations() {
@@ -183,5 +187,10 @@ public class ReserveActivityStateProcessMethodTest {
 		this.adventure.process();
 
 		Assert.assertEquals(State.UNDO, this.adventure.getState());
+	}
+
+	@After
+	public void tearDown() {
+		Broker.brokers.clear();
 	}
 }

@@ -16,6 +16,7 @@ public class Broker {
 
 	private final String code;
 	private final String name;
+	private final Set<Client> clients = new HashSet<>();
 	private final Set<Adventure> adventures = new HashSet<>();
 	private final Set<BulkRoomBooking> bulkBookings = new HashSet<>();
 
@@ -61,6 +62,19 @@ public class Broker {
 
 	public void addAdventure(Adventure adventure) {
 		this.adventures.add(adventure);
+	}
+
+	public Client getClientByNIF(String NIF) {
+		for (Client client : this.clients) {
+			if (client.getNIF().equals(NIF)) {
+				return client;
+			}
+		}
+		return null;
+	}
+
+	public void addClient(Client client) {
+		this.clients.add(client);
 	}
 
 	public boolean hasAdventure(Adventure adventure) {

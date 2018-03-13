@@ -19,6 +19,7 @@ import pt.ulisboa.tecnico.softeng.hotel.domain.Room;
 import pt.ulisboa.tecnico.softeng.hotel.domain.Room.Type;
 
 public class AdventureProcessMethodTest {
+	private static final String NIF = "123456789";
 	private final LocalDate begin = new LocalDate(2016, 12, 19);
 	private final LocalDate end = new LocalDate(2016, 12, 21);
 	private Broker broker;
@@ -45,7 +46,8 @@ public class AdventureProcessMethodTest {
 
 	@Test
 	public void success() {
-		Adventure adventure = new Adventure(this.broker, this.begin, this.end, 20, this.IBAN, 300);
+		Adventure adventure = new Adventure(this.broker, this.begin, this.end,
+				new pt.ulisboa.tecnico.softeng.broker.domain.Client(this.broker, this.IBAN, NIF, 20), 300);
 
 		adventure.process();
 		adventure.process();
@@ -59,7 +61,8 @@ public class AdventureProcessMethodTest {
 
 	@Test
 	public void successNoHotelBooking() {
-		Adventure adventure = new Adventure(this.broker, this.begin, this.begin, 20, this.IBAN, 300);
+		Adventure adventure = new Adventure(this.broker, this.begin, this.begin,
+				new pt.ulisboa.tecnico.softeng.broker.domain.Client(this.broker, this.IBAN, NIF, 20), 300);
 
 		adventure.process();
 		adventure.process();

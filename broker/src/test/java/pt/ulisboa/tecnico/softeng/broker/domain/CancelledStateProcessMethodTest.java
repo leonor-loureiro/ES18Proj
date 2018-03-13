@@ -1,13 +1,13 @@
 package pt.ulisboa.tecnico.softeng.broker.domain;
 
 import org.joda.time.LocalDate;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import mockit.Expectations;
-import mockit.Injectable;
 import mockit.Mocked;
 import mockit.Verifications;
 import mockit.integration.junit4.JMockit;
@@ -21,6 +21,11 @@ import pt.ulisboa.tecnico.softeng.broker.interfaces.HotelInterface;
 
 @RunWith(JMockit.class)
 public class CancelledStateProcessMethodTest {
+	private static final String NIF = "123456789";
+	private static final int AMOUNT = 300;
+	private static final int AGE = 20;
+	private static final LocalDate arrival = new LocalDate(2016, 12, 19);
+	private static final LocalDate departure = new LocalDate(2016, 12, 21);
 	private static final String IBAN = "BK01987654321";
 	private static final String PAYMENT_CONFIRMATION = "PaymentConfirmation";
 	private static final String PAYMENT_CANCELLATION = "PaymentCancellation";
@@ -32,12 +37,15 @@ public class CancelledStateProcessMethodTest {
 	private final LocalDate end = new LocalDate(2016, 12, 21);
 	private Adventure adventure;
 
-	@Injectable
 	private Broker broker;
+	private Client client;
 
 	@Before
 	public void setUp() {
-		this.adventure = new Adventure(this.broker, this.begin, this.end, 20, IBAN, 300);
+		this.broker = new Broker("Br013", "HappyWeek");
+		this.client = new Client(this.broker, IBAN, NIF, AGE);
+
+		this.adventure = new Adventure(this.broker, arrival, departure, this.client, AMOUNT);
 		this.adventure.setState(State.CANCELLED);
 	}
 
@@ -201,4 +209,8 @@ public class CancelledStateProcessMethodTest {
 		Assert.assertEquals(Adventure.State.CANCELLED, this.adventure.getState());
 	}
 
+	@After
+	public void tearDown() {
+		Broker.brokers.clear();
+	}
 }

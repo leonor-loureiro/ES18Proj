@@ -19,8 +19,7 @@ public class Adventure {
 	private final Broker broker;
 	private final LocalDate begin;
 	private final LocalDate end;
-	private final int age;
-	private final String IBAN;
+	private final Client client;
 	private final int amount;
 	private String paymentConfirmation;
 	private String paymentCancellation;
@@ -31,15 +30,14 @@ public class Adventure {
 
 	private AdventureState state;
 
-	public Adventure(Broker broker, LocalDate begin, LocalDate end, int age, String IBAN, int amount) {
-		checkArguments(broker, begin, end, age, IBAN, amount);
+	public Adventure(Broker broker, LocalDate begin, LocalDate end, Client client, int amount) {
+		checkArguments(broker, begin, end, client, amount);
 
 		this.ID = broker.getCode() + Integer.toString(++counter);
 		this.broker = broker;
 		this.begin = begin;
 		this.end = end;
-		this.age = age;
-		this.IBAN = IBAN;
+		this.client = client;
 		this.amount = amount;
 
 		broker.addAdventure(this);
@@ -47,8 +45,8 @@ public class Adventure {
 		setState(State.PROCESS_PAYMENT);
 	}
 
-	private void checkArguments(Broker broker, LocalDate begin, LocalDate end, int age, String IBAN, int amount) {
-		if (broker == null || begin == null || end == null || IBAN == null || IBAN.trim().length() == 0) {
+	private void checkArguments(Broker broker, LocalDate begin, LocalDate end, Client client, int amount) {
+		if (broker == null || begin == null || end == null) {
 			throw new BrokerException();
 		}
 
@@ -56,7 +54,7 @@ public class Adventure {
 			throw new BrokerException();
 		}
 
-		if (age < 18 || age > 100) {
+		if (client.getAge() < 18 || client.getAge() > 100) {
 			throw new BrokerException();
 		}
 
@@ -82,11 +80,15 @@ public class Adventure {
 	}
 
 	public int getAge() {
-		return this.age;
+		return this.client.getAge();
 	}
 
 	public String getIBAN() {
-		return this.IBAN;
+		return this.client.getIBAN();
+	}
+
+	public Client getClient() {
+		return this.client;
 	}
 
 	public int getAmount() {

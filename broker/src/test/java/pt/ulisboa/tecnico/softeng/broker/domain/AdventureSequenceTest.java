@@ -1,12 +1,13 @@
 package pt.ulisboa.tecnico.softeng.broker.domain;
 
 import org.joda.time.LocalDate;
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import mockit.Expectations;
-import mockit.Injectable;
 import mockit.Mocked;
 import mockit.integration.junit4.JMockit;
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
@@ -20,6 +21,7 @@ import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 
 @RunWith(JMockit.class)
 public class AdventureSequenceTest {
+	private static final String NIF = "123456789";
 	private static final String IBAN = "BK01987654321";
 	private static final int AMOUNT = 300;
 	private static final int AGE = 20;
@@ -32,8 +34,14 @@ public class AdventureSequenceTest {
 	private static final LocalDate arrival = new LocalDate(2016, 12, 19);
 	private static final LocalDate departure = new LocalDate(2016, 12, 21);
 
-	@Injectable
 	private Broker broker;
+	private Client client;
+
+	@Before
+	public void setUp() {
+		this.broker = new Broker("Br013", "HappyWeek");
+		this.client = new Client(this.broker, IBAN, NIF, AGE);
+	}
 
 	@Test
 	public void successSequenceOne(@Mocked final BankInterface bankInterface,
@@ -57,7 +65,7 @@ public class AdventureSequenceTest {
 			}
 		};
 
-		Adventure adventure = new Adventure(this.broker, arrival, departure, AGE, IBAN, AMOUNT);
+		Adventure adventure = new Adventure(this.broker, arrival, departure, this.client, AMOUNT);
 
 		adventure.process();
 		adventure.process();
@@ -84,7 +92,7 @@ public class AdventureSequenceTest {
 			}
 		};
 
-		Adventure adventure = new Adventure(this.broker, arrival, arrival, AGE, IBAN, AMOUNT);
+		Adventure adventure = new Adventure(this.broker, arrival, arrival, this.client, AMOUNT);
 
 		adventure.process();
 		adventure.process();
@@ -103,7 +111,7 @@ public class AdventureSequenceTest {
 			}
 		};
 
-		Adventure adventure = new Adventure(this.broker, arrival, departure, AGE, IBAN, AMOUNT);
+		Adventure adventure = new Adventure(this.broker, arrival, departure, this.client, AMOUNT);
 
 		adventure.process();
 
@@ -126,7 +134,7 @@ public class AdventureSequenceTest {
 			}
 		};
 
-		Adventure adventure = new Adventure(this.broker, arrival, departure, AGE, IBAN, AMOUNT);
+		Adventure adventure = new Adventure(this.broker, arrival, departure, this.client, AMOUNT);
 
 		adventure.process();
 		adventure.process();
@@ -140,10 +148,10 @@ public class AdventureSequenceTest {
 			@Mocked final ActivityInterface activityInterface, @Mocked final HotelInterface roomInterface) {
 		new Expectations() {
 			{
-				BankInterface.processPayment(IBAN, AMOUNT);
+				BankInterface.processPayment(this.anyString, AMOUNT);
 				this.result = PAYMENT_CONFIRMATION;
 
-				ActivityInterface.reserveActivity(arrival, departure, AGE);
+				ActivityInterface.reserveActivity(arrival, departure, this.anyInt);
 				this.result = ACTIVITY_CONFIRMATION;
 
 				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure);
@@ -157,7 +165,7 @@ public class AdventureSequenceTest {
 			}
 		};
 
-		Adventure adventure = new Adventure(this.broker, arrival, departure, AGE, IBAN, AMOUNT);
+		Adventure adventure = new Adventure(this.broker, arrival, departure, this.client, AMOUNT);
 
 		adventure.process();
 		adventure.process();
@@ -196,7 +204,7 @@ public class AdventureSequenceTest {
 			}
 		};
 
-		Adventure adventure = new Adventure(this.broker, arrival, departure, AGE, IBAN, AMOUNT);
+		Adventure adventure = new Adventure(this.broker, arrival, departure, this.client, AMOUNT);
 
 		adventure.process();
 		adventure.process();
@@ -209,4 +217,8 @@ public class AdventureSequenceTest {
 		Assert.assertEquals(State.CANCELLED, adventure.getState());
 	}
 
+	@After
+	public void tearDown() {
+		Broker.brokers.clear();
+	}
 }

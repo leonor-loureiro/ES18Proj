@@ -1,6 +1,7 @@
 package pt.ulisboa.tecnico.softeng.broker.domain;
 
 import org.joda.time.LocalDate;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -8,7 +9,6 @@ import org.junit.runner.RunWith;
 
 import mockit.Delegate;
 import mockit.Expectations;
-import mockit.Injectable;
 import mockit.Mocked;
 import mockit.integration.junit4.JMockit;
 import pt.ulisboa.tecnico.softeng.broker.domain.Adventure.State;
@@ -19,6 +19,7 @@ import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 
 @RunWith(JMockit.class)
 public class BookRoomStateMethodTest {
+	private static final String NIF = "123456789";
 	private static final String IBAN = "BK01987654321";
 	private static final int AMOUNT = 300;
 	private static final int AGE = 20;
@@ -27,12 +28,15 @@ public class BookRoomStateMethodTest {
 	private static final LocalDate departure = new LocalDate(2016, 12, 21);
 	private Adventure adventure;
 
-	@Injectable
 	private Broker broker;
+	private Client client;
 
 	@Before
 	public void setUp() {
-		this.adventure = new Adventure(this.broker, arrival, departure, AGE, IBAN, AMOUNT);
+		this.broker = new Broker("Br013", "HappyWeek");
+		this.client = new Client(this.broker, IBAN, NIF, AGE);
+
+		this.adventure = new Adventure(this.broker, arrival, departure, this.client, AMOUNT);
 		this.adventure.setState(State.BOOK_ROOM);
 	}
 
@@ -170,4 +174,8 @@ public class BookRoomStateMethodTest {
 		Assert.assertEquals(State.UNDO, this.adventure.getState());
 	}
 
+	@After
+	public void tearDown() {
+		Broker.brokers.clear();
+	}
 }
