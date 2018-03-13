@@ -33,9 +33,9 @@ public class Hotel {
 
 	private void checkArguments(String code, String name, String nif, String iban) {
 		if (code == null || name == null ||
-                code.trim().length() == 0 || name.trim().length() == 0 ||
-                nif == null || nif.trim().length() == 0 ||
-                iban == null || iban.trim().length() == 0) {
+                isEmpty(code) || isEmpty((name)) ||
+                nif == null || isEmpty(nif) ||
+                iban == null || isEmpty(iban)) {
 
 			throw new HotelException();
 
@@ -79,6 +79,10 @@ public class Hotel {
 
 	public String getIBAN() {
 	    return this.iban;
+    }
+
+    private boolean isEmpty(String str) {
+	    return str.trim().length() == 0;
     }
 
 	void addRoom(Room room) {
