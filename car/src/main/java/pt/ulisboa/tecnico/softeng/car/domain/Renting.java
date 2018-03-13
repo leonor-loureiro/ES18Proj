@@ -21,6 +21,7 @@ public class Renting {
 		this.vehicle        = vehicle;
 		this.begin          = begin;
 		this.end            = end;
+		this.kilometers     = -1;
 		
 		vehicle.addLog(this);
 	}
@@ -43,8 +44,10 @@ public class Renting {
 	}
 
 	public void checkout(int kilometers) {
-		if (kilometers < 0 )
+		if (kilometers < 0)
 			throw new RentingException("Renting Exception: kilometers cannot be negative.");
+		if (this.kilometers >= 0)
+			throw new RentingException("Renting Exception: checkout already registered.");
 		this.kilometers = kilometers;
 		this.vehicle.addKilometers(kilometers);
 	}

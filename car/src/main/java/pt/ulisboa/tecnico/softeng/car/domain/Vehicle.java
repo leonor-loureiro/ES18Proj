@@ -8,6 +8,7 @@ import java.util.Set;
 import org.joda.time.LocalDate;
 
 import pt.ulisboa.tecnico.softeng.car.exception.CarException;
+import pt.ulisboa.tecnico.softeng.car.exception.RentingException;
 
 public abstract class Vehicle {
 	public static Set<String> plates      = new HashSet<>();
@@ -51,9 +52,10 @@ public abstract class Vehicle {
 	}
 	
 	public String rent(String drivingLicense, LocalDate begin, LocalDate end) {
-		checkDates(begin, end);
+		if (!this.isFree(begin, end))
+			throw new RentingException("Vehicle Exception: vehicle already rented for that period.");
 		if (!drivingLicense.matches("^[a-zA-Z]\\d+"))
-			throw new CarException("Vehicle Exception: Invalid driving license.");
+			throw new RentingException("Vehicle Exception: Invalid driving license.");
 		
 		return new Renting(this, drivingLicense, begin, end).getReference();
 	}
