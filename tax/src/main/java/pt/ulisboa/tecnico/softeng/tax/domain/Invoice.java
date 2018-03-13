@@ -93,4 +93,26 @@ public class Invoice {
 		}		
 		return temp;
 	}
+	
+	public static Set<Invoice> getInvoiceBySeller(Seller seller) {
+		Set<Invoice> temp = new HashSet<>();;
+		
+		for (Invoice invoice : invoices) {
+			if (invoice.getSeller() == seller) {
+				temp.add(invoice);
+			}
+		}		
+		return temp;
+	}
+	
+	public static Set<Invoice> getInvoiceByBuyer(Buyer buyer) {
+		Set<Invoice> temp = new HashSet<>();;
+		
+		for (Invoice invoice : invoices) {
+			if (invoice.getBuyer() == buyer) {
+				temp.add(invoice);
+			}
+		}		
+		return temp;
+	}
 }
