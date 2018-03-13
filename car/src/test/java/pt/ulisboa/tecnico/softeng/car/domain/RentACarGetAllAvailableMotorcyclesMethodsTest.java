@@ -25,7 +25,7 @@ public class RentACarGetAllAvailableMotorcyclesMethodsTest {
 	
 	@Test
 	public void successEmpty() {
-		Assert.assertNull(rentACar.getAllAvailableMotorcycles(begin, end));
+		Assert.assertTrue(rentACar.getAllAvailableMotorcycles(begin, end).isEmpty());
 	}
 
 	/**
@@ -42,22 +42,6 @@ public class RentACarGetAllAvailableMotorcyclesMethodsTest {
 		Assert.assertTrue(rentACar.getAllAvailableMotorcycles(begin, end).contains(bike1));
 		Assert.assertTrue(rentACar.getAllAvailableMotorcycles(begin, end).contains(bike2));
 		Assert.assertFalse(rentACar.getAllAvailableMotorcycles(begin, end).contains(bike3));
-	}
-	
-	
-	@Test
-	public void successWithCheckout() {
-		Motorcycle bike = new Motorcycle("AN-FI-FO", 1, rentACar);
-		
-		String reference = bike.rent(drivingLicense, begin, end2);
-		Assert.assertFalse(rentACar.getAllAvailableMotorcycles(begin, end).contains(bike));
-		
-		Renting renting = rentACar.getRenting(reference);
-		renting.checkout(20);
-		Assert.assertTrue(rentACar.getAllAvailableMotorcycles(begin, end).contains(bike));
-		
-		bike.rent(drivingLicense, begin, end2);
-		Assert.assertFalse(rentACar.getAllAvailableMotorcycles(begin, end).contains(bike));
 	}
 	
 	@Test(expected = CarException.class)

@@ -7,7 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import pt.ulisboa.tecnico.softeng.car.dataobject.RentingData;
-import pt.ulisboa.tecnico.softeng.car.exception.CarException;
+import pt.ulisboa.tecnico.softeng.car.exception.RentingException;
 
 public class RentACarGetRentingDataMethodTest {
 	private RentACar rentACar;
@@ -30,22 +30,22 @@ public class RentACarGetRentingDataMethodTest {
 		Assert.assertEquals(data.getReference(), reference);
 	}
 	
-	@Test(expected = CarException.class)
+	@Test(expected = RentingException.class)
 	public void nonExistingReference() {
 		Assert.assertNull(rentACar.getRentingData("123756789"));
 	}
 	
-	@Test(expected = CarException.class)
+	@Test(expected = RentingException.class)
 	public void emptyReference() {
 		rentACar.getRentingData("");
 	}
 	
-	@Test(expected = CarException.class)
+	@Test(expected = RentingException.class)
 	public void nullReference() {
 		rentACar.getRentingData(null);
 	}
 	
-	@Test(expected = CarException.class)
+	@Test(expected = RentingException.class)
 	public void cleanReference() {
 		rentACar.getRentingData("     ");
 	}

@@ -2,6 +2,7 @@ package pt.ulisboa.tecnico.softeng.car.domain;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -10,6 +11,7 @@ import org.joda.time.LocalDate;
 
 import pt.ulisboa.tecnico.softeng.car.dataobject.RentingData;
 import pt.ulisboa.tecnico.softeng.car.exception.CarException;
+import pt.ulisboa.tecnico.softeng.car.exception.RentingException;
 
 public class RentACar {
 	private static int counter = 0;
@@ -51,9 +53,7 @@ public class RentACar {
 	}
 	
 	public static Renting getRentingByReference(String reference) {
-		Stream<Renting> possRes = RentACar.rentACars.stream().map(rac -> rac.getRenting(reference)).filter(res -> res != null); 
-		Renting res = possRes.findFirst().orElse(null);
-		return res;
+		return RentACar.rentACars.stream().map(rac -> rac.getRenting(reference)).filter(Objects::nonNull).findFirst().orElse(null);
 	}
 	
 	public List<Car> getAllAvailableCars(LocalDate begin, LocalDate end) {
@@ -70,7 +70,7 @@ public class RentACar {
 		Renting renting = getRentingByReference(reference);
 		if (renting != null)
 			return new RentingData(renting);
-		throw new CarException("RentACar Exception: No renting found.");
+		throw new RentingException("RentACar Exception: No renting found.");
 	}
 	
 	public String getName() {

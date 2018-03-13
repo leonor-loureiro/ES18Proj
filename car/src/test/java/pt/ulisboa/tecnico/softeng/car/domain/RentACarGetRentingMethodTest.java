@@ -6,7 +6,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import pt.ulisboa.tecnico.softeng.car.exception.CarException;
 
 public class RentACarGetRentingMethodTest {
 	private RentACar rentACar;
@@ -31,22 +30,22 @@ public class RentACarGetRentingMethodTest {
 		Assert.assertEquals("BA-TM-AN", renting.getPlate());
 	}
 	
-	@Test(expected = CarException.class)
+	@Test
 	public void nonExistingReference() {
 		Assert.assertNull(rentACar.getRenting("123756789"));
 	}
 	
-	@Test(expected = CarException.class)
+	@Test
 	public void emptyReference() {
 		rentACar.getRenting("");
 	}
 	
-	@Test(expected = CarException.class)
+	@Test
 	public void nullReference() {
 		rentACar.getRenting(null);
 	}
 	
-	@Test(expected = CarException.class)
+	@Test
 	public void emptyReference2() {
 		rentACar.getRenting("           ");
 	}

@@ -38,7 +38,7 @@ public class RentingConflictMethodTest {
 	public void successWithCheckout() {
 		Assert.assertTrue(renting.conflict(begin, end));
 		renting.checkout(30);
-		Assert.assertFalse(renting.conflict(begin, end));
+		Assert.assertFalse(renting.conflict(begin2, end2));
 	}
 	
 	@Test(expected = RentingException.class)
