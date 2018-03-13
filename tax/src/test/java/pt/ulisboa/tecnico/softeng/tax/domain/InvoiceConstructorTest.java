@@ -34,26 +34,29 @@ public class InvoiceConstructorTest {
 		Assert.assertTrue(invoice.getDate().getYear() > 1970);
 		Assert.assertNotEquals(invoice.getSeller().getNif(), invoice.getBuyer().getNif());
 		Assert.assertEquals(1, Invoice.invoices.size());
+		Assert.assertEquals(this.value + this.value * (invoice.getIVA()/100), invoice.getValue(),0.0);
+		Assert.assertEquals(this.itemtype, invoice.getItemType());
 	}
 	
 	@Test(expected = TaxException.class)
 	public void equalNIFs() {
-		Invoice invoice = new Invoice(this.value, this.date, this.itemtype, this.seller, this.buyer2);
+		new Invoice(this.value, this.date, this.itemtype, this.seller, this.buyer2);
 	}
 	
 	@Test(expected = TaxException.class)
-	public void nullDate() {
-		Invoice invoice = new Invoice(this.value, null, this.itemtype, this.seller, this.buyer);
+	public void datePrevious1970() {
+		LocalDate newDate =  new LocalDate(1960,3,5);
+		new Invoice(this.value, newDate, this.itemtype, this.seller, this.buyer);
 	}
 	
 	@Test(expected = TaxException.class)
 	public void nullItemType() {
-		Invoice invoice = new Invoice(this.value, this.date, null, this.seller, this.buyer);
+		new Invoice(this.value, this.date, null, this.seller, this.buyer);
 	}
 	
 	@Test(expected = TaxException.class)
 	public void nullSeller() {
-		Invoice invoice = new Invoice(this.value, this.date, this.itemtype, null, this.buyer);
+		new Invoice(this.value, this.date, this.itemtype, null, this.buyer);
 	}
 	
 	@Test(expected = TaxException.class)
@@ -71,6 +74,16 @@ public class InvoiceConstructorTest {
 	public void blankItemType() {
 		this.itemtype = "    ";
 		Invoice invoice = new Invoice(this.value, this.date, this.itemtype, this.seller, this.buyer);
+	}
+	
+	@Test(expected = TaxException.class)
+	public void nullDate() {
+		new Invoice(this.value, null, this.itemtype, this.seller, this.buyer);
+	}
+	
+	@Test(expected = TaxException.class)
+	public void negativeValue() {
+		new Invoice(-1, this.date, this.itemtype, this.seller, this.buyer);
 	}
 	
 	@After

@@ -38,6 +38,44 @@ public class IRSSubmitInvoiceMethodTest {
 		IRS.submitInvoice(null);
 	}
 	
+	@Test(expected = TaxException.class)
+	public void nullDate() {
+		InvoiceData newInvoiceData = new InvoiceData("123456789", "987654321", "leite", (float) 4.99, null);
+		IRS.submitInvoice(newInvoiceData);
+	}
+	
+	@Test(expected = TaxException.class)
+	public void nullType() {
+		InvoiceData newInvoiceData = new InvoiceData("123456789", "987654321", null, (float) 4.99, date);
+		IRS.submitInvoice(newInvoiceData);
+	}
+	
+	@Test(expected = TaxException.class)
+	public void nullSeller() {
+		InvoiceData newInvoiceData = new InvoiceData(null, "987654321", "leite", (float) 4.99, date);
+		IRS.submitInvoice(newInvoiceData);
+	}
+	
+	@Test(expected = TaxException.class)
+	public void nullBuyer() {
+		InvoiceData newInvoiceData = new InvoiceData("123456789", null, "leite", (float) 4.99, date);
+		IRS.submitInvoice(newInvoiceData);
+	}
+	
+	@Test(expected = TaxException.class)
+	public void emptyType() {
+		InvoiceData newInvoiceData = new InvoiceData("123456789", "987654321", "", (float) 4.99, date);
+		IRS.submitInvoice(newInvoiceData);
+	}
+	
+	@Test(expected = TaxException.class)
+	public void blankType() {
+		InvoiceData newInvoiceData = new InvoiceData("123456789", "987654321", "  ", (float) 4.99, date);
+		IRS.submitInvoice(newInvoiceData);
+	}
+	
+	
+	
 	@After
 	public void tearDown() {
 		Invoice.invoices.clear();

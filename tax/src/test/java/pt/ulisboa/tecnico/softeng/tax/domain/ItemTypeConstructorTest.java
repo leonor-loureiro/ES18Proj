@@ -9,8 +9,8 @@ import org.junit.Test;
 import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 
 public class ItemTypeConstructorTest {
-	private String ITEM_TYPE = "batatas";
-	private int TAX = 23;
+	private final String ITEM_TYPE = "batatas";
+	private final int TAX = 23;
 	
 	@Test
 	public void success() {
@@ -43,11 +43,18 @@ public class ItemTypeConstructorTest {
 		ItemType itemType = new ItemType(ITEM_TYPE, -20);
 	}
 	
+	@Test
+	public void diffItemType() {
+		ItemType itemType = new ItemType(ITEM_TYPE, TAX);
+		ItemType itemType2 = new ItemType("bolachas", TAX);
+	}
+	
 	@Test(expected = TaxException.class)
 	public void itemTypeNotUnique() {
 		ItemType itemType = new ItemType(ITEM_TYPE, TAX);
 		ItemType itemType2 = new ItemType(ITEM_TYPE, TAX + 10);		
 	}
+	
 	
 	@After
 	public void tearDown() {
