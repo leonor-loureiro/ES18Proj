@@ -22,7 +22,8 @@ import pt.ulisboa.tecnico.softeng.broker.interfaces.HotelInterface;
 @RunWith(JMockit.class)
 public class CancelledStateProcessMethodTest {
 	private static final String BROKER_IBAN = "BROKER_IBAN";
-	private static final String BROKER_NIF = "brokerNIF";
+	private static final String NIF_AS_BUYER = "buyerNIF";
+	private static final String NIF_AS_SELLER = "sellerNIF";
 	private static final String NIF = "123456789";
 	private static final int AMOUNT = 300;
 	private static final int AGE = 20;
@@ -35,8 +36,6 @@ public class CancelledStateProcessMethodTest {
 	private static final String ACTIVITY_CANCELLATION = "ActivityCancellation";
 	private static final String ROOM_CONFIRMATION = "RoomConfirmation";
 	private static final String ROOM_CANCELLATION = "RoomCancellation";
-	private final LocalDate begin = new LocalDate(2016, 12, 19);
-	private final LocalDate end = new LocalDate(2016, 12, 21);
 	private Adventure adventure;
 
 	private Broker broker;
@@ -44,7 +43,7 @@ public class CancelledStateProcessMethodTest {
 
 	@Before
 	public void setUp() {
-		this.broker = new Broker("Br013", "HappyWeek", BROKER_NIF, BROKER_IBAN);
+		this.broker = new Broker("Br013", "HappyWeek", NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
 		this.client = new Client(this.broker, IBAN, NIF, AGE);
 
 		this.adventure = new Adventure(this.broker, arrival, departure, this.client, AMOUNT);

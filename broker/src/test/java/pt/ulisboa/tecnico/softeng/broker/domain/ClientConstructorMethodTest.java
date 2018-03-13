@@ -12,7 +12,8 @@ import pt.ulisboa.tecnico.softeng.broker.exception.BrokerException;
 
 public class ClientConstructorMethodTest {
 	private static final String BROKER_IBAN = "BROKER_IBAN";
-	private static final String BROKER_NIF = "brokerNIF";
+	private static final String BUYER_NIF = "buyerNIF";
+	private static final String SELLER_NIF = "sellerNIF";
 	private static final String NIF = "NIF";
 	private static final String IBAN = "IBAN";
 	private static final int age = 35;
@@ -20,7 +21,7 @@ public class ClientConstructorMethodTest {
 
 	@Before
 	public void setUp() {
-		this.broker = new Broker("BR01", "eXtremeADVENTURE", BROKER_NIF, BROKER_IBAN);
+		this.broker = new Broker("BR01", "eXtremeADVENTURE", SELLER_NIF, BUYER_NIF, BROKER_IBAN);
 	}
 
 	@Test

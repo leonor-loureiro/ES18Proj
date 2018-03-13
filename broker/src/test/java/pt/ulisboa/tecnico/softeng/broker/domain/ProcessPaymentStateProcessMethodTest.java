@@ -19,7 +19,8 @@ import pt.ulisboa.tecnico.softeng.broker.interfaces.BankInterface;
 @RunWith(JMockit.class)
 public class ProcessPaymentStateProcessMethodTest {
 	private static final String BROKER_IBAN = "BROKER_IBAN";
-	private static final String BROKER_NIF = "broker_NIF";
+	private static final String NIF_AS_BUYER = "buyerNIF";
+	private static final String NIF_AS_SELLER = "sellerNIF";
 	private static final String NIF = "123456789";
 	private static final int AMOUNT = 300;
 	private static final int AGE = 20;
@@ -36,7 +37,7 @@ public class ProcessPaymentStateProcessMethodTest {
 
 	@Before
 	public void setUp() {
-		this.broker = new Broker("Br013", "HappyWeek", BROKER_NIF, BROKER_IBAN);
+		this.broker = new Broker("Br013", "HappyWeek", NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
 		this.client = new Client(this.broker, IBAN, NIF, AGE);
 
 		this.adventure = new Adventure(this.broker, arrival, departure, this.client, AMOUNT);

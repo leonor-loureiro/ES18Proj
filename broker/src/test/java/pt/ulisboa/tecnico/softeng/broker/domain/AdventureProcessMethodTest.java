@@ -20,7 +20,8 @@ import pt.ulisboa.tecnico.softeng.hotel.domain.Room.Type;
 
 public class AdventureProcessMethodTest {
 	private static final String BROKER_IBAN = "BROKER_IBAN";
-	private static final String BROKER_NIF = "brokerNIF";
+	private static final String NIF_AS_BUYER = "buyerNIF";
+	private static final String NIF_AS_SELLER = "sellerNIF";
 	private static final String NIF = "123456789";
 	private final LocalDate begin = new LocalDate(2016, 12, 19);
 	private final LocalDate end = new LocalDate(2016, 12, 21);
@@ -29,7 +30,7 @@ public class AdventureProcessMethodTest {
 
 	@Before
 	public void setUp() {
-		this.broker = new Broker("BR01", "eXtremeADVENTURE", BROKER_NIF, BROKER_IBAN);
+		this.broker = new Broker("BR01", "eXtremeADVENTURE", NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
 
 		Bank bank = new Bank("Money", "BK01");
 		Client client = new Client(bank, "António");
