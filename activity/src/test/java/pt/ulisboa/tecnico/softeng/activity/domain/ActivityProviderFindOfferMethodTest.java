@@ -24,7 +24,7 @@ public class ActivityProviderFindOfferMethodTest {
 
 	@Before
 	public void setUp() {
-		this.provider = new ActivityProvider("XtremX", "ExtremeAdventure");
+		this.provider = new ActivityProvider("XtremX", "ExtremeAdventure", "NIF", "IBAN");
 		this.activity = new Activity(this.provider, "Bush Walking", MIN_AGE, MAX_AGE, CAPACITY);
 
 		this.offer = new ActivityOffer(this.activity, this.begin, this.end);
@@ -82,7 +82,7 @@ public class ActivityProviderFindOfferMethodTest {
 
 	@Test
 	public void emptyActivitySet() {
-		ActivityProvider otherProvider = new ActivityProvider("Xtrems", "Adventure");
+		ActivityProvider otherProvider = new ActivityProvider("Xtrems", "Adventure", "NIF2", "IBAN");
 
 		List<ActivityOffer> offers = otherProvider.findOffer(this.begin, this.end, AGE);
 
@@ -91,7 +91,7 @@ public class ActivityProviderFindOfferMethodTest {
 
 	@Test
 	public void emptyActivityOfferSet() {
-		ActivityProvider otherProvider = new ActivityProvider("Xtrems", "Adventure");
+		ActivityProvider otherProvider = new ActivityProvider("Xtrems", "Adventure", "NIF2", "IBAN");
 		new Activity(otherProvider, "Bush Walking", 18, 80, 25);
 
 		List<ActivityOffer> offers = otherProvider.findOffer(this.begin, this.end, AGE);

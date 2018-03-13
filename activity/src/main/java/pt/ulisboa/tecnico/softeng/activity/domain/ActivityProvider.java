@@ -17,19 +17,24 @@ public class ActivityProvider {
 
 	private final String name;
 	private final String code;
+	private final String NIF;
+	private final String IBAN;
 	private final Set<Activity> activities = new HashSet<>();
 
-	public ActivityProvider(String code, String name) {
-		checkArguments(code, name);
+	public ActivityProvider(String code, String name, String NIF, String IBAN) {
+		checkArguments(code, name, NIF, IBAN);
 
 		this.code = code;
 		this.name = name;
+		this.NIF = NIF;
+		this.IBAN = IBAN;
 
 		ActivityProvider.providers.add(this);
 	}
 
-	private void checkArguments(String code, String name) {
-		if (code == null || name == null || code.trim().equals("") || name.trim().equals("")) {
+	private void checkArguments(String code, String name, String NIF, String IBAN) {
+		if (code == null || name == null || code.trim().equals("") || name.trim().equals("") || NIF == null
+				|| NIF.trim().length() == 0 || IBAN == null || IBAN.trim().length() == 0) {
 			throw new ActivityException();
 		}
 
@@ -42,6 +47,12 @@ public class ActivityProvider {
 				throw new ActivityException();
 			}
 		}
+
+		for (ActivityProvider activityProvider : providers) {
+			if (activityProvider.getNIF().equals(NIF)) {
+				throw new ActivityException();
+			}
+		}
 	}
 
 	public String getName() {
@@ -50,6 +61,14 @@ public class ActivityProvider {
 
 	public String getCode() {
 		return this.code;
+	}
+
+	public String getNIF() {
+		return this.NIF;
+	}
+
+	public String getIBAN() {
+		return this.IBAN;
 	}
 
 	int getNumberOfActivities() {

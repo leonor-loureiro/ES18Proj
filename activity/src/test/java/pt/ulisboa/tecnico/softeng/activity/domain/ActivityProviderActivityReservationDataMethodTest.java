@@ -23,7 +23,7 @@ public class ActivityProviderActivityReservationDataMethodTest {
 
 	@Before
 	public void setUp() {
-		this.provider = new ActivityProvider(CODE, NAME);
+		this.provider = new ActivityProvider(CODE, NAME, "NIF", "IBAN");
 		Activity activity = new Activity(this.provider, "Bush Walking", 18, 80, 3);
 
 		this.offer = new ActivityOffer(activity, this.begin, this.end);

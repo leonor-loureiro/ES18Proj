@@ -16,7 +16,7 @@ public class BookingContructorMethodTest {
 
 	@Before
 	public void setUp() {
-		this.provider = new ActivityProvider("XtremX", "ExtremeAdventure");
+		this.provider = new ActivityProvider("XtremX", "ExtremeAdventure", "NIF", "IBAN");
 		Activity activity = new Activity(this.provider, "Bush Walking", 18, 80, 3);
 
 		LocalDate begin = new LocalDate(2016, 12, 19);
