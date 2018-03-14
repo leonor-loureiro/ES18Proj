@@ -18,7 +18,7 @@ public class HotelCancelBookingMethodTest {
 
 	@Before
 	public void setUp() {
-		this.hotel = new Hotel("XPTO123", "Paris");
+		this.hotel = new Hotel("XPTO123", "Paris","NIF", "IBAN");
 		this.room = new Room(this.hotel, "01", Type.DOUBLE);
 		this.booking = this.room.reserve(Type.DOUBLE, this.arrival, this.departure);
 	}
