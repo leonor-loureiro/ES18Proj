@@ -1,5 +1,7 @@
 package pt.ulisboa.tecnico.softeng.activity.domain;
 
+import static org.junit.Assert.assertEquals;
+
 import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Assert;
@@ -26,10 +28,11 @@ public class ActivityOfferConstructorMethodTest {
 	public void success() {
 		ActivityOffer offer = new ActivityOffer(this.activity, this.begin, this.end, 30);
 
-		Assert.assertEquals(this.begin, offer.getBegin());
-		Assert.assertEquals(this.end, offer.getEnd());
-		Assert.assertEquals(1, this.activity.getNumberOfOffers());
-		Assert.assertEquals(0, offer.getNumberOfBookings());
+		assertEquals(this.begin, offer.getBegin());
+		assertEquals(this.end, offer.getEnd());
+		assertEquals(1, this.activity.getNumberOfOffers());
+		assertEquals(0, offer.getNumberOfBookings());
+		assertEquals(30, offer.getAmount());
 	}
 
 	@Test(expected = ActivityException.class)

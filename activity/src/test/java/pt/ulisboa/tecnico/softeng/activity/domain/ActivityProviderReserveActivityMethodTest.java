@@ -10,6 +10,7 @@ import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
 
 public class ActivityProviderReserveActivityMethodTest {
 
+	private static final String NIF = "123456789";
 	private static final int MIN_AGE = 18;
 	private static final int MAX_AGE = 50;
 	private static final int CAPACITY = 30;
@@ -41,7 +42,8 @@ public class ActivityProviderReserveActivityMethodTest {
 
 	@Test(expected = ActivityException.class)
 	public void reserveAcitivityNoOption() {
-		String act = ActivityProvider.reserveActivity(new LocalDate(2018, 02, 19), new LocalDate(2016, 12, 19), 20);
+		String act = ActivityProvider.reserveActivity(new LocalDate(2018, 02, 19), new LocalDate(2016, 12, 19), 20,
+				NIF);
 	}
 
 	@Test
@@ -49,7 +51,8 @@ public class ActivityProviderReserveActivityMethodTest {
 		Activity activity = new Activity(provider1, "XtremX", MIN_AGE, MAX_AGE, CAPACITY);
 		ActivityOffer offer = new ActivityOffer(activity, new LocalDate(2018, 02, 19), new LocalDate(2018, 12, 20), 30);
 
-		String act = ActivityProvider.reserveActivity(new LocalDate(2018, 02, 19), new LocalDate(2018, 12, 20), 20);
+		String act = ActivityProvider.reserveActivity(new LocalDate(2018, 02, 19), new LocalDate(2018, 12, 20), 20,
+				NIF);
 
 		Assert.assertTrue(act != null);
 		Assert.assertTrue(act.startsWith("XtremX"));

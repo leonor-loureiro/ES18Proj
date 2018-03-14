@@ -7,10 +7,19 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
+import mockit.Expectations;
+import mockit.FullVerifications;
+import mockit.Mocked;
+import mockit.integration.junit4.JMockit;
+import pt.ulisboa.tecnico.softeng.activity.dataobjects.InvoiceData;
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
+import pt.ulisboa.tecnico.softeng.activity.interfaces.TaxInterface;
 
+@RunWith(JMockit.class)
 public class BookingContructorMethodTest {
+	private static final String NIF = "123456789";
 	private ActivityProvider provider;
 	private ActivityOffer offer;
 
@@ -25,8 +34,15 @@ public class BookingContructorMethodTest {
 	}
 
 	@Test
-	public void success() {
-		Booking booking = new Booking(this.provider, this.offer);
+	public void success(@Mocked final TaxInterface taxInterface) {
+		new Expectations() {
+			{
+				TaxInterface.submitInvoice((InvoiceData) this.any);
+				this.result = this.anyString;
+			}
+		};
+
+		Booking booking = new Booking(this.provider, this.offer, NIF);
 
 		Assert.assertTrue(booking.getReference().startsWith(this.provider.getCode()));
 		Assert.assertTrue(booking.getReference().length() > ActivityProvider.CODE_SIZE);
@@ -34,22 +50,49 @@ public class BookingContructorMethodTest {
 	}
 
 	@Test(expected = ActivityException.class)
-	public void nullProvider() {
-		new Booking(null, this.offer);
+	public void nullProvider(@Mocked final TaxInterface taxInterface) {
+		new Booking(null, this.offer, NIF);
+
+		new FullVerifications(taxInterface) {
+		};
 	}
 
 	@Test(expected = ActivityException.class)
-	public void nullOffer() {
-		new Booking(this.provider, null);
+	public void nullOffer(@Mocked final TaxInterface taxInterface) {
+		new Booking(this.provider, null, NIF);
+
+		new FullVerifications(taxInterface) {
+		};
+	}
+
+	@Test(expected = ActivityException.class)
+	public void nullNIF(@Mocked final TaxInterface taxInterface) {
+		new Booking(null, this.offer, null);
+
+		new FullVerifications(taxInterface) {
+		};
+	}
+
+	@Test(expected = ActivityException.class)
+	public void emptyNIF(@Mocked final TaxInterface taxInterface) {
+		new Booking(this.provider, null, "     ");
 	}
 
 	@Test
-	public void bookingEqualCapacity() {
-		new Booking(this.provider, this.offer);
-		new Booking(this.provider, this.offer);
-		new Booking(this.provider, this.offer);
+	public void bookingEqualCapacity(@Mocked final TaxInterface taxInterface) {
+		new Expectations() {
+			{
+				TaxInterface.submitInvoice((InvoiceData) this.any);
+				this.result = this.anyString;
+				this.times = 3;
+			}
+		};
+
+		new Booking(this.provider, this.offer, NIF);
+		new Booking(this.provider, this.offer, NIF);
+		new Booking(this.provider, this.offer, NIF);
 		try {
-			new Booking(this.provider, this.offer);
+			new Booking(this.provider, this.offer, NIF);
 			fail();
 		} catch (ActivityException ae) {
 			Assert.assertEquals(3, this.offer.getNumberOfBookings());
@@ -57,12 +100,20 @@ public class BookingContructorMethodTest {
 	}
 
 	@Test
-	public void bookingEqualCapacityButHasCancelled() {
-		new Booking(this.provider, this.offer);
-		new Booking(this.provider, this.offer);
-		Booking booking = new Booking(this.provider, this.offer);
+	public void bookingEqualCapacityButHasCancelled(@Mocked final TaxInterface taxInterface) {
+		new Expectations() {
+			{
+				TaxInterface.submitInvoice((InvoiceData) this.any);
+				this.result = this.anyString;
+				this.times = 4;
+			}
+		};
+
+		new Booking(this.provider, this.offer, NIF);
+		new Booking(this.provider, this.offer, NIF);
+		Booking booking = new Booking(this.provider, this.offer, NIF);
 		booking.cancel();
-		new Booking(this.provider, this.offer);
+		new Booking(this.provider, this.offer, NIF);
 
 		Assert.assertEquals(3, this.offer.getNumberOfBookings());
 	}

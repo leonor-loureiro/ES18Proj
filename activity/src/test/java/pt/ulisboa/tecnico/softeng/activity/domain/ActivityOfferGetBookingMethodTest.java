@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class ActivityOfferGetBookingMethodTest {
+	private static final String NIF = "123456789";
 	private ActivityProvider provider;
 	private ActivityOffer offer;
 
@@ -25,14 +26,14 @@ public class ActivityOfferGetBookingMethodTest {
 
 	@Test
 	public void success() {
-		Booking booking = new Booking(this.provider, this.offer);
+		Booking booking = new Booking(this.provider, this.offer, NIF);
 
 		assertEquals(booking, this.offer.getBooking(booking.getReference()));
 	}
 
 	@Test
 	public void successCancelled() {
-		Booking booking = new Booking(this.provider, this.offer);
+		Booking booking = new Booking(this.provider, this.offer, NIF);
 		booking.cancel();
 
 		assertEquals(booking, this.offer.getBooking(booking.getCancellation()));
@@ -40,7 +41,7 @@ public class ActivityOfferGetBookingMethodTest {
 
 	@Test
 	public void doesNotExist() {
-		new Booking(this.provider, this.offer);
+		new Booking(this.provider, this.offer, NIF);
 
 		assertNull(this.offer.getBooking("XPTO"));
 	}

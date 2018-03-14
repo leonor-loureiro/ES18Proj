@@ -20,8 +20,7 @@ import pt.ulisboa.tecnico.softeng.hotel.domain.Room.Type;
 
 public class AdventureProcessMethodTest {
 	private static final String BROKER_IBAN = "BROKER_IBAN";
-	private static final String BUYER_NIF = "buyerNIF";
-	private static final String SELLER_NIF = "sellerNIF";
+	private static final String BROKER_NIF = "brokerNIF";
 	private static final String NIF = "123456789";
 	private final LocalDate begin = new LocalDate(2016, 12, 19);
 	private final LocalDate end = new LocalDate(2016, 12, 21);
@@ -30,7 +29,7 @@ public class AdventureProcessMethodTest {
 
 	@Before
 	public void setUp() {
-		this.broker = new Broker("BR01", "eXtremeADVENTURE", SELLER_NIF, BUYER_NIF, BROKER_IBAN);
+		this.broker = new Broker("BR01", "eXtremeADVENTURE", BROKER_NIF, BROKER_IBAN);
 
 		Bank bank = new Bank("Money", "BK01");
 		Client client = new Client(bank, "António");
@@ -41,10 +40,10 @@ public class AdventureProcessMethodTest {
 		Hotel hotel = new Hotel("XPTO123", "Paris");
 		new Room(hotel, "01", Type.SINGLE);
 
-		ActivityProvider provider = new ActivityProvider("XtremX", "ExtremeAdventure");
+		ActivityProvider provider = new ActivityProvider("XtremX", "ExtremeAdventure", "NIF", "IBAN");
 		Activity activity = new Activity(provider, "Bush Walking", 18, 80, 10);
-		new ActivityOffer(activity, this.begin, this.end);
-		new ActivityOffer(activity, this.begin, this.begin);
+		new ActivityOffer(activity, this.begin, this.end, 30);
+		new ActivityOffer(activity, this.begin, this.begin, 40);
 	}
 
 	@Test

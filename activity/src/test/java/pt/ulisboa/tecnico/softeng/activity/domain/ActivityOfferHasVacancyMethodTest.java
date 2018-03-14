@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class ActivityOfferHasVacancyMethodTest {
+	private static final String NIF = "123456789";
 	private ActivityProvider provider;
 	private ActivityOffer offer;
 
@@ -23,30 +24,30 @@ public class ActivityOfferHasVacancyMethodTest {
 
 	@Test
 	public void success() {
-		new Booking(this.provider, this.offer);
+		new Booking(this.provider, this.offer, NIF);
 		Assert.assertTrue(this.offer.hasVacancy());
 	}
 
 	@Test
 	public void bookingIsFull() {
-		new Booking(this.provider, this.offer);
-		new Booking(this.provider, this.offer);
-		new Booking(this.provider, this.offer);
+		new Booking(this.provider, this.offer, NIF);
+		new Booking(this.provider, this.offer, NIF);
+		new Booking(this.provider, this.offer, NIF);
 		Assert.assertFalse(this.offer.hasVacancy());
 	}
 
 	@Test
 	public void bookingIsFullMinusOne() {
-		new Booking(this.provider, this.offer);
-		new Booking(this.provider, this.offer);
+		new Booking(this.provider, this.offer, NIF);
+		new Booking(this.provider, this.offer, NIF);
 		Assert.assertTrue(this.offer.hasVacancy());
 	}
 
 	@Test
 	public void hasCancelledBookings() {
-		new Booking(this.provider, this.offer);
-		new Booking(this.provider, this.offer);
-		Booking booking = new Booking(this.provider, this.offer);
+		new Booking(this.provider, this.offer, NIF);
+		new Booking(this.provider, this.offer, NIF);
+		Booking booking = new Booking(this.provider, this.offer, NIF);
 		booking.cancel();
 
 		Assert.assertTrue(this.offer.hasVacancy());
@@ -54,11 +55,11 @@ public class ActivityOfferHasVacancyMethodTest {
 
 	@Test
 	public void hasCancelledBookingsButFull() {
-		new Booking(this.provider, this.offer);
-		new Booking(this.provider, this.offer);
-		Booking booking = new Booking(this.provider, this.offer);
+		new Booking(this.provider, this.offer, NIF);
+		new Booking(this.provider, this.offer, NIF);
+		Booking booking = new Booking(this.provider, this.offer, NIF);
 		booking.cancel();
-		new Booking(this.provider, this.offer);
+		new Booking(this.provider, this.offer, NIF);
 
 		Assert.assertFalse(this.offer.hasVacancy());
 	}

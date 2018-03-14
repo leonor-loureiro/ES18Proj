@@ -47,10 +47,11 @@ public class IRS {
 		return null;
 	}
 
-	public String submitInvoice(InvoiceData invoiceData) {
-		Seller seller = (Seller) getTaxPayerByNIF(invoiceData.getSellerNIF());
-		Buyer buyer = (Buyer) getTaxPayerByNIF(invoiceData.getBuyerNIF());
-		ItemType itemType = getItemTypeByName(invoiceData.getItemType());
+	public static String submitInvoice(InvoiceData invoiceData) {
+		IRS irs = IRS.getIRS();
+		Seller seller = (Seller) irs.getTaxPayerByNIF(invoiceData.getSellerNIF());
+		Buyer buyer = (Buyer) irs.getTaxPayerByNIF(invoiceData.getBuyerNIF());
+		ItemType itemType = irs.getItemTypeByName(invoiceData.getItemType());
 		Invoice invoice = new Invoice(invoiceData.getValue(), invoiceData.getDate(), itemType, seller, buyer);
 
 		return invoice.getReference();

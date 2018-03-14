@@ -16,32 +16,25 @@ public class Broker {
 
 	private final String code;
 	private final String name;
-	private final String sellerNIF;
-	private final String buyerNIF;
+	private final String NIF;
 	private final String IBAN;
 	private final Set<Client> clients = new HashSet<>();
 	private final Set<Adventure> adventures = new HashSet<>();
 	private final Set<BulkRoomBooking> bulkBookings = new HashSet<>();
 
-	public Broker(String code, String name, String sellerNIF, String buyerNIF, String IBAN) {
-		checkArguments(code, name, sellerNIF, buyerNIF, IBAN);
+	public Broker(String code, String name, String NIF, String IBAN) {
+		checkArguments(code, name, NIF, IBAN);
 		this.code = code;
 		this.name = name;
-		this.sellerNIF = sellerNIF;
-		this.buyerNIF = buyerNIF;
+		this.NIF = NIF;
 		this.IBAN = IBAN;
 
 		Broker.brokers.add(this);
 	}
 
-	private void checkArguments(String code, String name, String sellerNIF, String buyerNIF, String IBAN) {
-		if (code == null || code.trim().length() == 0 || name == null || name.trim().length() == 0 || sellerNIF == null
-				|| sellerNIF.trim().length() == 0 || buyerNIF == null || buyerNIF.trim().length() == 0 || IBAN == null
-				|| IBAN.trim().length() == 0) {
-			throw new BrokerException();
-		}
-
-		if (sellerNIF.equals(buyerNIF)) {
+	private void checkArguments(String code, String name, String NIF, String IBAN) {
+		if (code == null || code.trim().length() == 0 || name == null || name.trim().length() == 0 || NIF == null
+				|| NIF.trim().length() == 0 || IBAN == null || IBAN.trim().length() == 0) {
 			throw new BrokerException();
 		}
 
@@ -52,8 +45,7 @@ public class Broker {
 		}
 
 		for (Broker broker : Broker.brokers) {
-			if (broker.getSellerNIF().equals(sellerNIF) || broker.getSellerNIF().equals(buyerNIF)
-					|| broker.getBuyerNIF().equals(sellerNIF) || broker.getBuyerNIF().equals(buyerNIF)) {
+			if (broker.getNIF().equals(NIF)) {
 				throw new BrokerException();
 			}
 		}
@@ -68,12 +60,8 @@ public class Broker {
 		return this.name;
 	}
 
-	public String getSellerNIF() {
-		return this.sellerNIF;
-	}
-
-	public String getBuyerNIF() {
-		return this.buyerNIF;
+	public String getNIF() {
+		return this.NIF;
 	}
 
 	public String getIBAN() {

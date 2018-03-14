@@ -107,12 +107,12 @@ public class ActivityProvider {
 		return null;
 	}
 
-	public static String reserveActivity(LocalDate begin, LocalDate end, int age) {
+	public static String reserveActivity(LocalDate begin, LocalDate end, int age, String NIF) {
 		List<ActivityOffer> offers;
 		for (ActivityProvider provider : ActivityProvider.providers) {
 			offers = provider.findOffer(begin, end, age);
 			if (!offers.isEmpty()) {
-				return new Booking(provider, offers.get(0)).getReference();
+				return new Booking(provider, offers.get(0), NIF).getReference();
 			}
 		}
 		throw new ActivityException();

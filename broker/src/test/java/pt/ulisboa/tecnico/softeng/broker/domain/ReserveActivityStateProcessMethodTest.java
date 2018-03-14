@@ -19,8 +19,7 @@ import pt.ulisboa.tecnico.softeng.broker.interfaces.ActivityInterface;
 @RunWith(JMockit.class)
 public class ReserveActivityStateProcessMethodTest {
 	private static final String BROKER_IBAN = "BROKER_IBAN";
-	private static final String BUYER_NIF = "buyerNIF";
-	private static final String SELLER_NIF = "sellerNIF";
+	private static final String BROKER_NIF = "brokerNIF";
 	private static final String NIF = "123456789";
 	private static final String IBAN = "BK01987654321";
 	private static final int AMOUNT = 300;
@@ -35,7 +34,7 @@ public class ReserveActivityStateProcessMethodTest {
 
 	@Before
 	public void setUp() {
-		this.broker = new Broker("Br013", "HappyWeek", SELLER_NIF, BUYER_NIF, BROKER_IBAN);
+		this.broker = new Broker("Br013", "HappyWeek", BROKER_NIF, BROKER_IBAN);
 		this.client = new Client(this.broker, IBAN, NIF, AGE);
 
 		this.adventure = new Adventure(this.broker, begin, end, this.client, AMOUNT);
@@ -49,7 +48,7 @@ public class ReserveActivityStateProcessMethodTest {
 
 		new Expectations() {
 			{
-				ActivityInterface.reserveActivity(begin, begin, AGE);
+				ActivityInterface.reserveActivity(begin, begin, AGE, this.anyString);
 				this.result = ACTIVITY_CONFIRMATION;
 			}
 		};
@@ -63,7 +62,7 @@ public class ReserveActivityStateProcessMethodTest {
 	public void successBookRoom(@Mocked final ActivityInterface activityInterface) {
 		new Expectations() {
 			{
-				ActivityInterface.reserveActivity(begin, end, AGE);
+				ActivityInterface.reserveActivity(begin, end, AGE, this.anyString);
 				this.result = ACTIVITY_CONFIRMATION;
 			}
 		};
@@ -77,7 +76,7 @@ public class ReserveActivityStateProcessMethodTest {
 	public void activityException(@Mocked final ActivityInterface activityInterface) {
 		new Expectations() {
 			{
-				ActivityInterface.reserveActivity(begin, end, AGE);
+				ActivityInterface.reserveActivity(begin, end, AGE, this.anyString);
 				this.result = new ActivityException();
 			}
 		};
@@ -91,7 +90,7 @@ public class ReserveActivityStateProcessMethodTest {
 	public void singleRemoteAccessException(@Mocked final ActivityInterface activityInterface) {
 		new Expectations() {
 			{
-				ActivityInterface.reserveActivity(begin, end, AGE);
+				ActivityInterface.reserveActivity(begin, end, AGE, this.anyString);
 				this.result = new RemoteAccessException();
 			}
 		};
@@ -105,7 +104,7 @@ public class ReserveActivityStateProcessMethodTest {
 	public void maxRemoteAccessException(@Mocked final ActivityInterface activityInterface) {
 		new Expectations() {
 			{
-				ActivityInterface.reserveActivity(begin, end, AGE);
+				ActivityInterface.reserveActivity(begin, end, AGE, this.anyString);
 				this.result = new RemoteAccessException();
 			}
 		};
@@ -123,7 +122,7 @@ public class ReserveActivityStateProcessMethodTest {
 	public void maxMinusOneRemoteAccessException(@Mocked final ActivityInterface activityInterface) {
 		new Expectations() {
 			{
-				ActivityInterface.reserveActivity(begin, end, AGE);
+				ActivityInterface.reserveActivity(begin, end, AGE, this.anyString);
 				this.result = new RemoteAccessException();
 			}
 		};
@@ -140,7 +139,7 @@ public class ReserveActivityStateProcessMethodTest {
 	public void twoRemoteAccessExceptionOneSuccess(@Mocked final ActivityInterface activityInterface) {
 		new Expectations() {
 			{
-				ActivityInterface.reserveActivity(begin, end, AGE);
+				ActivityInterface.reserveActivity(begin, end, AGE, this.anyString);
 				this.result = new Delegate() {
 					int i = 0;
 
@@ -169,7 +168,7 @@ public class ReserveActivityStateProcessMethodTest {
 	public void oneRemoteAccessExceptionOneActivityException(@Mocked final ActivityInterface activityInterface) {
 		new Expectations() {
 			{
-				ActivityInterface.reserveActivity(begin, end, AGE);
+				ActivityInterface.reserveActivity(begin, end, AGE, this.anyString);
 				this.result = new Delegate() {
 					int i = 0;
 

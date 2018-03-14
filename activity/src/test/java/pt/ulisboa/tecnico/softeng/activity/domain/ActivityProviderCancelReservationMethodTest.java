@@ -11,6 +11,7 @@ import org.junit.Test;
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
 
 public class ActivityProviderCancelReservationMethodTest {
+	private static final String NIF = "123456789";
 	private ActivityProvider provider;
 	private ActivityOffer offer;
 
@@ -26,7 +27,7 @@ public class ActivityProviderCancelReservationMethodTest {
 
 	@Test
 	public void success() {
-		Booking booking = new Booking(this.provider, this.offer);
+		Booking booking = new Booking(this.provider, this.offer, NIF);
 
 		String cancel = ActivityProvider.cancelReservation(booking.getReference());
 
@@ -36,7 +37,7 @@ public class ActivityProviderCancelReservationMethodTest {
 
 	@Test(expected = ActivityException.class)
 	public void doesNotExist() {
-		new Booking(this.provider, this.offer);
+		new Booking(this.provider, this.offer, NIF);
 
 		ActivityProvider.cancelReservation("XPTO");
 	}

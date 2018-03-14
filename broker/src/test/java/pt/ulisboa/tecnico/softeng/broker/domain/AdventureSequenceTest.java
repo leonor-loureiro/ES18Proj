@@ -22,8 +22,7 @@ import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 @RunWith(JMockit.class)
 public class AdventureSequenceTest {
 	private static final String BROKER_IBAN = "BROKER_IBAN";
-	private static final String BUYER_NIF = "buyerNIF";
-	private static final String SELLER_NIF = "sellerNIF";
+	private static final String BROKER_NIF = "brokerNIF";
 	private static final String NIF = "123456789";
 	private static final String IBAN = "BK01987654321";
 	private static final int AMOUNT = 300;
@@ -42,7 +41,7 @@ public class AdventureSequenceTest {
 
 	@Before
 	public void setUp() {
-		this.broker = new Broker("Br013", "HappyWeek", SELLER_NIF, BUYER_NIF, BROKER_IBAN);
+		this.broker = new Broker("Br013", "HappyWeek", BROKER_NIF, BROKER_IBAN);
 		this.client = new Client(this.broker, IBAN, NIF, AGE);
 	}
 
@@ -54,7 +53,7 @@ public class AdventureSequenceTest {
 				BankInterface.processPayment(IBAN, AMOUNT);
 				this.result = PAYMENT_CONFIRMATION;
 
-				ActivityInterface.reserveActivity(arrival, departure, AGE);
+				ActivityInterface.reserveActivity(arrival, departure, AGE, this.anyString);
 				this.result = ACTIVITY_CONFIRMATION;
 
 				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure);
@@ -86,7 +85,7 @@ public class AdventureSequenceTest {
 				BankInterface.processPayment(IBAN, AMOUNT);
 				this.result = PAYMENT_CONFIRMATION;
 
-				ActivityInterface.reserveActivity(arrival, arrival, AGE);
+				ActivityInterface.reserveActivity(arrival, arrival, AGE, this.anyString);
 				this.result = ACTIVITY_CONFIRMATION;
 
 				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
@@ -129,7 +128,7 @@ public class AdventureSequenceTest {
 				BankInterface.processPayment(IBAN, AMOUNT);
 				this.result = PAYMENT_CONFIRMATION;
 
-				ActivityInterface.reserveActivity(arrival, departure, AGE);
+				ActivityInterface.reserveActivity(arrival, departure, AGE, this.anyString);
 				this.result = new ActivityException();
 
 				BankInterface.cancelPayment(PAYMENT_CONFIRMATION);
@@ -154,7 +153,7 @@ public class AdventureSequenceTest {
 				BankInterface.processPayment(this.anyString, AMOUNT);
 				this.result = PAYMENT_CONFIRMATION;
 
-				ActivityInterface.reserveActivity(arrival, departure, this.anyInt);
+				ActivityInterface.reserveActivity(arrival, departure, this.anyInt, this.anyString);
 				this.result = ACTIVITY_CONFIRMATION;
 
 				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure);
@@ -186,7 +185,7 @@ public class AdventureSequenceTest {
 				BankInterface.processPayment(IBAN, AMOUNT);
 				this.result = PAYMENT_CONFIRMATION;
 
-				ActivityInterface.reserveActivity(arrival, departure, AGE);
+				ActivityInterface.reserveActivity(arrival, departure, AGE, this.anyString);
 				this.result = ACTIVITY_CONFIRMATION;
 
 				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure);
