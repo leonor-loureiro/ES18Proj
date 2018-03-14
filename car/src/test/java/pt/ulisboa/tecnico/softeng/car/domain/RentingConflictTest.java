@@ -18,11 +18,13 @@ public class RentingConflictTest {
 	private static final LocalDate date3 = LocalDate.parse("2018-01-08");
 	private static final LocalDate date4 = LocalDate.parse("2018-01-09");
 	private static final String RENT_A_CAR_NAME = "Eartz";
+	private static final String NIF = "NIF";
+	private static final String IBAN = "IBAN";
 	private Car car;
 
 	@Before
 	public void setUp() {
-		RentACar rentACar = new RentACar(RENT_A_CAR_NAME);
+		RentACar rentACar = new RentACar(RENT_A_CAR_NAME, NIF, IBAN);
 		this.car = new Car(PLATE_CAR, 10, rentACar);
 	}
 
