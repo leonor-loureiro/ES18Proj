@@ -20,7 +20,7 @@ public class VehicleRentTest {
 	@Before
 	public void setUp() {
 		RentACar rentACar = new RentACar(RENT_A_CAR_NAME, NIF, IBAN);
-		this.car = new Car(PLATE_CAR, 10, rentACar);
+		this.car = new Car(PLATE_CAR, 10, 10, rentACar);
 	}
 
 	@Test(expected = CarException.class)
@@ -32,14 +32,14 @@ public class VehicleRentTest {
 	@Test(expected = CarException.class)
 	public void beginIsNull() {
 		RentACar rentACar = new RentACar(RENT_A_CAR_NAME, NIF, IBAN);
-		Vehicle car = new Car(PLATE_CAR, 10, rentACar);
+		Vehicle car = new Car(PLATE_CAR, 10, 10, rentACar);
 		car.rent(DRIVING_LICENSE, null, date2);
 	}
 
 	@Test(expected = CarException.class)
 	public void endIsNull() {
 		RentACar rentACar = new RentACar(RENT_A_CAR_NAME, NIF, IBAN);
-		Vehicle car = new Car(PLATE_CAR, 10, rentACar);
+		Vehicle car = new Car(PLATE_CAR, 10, 10, rentACar);
 		car.rent(DRIVING_LICENSE, date1, null);
 	}
 

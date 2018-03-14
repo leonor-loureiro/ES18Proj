@@ -22,7 +22,7 @@ public class RentingCheckoutTest {
 	@Before
 	public void setUp() {
 		RentACar rentACar1 = new RentACar(NAME1, NIF, IBAN);
-		this.car = new Car(PLATE_CAR1, 10, rentACar1);
+		this.car = new Car(PLATE_CAR1, 10, 10, rentACar1);
 	}
 
 	@Test

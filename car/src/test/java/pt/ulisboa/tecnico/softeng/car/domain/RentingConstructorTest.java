@@ -22,7 +22,7 @@ public class RentingConstructorTest {
 	@Before
 	public void setUp() {
 		RentACar rentACar1 = new RentACar(RENT_A_CAR_NAME, NIF, IBAN);
-		this.car = new Car(PLATE_CAR, 10, rentACar1);
+		this.car = new Car(PLATE_CAR, 10, 10, rentACar1);
 	}
 
 	@Test

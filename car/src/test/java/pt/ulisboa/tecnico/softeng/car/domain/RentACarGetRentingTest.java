@@ -22,7 +22,7 @@ public class RentACarGetRentingTest {
 	@Before
 	public void setUp() {
 		RentACar rentACar1 = new RentACar(NAME1, NIF, IBAN);
-		Vehicle car1 = new Car(PLATE_CAR1, 10, rentACar1);
+		Vehicle car1 = new Car(PLATE_CAR1, 10, 10, rentACar1);
 		this.renting = car1.rent(DRIVING_LICENSE, date1, date2);
 		car1.rent(DRIVING_LICENSE, date3, date4);
 	}
