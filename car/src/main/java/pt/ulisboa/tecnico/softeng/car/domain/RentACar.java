@@ -38,6 +38,12 @@ public class RentACar {
 
 			throw new CarException();
 		}
+
+		for (RentACar rental : rentACars) {
+			if (rental.getNIF().equals(nif)) {
+				throw new CarException();
+			}
+		}
 	}
 
 	/**
