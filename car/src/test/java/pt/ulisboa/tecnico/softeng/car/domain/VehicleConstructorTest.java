@@ -13,11 +13,13 @@ public class VehicleConstructorTest {
 	private static final String PLATE_CAR = "22-33-HZ";
 	private static final String PLATE_MOTORCYCLE = "44-33-HZ";
 	private static final String RENT_A_CAR_NAME = "Eartz";
+	private static final String NIF = "NIF";
+	private static final String IBAN = "IBAN";
 	private RentACar rentACar;
 
 	@Before
 	public void setUp() {
-		this.rentACar = new RentACar(RENT_A_CAR_NAME);
+		this.rentACar = new RentACar(RENT_A_CAR_NAME, NIF, IBAN);
 	}
 
 	@Test
@@ -60,7 +62,7 @@ public class VehicleConstructorTest {
 	@Test(expected = CarException.class)
 	public void duplicatedPlateDifferentRentACar() {
 		new Car(PLATE_CAR, 0, rentACar);
-		RentACar rentACar2 = new RentACar(RENT_A_CAR_NAME + "2");
+		RentACar rentACar2 = new RentACar(RENT_A_CAR_NAME + "2", NIF, IBAN);
 		new Car(PLATE_CAR, 2, rentACar2);
 	}
 

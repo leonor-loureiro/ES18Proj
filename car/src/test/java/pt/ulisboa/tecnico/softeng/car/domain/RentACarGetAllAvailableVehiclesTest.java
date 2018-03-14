@@ -21,13 +21,15 @@ public class RentACarGetAllAvailableVehiclesTest {
 	private static final LocalDate date2 = LocalDate.parse("2018-01-07");
 	private static final LocalDate date3 = LocalDate.parse("2018-01-08");
 	private static final LocalDate date4 = LocalDate.parse("2018-01-09");
+	private static final String NIF = "NIF";
+	private static final String IBAN = "IBAN";
 	private RentACar rentACar1;
 	private RentACar rentACar2;
 
 	@Before
 	public void setUp() {
-		this.rentACar1 = new RentACar(NAME1);
-		this.rentACar2 = new RentACar(NAME2);
+		this.rentACar1 = new RentACar(NAME1, NIF, IBAN);
+		this.rentACar2 = new RentACar(NAME2, NIF, IBAN);
 	}
 
 	@Test
