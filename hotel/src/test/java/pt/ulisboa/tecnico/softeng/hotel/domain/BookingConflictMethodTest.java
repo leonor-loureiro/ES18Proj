@@ -15,7 +15,7 @@ public class BookingConflictMethodTest {
 
 	@Before
 	public void setUp() {
-		Hotel hotel = new Hotel("XPTO123", "Londres");
+		Hotel hotel = new Hotel("XPTO123", "Londres", "NIF", "IBAN");
 
 		this.booking = new Booking(hotel, this.arrival, this.departure);
 	}

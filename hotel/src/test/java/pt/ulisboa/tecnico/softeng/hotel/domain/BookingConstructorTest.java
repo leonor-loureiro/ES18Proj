@@ -15,7 +15,7 @@ public class BookingConstructorTest {
 
 	@Before
 	public void setUp() {
-		this.hotel = new Hotel("XPTO123", "Londres");
+		this.hotel = new Hotel("XPTO123", "Londres", "NIF", "IBAN");
 	}
 
 	@Test
