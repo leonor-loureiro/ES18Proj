@@ -121,7 +121,7 @@ public class ActivityProviderFindOfferMethodTest {
 	public void oneMatchActivityOfferAndOtherNoCapacity() {
 		Activity otherActivity = new Activity(this.provider, "Bush Walking", MIN_AGE, MAX_AGE, 1);
 		ActivityOffer otherActivityOffer = new ActivityOffer(otherActivity, this.begin, this.end, 30);
-		new Booking(this.provider, otherActivityOffer, "123456789");
+		new Booking(this.provider, otherActivityOffer, "123456789", "IBAN");
 
 		List<ActivityOffer> offers = this.provider.findOffer(this.begin, this.end, AGE);
 

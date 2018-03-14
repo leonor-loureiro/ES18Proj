@@ -27,7 +27,7 @@ public class ActivityProviderActivityReservationDataMethodTest {
 		Activity activity = new Activity(this.provider, "Bush Walking", 18, 80, 3);
 
 		this.offer = new ActivityOffer(activity, this.begin, this.end, 30);
-		this.booking = new Booking(this.provider, this.offer, "123456789");
+		this.booking = new Booking(this.provider, this.offer, "123456789", "IBAN");
 	}
 
 	@Test

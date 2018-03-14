@@ -11,13 +11,14 @@ import org.junit.Test;
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
 
 public class ActivityProviderCancelReservationMethodTest {
+	private static final String IBAN = "IBAN";
 	private static final String NIF = "123456789";
 	private ActivityProvider provider;
 	private ActivityOffer offer;
 
 	@Before
 	public void setUp() {
-		this.provider = new ActivityProvider("XtremX", "ExtremeAdventure", "NIF", "IBAN");
+		this.provider = new ActivityProvider("XtremX", "ExtremeAdventure", "NIF", IBAN);
 		Activity activity = new Activity(this.provider, "Bush Walking", 18, 80, 3);
 
 		LocalDate begin = new LocalDate(2016, 12, 19);
@@ -27,7 +28,7 @@ public class ActivityProviderCancelReservationMethodTest {
 
 	@Test
 	public void success() {
-		Booking booking = new Booking(this.provider, this.offer, NIF);
+		Booking booking = new Booking(this.provider, this.offer, NIF, IBAN);
 
 		String cancel = ActivityProvider.cancelReservation(booking.getReference());
 
@@ -37,7 +38,7 @@ public class ActivityProviderCancelReservationMethodTest {
 
 	@Test(expected = ActivityException.class)
 	public void doesNotExist() {
-		new Booking(this.provider, this.offer, NIF);
+		new Booking(this.provider, this.offer, NIF, IBAN);
 
 		ActivityProvider.cancelReservation("XPTO");
 	}
