@@ -20,7 +20,7 @@ public class Booking {
 
 		offer.addBooking(this);
 
-		InvoiceData invoiceData = new InvoiceData(provider.getNIF(), buyerNIF, "SPORT", offer.getAmount(),
+		InvoiceData invoiceData = new InvoiceData(provider.getNif(), buyerNIF, "SPORT", offer.getAmount(),
 				offer.getBegin());
 		TaxInterface.submitInvoice(invoiceData);
 	}
