@@ -70,6 +70,12 @@ public class HotelConstructorTest {
 		new Hotel(HOTEL_CODE, HOTEL_NAME + " City", IBAN, NIF);
 	}
 
+	@Test(expected = HotelException.class)
+	public void nifNotUnique() {
+		new Hotel(HOTEL_CODE, HOTEL_NAME, IBAN, NIF);
+		new Hotel(HOTEL_CODE + "_new", HOTEL_NAME + "_New", IBAN, NIF);
+	}
+
 	@After
 	public void tearDown() {
 		Hotel.hotels.clear();

@@ -50,6 +50,12 @@ public class Hotel {
 				throw new HotelException();
 			}
 		}
+
+		for (Hotel hotel : Hotel.hotels) {
+			if (hotel.getNIF().equals(nif)) {
+				throw new HotelException();
+			}
+		}
 	}
 
 	public Room hasVacancy(Room.Type type, LocalDate arrival, LocalDate departure) {
