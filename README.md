@@ -10,7 +10,7 @@ To run tests execute: mvn clean install
 |    84709   | Diogo D'Andrade         | diogo.freire.dandrade@gmail.com      |   dfAndrade      |   2   |
 |    84736   | Leonor Loureiro         | leonor.filipa@tecnico.ulisboa.pt     |   leonor-loureiro|   2   |
 |    84698   | André Fonseca           | andre.filipe.alves.fonseca@ist.utl.pt|   anfifo         |   2   |
-
+|    70486   | Patrícia Melo           | fmelo.patricia@gmail.com             |   patricia-melo  |   2   |
 
 	Group Division
 
@@ -32,3 +32,4 @@ To run tests execute: mvn clean install
 		- anfifo: create tests for Car module
 		- dfAndrade: implement Car module
 		- leonor-loureiro: increase tests coverage for all modules, except the Broker
+		- patricia-melo: increase tests coverage for Car module
