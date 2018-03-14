@@ -30,9 +30,10 @@ public abstract class Vehicle {
 		Vehicle.plates.add(plate);
 	}
 	
-	private void checkDates(LocalDate begin, LocalDate end) {
+	private boolean checkDates(LocalDate begin, LocalDate end) {
 		if (begin == null || end == null || begin.isAfter(end))
-			throw new CarException("Vehicle Exception: Invalid dates.");
+			return false;
+		return true;
 	}
 	
 	private void checkArguments(String plate, int kilometers, RentACar rentACar) {
@@ -47,11 +48,14 @@ public abstract class Vehicle {
 	}
 	
 	public boolean isFree(LocalDate begin, LocalDate end) {
-		checkDates(begin, end);
+		if (!checkDates(begin, end))
+			throw new CarException("Vehicle Exception: Invalid dates.");
 		return this.listRents.stream().allMatch(rent -> !rent.conflict(begin, end));
 	}
 	
 	public String rent(String drivingLicense, LocalDate begin, LocalDate end) {
+		if (!checkDates(begin, end))
+			throw new RentingException("Vehicle Exception: Invalid dates.");
 		if (!this.isFree(begin, end))
 			throw new RentingException("Vehicle Exception: vehicle already rented for that period.");
 		if (!drivingLicense.matches("^[a-zA-Z]\\d+"))
