@@ -10,12 +10,12 @@ public class BrokerConstructorMethodTest {
 	private static final String CODE = "BR01";
 	private static final String NAME = "WeExplore";
 	private static final String BROKER_IBAN = "BROKER_IBAN";
-	private static final String NIF = "buyerNIF";
-	private static final String SELLER_NIF = "sellerNIF";
+	private static final String NIF_AS_BUYER = "buyerNIF";
+	private static final String NIF_AS_SELLER = "sellerNIF";
 
 	@Test
 	public void success() {
-		Broker broker = new Broker(CODE, NAME, NIF, BROKER_IBAN);
+		Broker broker = new Broker(CODE, NAME, NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
 
 		Assert.assertEquals(CODE, broker.getCode());
 		Assert.assertEquals(NAME, broker.getName());
@@ -26,7 +26,7 @@ public class BrokerConstructorMethodTest {
 	@Test
 	public void nullCode() {
 		try {
-			new Broker(null, NAME, NIF, BROKER_IBAN);
+			new Broker(null, NAME, NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
 			Assert.fail();
 		} catch (BrokerException be) {
 			Assert.assertEquals(0, Broker.brokers.size());
@@ -36,7 +36,7 @@ public class BrokerConstructorMethodTest {
 	@Test
 	public void emptyCode() {
 		try {
-			new Broker("", NAME, NIF, BROKER_IBAN);
+			new Broker("", NAME, NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
 			Assert.fail();
 		} catch (BrokerException be) {
 			Assert.assertEquals(0, Broker.brokers.size());
@@ -46,7 +46,7 @@ public class BrokerConstructorMethodTest {
 	@Test
 	public void blankCode() {
 		try {
-			new Broker("  ", NAME, NIF, BROKER_IBAN);
+			new Broker("  ", NAME, NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
 			Assert.fail();
 		} catch (BrokerException be) {
 			Assert.assertEquals(0, Broker.brokers.size());
@@ -55,10 +55,10 @@ public class BrokerConstructorMethodTest {
 
 	@Test
 	public void uniqueCode() {
-		Broker broker = new Broker(CODE, NAME, NIF, BROKER_IBAN);
+		Broker broker = new Broker(CODE, NAME, NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
 
 		try {
-			new Broker(CODE, "WeExploreX", NIF, BROKER_IBAN);
+			new Broker(CODE, "WeExploreX", NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
 			Assert.fail();
 		} catch (BrokerException be) {
 			Assert.assertEquals(1, Broker.brokers.size());
@@ -69,7 +69,7 @@ public class BrokerConstructorMethodTest {
 	@Test
 	public void nullName() {
 		try {
-			new Broker(CODE, null, NIF, BROKER_IBAN);
+			new Broker(CODE, null, NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
 			Assert.fail();
 		} catch (BrokerException be) {
 			Assert.assertEquals(0, Broker.brokers.size());
@@ -79,7 +79,7 @@ public class BrokerConstructorMethodTest {
 	@Test
 	public void emptyName() {
 		try {
-			new Broker(CODE, "", NIF, BROKER_IBAN);
+			new Broker(CODE, "", NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
 			Assert.fail();
 		} catch (BrokerException be) {
 			Assert.assertEquals(0, Broker.brokers.size());
@@ -89,7 +89,7 @@ public class BrokerConstructorMethodTest {
 	@Test
 	public void blankName() {
 		try {
-			new Broker(CODE, "    ", NIF, BROKER_IBAN);
+			new Broker(CODE, "    ", NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
 			Assert.fail();
 		} catch (BrokerException be) {
 			Assert.assertEquals(0, Broker.brokers.size());
@@ -97,9 +97,9 @@ public class BrokerConstructorMethodTest {
 	}
 
 	@Test
-	public void nullNIF() {
+	public void nullSellerNIF() {
 		try {
-			new Broker(CODE, NAME, null, BROKER_IBAN);
+			new Broker(CODE, NAME, null, NIF_AS_BUYER, BROKER_IBAN);
 			Assert.fail();
 		} catch (BrokerException be) {
 			Assert.assertEquals(0, Broker.brokers.size());
@@ -107,9 +107,10 @@ public class BrokerConstructorMethodTest {
 	}
 
 	@Test
-	public void emptyNIF() {
+
+	public void emptySellerNIF() {
 		try {
-			new Broker(CODE, NAME, "    ", BROKER_IBAN);
+			new Broker(CODE, NAME, "    ", NIF_AS_BUYER, BROKER_IBAN);
 			Assert.fail();
 		} catch (BrokerException be) {
 			Assert.assertEquals(0, Broker.brokers.size());
@@ -117,10 +118,53 @@ public class BrokerConstructorMethodTest {
 	}
 
 	@Test
-	public void uniqueNIF() {
-		new Broker(CODE, NAME, NIF, BROKER_IBAN);
+
+	public void uniqueSellerNIF() {
+		new Broker(CODE, NAME, NIF_AS_SELLER, "123456789", BROKER_IBAN);
 		try {
-			new Broker(CODE, NAME, NIF, BROKER_IBAN);
+			new Broker(CODE, NAME, NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
+			Assert.fail();
+		} catch (BrokerException be) {
+			Assert.assertEquals(1, Broker.brokers.size());
+		}
+	}
+
+	@Test
+	public void nullBuyerNIF() {
+		try {
+			new Broker(CODE, NAME, NIF_AS_SELLER, null, BROKER_IBAN);
+			Assert.fail();
+		} catch (BrokerException be) {
+			Assert.assertEquals(0, Broker.brokers.size());
+		}
+	}
+
+	@Test
+	public void emptyBuyerNIF() {
+		try {
+			new Broker(CODE, NAME, NIF_AS_SELLER, "   ", BROKER_IBAN);
+			Assert.fail();
+		} catch (BrokerException be) {
+			Assert.assertEquals(0, Broker.brokers.size());
+		}
+	}
+
+	@Test
+	public void uniqueBuyerNIFOne() {
+		new Broker(CODE, NAME, NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
+		try {
+			new Broker(CODE, NAME, "123456789", NIF_AS_BUYER, BROKER_IBAN);
+			Assert.fail();
+		} catch (BrokerException be) {
+			Assert.assertEquals(1, Broker.brokers.size());
+		}
+	}
+
+	@Test
+	public void uniqueBuyerSellerNIFTwo() {
+		new Broker(CODE, NAME, NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
+		try {
+			new Broker(CODE, NAME, NIF_AS_BUYER, "123456789", BROKER_IBAN);
 			Assert.fail();
 		} catch (BrokerException be) {
 			Assert.assertEquals(1, Broker.brokers.size());
@@ -130,7 +174,7 @@ public class BrokerConstructorMethodTest {
 	@Test
 	public void nullIBAN() {
 		try {
-			new Broker(CODE, NAME, NIF, null);
+			new Broker(CODE, NAME, NIF_AS_SELLER, NIF_AS_BUYER, null);
 			Assert.fail();
 		} catch (BrokerException be) {
 			Assert.assertEquals(0, Broker.brokers.size());
@@ -140,7 +184,17 @@ public class BrokerConstructorMethodTest {
 	@Test
 	public void emptyIBAN() {
 		try {
-			new Broker(CODE, NAME, NIF, "    ");
+			new Broker(CODE, NAME, NIF_AS_SELLER, NIF_AS_BUYER, "    ");
+			Assert.fail();
+		} catch (BrokerException be) {
+			Assert.assertEquals(0, Broker.brokers.size());
+		}
+	}
+
+	@Test
+	public void sellerNIFDifferentBuyerNIF() {
+		try {
+			new Broker(CODE, NAME, NIF_AS_SELLER, NIF_AS_SELLER, BROKER_IBAN);
 			Assert.fail();
 		} catch (BrokerException be) {
 			Assert.assertEquals(0, Broker.brokers.size());

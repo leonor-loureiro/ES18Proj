@@ -17,7 +17,7 @@ public class Application {
 		Account account = new Account(bank, new Client(bank, "José dos Anzóis"));
 		account.deposit(1000);
 
-		Broker broker = new Broker("BR01", "Fun", "NIF", "BROKER_IBAN");
+		Broker broker = new Broker("BR01", "Fun", "SELLER_NIF", "BUYER_NIF", "BROKER_IBAN");
 		Adventure adventure = new Adventure(broker, new LocalDate(), new LocalDate(),
 				new pt.ulisboa.tecnico.softeng.broker.domain.Client(broker, account.getIBAN(), "123456789", 33), 50);
 
