@@ -16,8 +16,8 @@ public class Broker {
 
 	private final String code;
 	private final String name;
-	private final String NIF;
-	private final String IBAN;
+	private final String nif;
+	private final String iban;
 	private final Set<Client> clients = new HashSet<>();
 	private final Set<Adventure> adventures = new HashSet<>();
 	private final Set<BulkRoomBooking> bulkBookings = new HashSet<>();
@@ -26,8 +26,8 @@ public class Broker {
 		checkArguments(code, name, NIF, IBAN);
 		this.code = code;
 		this.name = name;
-		this.NIF = NIF;
-		this.IBAN = IBAN;
+		this.nif = NIF;
+		this.iban = IBAN;
 
 		Broker.brokers.add(this);
 	}
@@ -45,7 +45,7 @@ public class Broker {
 		}
 
 		for (Broker broker : Broker.brokers) {
-			if (broker.getNIF().equals(NIF)) {
+			if (broker.getNif().equals(NIF)) {
 				throw new BrokerException();
 			}
 		}
@@ -60,12 +60,12 @@ public class Broker {
 		return this.name;
 	}
 
-	public String getNIF() {
-		return this.NIF;
+	public String getNif() {
+		return this.nif;
 	}
 
-	public String getIBAN() {
-		return this.IBAN;
+	public String getIban() {
+		return this.iban;
 	}
 
 	public int getNumberOfAdventures() {
