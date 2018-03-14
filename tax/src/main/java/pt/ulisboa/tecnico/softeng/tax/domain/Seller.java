@@ -10,27 +10,6 @@ public class Seller extends TaxPayer{
 		super(nif, name, address);
 	}
 	
-	
-	public Seller(TaxPayer taxPayer) {
-		
-		if (taxPayer instanceof Seller || taxPayer == null) {
-			throw new TaxException();
-		}
-		String nifTemp = taxPayer.getNif();
-		String nameTemp = taxPayer.getName();
-		String addressTemp = taxPayer.getAddress();
-		
-		TaxPayer.taxPayers.remove(taxPayer);
-		
-		this.nif = nifTemp;
-		this.name = nameTemp;
-		this.address = addressTemp;
-		
-		TaxPayer.taxPayers.add(this);
-		
-		
-	}
-	
 	public double toPay(int YEAR) {
 		checkArguments(YEAR);
 		
@@ -45,12 +24,6 @@ public class Seller extends TaxPayer{
 		
 		return returnValue;
 	}
-		
-	private void checkArguments(int year) {
-		if (year < 1970) {
-			throw new TaxException();
-		}
-	}
 	
 	public Invoice getInvoiceByReference(String INVOICE_REFERENCE) {
 		for (Invoice invoice : Invoice.invoices) {
@@ -61,5 +34,10 @@ public class Seller extends TaxPayer{
 		throw new TaxException();
 	}
 	
+	private void checkArguments(int year) {
+		if (year < 1970) {
+			throw new TaxException();
+		}
+	}
 	
 }

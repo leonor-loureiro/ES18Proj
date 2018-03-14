@@ -8,17 +8,14 @@ import org.junit.Test;
 
 import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 
-public class SellerConstructorTPTest {
-	
+public class SellerConstructorTest {
 	private String NIF = "123456789";
 	private String NAME = "Jertrudes";
 	private String ADDRESS = "Porto";
 	
-	private TaxPayer taxPayer = new TaxPayer(NIF, NAME, ADDRESS);
-
 	@Test
 	public void success() {
-		Seller seller = new Seller(taxPayer);
+		Seller seller = new Seller(NIF, NAME, ADDRESS);
 		
 		Assert.assertEquals(NIF, seller.getNif());
 		Assert.assertEquals(NAME, seller.getName());
@@ -28,15 +25,18 @@ public class SellerConstructorTPTest {
 
 		
 	@Test(expected = TaxException.class)
-	public void nullTaxPayer() {
-		Seller seller = new Seller(null);
+	public void nullNif() {
+		Seller seller = new Seller(null, NAME, ADDRESS);
+	}
+
+	@Test(expected = TaxException.class)
+	public void nullName() {
+		Seller seller = new Seller(NIF, null, ADDRESS);
 	}
 	
-	
 	@Test(expected = TaxException.class)
-	public void duplicatedTaxPayer() {
-		Seller seller = new Seller(taxPayer);
-		Seller seller2 = new Seller(seller);
+	public void nullAddress() {
+		Seller seller = new Seller(NIF, NAME, null);
 	}
 	
 	@After

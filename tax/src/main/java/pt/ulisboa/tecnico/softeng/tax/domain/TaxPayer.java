@@ -5,7 +5,7 @@ import java.util.Set;
 
 import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 
-public class TaxPayer {
+public abstract class TaxPayer {
 	public static Set<TaxPayer> taxPayers = new HashSet<>();
 	
 	static final int NIF_SIZE = 9;
@@ -44,6 +44,8 @@ public class TaxPayer {
 		}
 	}
 	
+	public abstract Invoice getInvoiceByReference(String INVOICE_REFERENCE);
+		
 	public static Set<TaxPayer> getTaxPayers() {
 		return taxPayers;
 	}
