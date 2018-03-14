@@ -16,7 +16,7 @@ public class HotelConstructorTest {
 	@Test
 	public void success() {
 
-		Hotel hotel = new Hotel(HOTEL_CODE, HOTEL_NAME, IBAN, NIF);
+		Hotel hotel = new Hotel(HOTEL_CODE, HOTEL_NAME, NIF, IBAN);
 
 		Assert.assertEquals(HOTEL_NAME, hotel.getName());
 		Assert.assertTrue(hotel.getCode().length() == Hotel.CODE_SIZE);
@@ -26,54 +26,54 @@ public class HotelConstructorTest {
 
 	@Test(expected = HotelException.class)
 	public void nullCode() {
-		new Hotel(null, HOTEL_NAME, IBAN, NIF);
+		new Hotel(null, HOTEL_NAME, NIF, IBAN);
 	}
 
 	@Test(expected = HotelException.class)
 	public void blankCode() {
-		new Hotel("      ", HOTEL_NAME, IBAN, NIF);
+		new Hotel("      ", HOTEL_NAME, NIF, IBAN);
 	}
 
 	@Test(expected = HotelException.class)
 	public void emptyCode() {
-		new Hotel("", HOTEL_NAME, IBAN, NIF);
+		new Hotel("", HOTEL_NAME, NIF, IBAN);
 	}
 
 	@Test(expected = HotelException.class)
 	public void nullName() {
-		new Hotel(HOTEL_CODE, null, IBAN, NIF);
+		new Hotel(HOTEL_CODE, null, NIF, IBAN);
 	}
 
 	@Test(expected = HotelException.class)
 	public void blankName() {
-		new Hotel(HOTEL_CODE, "  ", IBAN, NIF);
+		new Hotel(HOTEL_CODE, "  ", NIF, IBAN);
 	}
 
 	@Test(expected = HotelException.class)
 	public void emptyName() {
-		new Hotel(HOTEL_CODE, "", IBAN, NIF);
+		new Hotel(HOTEL_CODE, "", NIF, IBAN);
 	}
 
 	@Test(expected = HotelException.class)
 	public void codeSizeLess() {
-		new Hotel("123456", HOTEL_NAME, IBAN, NIF);
+		new Hotel("123456", HOTEL_NAME, NIF, IBAN);
 	}
 
 	@Test(expected = HotelException.class)
 	public void codeSizeMore() {
-		new Hotel("12345678", HOTEL_NAME, IBAN, NIF);
+		new Hotel("12345678", HOTEL_NAME, NIF, IBAN);
 	}
 
 	@Test(expected = HotelException.class)
 	public void codeNotUnique() {
 		new Hotel(HOTEL_CODE, HOTEL_NAME, IBAN, NIF);
-		new Hotel(HOTEL_CODE, HOTEL_NAME + " City", IBAN, NIF);
+		new Hotel(HOTEL_CODE, HOTEL_NAME + " City", NIF, IBAN);
 	}
 
 	@Test(expected = HotelException.class)
 	public void nifNotUnique() {
 		new Hotel(HOTEL_CODE, HOTEL_NAME, IBAN, NIF);
-		new Hotel(HOTEL_CODE + "_new", HOTEL_NAME + "_New", IBAN, NIF);
+		new Hotel(HOTEL_CODE + "_new", HOTEL_NAME + "_New", NIF, IBAN);
 	}
 
 	@After
