@@ -40,8 +40,6 @@ public class RentACar {
 	private void checkArguments(String name) {
 		if (name == null || !name.matches("^[a-zA-Z].*"))
 			throw new CarException("RentACar Exception: Invalid Name \"" + name + "\".");
-		if (rentACars.stream().anyMatch(rac -> rac.getName().equals(name)))
-			throw new CarException("RentACar Exception: RentACar \"" + name + "\" already exists.");
 	}
 	
 	public Renting getRenting(String reference) {
