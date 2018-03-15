@@ -20,13 +20,13 @@ public class HotelBulkBookingMethodTest {
 
 	@Before
 	public void setUp() {
-		this.hotel = new Hotel("XPTO123", "Paris", "NIF", "IBAN");
+		this.hotel = new Hotel("XPTO123", "Paris", "NIF", "IBAN", 20.0, 30.0);
 		new Room(this.hotel, "01", Type.DOUBLE);
 		new Room(this.hotel, "02", Type.SINGLE);
 		new Room(this.hotel, "03", Type.DOUBLE);
 		new Room(this.hotel, "04", Type.SINGLE);
 
-		this.hotel = new Hotel("XPTO124", "Paris", "NIF2", "IBAN");
+		this.hotel = new Hotel("XPTO124", "Paris", "NIF", "IBAN", 25.0, 35.0);
 		new Room(this.hotel, "01", Type.DOUBLE);
 		new Room(this.hotel, "02", Type.SINGLE);
 		new Room(this.hotel, "03", Type.DOUBLE);
@@ -48,7 +48,7 @@ public class HotelBulkBookingMethodTest {
 	@Test(expected = HotelException.class)
 	public void noRooms() {
 		Hotel.hotels.clear();
-		this.hotel = new Hotel("XPTO124", "Paris", "NIF", "IBAN");
+		this.hotel = new Hotel("XPTO124", "Paris", "NIF", "IBAN", 27.0, 37.0);
 
 		Hotel.bulkBooking(3, this.arrival, this.departure);
 	}

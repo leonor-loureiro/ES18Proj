@@ -19,7 +19,7 @@ public class HotelHasVacancyMethodTest {
 
 	@Before
 	public void setUp() {
-		this.hotel = new Hotel("XPTO123", "Paris", "NIF", "IBAN");
+		this.hotel = new Hotel("XPTO123", "Paris", "NIF", "IBAN", 20.0, 30.0);
 		this.room = new Room(this.hotel, "01", Type.DOUBLE);
 	}
 
@@ -40,7 +40,7 @@ public class HotelHasVacancyMethodTest {
 
 	@Test
 	public void noVacancyEmptyRoomSet() {
-		Hotel otherHotel = new Hotel("XPTO124", "Paris Germain", "NIF2", "IBAN");
+		Hotel otherHotel = new Hotel("XPTO124", "Paris Germain", "NIF", "IBAN", 25.0, 35.0);
 
 		assertNull(otherHotel.hasVacancy(Type.DOUBLE, this.arrival, this.departure));
 	}
