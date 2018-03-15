@@ -32,11 +32,6 @@ public class ActivityProviderReserveActivityMethodTest {
 		provider2 = new ActivityProvider("Walker", "Sky", "NIF2", IBAN);
 	}
 
-	@After
-	public void tearDown() {
-		ActivityProvider.providers.clear();
-	}
-
 	@Test
 	public void numberOfProviders() {
 		Assert.assertTrue(ActivityProvider.providers.size() == 2);
@@ -72,6 +67,11 @@ public class ActivityProviderReserveActivityMethodTest {
 
 		Assert.assertTrue(act != null);
 		Assert.assertTrue(act.startsWith("XtremX"));
+	}
+
+	@After
+	public void tearDown() {
+		ActivityProvider.providers.clear();
 	}
 
 }

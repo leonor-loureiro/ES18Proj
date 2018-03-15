@@ -4,18 +4,19 @@ import org.joda.time.LocalDate;
 
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
 import pt.ulisboa.tecnico.softeng.activity.interfaces.BankInterface;
-import pt.ulisboa.tecnico.softeng.activity.interfaces.TaxInterface;
-import pt.ulisboa.tecnico.softeng.tax.dataobjects.InvoiceData;
 
 public class Booking {
 	private static int counter = 0;
 
+	private static final String type = "SPORT";
 	private final String reference;
+	private final String providerNif;
 	private final String nif;
 	private final String iban;
 	private final double amount;
+	private final LocalDate date;
 	private final String paymentReference;
-	private final String invoiceReference;
+	private String invoiceReference;
 	private String cancel;
 	private LocalDate cancellationDate;
 
@@ -23,14 +24,15 @@ public class Booking {
 		checkArguments(provider, offer, buyerNif, buyerIban);
 
 		this.reference = provider.getCode() + Integer.toString(++Booking.counter);
+		this.providerNif = provider.getNif();
 		this.nif = buyerNif;
 		this.iban = buyerIban;
 		this.amount = offer.getAmount();
+		this.date = offer.getBegin();
 
 		this.paymentReference = BankInterface.processPayment(this.nif, this.amount);
 
-		InvoiceData invoiceData = new InvoiceData(provider.getNif(), this.nif, "SPORT", this.amount, offer.getBegin());
-		this.invoiceReference = TaxInterface.submitInvoice(invoiceData);
+		InvoiceProcessor.getInvoiceProcessor().submitInvoice(this);
 
 		offer.addBooking(this);
 	}
@@ -46,6 +48,14 @@ public class Booking {
 		return this.reference;
 	}
 
+	public String getType() {
+		return this.type;
+	}
+
+	public String getProviderNif() {
+		return this.providerNif;
+	}
+
 	public String getNif() {
 		return this.nif;
 	}
@@ -58,12 +68,20 @@ public class Booking {
 		return this.amount;
 	}
 
+	public LocalDate getDate() {
+		return this.date;
+	}
+
 	public String getPaymentReference() {
 		return this.paymentReference;
 	}
 
 	public String getInvoiceReference() {
 		return this.invoiceReference;
+	}
+
+	public void setInvoiceReference(String invoiceReference) {
+		this.invoiceReference = invoiceReference;
 	}
 
 	public String getCancellation() {
@@ -83,4 +101,5 @@ public class Booking {
 	public boolean isCancelled() {
 		return this.cancel != null;
 	}
+
 }
