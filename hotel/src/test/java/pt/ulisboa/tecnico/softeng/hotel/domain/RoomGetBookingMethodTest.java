@@ -19,7 +19,7 @@ public class RoomGetBookingMethodTest {
 
 	@Before
 	public void setUp() {
-		this.hotel = new Hotel("XPTO123", "Lisboa", "NIF", "IBAN");
+		this.hotel = new Hotel("XPTO123", "Lisboa", "NIF", "IBAN", 20.0, 30.0);
 		this.room = new Room(this.hotel, "01", Type.SINGLE);
 		this.booking = this.room.reserve(Type.SINGLE, this.arrival, this.departure);
 	}

@@ -1,5 +1,6 @@
 package pt.ulisboa.tecnico.softeng.hotel.domain;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,25 +18,30 @@ public class Hotel {
 	private final String name;
 	private final String nif;
 	private final String iban;
+	
+	private HashMap<Room.Type, Double> prices;
 
 	private final Set<Room> rooms = new HashSet<>();
 
-	public Hotel(String code, String name, String nif, String iban) {
-		checkArguments(code, name, nif, iban);
+	public Hotel(String code, String name, String nif, String iban, double priceSingle, double priceDouble) {
+		checkArguments(code, name, nif, iban, priceSingle, priceDouble);
 
 		this.code = code;
 		this.name = name;
 		this.nif = nif;
 		this.iban = iban;
+		prices.put(Room.Type.SINGLE, priceSingle);
+		prices.put(Room.Type.DOUBLE, priceDouble);
 
 		Hotel.hotels.add(this);
 	}
 
-	private void checkArguments(String code, String name, String nif, String iban) {
+	private void checkArguments(String code, String name, String nif, String iban, double priceSingle, double priceDouble) {
 		if (code == null || name == null ||
-                isEmpty(code) || isEmpty((name)) ||
-                nif == null || isEmpty(nif) ||
-                iban == null || isEmpty(iban)) {
+				isEmpty(code) || isEmpty((name)) ||
+				nif == null || isEmpty(nif) ||
+				iban == null || isEmpty(iban) ||
+				priceSingle < 0 || priceDouble < 0) {
 
 			throw new HotelException();
 
@@ -80,16 +86,32 @@ public class Hotel {
 	}
 
 	public String getNIF() {
-	    return this.nif;
+		return this.nif;
 	}
 
 	public String getIBAN() {
-	    return this.iban;
-    }
+		return this.iban;
+	}
 
-    private boolean isEmpty(String str) {
-	    return str.trim().length() == 0;
-    }
+	public double getPrice(Room.Type type) {
+		if (type == null) {
+			throw new HotelException();
+		}
+
+		return this.prices.get(type);
+	}
+
+	public void setPrice(Room.Type type, double price) {
+		if (price < 0 || type == null) {
+			throw new HotelException();
+		}		
+
+		this.prices.put(type, price);
+	}
+
+	private boolean isEmpty(String str) {
+		return str.trim().length() == 0;
+	}
 
 	void addRoom(Room room) {
 		if (hasRoom(room.getNumber())) {
@@ -187,7 +209,7 @@ public class Hotel {
 		return rooms;
 	}
 
-    public void removeRooms() {
-        rooms.clear();
-    }
+	public void removeRooms() {
+		rooms.clear();
+	}
 }
