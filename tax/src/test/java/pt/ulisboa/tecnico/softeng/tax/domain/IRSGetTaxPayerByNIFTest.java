@@ -11,7 +11,7 @@ public class IRSGetTaxPayerByNIFTest {
 	
 	@Before
 	public void setUp() {
-		this.payer = new TaxPayer("123456789", "Toze", "Rua das Couves, no.4");
+		this.payer = new Buyer("123456789", "Toze", "Rua das Couves, no.4");
 	}
 	
 	@Test
