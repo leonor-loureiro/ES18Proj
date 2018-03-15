@@ -6,8 +6,8 @@ import pt.ulisboa.tecnico.softeng.activity.dataobjects.ActivityReservationData;
 import pt.ulisboa.tecnico.softeng.activity.domain.ActivityProvider;
 
 public class ActivityInterface {
-	public static String reserveActivity(LocalDate begin, LocalDate end, int age, String NIF) {
-		return ActivityProvider.reserveActivity(begin, end, age, NIF);
+	public static String reserveActivity(LocalDate begin, LocalDate end, int age, String nif, String iban) {
+		return ActivityProvider.reserveActivity(begin, end, age, nif, iban);
 	}
 
 	public static String cancelReservation(String activityConfirmation) {

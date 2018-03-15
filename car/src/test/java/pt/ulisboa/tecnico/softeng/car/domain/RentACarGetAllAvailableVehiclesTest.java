@@ -1,6 +1,7 @@
 package pt.ulisboa.tecnico.softeng.car.domain;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Set;
 
@@ -29,15 +30,15 @@ public class RentACarGetAllAvailableVehiclesTest {
 	@Before
 	public void setUp() {
 		this.rentACar1 = new RentACar(NAME1, NIF, IBAN);
-		this.rentACar2 = new RentACar(NAME2, NIF, IBAN);
+		this.rentACar2 = new RentACar(NAME2, NIF + "1", IBAN);
 	}
 
 	@Test
 	public void onlyCars() {
-		Vehicle car1 = new Car(PLATE_CAR1, 10, 10, rentACar1);
-		car1.rent(DRIVING_LICENSE, date1, date2);
-		Vehicle car2 = new Car(PLATE_CAR2, 10, 10, rentACar2);
-		Vehicle motorcycle = new Motorcycle(PLATE_MOTORCYCLE, 10, 10, rentACar1);
+		Vehicle car1 = new Car(PLATE_CAR1, 10, 10, this.rentACar1);
+		car1.rent(DRIVING_LICENSE, date1, date2, NIF);
+		Vehicle car2 = new Car(PLATE_CAR2, 10, 10, this.rentACar2);
+		Vehicle motorcycle = new Motorcycle(PLATE_MOTORCYCLE, 10, 10, this.rentACar1);
 
 		Set<Vehicle> cars = RentACar.getAllAvailableCars(date3, date4);
 		assertTrue(cars.contains(car1));
@@ -47,20 +48,20 @@ public class RentACarGetAllAvailableVehiclesTest {
 
 	@Test
 	public void onlyAvailableCars() {
-		Vehicle car1 = new Car(PLATE_CAR1, 10, 10, rentACar1);
-		Vehicle car2 = new Car(PLATE_CAR2, 10, 10, rentACar2);
+		Vehicle car1 = new Car(PLATE_CAR1, 10, 10, this.rentACar1);
+		Vehicle car2 = new Car(PLATE_CAR2, 10, 10, this.rentACar2);
 
-		car1.rent(DRIVING_LICENSE, date1, date2);
+		car1.rent(DRIVING_LICENSE, date1, date2, NIF);
 		Set<Vehicle> cars = RentACar.getAllAvailableCars(date1, date2);
 
 		assertFalse(cars.contains(car1));
 		assertTrue(cars.contains(car2));
 	}
-	
+
 	@Test
 	public void onlyMotorcycles() {
-		Vehicle car = new Car(PLATE_CAR1, 10, 10, rentACar1);
-		Vehicle motorcycle = new Motorcycle(PLATE_MOTORCYCLE, 10, 10, rentACar1);
+		Vehicle car = new Car(PLATE_CAR1, 10, 10, this.rentACar1);
+		Vehicle motorcycle = new Motorcycle(PLATE_MOTORCYCLE, 10, 10, this.rentACar1);
 
 		Set<Vehicle> cars = RentACar.getAllAvailableMotorcycles(date3, date4);
 		assertTrue(cars.contains(motorcycle));

@@ -7,17 +7,25 @@ import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
+import mockit.Expectations;
+import mockit.Mocked;
+import mockit.integration.junit4.JMockit;
 import pt.ulisboa.tecnico.softeng.activity.domain.Activity;
 import pt.ulisboa.tecnico.softeng.activity.domain.ActivityOffer;
 import pt.ulisboa.tecnico.softeng.activity.domain.ActivityProvider;
+import pt.ulisboa.tecnico.softeng.activity.interfaces.BankInterface;
+import pt.ulisboa.tecnico.softeng.activity.interfaces.TaxInterface;
 import pt.ulisboa.tecnico.softeng.bank.domain.Account;
 import pt.ulisboa.tecnico.softeng.bank.domain.Bank;
 import pt.ulisboa.tecnico.softeng.bank.domain.Client;
 import pt.ulisboa.tecnico.softeng.hotel.domain.Hotel;
 import pt.ulisboa.tecnico.softeng.hotel.domain.Room;
 import pt.ulisboa.tecnico.softeng.hotel.domain.Room.Type;
+import pt.ulisboa.tecnico.softeng.tax.dataobjects.InvoiceData;
 
+@RunWith(JMockit.class)
 public class AdventureProcessMethodTest {
 	private static final String BROKER_IBAN = "BROKER_IBAN";
 	private static final String NIF_AS_BUYER = "buyerNIF";
@@ -48,7 +56,15 @@ public class AdventureProcessMethodTest {
 	}
 
 	@Test
-	public void success() {
+	public void success(@Mocked final TaxInterface taxInterface, @Mocked final BankInterface bankInterface) {
+		new Expectations() {
+			{
+				BankInterface.processPayment(this.anyString, this.anyDouble);
+
+				TaxInterface.submitInvoice((InvoiceData) this.any);
+			}
+		};
+
 		Adventure adventure = new Adventure(this.broker, this.begin, this.end,
 				new pt.ulisboa.tecnico.softeng.broker.domain.Client(this.broker, this.IBAN, NIF, 20), 300);
 
@@ -63,7 +79,16 @@ public class AdventureProcessMethodTest {
 	}
 
 	@Test
-	public void successNoHotelBooking() {
+	public void successNoHotelBooking(@Mocked final TaxInterface taxInterface,
+			@Mocked final BankInterface bankInterface) {
+		new Expectations() {
+			{
+				BankInterface.processPayment(this.anyString, this.anyDouble);
+
+				TaxInterface.submitInvoice((InvoiceData) this.any);
+			}
+		};
+
 		Adventure adventure = new Adventure(this.broker, this.begin, this.begin,
 				new pt.ulisboa.tecnico.softeng.broker.domain.Client(this.broker, this.IBAN, NIF, 20), 300);
 

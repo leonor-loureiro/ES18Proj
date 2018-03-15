@@ -36,8 +36,8 @@ public class VehicleIsFreeTest {
 
 	@Test
 	public void bookingsWereMade() {
-		car.rent(DRIVING_LICENSE, date2, date2);
-		car.rent(DRIVING_LICENSE, date3, date4);
+		car.rent(DRIVING_LICENSE, date2, date2, NIF);
+		car.rent(DRIVING_LICENSE, date3, date4, NIF);
 
 		assertFalse(car.isFree(date1, date2));
 		assertFalse(car.isFree(date1, date3));

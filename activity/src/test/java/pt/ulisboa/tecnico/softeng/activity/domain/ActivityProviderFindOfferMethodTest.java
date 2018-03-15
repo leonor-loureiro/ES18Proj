@@ -7,9 +7,17 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
+import mockit.Expectations;
+import mockit.Mocked;
+import mockit.integration.junit4.JMockit;
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
+import pt.ulisboa.tecnico.softeng.activity.interfaces.BankInterface;
+import pt.ulisboa.tecnico.softeng.activity.interfaces.TaxInterface;
+import pt.ulisboa.tecnico.softeng.tax.dataobjects.InvoiceData;
 
+@RunWith(JMockit.class)
 public class ActivityProviderFindOfferMethodTest {
 	private static final int MIN_AGE = 25;
 	private static final int MAX_AGE = 80;
@@ -118,10 +126,19 @@ public class ActivityProviderFindOfferMethodTest {
 	}
 
 	@Test
-	public void oneMatchActivityOfferAndOtherNoCapacity() {
+	public void oneMatchActivityOfferAndOtherNoCapacity(@Mocked final TaxInterface taxInterface,
+			@Mocked final BankInterface bankInterface) {
+		new Expectations() {
+			{
+				BankInterface.processPayment(this.anyString, this.anyDouble);
+
+				TaxInterface.submitInvoice((InvoiceData) this.any);
+			}
+		};
+
 		Activity otherActivity = new Activity(this.provider, "Bush Walking", MIN_AGE, MAX_AGE, 1);
 		ActivityOffer otherActivityOffer = new ActivityOffer(otherActivity, this.begin, this.end, 30);
-		new Booking(this.provider, otherActivityOffer, "123456789");
+		new Booking(this.provider, otherActivityOffer, "123456789", "IBAN");
 
 		List<ActivityOffer> offers = this.provider.findOffer(this.begin, this.end, AGE);
 

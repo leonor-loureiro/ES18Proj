@@ -21,7 +21,7 @@ public class BookingConstructorTest {
 
 	@Test
 	public void success() {
-		Booking booking = new Booking(this.hotel, this.arrival, this.departure, this.price);
+		Booking booking = new Booking(this.hotel, Room.Type.SINGLE, this.arrival, this.departure, "NIF");
 
 		Assert.assertTrue(booking.getReference().startsWith(this.hotel.getCode()));
 		Assert.assertTrue(booking.getReference().length() > Hotel.CODE_SIZE);
@@ -32,27 +32,27 @@ public class BookingConstructorTest {
 
 	@Test(expected = HotelException.class)
 	public void nullHotel() {
-		new Booking(null, this.arrival, this.departure, this.price);
+		new Booking(null, Room.Type.SINGLE, this.arrival, this.departure, "NIF");
 	}
 
 	@Test(expected = HotelException.class)
 	public void nullArrival() {
-		new Booking(this.hotel, null, this.departure, this.price);
+		new Booking(this.hotel, Room.Type.SINGLE, null, this.departure, "NIF");
 	}
 
 	@Test(expected = HotelException.class)
 	public void nullDeparture() {
-		new Booking(this.hotel, this.arrival, null, this.price);
+		new Booking(this.hotel, Room.Type.SINGLE, this.arrival, null, "NIF");
 	}
 
 	@Test(expected = HotelException.class)
 	public void departureBeforeArrival() {
-		new Booking(this.hotel, this.arrival, this.arrival.minusDays(1), this.price);
+		new Booking(this.hotel, Room.Type.SINGLE, this.arrival, this.arrival.minusDays(1), "NIF");
 	}
 
 	@Test
 	public void arrivalEqualDeparture() {
-		new Booking(this.hotel, this.arrival, this.arrival, this.price);
+		new Booking(this.hotel, Room.Type.SINGLE, this.arrival, this.arrival, "NIF");
 	}
 
 	@After

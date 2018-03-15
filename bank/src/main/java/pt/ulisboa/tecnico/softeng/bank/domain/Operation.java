@@ -14,10 +14,10 @@ public class Operation {
 	private final String reference;
 	private final Type type;
 	private final Account account;
-	private final int value;
+	private final double value;
 	private final LocalDateTime time;
 
-	public Operation(Type type, Account account, int value) {
+	public Operation(Type type, Account account, double value) {
 		checkArguments(type, account, value);
 
 		this.reference = account.getBank().getCode() + Integer.toString(++Operation.counter);
@@ -29,7 +29,7 @@ public class Operation {
 		account.getBank().addLog(this);
 	}
 
-	private void checkArguments(Type type, Account account, int value) {
+	private void checkArguments(Type type, Account account, double value) {
 		if (type == null || account == null || value <= 0) {
 			throw new BankException();
 		}
@@ -47,7 +47,7 @@ public class Operation {
 		return this.account;
 	}
 
-	public int getValue() {
+	public double getValue() {
 		return this.value;
 	}
 

@@ -7,15 +7,19 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
+import mockit.integration.junit4.JMockit;
 import pt.ulisboa.tecnico.softeng.hotel.domain.Room.Type;
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 
+@RunWith(JMockit.class)
 public class HotelHasVacancyMethodTest {
 	private final LocalDate arrival = new LocalDate(2016, 12, 19);
 	private final LocalDate departure = new LocalDate(2016, 12, 21);
 	private Hotel hotel;
 	private Room room;
+	private final String NIF = "NIF";
 
 	@Before
 	public void setUp() {
@@ -33,14 +37,14 @@ public class HotelHasVacancyMethodTest {
 
 	@Test
 	public void noVacancy() {
-		this.room.reserve(Type.DOUBLE, this.arrival, this.departure);
+		this.room.reserve(Type.DOUBLE, this.arrival, this.departure, NIF);
 
 		assertNull(this.hotel.hasVacancy(Type.DOUBLE, this.arrival, this.departure));
 	}
 
 	@Test
 	public void noVacancyEmptyRoomSet() {
-		Hotel otherHotel = new Hotel("XPTO124", "Paris Germain", "NIF", "IBAN", 25.0, 35.0);
+		Hotel otherHotel = new Hotel("XPTO124", "Paris Germain", "NIF2", "IBAN", 25.0, 35.0);
 
 		assertNull(otherHotel.hasVacancy(Type.DOUBLE, this.arrival, this.departure));
 	}

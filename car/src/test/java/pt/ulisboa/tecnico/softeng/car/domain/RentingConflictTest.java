@@ -30,37 +30,37 @@ public class RentingConflictTest {
 
 	@Test()
 	public void retingIsBeforeDates() {
-		Renting renting = new Renting(DRIVING_LICENSE, date1, date2, car);
+		Renting renting = new Renting(DRIVING_LICENSE, date1, date2, car, NIF);
 		assertFalse(renting.conflict(date3, date4));
 	}
 
 	@Test()
 	public void retingIsBeforeDatesSameDayInterval() {
-		Renting renting = new Renting(DRIVING_LICENSE, date1, date2, car);
+		Renting renting = new Renting(DRIVING_LICENSE, date1, date2, car, NIF);
 		assertFalse(renting.conflict(date3, date3));
 	}
 
 	@Test()
 	public void rentingEndsOnStartDate() {
-		Renting renting = new Renting(DRIVING_LICENSE, date1, date2, car);
+		Renting renting = new Renting(DRIVING_LICENSE, date1, date2, car, NIF);
 		assertTrue(renting.conflict(date2, date3));
 	}
 
 	@Test()
 	public void rentingStartsOnEndDate() {
-		Renting renting = new Renting(DRIVING_LICENSE, date1, date2, car);
+		Renting renting = new Renting(DRIVING_LICENSE, date1, date2, car, NIF);
 		assertTrue(renting.conflict(date1, date1));
 	}
 
 	@Test()
 	public void rentingStartsDuringInterval() {
-		Renting renting = new Renting(DRIVING_LICENSE, date1, date2, car);
+		Renting renting = new Renting(DRIVING_LICENSE, date1, date2, car, NIF);
 		assertTrue(renting.conflict(date0, date3));
 	}
 
 	@Test(expected = CarException.class)
 	public void endBeforeBegin() {
-		Renting renting = new Renting(DRIVING_LICENSE, date1, date2, car);
+		Renting renting = new Renting(DRIVING_LICENSE, date1, date2, car, NIF);
 		renting.conflict(date2, date1);
 	}
 
