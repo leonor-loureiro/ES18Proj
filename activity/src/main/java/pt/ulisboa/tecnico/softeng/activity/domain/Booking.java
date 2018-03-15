@@ -2,10 +2,10 @@ package pt.ulisboa.tecnico.softeng.activity.domain;
 
 import org.joda.time.LocalDate;
 
-import pt.ulisboa.tecnico.softeng.activity.dataobjects.InvoiceData;
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
 import pt.ulisboa.tecnico.softeng.activity.interfaces.BankInterface;
 import pt.ulisboa.tecnico.softeng.activity.interfaces.TaxInterface;
+import pt.ulisboa.tecnico.softeng.tax.dataobjects.InvoiceData;
 
 public class Booking {
 	private static int counter = 0;

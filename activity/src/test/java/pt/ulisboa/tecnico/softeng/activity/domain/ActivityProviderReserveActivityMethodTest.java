@@ -5,9 +5,17 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
+import mockit.Expectations;
+import mockit.Mocked;
+import mockit.integration.junit4.JMockit;
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
+import pt.ulisboa.tecnico.softeng.activity.interfaces.BankInterface;
+import pt.ulisboa.tecnico.softeng.activity.interfaces.TaxInterface;
+import pt.ulisboa.tecnico.softeng.tax.dataobjects.InvoiceData;
 
+@RunWith(JMockit.class)
 public class ActivityProviderReserveActivityMethodTest {
 	private static final String IBAN = "IBAN";
 	private static final String NIF = "123456789";
@@ -47,9 +55,17 @@ public class ActivityProviderReserveActivityMethodTest {
 	}
 
 	@Test
-	public void reserveAcitivity() {
+	public void reserveAcitivity(@Mocked final TaxInterface taxInterface, @Mocked final BankInterface bankInterface) {
+		new Expectations() {
+			{
+				BankInterface.processPayment(this.anyString, this.anyInt);
+
+				TaxInterface.submitInvoice((InvoiceData) this.any);
+			}
+		};
+
 		Activity activity = new Activity(provider1, "XtremX", MIN_AGE, MAX_AGE, CAPACITY);
-		ActivityOffer offer = new ActivityOffer(activity, new LocalDate(2018, 02, 19), new LocalDate(2018, 12, 20), 30);
+		new ActivityOffer(activity, new LocalDate(2018, 02, 19), new LocalDate(2018, 12, 20), 30);
 
 		String act = ActivityProvider.reserveActivity(new LocalDate(2018, 02, 19), new LocalDate(2018, 12, 20), 20, NIF,
 				IBAN);

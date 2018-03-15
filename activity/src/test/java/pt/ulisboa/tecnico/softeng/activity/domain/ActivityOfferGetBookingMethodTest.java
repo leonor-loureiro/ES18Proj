@@ -7,7 +7,16 @@ import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
+import mockit.Expectations;
+import mockit.Mocked;
+import mockit.integration.junit4.JMockit;
+import pt.ulisboa.tecnico.softeng.activity.interfaces.BankInterface;
+import pt.ulisboa.tecnico.softeng.activity.interfaces.TaxInterface;
+import pt.ulisboa.tecnico.softeng.tax.dataobjects.InvoiceData;
+
+@RunWith(JMockit.class)
 public class ActivityOfferGetBookingMethodTest {
 	private static final String IBAN = "IBAN";
 	private static final String NIF = "123456789";
@@ -26,14 +35,30 @@ public class ActivityOfferGetBookingMethodTest {
 	}
 
 	@Test
-	public void success() {
+	public void success(@Mocked final TaxInterface taxInterface, @Mocked final BankInterface bankInterface) {
+		new Expectations() {
+			{
+				BankInterface.processPayment(this.anyString, this.anyInt);
+
+				TaxInterface.submitInvoice((InvoiceData) this.any);
+			}
+		};
+
 		Booking booking = new Booking(this.provider, this.offer, NIF, IBAN);
 
 		assertEquals(booking, this.offer.getBooking(booking.getReference()));
 	}
 
 	@Test
-	public void successCancelled() {
+	public void successCancelled(@Mocked final TaxInterface taxInterface, @Mocked final BankInterface bankInterface) {
+		new Expectations() {
+			{
+				BankInterface.processPayment(this.anyString, this.anyInt);
+
+				TaxInterface.submitInvoice((InvoiceData) this.any);
+			}
+		};
+
 		Booking booking = new Booking(this.provider, this.offer, NIF, IBAN);
 		booking.cancel();
 
@@ -41,7 +66,14 @@ public class ActivityOfferGetBookingMethodTest {
 	}
 
 	@Test
-	public void doesNotExist() {
+	public void doesNotExist(@Mocked final TaxInterface taxInterface, @Mocked final BankInterface bankInterface) {
+		new Expectations() {
+			{
+				BankInterface.processPayment(this.anyString, this.anyInt);
+
+				TaxInterface.submitInvoice((InvoiceData) this.any);
+			}
+		};
 		new Booking(this.provider, this.offer, NIF, IBAN);
 
 		assertNull(this.offer.getBooking("XPTO"));
