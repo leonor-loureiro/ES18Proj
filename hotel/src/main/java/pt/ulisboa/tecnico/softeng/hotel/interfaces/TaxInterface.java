@@ -1,4 +1,4 @@
-package pt.ulisboa.tecnico.softeng.car.interfaces;
+package pt.ulisboa.tecnico.softeng.hotel.interfaces;
 
 import pt.ulisboa.tecnico.softeng.tax.dataobjects.InvoiceData;
 

@@ -13,6 +13,7 @@ public class HotelReserveRoomMethodTest {
     private final LocalDate departure = new LocalDate(2016, 12, 24);
     private Room room;
     private Hotel hotel;
+    private final String NIF = "NIF";
 
     @Before
     public void setUp() {
@@ -22,27 +23,27 @@ public class HotelReserveRoomMethodTest {
 
     @Test
     public void success() {
-        String ref = Hotel.reserveRoom(Room.Type.SINGLE, arrival, departure);
+        String ref = Hotel.reserveRoom(Room.Type.SINGLE, arrival, departure, NIF);
         assertTrue(ref.startsWith("XPTO12"));
     }
 
     @Test(expected = HotelException.class)
     public void noHotels() {
         Hotel.hotels.clear();
-        Hotel.reserveRoom(Room.Type.SINGLE, arrival, departure);
+        Hotel.reserveRoom(Room.Type.SINGLE, arrival, departure, NIF);
     }
 
     @Test(expected = HotelException.class)
     public void noVacancy() {
         hotel.removeRooms();
-        String ref = Hotel.reserveRoom(Room.Type.SINGLE, arrival, new LocalDate(2016, 12, 25));
+        String ref = Hotel.reserveRoom(Room.Type.SINGLE, arrival, new LocalDate(2016, 12, 25), NIF);
         System.out.println(ref);
     }
 
     @Test(expected = HotelException.class)
     public void noRooms() {
         hotel.removeRooms();
-        Hotel.reserveRoom(Room.Type.SINGLE, arrival, new LocalDate(2016, 12, 25));
+        Hotel.reserveRoom(Room.Type.SINGLE, arrival, new LocalDate(2016, 12, 25), NIF);
     }
 
     @After

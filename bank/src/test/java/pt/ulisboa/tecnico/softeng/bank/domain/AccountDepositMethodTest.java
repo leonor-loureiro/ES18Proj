@@ -22,12 +22,12 @@ public class AccountDepositMethodTest {
 	public void success() {
 		String reference = this.account.deposit(50);
 
-		Assert.assertEquals(50, this.account.getBalance());
+		Assert.assertEquals(50, this.account.getBalance(), 0);
 		Operation operation = this.bank.getOperation(reference);
 		Assert.assertNotNull(operation);
 		Assert.assertEquals(Operation.Type.DEPOSIT, operation.getType());
 		Assert.assertEquals(this.account, operation.getAccount());
-		Assert.assertEquals(50, operation.getValue());
+		Assert.assertEquals(50, operation.getValue(), 0);
 	}
 
 	@Test(expected = BankException.class)

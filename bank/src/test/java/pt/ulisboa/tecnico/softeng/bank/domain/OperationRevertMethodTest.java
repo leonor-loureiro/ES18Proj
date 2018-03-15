@@ -25,7 +25,7 @@ public class OperationRevertMethodTest {
 
 		String newReference = operation.revert();
 
-		assertEquals(0, this.account.getBalance());
+		assertEquals(0, this.account.getBalance(), 0);
 		assertNotNull(this.bank.getOperation(newReference));
 		assertNotNull(this.bank.getOperation(reference));
 	}
@@ -38,7 +38,7 @@ public class OperationRevertMethodTest {
 
 		String newReference = operation.revert();
 
-		assertEquals(1000, this.account.getBalance());
+		assertEquals(1000, this.account.getBalance(), 0);
 		assertNotNull(this.bank.getOperation(newReference));
 		assertNotNull(this.bank.getOperation(reference));
 	}

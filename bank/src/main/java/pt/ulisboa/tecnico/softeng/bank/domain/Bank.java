@@ -108,7 +108,7 @@ public class Bank {
 		return null;
 	}
 
-	public static String processPayment(String IBAN, int amount) {
+	public static String processPayment(String IBAN, double amount) {
 		for (Bank bank : Bank.banks) {
 			if (bank.getAccount(IBAN) != null) {
 				return bank.getAccount(IBAN).withdraw(amount);

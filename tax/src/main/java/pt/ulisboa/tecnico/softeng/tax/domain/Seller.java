@@ -7,12 +7,12 @@ public class Seller extends TaxPayer {
 		super(irs, NIF, name, address);
 	}
 
-	public float toPay(int year) {
+	public double toPay(int year) {
 		if (year < 1970) {
 			throw new TaxException();
 		}
 
-		float result = 0;
+		double result = 0;
 		for (Invoice invoice : this.invoices) {
 			if (invoice.getDate().getYear() == year) {
 				result = result + invoice.getIva();
