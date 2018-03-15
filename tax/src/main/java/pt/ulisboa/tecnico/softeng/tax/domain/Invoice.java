@@ -8,14 +8,14 @@ public class Invoice {
 	private static int counter = 0;
 
 	private final String reference;
-	private final float value;
-	private final float iva;
+	private final double value;
+	private final double iva;
 	private final LocalDate date;
 	private final ItemType itemType;
 	private final Seller seller;
 	private final Buyer buyer;
 
-	Invoice(float value, LocalDate date, ItemType itemType, Seller seller, Buyer buyer) {
+	Invoice(double value, LocalDate date, ItemType itemType, Seller seller, Buyer buyer) {
 		checkArguments(value, date, itemType, seller, buyer);
 
 		this.reference = Integer.toString(++Invoice.counter);
@@ -30,7 +30,7 @@ public class Invoice {
 		buyer.addInvoice(this);
 	}
 
-	private void checkArguments(float value, LocalDate date, ItemType itemType, Seller seller, Buyer buyer) {
+	private void checkArguments(double value, LocalDate date, ItemType itemType, Seller seller, Buyer buyer) {
 		if (value <= 0.0f) {
 			throw new TaxException();
 		}
@@ -56,11 +56,11 @@ public class Invoice {
 		return this.reference;
 	}
 
-	public float getIva() {
+	public double getIva() {
 		return this.iva;
 	}
 
-	public float getValue() {
+	public double getValue() {
 		return this.value;
 	}
 

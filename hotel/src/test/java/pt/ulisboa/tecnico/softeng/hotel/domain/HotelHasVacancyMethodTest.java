@@ -19,6 +19,7 @@ public class HotelHasVacancyMethodTest {
 	private final LocalDate departure = new LocalDate(2016, 12, 21);
 	private Hotel hotel;
 	private Room room;
+	private final String NIF = "NIF";
 
 	@Before
 	public void setUp() {
@@ -36,7 +37,7 @@ public class HotelHasVacancyMethodTest {
 
 	@Test
 	public void noVacancy() {
-		this.room.reserve(Type.DOUBLE, this.arrival, this.departure);
+		this.room.reserve(Type.DOUBLE, this.arrival, this.departure, NIF);
 
 		assertNull(this.hotel.hasVacancy(Type.DOUBLE, this.arrival, this.departure));
 	}

@@ -2,7 +2,9 @@ package pt.ulisboa.tecnico.softeng.hotel.domain;
 
 import org.joda.time.LocalDate;
 
+import pt.ulisboa.tecnico.softeng.tax.dataobjects.InvoiceData;
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
+import pt.ulisboa.tecnico.softeng.hotel.interfaces.TaxInterface;
 
 public class Booking {
 	private static int counter = 0;
@@ -13,12 +15,16 @@ public class Booking {
 	private final LocalDate arrival;
 	private final LocalDate departure;
 
-	Booking(Hotel hotel, LocalDate arrival, LocalDate departure) {
+	Booking(Hotel hotel, Room.Type type, LocalDate arrival, LocalDate departure, String buyerNIF) {
 		checkArguments(hotel, arrival, departure);
 
 		this.reference = hotel.getCode() + Integer.toString(++Booking.counter);
 		this.arrival = arrival;
 		this.departure = departure;
+
+		InvoiceData invoiceData = new InvoiceData(hotel.getNIF(), buyerNIF, "Room", hotel.getPrice(type), arrival);
+		TaxInterface.submitInvoice(invoiceData);
+
 	}
 
 	private void checkArguments(Hotel hotel, LocalDate arrival, LocalDate departure) {

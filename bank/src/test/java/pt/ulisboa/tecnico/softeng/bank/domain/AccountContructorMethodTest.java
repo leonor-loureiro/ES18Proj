@@ -24,7 +24,7 @@ public class AccountContructorMethodTest {
 		Assert.assertEquals(this.bank, account.getBank());
 		Assert.assertTrue(account.getIBAN().startsWith(this.bank.getCode()));
 		Assert.assertEquals(this.client, account.getClient());
-		Assert.assertEquals(0, account.getBalance());
+		Assert.assertEquals(0, account.getBalance(), 0);
 		Assert.assertEquals(1, this.bank.getNumberOfAccounts());
 		Assert.assertTrue(this.bank.hasClient(this.client));
 	}
