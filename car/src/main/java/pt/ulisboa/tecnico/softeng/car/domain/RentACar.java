@@ -102,9 +102,27 @@ public class RentACar {
 		return getAllAvailableVehicles(Car.class, begin, end);
 	}
 
+	public static String rent(Class<? extends Vehicle> vehicleType,
+							  String drivingLicense, String buyerNIF, LocalDate begin, LocalDate end) {
+		Set<Vehicle> availableVehicles;
+
+		if (vehicleType == Car.class) {
+			availableVehicles = getAllAvailableCars(begin, end);
+		} else {
+			availableVehicles = getAllAvailableMotorcycles(begin, end);
+		}
+
+		return availableVehicles
+				.stream()
+				.findFirst()
+				.map(v -> v.rent(drivingLicense, begin, end, buyerNIF))
+				.orElseThrow(CarException::new)
+				.getReference();
+	}
+
 	/**
 	 * Lookup for a renting using its reference.
-	 * 
+	 *
 	 * @param reference
 	 * @return the renting with the given reference.
 	 */
