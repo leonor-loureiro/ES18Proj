@@ -27,7 +27,7 @@ public class OperationConstructorMethodTest {
 		Assert.assertTrue(operation.getReference().length() > Bank.CODE_SIZE);
 		Assert.assertEquals(Type.DEPOSIT, operation.getType());
 		Assert.assertEquals(this.account, operation.getAccount());
-		Assert.assertEquals(1000, operation.getValue());
+		Assert.assertEquals(1000, operation.getValue(), 0);
 		Assert.assertTrue(operation.getTime() != null);
 		Assert.assertEquals(operation, this.bank.getOperation(operation.getReference()));
 	}
