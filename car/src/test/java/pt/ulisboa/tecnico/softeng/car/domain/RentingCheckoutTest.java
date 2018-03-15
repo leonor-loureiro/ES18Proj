@@ -27,14 +27,14 @@ public class RentingCheckoutTest {
 
 	@Test
 	public void checkout() {
-		Renting renting = car.rent(DRIVING_LICENSE, date1, date2);
+		Renting renting = car.rent(DRIVING_LICENSE, date1, date2, NIF);
 		renting.checkout(100);
 		assertEquals(110, car.getKilometers());
 	}
 
 	@Test(expected = CarException.class)
 	public void failCheckout() {
-		Renting renting = car.rent(DRIVING_LICENSE, date1, date2);
+		Renting renting = car.rent(DRIVING_LICENSE, date1, date2, NIF);
 		renting.checkout(-10);
 	}
 

@@ -25,22 +25,22 @@ public class VehicleRentTest {
 
 	@Test(expected = CarException.class)
 	public void doubleRent() {
-		car.rent(DRIVING_LICENSE, date1, date2);
-		car.rent(DRIVING_LICENSE, date1, date2);
+		car.rent(DRIVING_LICENSE, date1, date2, NIF);
+		car.rent(DRIVING_LICENSE, date1, date2, NIF);
 	}
 
 	@Test(expected = CarException.class)
 	public void beginIsNull() {
 		RentACar rentACar = new RentACar(RENT_A_CAR_NAME, NIF, IBAN);
 		Vehicle car = new Car(PLATE_CAR, 10, 10, rentACar);
-		car.rent(DRIVING_LICENSE, null, date2);
+		car.rent(DRIVING_LICENSE, null, date2, NIF);
 	}
 
 	@Test(expected = CarException.class)
 	public void endIsNull() {
 		RentACar rentACar = new RentACar(RENT_A_CAR_NAME, NIF, IBAN);
 		Vehicle car = new Car(PLATE_CAR, 10, 10, rentACar);
-		car.rent(DRIVING_LICENSE, date1, null);
+		car.rent(DRIVING_LICENSE, date1, null, NIF);
 	}
 
 	@After
