@@ -130,7 +130,7 @@ public class ActivityProviderFindOfferMethodTest {
 			@Mocked final BankInterface bankInterface) {
 		new Expectations() {
 			{
-				BankInterface.processPayment(this.anyString, this.anyInt);
+				BankInterface.processPayment(this.anyString, this.anyDouble);
 
 				TaxInterface.submitInvoice((InvoiceData) this.any);
 			}

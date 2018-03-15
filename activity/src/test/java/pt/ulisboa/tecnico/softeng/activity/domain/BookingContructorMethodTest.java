@@ -42,7 +42,7 @@ public class BookingContructorMethodTest {
 	public void success(@Mocked final TaxInterface taxInterface, @Mocked final BankInterface bankInterface) {
 		new Expectations() {
 			{
-				BankInterface.processPayment(this.anyString, this.anyInt);
+				BankInterface.processPayment(this.anyString, this.anyDouble);
 
 				TaxInterface.submitInvoice((InvoiceData) this.any);
 			}
@@ -55,7 +55,7 @@ public class BookingContructorMethodTest {
 		assertEquals(1, this.offer.getNumberOfBookings());
 		assertEquals(NIF, booking.getNif());
 		assertEquals(IBAN, booking.getIban());
-		assertEquals(AMOUNT, booking.getAmount());
+		assertEquals(AMOUNT, booking.getAmount(), 0);
 	}
 
 	@Test(expected = ActivityException.class)
@@ -105,7 +105,7 @@ public class BookingContructorMethodTest {
 			@Mocked final BankInterface bankInterface) {
 		new Expectations() {
 			{
-				BankInterface.processPayment(this.anyString, this.anyInt);
+				BankInterface.processPayment(this.anyString, this.anyDouble);
 				TaxInterface.submitInvoice((InvoiceData) this.any);
 			}
 		};
@@ -126,7 +126,7 @@ public class BookingContructorMethodTest {
 			@Mocked final BankInterface bankInterface) {
 		new Expectations() {
 			{
-				BankInterface.processPayment(this.anyString, this.anyInt);
+				BankInterface.processPayment(this.anyString, this.anyDouble);
 
 				TaxInterface.submitInvoice((InvoiceData) this.any);
 			}

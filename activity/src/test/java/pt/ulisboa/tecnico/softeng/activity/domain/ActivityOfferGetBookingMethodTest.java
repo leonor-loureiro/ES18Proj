@@ -38,7 +38,7 @@ public class ActivityOfferGetBookingMethodTest {
 	public void success(@Mocked final TaxInterface taxInterface, @Mocked final BankInterface bankInterface) {
 		new Expectations() {
 			{
-				BankInterface.processPayment(this.anyString, this.anyInt);
+				BankInterface.processPayment(this.anyString, this.anyDouble);
 
 				TaxInterface.submitInvoice((InvoiceData) this.any);
 			}
@@ -53,7 +53,7 @@ public class ActivityOfferGetBookingMethodTest {
 	public void successCancelled(@Mocked final TaxInterface taxInterface, @Mocked final BankInterface bankInterface) {
 		new Expectations() {
 			{
-				BankInterface.processPayment(this.anyString, this.anyInt);
+				BankInterface.processPayment(this.anyString, this.anyDouble);
 
 				TaxInterface.submitInvoice((InvoiceData) this.any);
 			}
@@ -69,7 +69,7 @@ public class ActivityOfferGetBookingMethodTest {
 	public void doesNotExist(@Mocked final TaxInterface taxInterface, @Mocked final BankInterface bankInterface) {
 		new Expectations() {
 			{
-				BankInterface.processPayment(this.anyString, this.anyInt);
+				BankInterface.processPayment(this.anyString, this.anyDouble);
 
 				TaxInterface.submitInvoice((InvoiceData) this.any);
 			}
