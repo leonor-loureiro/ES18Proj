@@ -39,6 +39,7 @@ public class HotelGetRoomBookingDataMethodTest {
 		assertEquals(this.room.getType().name(), data.getRoomType());
 		assertEquals(this.booking.getArrival(), data.getArrival());
 		assertEquals(this.booking.getDeparture(), data.getDeparture());
+		assertEquals(this.booking.getPrice(), data.getPrice(), 0.0d);
 	}
 
 	@Test
@@ -55,6 +56,7 @@ public class HotelGetRoomBookingDataMethodTest {
 		assertEquals(this.room.getType().name(), data.getRoomType());
 		assertEquals(this.booking.getArrival(), data.getArrival());
 		assertEquals(this.booking.getDeparture(), data.getDeparture());
+		assertEquals(this.booking.getPrice(), data.getPrice() ,0.0d);
 	}
 
 	@Test(expected = HotelException.class)

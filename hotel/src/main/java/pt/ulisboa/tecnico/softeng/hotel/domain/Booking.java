@@ -14,6 +14,7 @@ public class Booking {
 	private LocalDate cancellationDate;
 	private final LocalDate arrival;
 	private final LocalDate departure;
+	private final double price;
 
 	Booking(Hotel hotel, Room.Type type, LocalDate arrival, LocalDate departure, String buyerNIF) {
 		checkArguments(hotel, arrival, departure);
@@ -24,11 +25,10 @@ public class Booking {
 
 		InvoiceData invoiceData = new InvoiceData(hotel.getNIF(), buyerNIF, "Room", hotel.getPrice(type), arrival);
 		TaxInterface.submitInvoice(invoiceData);
-
 	}
 
-	private void checkArguments(Hotel hotel, LocalDate arrival, LocalDate departure) {
-		if (hotel == null || arrival == null || departure == null) {
+	private void checkArguments(Hotel hotel, LocalDate arrival, LocalDate departure, double price) {
+		if (hotel == null || arrival == null || departure == null || price < 0) {
 			throw new HotelException();
 		}
 
@@ -55,6 +55,10 @@ public class Booking {
 
 	public LocalDate getCancellationDate() {
 		return this.cancellationDate;
+	}
+
+	public double getPrice() {
+		return this.price;
 	}
 
 	boolean conflict(LocalDate arrival, LocalDate departure) {
