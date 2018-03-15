@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import pt.ulisboa.tecnico.softeng.broker.exception.BrokerException;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.TaxInterface;
 import pt.ulisboa.tecnico.softeng.tax.dataobjects.InvoiceData;
-import pt.ulisboa.tecnico.softeng.tax.domain.IRS;
 
 public class Adventure {
 	private static Logger logger = LoggerFactory.getLogger(Adventure.class);
