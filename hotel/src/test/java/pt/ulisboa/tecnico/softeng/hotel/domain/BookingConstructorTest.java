@@ -12,7 +12,7 @@ public class BookingConstructorTest {
 	private final LocalDate arrival = new LocalDate(2016, 12, 19);
 	private final LocalDate departure = new LocalDate(2016, 12, 21);
 	private Hotel hotel;
-	private final double price = 25.0;
+	private final double price = 20.0;
 	
 	@Before
 	public void setUp() {
