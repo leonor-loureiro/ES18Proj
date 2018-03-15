@@ -5,6 +5,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import pt.ulisboa.tecnico.softeng.broker.exception.BrokerException;
+import pt.ulisboa.tecnico.softeng.tax.dataobjects.InvoiceData;
+import pt.ulisboa.tecnico.softeng.tax.domain.IRS;
 
 public class Adventure {
 	private static Logger logger = LoggerFactory.getLogger(Adventure.class);
@@ -20,7 +22,7 @@ public class Adventure {
 	private final LocalDate begin;
 	private final LocalDate end;
 	private final Client client;
-	private final int amount;
+	private final double amount;
 	private String paymentConfirmation;
 	private String paymentCancellation;
 	private String roomConfirmation;
@@ -30,7 +32,7 @@ public class Adventure {
 
 	private AdventureState state;
 
-	public Adventure(Broker broker, LocalDate begin, LocalDate end, Client client, int amount) {
+	public Adventure(Broker broker, LocalDate begin, LocalDate end, Client client, double amount) {
 		checkArguments(broker, begin, end, client, amount);
 
 		this.ID = broker.getCode() + Integer.toString(++counter);
@@ -43,9 +45,12 @@ public class Adventure {
 		broker.addAdventure(this);
 
 		setState(State.PROCESS_PAYMENT);
+
+		InvoiceData invoiceData = new InvoiceData(broker.getNifAsSeller(), client.getNIF(), "ADVENTURE", amount, begin);
+		IRS.submitInvoice(invoiceData);
 	}
 
-	private void checkArguments(Broker broker, LocalDate begin, LocalDate end, Client client, int amount) {
+	private void checkArguments(Broker broker, LocalDate begin, LocalDate end, Client client, double amount) {
 		if (broker == null || begin == null || end == null) {
 			throw new BrokerException();
 		}
@@ -91,7 +96,7 @@ public class Adventure {
 		return this.client;
 	}
 
-	public int getAmount() {
+	public double getAmount() {
 		return this.amount;
 	}
 
