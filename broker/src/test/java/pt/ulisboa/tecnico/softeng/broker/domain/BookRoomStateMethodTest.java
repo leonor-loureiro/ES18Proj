@@ -14,8 +14,10 @@ import mockit.integration.junit4.JMockit;
 import pt.ulisboa.tecnico.softeng.broker.domain.Adventure.State;
 import pt.ulisboa.tecnico.softeng.broker.exception.RemoteAccessException;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.HotelInterface;
+import pt.ulisboa.tecnico.softeng.broker.interfaces.TaxInterface;
 import pt.ulisboa.tecnico.softeng.hotel.domain.Room.Type;
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
+import pt.ulisboa.tecnico.softeng.tax.dataobjects.InvoiceData;
 
 @RunWith(JMockit.class)
 public class BookRoomStateMethodTest {
@@ -33,6 +35,8 @@ public class BookRoomStateMethodTest {
 
 	private Broker broker;
 	private Client client;
+
+	@Mocked private TaxInterface taxInterface;
 
 	@Before
 	public void setUp() {
@@ -123,7 +127,8 @@ public class BookRoomStateMethodTest {
 	public void fiveRemoteAccessExceptionOneSuccess(@Mocked final HotelInterface hotelInterface) {
 		new Expectations() {
 			{
-				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure);
+
+                HotelInterface.reserveRoom(Type.SINGLE, arrival, departure);
 				this.result = new Delegate() {
 					int i = 0;
 

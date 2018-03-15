@@ -16,8 +16,10 @@ import pt.ulisboa.tecnico.softeng.broker.domain.Adventure.State;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.ActivityInterface;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.BankInterface;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.HotelInterface;
+import pt.ulisboa.tecnico.softeng.broker.interfaces.TaxInterface;
 import pt.ulisboa.tecnico.softeng.hotel.domain.Room.Type;
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
+import pt.ulisboa.tecnico.softeng.tax.dataobjects.InvoiceData;
 
 @RunWith(JMockit.class)
 public class AdventureSequenceTest {
@@ -47,10 +49,11 @@ public class AdventureSequenceTest {
 	}
 
 	@Test
-	public void successSequenceOne(@Mocked final BankInterface bankInterface,
+	public void successSequenceOne(@Mocked final TaxInterface taxInterface, @Mocked final BankInterface bankInterface,
 			@Mocked final ActivityInterface activityInterface, @Mocked final HotelInterface roomInterface) {
 		new Expectations() {
 			{
+
 				BankInterface.processPayment(IBAN, AMOUNT);
 				this.result = PAYMENT_CONFIRMATION;
 
@@ -79,11 +82,13 @@ public class AdventureSequenceTest {
 	}
 
 	@Test
-	public void successSequenceTwo(@Mocked final BankInterface bankInterface,
+	public void successSequenceTwo(@Mocked final TaxInterface taxInterface, @Mocked final BankInterface bankInterface,
 			@Mocked final ActivityInterface activityInterface, @Mocked final HotelInterface roomInterface) {
 		new Expectations() {
 			{
-				BankInterface.processPayment(IBAN, AMOUNT);
+                TaxInterface.submitInvoice((InvoiceData) any);
+
+                BankInterface.processPayment(IBAN, AMOUNT);
 				this.result = PAYMENT_CONFIRMATION;
 
 				ActivityInterface.reserveActivity(arrival, arrival, AGE, this.anyString, this.anyString);
@@ -105,11 +110,13 @@ public class AdventureSequenceTest {
 	}
 
 	@Test
-	public void unsuccessSequenceOne(@Mocked final BankInterface bankInterface,
+	public void unsuccessSequenceOne(@Mocked final TaxInterface taxInterface, @Mocked final BankInterface bankInterface,
 			@Mocked final ActivityInterface activityInterface, @Mocked final HotelInterface roomInterface) {
 		new Expectations() {
 			{
-				BankInterface.processPayment(IBAN, AMOUNT);
+                TaxInterface.submitInvoice((InvoiceData) any);
+
+                BankInterface.processPayment(IBAN, AMOUNT);
 				this.result = new BankException();
 			}
 		};
@@ -122,11 +129,13 @@ public class AdventureSequenceTest {
 	}
 
 	@Test
-	public void unsuccessSequenceTwo(@Mocked final BankInterface bankInterface,
+	public void unsuccessSequenceTwo(@Mocked final TaxInterface taxInterface, @Mocked final BankInterface bankInterface,
 			@Mocked final ActivityInterface activityInterface, @Mocked final HotelInterface roomInterface) {
 		new Expectations() {
 			{
-				BankInterface.processPayment(IBAN, AMOUNT);
+                TaxInterface.submitInvoice((InvoiceData) any);
+
+                BankInterface.processPayment(IBAN, AMOUNT);
 				this.result = PAYMENT_CONFIRMATION;
 
 				ActivityInterface.reserveActivity(arrival, departure, AGE, this.anyString, this.anyString);
@@ -147,7 +156,7 @@ public class AdventureSequenceTest {
 	}
 
 	@Test
-	public void unsuccessSequenceThree(@Mocked final BankInterface bankInterface,
+	public void unsuccessSequenceThree(@Mocked TaxInterface taxInterface, @Mocked final BankInterface bankInterface,
 			@Mocked final ActivityInterface activityInterface, @Mocked final HotelInterface roomInterface) {
 		new Expectations() {
 			{
@@ -179,10 +188,12 @@ public class AdventureSequenceTest {
 	}
 
 	@Test
-	public void unsuccessSequenceFour(@Mocked final BankInterface bankInterface,
+	public void unsuccessSequenceFour(@Mocked final TaxInterface taxInterface, @Mocked final BankInterface bankInterface,
 			@Mocked final ActivityInterface activityInterface, @Mocked final HotelInterface roomInterface) {
 		new Expectations() {
 			{
+			    TaxInterface.submitInvoice((InvoiceData) any);
+
 				BankInterface.processPayment(IBAN, AMOUNT);
 				this.result = PAYMENT_CONFIRMATION;
 

@@ -2,6 +2,7 @@ package pt.ulisboa.tecnico.softeng.hotel.domain;
 
 import static org.junit.Assert.assertNull;
 
+import mockit.Mocked;
 import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Assert;
@@ -12,6 +13,7 @@ import org.junit.runner.RunWith;
 import mockit.integration.junit4.JMockit;
 import pt.ulisboa.tecnico.softeng.hotel.domain.Room.Type;
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
+import pt.ulisboa.tecnico.softeng.hotel.interfaces.TaxInterface;
 
 @RunWith(JMockit.class)
 public class HotelHasVacancyMethodTest {
@@ -21,7 +23,10 @@ public class HotelHasVacancyMethodTest {
 	private Room room;
 	private final String NIF = "NIF";
 
-	@Before
+    @Mocked
+    private TaxInterface taxInterface;
+
+    @Before
 	public void setUp() {
 		this.hotel = new Hotel("XPTO123", "Paris", "NIF", "IBAN", 20.0, 30.0);
 		this.room = new Room(this.hotel, "01", Type.DOUBLE);

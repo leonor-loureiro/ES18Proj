@@ -1,20 +1,28 @@
 package pt.ulisboa.tecnico.softeng.hotel.domain;
 
+import mockit.Mocked;
+import mockit.integration.junit4.JMockit;
 import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import org.junit.runner.RunWith;
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
+import pt.ulisboa.tecnico.softeng.hotel.interfaces.TaxInterface;
 
+@RunWith(JMockit.class)
 public class BookingConstructorTest {
 	private final LocalDate arrival = new LocalDate(2016, 12, 19);
 	private final LocalDate departure = new LocalDate(2016, 12, 21);
 	private Hotel hotel;
 	private final double price = 20.0;
-	
-	@Before
+
+    @Mocked
+    private TaxInterface taxInterface;
+
+    @Before
 	public void setUp() {
 		this.hotel = new Hotel("XPTO123", "Londres", "NIF", "IBAN", 20.0, 30.0);
 	}
