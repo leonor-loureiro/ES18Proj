@@ -12,7 +12,8 @@ public class BookingConstructorTest {
 	private final LocalDate arrival = new LocalDate(2016, 12, 19);
 	private final LocalDate departure = new LocalDate(2016, 12, 21);
 	private Hotel hotel;
-
+	private final double price = 20.0;
+	
 	@Before
 	public void setUp() {
 		this.hotel = new Hotel("XPTO123", "Londres", "NIF", "IBAN", 20.0, 30.0);
@@ -26,6 +27,7 @@ public class BookingConstructorTest {
 		Assert.assertTrue(booking.getReference().length() > Hotel.CODE_SIZE);
 		Assert.assertEquals(this.arrival, booking.getArrival());
 		Assert.assertEquals(this.departure, booking.getDeparture());
+		Assert.assertEquals(booking.getPrice(), this.price, 0.0d);
 	}
 
 	@Test(expected = HotelException.class)

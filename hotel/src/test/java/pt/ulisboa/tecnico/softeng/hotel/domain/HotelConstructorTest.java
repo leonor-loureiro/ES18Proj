@@ -7,12 +7,12 @@ import org.junit.Test;
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 
 public class HotelConstructorTest {
-    private static final String IBAN = "IBAN";
-    private static final String NIF = "NIF";
+	private static final String IBAN = "IBAN";
+	private static final String NIF = "NIF";
 
 	private static final String HOTEL_NAME = "Londres";
 	private static final String HOTEL_CODE = "XPTO123";
-	
+
 	private static final double PRICE_SINGLE = 20.0;
 	private static final double PRICE_DOUBLE = 30.0;
 
@@ -25,6 +25,8 @@ public class HotelConstructorTest {
 		Assert.assertTrue(hotel.getCode().length() == Hotel.CODE_SIZE);
 		Assert.assertEquals(0, hotel.getNumberOfRooms());
 		Assert.assertEquals(1, Hotel.hotels.size());
+		Assert.assertEquals(PRICE_SINGLE, hotel.getPrice(Room.Type.SINGLE), 0.0d);
+		Assert.assertEquals(PRICE_DOUBLE, hotel.getPrice(Room.Type.DOUBLE), 0.0d);
 	}
 
 	@Test(expected = HotelException.class)
@@ -77,6 +79,16 @@ public class HotelConstructorTest {
 	public void nifNotUnique() {
 		new Hotel(HOTEL_CODE, HOTEL_NAME, NIF, IBAN, PRICE_SINGLE, PRICE_DOUBLE);
 		new Hotel(HOTEL_CODE + "_new", HOTEL_NAME + "_New", NIF, IBAN, PRICE_SINGLE, PRICE_DOUBLE);
+	}
+
+	@Test(expected = HotelException.class)
+	public void negativePriceSingle() {
+		new Hotel(HOTEL_CODE, HOTEL_NAME, NIF, IBAN, -1.0, PRICE_DOUBLE);
+	}
+
+	@Test(expected = HotelException.class)
+	public void negativePriceDouble() {
+		new Hotel(HOTEL_CODE, HOTEL_NAME, NIF, IBAN, PRICE_SINGLE, -1.0);
 	}
 
 	@After
