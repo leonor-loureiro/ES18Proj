@@ -13,7 +13,7 @@ public class Booking {
 	private final String reference;
 	private final String nif;
 	private final String iban;
-	private final int amount;
+	private final double amount;
 	private final String paymentReference;
 	private final String invoiceReference;
 	private String cancel;
@@ -54,7 +54,7 @@ public class Booking {
 		return this.iban;
 	}
 
-	public int getAmount() {
+	public double getAmount() {
 		return this.amount;
 	}
 

@@ -8,7 +8,7 @@ public class Account {
 	private final Bank bank;
 	private final String IBAN;
 	private final Client client;
-	private int balance;
+	private double balance;
 
 	public Account(Bank bank, Client client) {
 		checkArguments(bank, client);
@@ -44,11 +44,11 @@ public class Account {
 		return this.client;
 	}
 
-	public int getBalance() {
+	public double getBalance() {
 		return this.balance;
 	}
 
-	public String deposit(int amount) {
+	public String deposit(double amount) {
 		if (amount <= 0) {
 			throw new BankException();
 		}
@@ -59,7 +59,7 @@ public class Account {
 		return operation.getReference();
 	}
 
-	public String withdraw(int amount) {
+	public String withdraw(double amount) {
 		if (amount <= 0 || amount > this.balance) {
 			throw new BankException();
 		}

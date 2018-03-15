@@ -3,7 +3,7 @@ package pt.ulisboa.tecnico.softeng.activity.interfaces;
 import pt.ulisboa.tecnico.softeng.bank.domain.Bank;
 
 public class BankInterface {
-	public static String processPayment(String IBAN, int amount) {
+	public static String processPayment(String IBAN, double amount) {
 		return Bank.processPayment(IBAN, amount);
 	}
 
