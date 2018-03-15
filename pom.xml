@@ -58,7 +58,9 @@
                         <excludes>
                             <exclude>**/dataobjects/**</exclude>
                             <exclude>**/exception/**</exclude>
-                        </excludes>
+							<exclude>**/interfaces/**</exclude>
+
+						</excludes>
 					</configuration>
 					<executions>
 						<execution>
