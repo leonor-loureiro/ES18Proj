@@ -34,4 +34,8 @@ public class Buyer extends TaxPayer {
 			throw new TaxException();
 		}
 	}
+	
+	public Invoice getInvoiceByReference(String INVOICE_REFERENCE) {
+		throw new TaxException();
+	}
 }
