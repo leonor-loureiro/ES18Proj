@@ -172,7 +172,6 @@ public class Adventure {
 	}
 
 	public void process() {
-		logger.debug("process ID:{}, state:{} ", this.ID, getState().name());
 		this.state.process(this);
 	}
 
