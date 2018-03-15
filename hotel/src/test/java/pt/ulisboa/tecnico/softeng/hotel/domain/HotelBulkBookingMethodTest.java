@@ -26,7 +26,7 @@ public class HotelBulkBookingMethodTest {
 		new Room(this.hotel, "03", Type.DOUBLE);
 		new Room(this.hotel, "04", Type.SINGLE);
 
-		this.hotel = new Hotel("XPTO124", "Paris", "NIF" + "1", "IBAN", 25.0, 35.0);
+		this.hotel = new Hotel("XPTO124", "Paris", "NIF2", "IBAN", 25.0, 35.0);
 		new Room(this.hotel, "01", Type.DOUBLE);
 		new Room(this.hotel, "02", Type.SINGLE);
 		new Room(this.hotel, "03", Type.DOUBLE);

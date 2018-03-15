@@ -1,6 +1,5 @@
 package pt.ulisboa.tecnico.softeng.hotel.domain;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,8 +17,8 @@ public class Hotel {
 	private final String name;
 	private final String nif;
 	private final String iban;
-	
-	private HashMap<Room.Type, Double> prices = new HashMap<>();
+	private double priceSingle;
+	private double priceDouble;
 
 	private final Set<Room> rooms = new HashSet<>();
 
@@ -30,18 +29,16 @@ public class Hotel {
 		this.name = name;
 		this.nif = nif;
 		this.iban = iban;
-		prices.put(Room.Type.SINGLE, priceSingle);
-		prices.put(Room.Type.DOUBLE, priceDouble);
+		this.priceSingle = priceSingle;
+		this.priceDouble = priceDouble;
 
 		Hotel.hotels.add(this);
 	}
 
-	private void checkArguments(String code, String name, String nif, String iban, double priceSingle, double priceDouble) {
-		if (code == null || name == null ||
-				isEmpty(code) || isEmpty((name)) ||
-				nif == null || isEmpty(nif) ||
-				iban == null || isEmpty(iban) ||
-				priceSingle < 0 || priceDouble < 0) {
+	private void checkArguments(String code, String name, String nif, String iban, double priceSingle,
+			double priceDouble) {
+		if (code == null || name == null || isEmpty(code) || isEmpty((name)) || nif == null || isEmpty(nif)
+				|| iban == null || isEmpty(iban) || priceSingle < 0 || priceDouble < 0) {
 
 			throw new HotelException();
 
@@ -93,20 +90,30 @@ public class Hotel {
 		return this.iban;
 	}
 
+	public double getPriceSingle() {
+		return this.priceSingle;
+	}
+
+	public double getPriceDouble() {
+		return this.priceDouble;
+	}
+
 	public double getPrice(Room.Type type) {
 		if (type == null) {
 			throw new HotelException();
+		} else {
+			return type.equals(Room.Type.SINGLE) ? this.priceSingle : this.priceDouble;
 		}
-
-		return this.prices.get(type);
 	}
 
 	public void setPrice(Room.Type type, double price) {
 		if (price < 0 || type == null) {
 			throw new HotelException();
-		}		
-
-		this.prices.put(type, price);
+		} else if (type.equals(Room.Type.SINGLE)) {
+			this.priceSingle = price;
+		} else {
+			this.priceDouble = price;
+		}
 	}
 
 	private boolean isEmpty(String str) {
@@ -210,6 +217,6 @@ public class Hotel {
 	}
 
 	public void removeRooms() {
-		rooms.clear();
+		this.rooms.clear();
 	}
 }
