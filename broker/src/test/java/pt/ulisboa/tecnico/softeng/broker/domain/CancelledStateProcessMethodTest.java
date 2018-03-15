@@ -18,6 +18,7 @@ import pt.ulisboa.tecnico.softeng.broker.exception.RemoteAccessException;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.ActivityInterface;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.BankInterface;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.HotelInterface;
+import pt.ulisboa.tecnico.softeng.broker.interfaces.TaxInterface;
 
 @RunWith(JMockit.class)
 public class CancelledStateProcessMethodTest {
@@ -40,6 +41,8 @@ public class CancelledStateProcessMethodTest {
 
 	private Broker broker;
 	private Client client;
+
+	@Mocked private TaxInterface taxInterface;
 
 	@Before
 	public void setUp() {

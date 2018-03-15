@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import pt.ulisboa.tecnico.softeng.broker.exception.BrokerException;
+import pt.ulisboa.tecnico.softeng.broker.interfaces.TaxInterface;
 import pt.ulisboa.tecnico.softeng.tax.dataobjects.InvoiceData;
 import pt.ulisboa.tecnico.softeng.tax.domain.IRS;
 
@@ -47,7 +48,7 @@ public class Adventure {
 		setState(State.PROCESS_PAYMENT);
 
 		InvoiceData invoiceData = new InvoiceData(broker.getNifAsSeller(), client.getNIF(), "ADVENTURE", amount, begin);
-		IRS.submitInvoice(invoiceData);
+		TaxInterface.submitInvoice(invoiceData);
 	}
 
 	private void checkArguments(Broker broker, LocalDate begin, LocalDate end, Client client, double amount) {

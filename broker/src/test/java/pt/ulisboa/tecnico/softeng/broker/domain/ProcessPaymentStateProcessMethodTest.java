@@ -15,6 +15,7 @@ import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
 import pt.ulisboa.tecnico.softeng.broker.domain.Adventure.State;
 import pt.ulisboa.tecnico.softeng.broker.exception.RemoteAccessException;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.BankInterface;
+import pt.ulisboa.tecnico.softeng.broker.interfaces.TaxInterface;
 
 @RunWith(JMockit.class)
 public class ProcessPaymentStateProcessMethodTest {
@@ -35,7 +36,9 @@ public class ProcessPaymentStateProcessMethodTest {
 	private Broker broker;
 	private Client client;
 
-	@Before
+    @Mocked private TaxInterface taxInterface;
+
+    @Before
 	public void setUp() {
 		this.broker = new Broker("Br013", "HappyWeek", NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
 		this.client = new Client(this.broker, IBAN, NIF, AGE);

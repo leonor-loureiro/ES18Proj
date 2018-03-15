@@ -15,6 +15,7 @@ import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
 import pt.ulisboa.tecnico.softeng.broker.domain.Adventure.State;
 import pt.ulisboa.tecnico.softeng.broker.exception.RemoteAccessException;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.ActivityInterface;
+import pt.ulisboa.tecnico.softeng.broker.interfaces.TaxInterface;
 
 @RunWith(JMockit.class)
 public class ReserveActivityStateProcessMethodTest {
@@ -32,6 +33,8 @@ public class ReserveActivityStateProcessMethodTest {
 
 	private Broker broker;
 	private Client client;
+
+    @Mocked private TaxInterface taxInterface;
 
 	@Before
 	public void setUp() {
