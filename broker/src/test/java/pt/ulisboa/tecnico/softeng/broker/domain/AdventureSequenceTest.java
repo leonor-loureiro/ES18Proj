@@ -54,7 +54,7 @@ public class AdventureSequenceTest {
 				BankInterface.processPayment(IBAN, AMOUNT);
 				this.result = PAYMENT_CONFIRMATION;
 
-				ActivityInterface.reserveActivity(arrival, departure, AGE, this.anyString);
+				ActivityInterface.reserveActivity(arrival, departure, AGE, this.anyString, this.anyString);
 				this.result = ACTIVITY_CONFIRMATION;
 
 				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure);
@@ -86,7 +86,7 @@ public class AdventureSequenceTest {
 				BankInterface.processPayment(IBAN, AMOUNT);
 				this.result = PAYMENT_CONFIRMATION;
 
-				ActivityInterface.reserveActivity(arrival, arrival, AGE, this.anyString);
+				ActivityInterface.reserveActivity(arrival, arrival, AGE, this.anyString, this.anyString);
 				this.result = ACTIVITY_CONFIRMATION;
 
 				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
@@ -129,7 +129,7 @@ public class AdventureSequenceTest {
 				BankInterface.processPayment(IBAN, AMOUNT);
 				this.result = PAYMENT_CONFIRMATION;
 
-				ActivityInterface.reserveActivity(arrival, departure, AGE, this.anyString);
+				ActivityInterface.reserveActivity(arrival, departure, AGE, this.anyString, this.anyString);
 				this.result = new ActivityException();
 
 				BankInterface.cancelPayment(PAYMENT_CONFIRMATION);
@@ -154,7 +154,7 @@ public class AdventureSequenceTest {
 				BankInterface.processPayment(this.anyString, AMOUNT);
 				this.result = PAYMENT_CONFIRMATION;
 
-				ActivityInterface.reserveActivity(arrival, departure, this.anyInt, this.anyString);
+				ActivityInterface.reserveActivity(arrival, departure, this.anyInt, this.anyString, this.anyString);
 				this.result = ACTIVITY_CONFIRMATION;
 
 				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure);
@@ -186,7 +186,7 @@ public class AdventureSequenceTest {
 				BankInterface.processPayment(IBAN, AMOUNT);
 				this.result = PAYMENT_CONFIRMATION;
 
-				ActivityInterface.reserveActivity(arrival, departure, AGE, this.anyString);
+				ActivityInterface.reserveActivity(arrival, departure, AGE, this.anyString, this.anyString);
 				this.result = ACTIVITY_CONFIRMATION;
 
 				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure);
