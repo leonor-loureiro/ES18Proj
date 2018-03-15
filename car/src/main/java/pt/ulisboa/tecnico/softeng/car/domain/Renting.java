@@ -2,7 +2,7 @@ package pt.ulisboa.tecnico.softeng.car.domain;
 
 import org.joda.time.LocalDate;
 
-import pt.ulisboa.tecnico.softeng.car.dataobjects.InvoiceData;
+import pt.ulisboa.tecnico.softeng.tax.dataobjects.InvoiceData;
 import pt.ulisboa.tecnico.softeng.car.exception.CarException;
 
 import pt.ulisboa.tecnico.softeng.car.interfaces.TaxInterface;

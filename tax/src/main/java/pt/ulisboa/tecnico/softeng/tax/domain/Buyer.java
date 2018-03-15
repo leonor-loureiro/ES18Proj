@@ -9,12 +9,12 @@ public class Buyer extends TaxPayer {
 		super(irs, NIF, name, address);
 	}
 
-	public float taxReturn(int year) {
+	public double taxReturn(int year) {
 		if (year < 1970) {
 			throw new TaxException();
 		}
 
-		float result = 0;
+		double result = 0;
 		for (Invoice invoice : this.invoices) {
 			if (invoice.getDate().getYear() == year) {
 				result = result + invoice.getIva() * PERCENTAGE / 100;
