@@ -26,12 +26,12 @@
 
 		<!-- Coverage -->
 		<version.jacoco.maven.plugin>0.8.0</version.jacoco.maven.plugin>
-		<coverage.class.ratio>0.90</coverage.class.ratio>
-		<coverage.instruction.ratio>0.90</coverage.instruction.ratio>
-		<coverage.method.ratio>0.90</coverage.method.ratio>
-		<coverage.branch.ratio>0.90</coverage.branch.ratio>
-		<coverage.complexity.ratio>0.90</coverage.complexity.ratio>
-		<coverage.line.ratio>0.90</coverage.line.ratio>
+		<coverage.class.ratio>0.85</coverage.class.ratio>
+		<coverage.instruction.ratio>0.85</coverage.instruction.ratio>
+		<coverage.method.ratio>0.85</coverage.method.ratio>
+		<coverage.branch.ratio>0.85</coverage.branch.ratio>
+		<coverage.complexity.ratio>0.85</coverage.complexity.ratio>
+		<coverage.line.ratio>0.85</coverage.line.ratio>
 	</properties>
 
 	<build>

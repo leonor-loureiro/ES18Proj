@@ -2,7 +2,10 @@ package pt.ulisboa.tecnico.softeng.car.domain;
 
 import org.joda.time.LocalDate;
 
+import pt.ulisboa.tecnico.softeng.car.dataobjects.InvoiceData;
 import pt.ulisboa.tecnico.softeng.car.exception.CarException;
+
+import pt.ulisboa.tecnico.softeng.car.interfaces.TaxInterface;
 
 public class Renting {
 	private static String drivingLicenseFormat = "^[a-zA-Z]+\\d+$";
@@ -15,13 +18,16 @@ public class Renting {
 	private int kilometers = -1;
 	private final Vehicle vehicle;
 
-	public Renting(String drivingLicense, LocalDate begin, LocalDate end, Vehicle vehicle) {
+	public Renting(String drivingLicense, LocalDate begin, LocalDate end, Vehicle vehicle, String buyerNIF) {
 		checkArguments(drivingLicense, begin, end, vehicle);
 		this.reference = Integer.toString(++Renting.counter);
 		this.drivingLicense = drivingLicense;
 		this.begin = begin;
 		this.end = end;
 		this.vehicle = vehicle;
+
+		InvoiceData invoiceData = new InvoiceData(vehicle.getRentACar().getNIF(), buyerNIF, "CAR", vehicle.getPrice(), begin);
+		TaxInterface.submitInvoice(invoiceData);
 	}
 
 	private void checkArguments(String drivingLicense, LocalDate begin, LocalDate end, Vehicle vehicle) {

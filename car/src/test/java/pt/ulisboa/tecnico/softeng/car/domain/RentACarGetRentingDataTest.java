@@ -29,7 +29,7 @@ public class RentACarGetRentingDataTest {
 
 	@Test
 	public void success() {
-		Renting renting = car.rent(DRIVING_LICENSE, date1, date2);
+		Renting renting = car.rent(DRIVING_LICENSE, date1, date2, NIF);
 		RentingData rentingData = RentACar.getRentingData(renting.getReference());
 		assertEquals(renting.getReference(), rentingData.getReference());
 		assertEquals(DRIVING_LICENSE, rentingData.getDrivingLicense());

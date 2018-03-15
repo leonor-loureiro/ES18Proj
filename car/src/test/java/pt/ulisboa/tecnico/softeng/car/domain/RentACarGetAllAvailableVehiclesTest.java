@@ -51,7 +51,7 @@ public class RentACarGetAllAvailableVehiclesTest {
 		Vehicle car1 = new Car(PLATE_CAR1, 10, 10, this.rentACar1);
 		Vehicle car2 = new Car(PLATE_CAR2, 10, 10, this.rentACar2);
 
-		car1.rent(DRIVING_LICENSE, date1, date2);
+		car1.rent(DRIVING_LICENSE, date1, date2, NIF);
 		Set<Vehicle> cars = RentACar.getAllAvailableCars(date1, date2);
 
 		assertFalse(cars.contains(car1));
