@@ -24,6 +24,7 @@ import pt.ulisboa.tecnico.softeng.hotel.domain.Room;
 import pt.ulisboa.tecnico.softeng.hotel.domain.Room.Type;
 import pt.ulisboa.tecnico.softeng.tax.dataobjects.InvoiceData;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.TaxInterface;
+import pt.ulisboa.tecnico.softeng.tax.domain.IRS;
 
 @RunWith(JMockit.class)
 public class AdventureProcessMethodTest {
@@ -56,10 +57,13 @@ public class AdventureProcessMethodTest {
 	}
 
 	@Test
-	public void success(@Mocked final TaxInterface taxInterface, @Mocked final BankInterface bankInterface) {
+	public void success(@Mocked final TaxInterface taxInterface,
+                        @Mocked final IRS irs,
+                        @Mocked final BankInterface bankInterface) {
 		new Expectations() {
 			{
                 TaxInterface.submitInvoice((InvoiceData) this.any);
+                IRS.submitInvoice((InvoiceData) this.any);
                 BankInterface.processPayment(this.anyString, this.anyDouble);
 			}
 		};
