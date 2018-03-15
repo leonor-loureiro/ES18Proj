@@ -49,7 +49,7 @@ public class ReserveActivityStateProcessMethodTest {
 
 		new Expectations() {
 			{
-				ActivityInterface.reserveActivity(begin, begin, AGE, this.anyString);
+				ActivityInterface.reserveActivity(begin, begin, AGE, this.anyString, this.anyString);
 				this.result = ACTIVITY_CONFIRMATION;
 			}
 		};
@@ -63,7 +63,7 @@ public class ReserveActivityStateProcessMethodTest {
 	public void successBookRoom(@Mocked final ActivityInterface activityInterface) {
 		new Expectations() {
 			{
-				ActivityInterface.reserveActivity(begin, end, AGE, this.anyString);
+				ActivityInterface.reserveActivity(begin, end, AGE, this.anyString, this.anyString);
 				this.result = ACTIVITY_CONFIRMATION;
 			}
 		};
@@ -77,7 +77,7 @@ public class ReserveActivityStateProcessMethodTest {
 	public void activityException(@Mocked final ActivityInterface activityInterface) {
 		new Expectations() {
 			{
-				ActivityInterface.reserveActivity(begin, end, AGE, this.anyString);
+				ActivityInterface.reserveActivity(begin, end, AGE, this.anyString, this.anyString);
 				this.result = new ActivityException();
 			}
 		};
@@ -91,7 +91,7 @@ public class ReserveActivityStateProcessMethodTest {
 	public void singleRemoteAccessException(@Mocked final ActivityInterface activityInterface) {
 		new Expectations() {
 			{
-				ActivityInterface.reserveActivity(begin, end, AGE, this.anyString);
+				ActivityInterface.reserveActivity(begin, end, AGE, this.anyString, this.anyString);
 				this.result = new RemoteAccessException();
 			}
 		};
@@ -105,7 +105,7 @@ public class ReserveActivityStateProcessMethodTest {
 	public void maxRemoteAccessException(@Mocked final ActivityInterface activityInterface) {
 		new Expectations() {
 			{
-				ActivityInterface.reserveActivity(begin, end, AGE, this.anyString);
+				ActivityInterface.reserveActivity(begin, end, AGE, this.anyString, this.anyString);
 				this.result = new RemoteAccessException();
 			}
 		};
@@ -123,7 +123,7 @@ public class ReserveActivityStateProcessMethodTest {
 	public void maxMinusOneRemoteAccessException(@Mocked final ActivityInterface activityInterface) {
 		new Expectations() {
 			{
-				ActivityInterface.reserveActivity(begin, end, AGE, this.anyString);
+				ActivityInterface.reserveActivity(begin, end, AGE, this.anyString, this.anyString);
 				this.result = new RemoteAccessException();
 			}
 		};
@@ -140,7 +140,7 @@ public class ReserveActivityStateProcessMethodTest {
 	public void twoRemoteAccessExceptionOneSuccess(@Mocked final ActivityInterface activityInterface) {
 		new Expectations() {
 			{
-				ActivityInterface.reserveActivity(begin, end, AGE, this.anyString);
+				ActivityInterface.reserveActivity(begin, end, AGE, this.anyString, this.anyString);
 				this.result = new Delegate() {
 					int i = 0;
 
@@ -169,7 +169,7 @@ public class ReserveActivityStateProcessMethodTest {
 	public void oneRemoteAccessExceptionOneActivityException(@Mocked final ActivityInterface activityInterface) {
 		new Expectations() {
 			{
-				ActivityInterface.reserveActivity(begin, end, AGE, this.anyString);
+				ActivityInterface.reserveActivity(begin, end, AGE, this.anyString, this.anyString);
 				this.result = new Delegate() {
 					int i = 0;
 

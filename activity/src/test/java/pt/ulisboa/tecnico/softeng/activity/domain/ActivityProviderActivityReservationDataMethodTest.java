@@ -8,10 +8,18 @@ import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
+import mockit.Expectations;
+import mockit.Mocked;
+import mockit.integration.junit4.JMockit;
 import pt.ulisboa.tecnico.softeng.activity.dataobjects.ActivityReservationData;
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
+import pt.ulisboa.tecnico.softeng.activity.interfaces.BankInterface;
+import pt.ulisboa.tecnico.softeng.activity.interfaces.TaxInterface;
+import pt.ulisboa.tecnico.softeng.tax.dataobjects.InvoiceData;
 
+@RunWith(JMockit.class)
 public class ActivityProviderActivityReservationDataMethodTest {
 	private static final String NAME = "ExtremeAdventure";
 	private static final String CODE = "XtremX";
@@ -27,11 +35,19 @@ public class ActivityProviderActivityReservationDataMethodTest {
 		Activity activity = new Activity(this.provider, "Bush Walking", 18, 80, 3);
 
 		this.offer = new ActivityOffer(activity, this.begin, this.end, 30);
-		this.booking = new Booking(this.provider, this.offer, "123456789");
 	}
 
 	@Test
-	public void success() {
+	public void success(@Mocked final TaxInterface taxInterface, @Mocked final BankInterface bankInterface) {
+		new Expectations() {
+			{
+				BankInterface.processPayment(this.anyString, this.anyInt);
+
+				TaxInterface.submitInvoice((InvoiceData) this.any);
+			}
+		};
+		this.booking = new Booking(this.provider, this.offer, "123456789", "IBAN");
+
 		ActivityReservationData data = ActivityProvider.getActivityReservationData(this.booking.getReference());
 
 		assertEquals(this.booking.getReference(), data.getReference());
@@ -44,7 +60,16 @@ public class ActivityProviderActivityReservationDataMethodTest {
 	}
 
 	@Test
-	public void successCancelled() {
+	public void successCancelled(@Mocked final TaxInterface taxInterface, @Mocked final BankInterface bankInterface) {
+		new Expectations() {
+			{
+				BankInterface.processPayment(this.anyString, this.anyInt);
+
+				TaxInterface.submitInvoice((InvoiceData) this.any);
+			}
+		};
+
+		this.booking = new Booking(this.provider, this.offer, "123456789", "IBAN");
 		this.booking.cancel();
 		ActivityReservationData data = ActivityProvider.getActivityReservationData(this.booking.getCancellation());
 
