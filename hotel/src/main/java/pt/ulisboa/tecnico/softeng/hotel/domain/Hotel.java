@@ -19,7 +19,7 @@ public class Hotel {
 	private final String nif;
 	private final String iban;
 	
-	private HashMap<Room.Type, Double> prices;
+	private HashMap<Room.Type, Double> prices = new HashMap<>();
 
 	private final Set<Room> rooms = new HashSet<>();
 
