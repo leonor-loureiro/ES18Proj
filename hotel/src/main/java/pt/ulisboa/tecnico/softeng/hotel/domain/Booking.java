@@ -22,13 +22,14 @@ public class Booking {
 		this.reference = hotel.getCode() + Integer.toString(++Booking.counter);
 		this.arrival = arrival;
 		this.departure = departure;
+		this.price = hotel.getPrice(type);
 
-		InvoiceData invoiceData = new InvoiceData(hotel.getNIF(), buyerNIF, "Room", hotel.getPrice(type), arrival);
+		InvoiceData invoiceData = new InvoiceData(hotel.getNIF(), buyerNIF, "Room", price, arrival);
 		TaxInterface.submitInvoice(invoiceData);
 	}
 
-	private void checkArguments(Hotel hotel, LocalDate arrival, LocalDate departure, double price) {
-		if (hotel == null || arrival == null || departure == null || price < 0) {
+	private void checkArguments(Hotel hotel, LocalDate arrival, LocalDate departure) {
+		if (hotel == null || arrival == null || departure == null) {
 			throw new HotelException();
 		}
 
