@@ -12,17 +12,19 @@ public class Booking {
 	private LocalDate cancellationDate;
 	private final LocalDate arrival;
 	private final LocalDate departure;
+	private final double price;
 
-	Booking(Hotel hotel, LocalDate arrival, LocalDate departure) {
-		checkArguments(hotel, arrival, departure);
+	Booking(Hotel hotel, LocalDate arrival, LocalDate departure, double price) {
+		checkArguments(hotel, arrival, departure, price);
 
 		this.reference = hotel.getCode() + Integer.toString(++Booking.counter);
 		this.arrival = arrival;
 		this.departure = departure;
+		this.price = price;
 	}
 
-	private void checkArguments(Hotel hotel, LocalDate arrival, LocalDate departure) {
-		if (hotel == null || arrival == null || departure == null) {
+	private void checkArguments(Hotel hotel, LocalDate arrival, LocalDate departure, double price) {
+		if (hotel == null || arrival == null || departure == null || price < 0) {
 			throw new HotelException();
 		}
 
@@ -49,6 +51,10 @@ public class Booking {
 
 	public LocalDate getCancellationDate() {
 		return this.cancellationDate;
+	}
+
+	public double getPrice() {
+		return this.price;
 	}
 
 	boolean conflict(LocalDate arrival, LocalDate departure) {

@@ -12,7 +12,8 @@ public class BookingConstructorTest {
 	private final LocalDate arrival = new LocalDate(2016, 12, 19);
 	private final LocalDate departure = new LocalDate(2016, 12, 21);
 	private Hotel hotel;
-
+	private final double price = 25.0;
+	
 	@Before
 	public void setUp() {
 		this.hotel = new Hotel("XPTO123", "Londres", "NIF", "IBAN", 20.0, 30.0);
@@ -20,37 +21,38 @@ public class BookingConstructorTest {
 
 	@Test
 	public void success() {
-		Booking booking = new Booking(this.hotel, this.arrival, this.departure);
+		Booking booking = new Booking(this.hotel, this.arrival, this.departure, this.price);
 
 		Assert.assertTrue(booking.getReference().startsWith(this.hotel.getCode()));
 		Assert.assertTrue(booking.getReference().length() > Hotel.CODE_SIZE);
 		Assert.assertEquals(this.arrival, booking.getArrival());
 		Assert.assertEquals(this.departure, booking.getDeparture());
+		Assert.assertEquals(booking.getPrice(), this.price, 0.0d);
 	}
 
 	@Test(expected = HotelException.class)
 	public void nullHotel() {
-		new Booking(null, this.arrival, this.departure);
+		new Booking(null, this.arrival, this.departure, this.price);
 	}
 
 	@Test(expected = HotelException.class)
 	public void nullArrival() {
-		new Booking(this.hotel, null, this.departure);
+		new Booking(this.hotel, null, this.departure, this.price);
 	}
 
 	@Test(expected = HotelException.class)
 	public void nullDeparture() {
-		new Booking(this.hotel, this.arrival, null);
+		new Booking(this.hotel, this.arrival, null, this.price);
 	}
 
 	@Test(expected = HotelException.class)
 	public void departureBeforeArrival() {
-		new Booking(this.hotel, this.arrival, this.arrival.minusDays(1));
+		new Booking(this.hotel, this.arrival, this.arrival.minusDays(1), this.price);
 	}
 
 	@Test
 	public void arrivalEqualDeparture() {
-		new Booking(this.hotel, this.arrival, this.arrival);
+		new Booking(this.hotel, this.arrival, this.arrival, this.price);
 	}
 
 	@After

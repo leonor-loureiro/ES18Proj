@@ -76,7 +76,7 @@ public class Room {
 			throw new HotelException();
 		}
 
-		Booking booking = new Booking(this.hotel, arrival, departure);
+		Booking booking = new Booking(this.hotel, arrival, departure, this.hotel.getPrice(this.type));
 		this.bookings.add(booking);
 
 		return booking;
