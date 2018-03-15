@@ -70,4 +70,9 @@ public class IRS {
 		removeTaxPayers();
 	}
 
+	public static String cancelInvoice(String reference) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

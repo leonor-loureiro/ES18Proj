@@ -7,4 +7,9 @@ public class TaxInterface {
     public static String submitInvoice(InvoiceData invoiceData) {
         return IRS.submitInvoice(invoiceData);
     }
+
+	public static void cancelInvoice(String invoiceReference) {
+		// TODO Auto-generated method stub
+		
+	}
 }

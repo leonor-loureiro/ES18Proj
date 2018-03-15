@@ -16,6 +16,8 @@ public class Booking {
 	private final LocalDate departure;
 	private final double price;
 
+	private String invoiceReference;
+
 	Booking(Hotel hotel, Room.Type type, LocalDate arrival, LocalDate departure, String buyerNIF) {
 		checkArguments(hotel, arrival, departure);
 
@@ -25,7 +27,7 @@ public class Booking {
 		this.price = hotel.getPrice(type);
 
 		InvoiceData invoiceData = new InvoiceData(hotel.getNIF(), buyerNIF, "Room", price, arrival);
-		TaxInterface.submitInvoice(invoiceData);
+		this.invoiceReference = TaxInterface.submitInvoice(invoiceData);
 	}
 
 	private void checkArguments(Hotel hotel, LocalDate arrival, LocalDate departure) {
@@ -94,6 +96,9 @@ public class Booking {
 	public String cancel() {
 		this.cancellation = this.reference + "CANCEL";
 		this.cancellationDate = new LocalDate();
+		
+		TaxInterface.cancelInvoice(this.invoiceReference);
+		
 		return this.cancellation;
 	}
 
