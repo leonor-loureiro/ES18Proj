@@ -6,7 +6,10 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import mockit.Expectations;
+import mockit.Mocked;
 import pt.ulisboa.tecnico.softeng.car.exception.CarException;
+import pt.ulisboa.tecnico.softeng.car.interfaces.TaxInterface;
 
 public class RentACarCancelRentingMethodTest {
 	private static final String PLATE_CAR = "22-33-HZ";
@@ -19,6 +22,9 @@ public class RentACarCancelRentingMethodTest {
 	private RentACar rentACar;
 	private Car car;
 	private Renting renting;
+	
+    @Mocked
+    private TaxInterface taxInterface;
 
 	@Before
 	public void setUp() {
@@ -51,6 +57,30 @@ public class RentACarCancelRentingMethodTest {
 	@Test(expected = CarException.class)
 	public void emptyReference() {
 		RentACar.cancelRenting("");
+	}
+	
+	@Test
+	public void successIntegration() {
+		new Expectations(){
+			{
+				TaxInterface.cancelInvoice(this.anyString);
+			}
+		};
+		String cancel = RentACar.cancelRenting(this.renting.getReference());
+
+		Assert.assertTrue(this.renting.isCancelled());
+		Assert.assertEquals(cancel, this.renting.getCancellationReference());
+	}
+	
+	@Test(expected = CarException.class)
+	public void doesNotExistIntegration() {
+		new Expectations() {
+			{
+				TaxInterface.cancelInvoice(this.anyString);
+				times = 0;
+			}
+		};
+		RentACar.cancelRenting("MISSING_REFERENCE");
 	}
 
 	@After
