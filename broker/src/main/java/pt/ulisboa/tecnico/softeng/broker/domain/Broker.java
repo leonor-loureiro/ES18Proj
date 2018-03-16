@@ -97,6 +97,10 @@ public class Broker {
 		return null;
 	}
 
+	public boolean drivingLicenseIsRegistered(String drivingLicense) {
+		return this.clients.stream().anyMatch(client -> client.getDrivingLicense().equals(drivingLicense));
+	}
+
 	public void addClient(Client client) {
 		this.clients.add(client);
 	}
@@ -110,5 +114,4 @@ public class Broker {
 		this.bulkBookings.add(bulkBooking);
 		bulkBooking.processBooking();
 	}
-
 }
