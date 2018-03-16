@@ -9,12 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import mockit.Expectations;
-import mockit.Mocked;
 import mockit.integration.junit4.JMockit;
-import pt.ulisboa.tecnico.softeng.activity.interfaces.BankInterface;
-import pt.ulisboa.tecnico.softeng.activity.interfaces.TaxInterface;
-import pt.ulisboa.tecnico.softeng.tax.dataobjects.InvoiceData;
 
 @RunWith(JMockit.class)
 public class ActivityOfferGetBookingMethodTest {
@@ -35,30 +30,14 @@ public class ActivityOfferGetBookingMethodTest {
 	}
 
 	@Test
-	public void success(@Mocked final TaxInterface taxInterface, @Mocked final BankInterface bankInterface) {
-		new Expectations() {
-			{
-				BankInterface.processPayment(this.anyString, this.anyDouble);
-
-				TaxInterface.submitInvoice((InvoiceData) this.any);
-			}
-		};
-
+	public void success() {
 		Booking booking = new Booking(this.provider, this.offer, NIF, IBAN);
 
 		assertEquals(booking, this.offer.getBooking(booking.getReference()));
 	}
 
 	@Test
-	public void successCancelled(@Mocked final TaxInterface taxInterface, @Mocked final BankInterface bankInterface) {
-		new Expectations() {
-			{
-				BankInterface.processPayment(this.anyString, this.anyDouble);
-
-				TaxInterface.submitInvoice((InvoiceData) this.any);
-			}
-		};
-
+	public void successCancelled() {
 		Booking booking = new Booking(this.provider, this.offer, NIF, IBAN);
 		booking.cancel();
 
@@ -66,14 +45,7 @@ public class ActivityOfferGetBookingMethodTest {
 	}
 
 	@Test
-	public void doesNotExist(@Mocked final TaxInterface taxInterface, @Mocked final BankInterface bankInterface) {
-		new Expectations() {
-			{
-				BankInterface.processPayment(this.anyString, this.anyDouble);
-
-				TaxInterface.submitInvoice((InvoiceData) this.any);
-			}
-		};
+	public void doesNotExist() {
 		new Booking(this.provider, this.offer, NIF, IBAN);
 
 		assertNull(this.offer.getBooking("XPTO"));

@@ -33,27 +33,13 @@ public class ActivityOfferHasVacancyMethodTest {
 	}
 
 	@Test
-	public void success(@Mocked final TaxInterface taxInterface, @Mocked final BankInterface bankInterface) {
-		new Expectations() {
-			{
-				BankInterface.processPayment(this.anyString, this.anyDouble);
-
-				TaxInterface.submitInvoice((InvoiceData) this.any);
-			}
-		};
+	public void success() {
 		new Booking(this.provider, this.offer, NIF, IBAN);
 		Assert.assertTrue(this.offer.hasVacancy());
 	}
 
 	@Test
-	public void bookingIsFull(@Mocked final TaxInterface taxInterface, @Mocked final BankInterface bankInterface) {
-		new Expectations() {
-			{
-				BankInterface.processPayment(this.anyString, this.anyDouble);
-
-				TaxInterface.submitInvoice((InvoiceData) this.any);
-			}
-		};
+	public void bookingIsFull() {
 		new Booking(this.provider, this.offer, NIF, IBAN);
 		new Booking(this.provider, this.offer, NIF, IBAN);
 		new Booking(this.provider, this.offer, NIF, IBAN);
@@ -61,15 +47,7 @@ public class ActivityOfferHasVacancyMethodTest {
 	}
 
 	@Test
-	public void bookingIsFullMinusOne(@Mocked final TaxInterface taxInterface,
-			@Mocked final BankInterface bankInterface) {
-		new Expectations() {
-			{
-				BankInterface.processPayment(this.anyString, this.anyDouble);
-
-				TaxInterface.submitInvoice((InvoiceData) this.any);
-			}
-		};
+	public void bookingIsFullMinusOne() {
 		new Booking(this.provider, this.offer, NIF, IBAN);
 		new Booking(this.provider, this.offer, NIF, IBAN);
 		Assert.assertTrue(this.offer.hasVacancy());
@@ -85,9 +63,10 @@ public class ActivityOfferHasVacancyMethodTest {
 				TaxInterface.submitInvoice((InvoiceData) this.any);
 			}
 		};
-		new Booking(this.provider, this.offer, NIF, IBAN);
-		new Booking(this.provider, this.offer, NIF, IBAN);
+		this.provider.getProcessor().submitBooking(new Booking(this.provider, this.offer, NIF, IBAN));
+		this.provider.getProcessor().submitBooking(new Booking(this.provider, this.offer, NIF, IBAN));
 		Booking booking = new Booking(this.provider, this.offer, NIF, IBAN);
+		this.provider.getProcessor().submitBooking(booking);
 		booking.cancel();
 
 		Assert.assertTrue(this.offer.hasVacancy());
@@ -103,11 +82,13 @@ public class ActivityOfferHasVacancyMethodTest {
 				TaxInterface.submitInvoice((InvoiceData) this.any);
 			}
 		};
-		new Booking(this.provider, this.offer, NIF, IBAN);
-		new Booking(this.provider, this.offer, NIF, IBAN);
+		this.provider.getProcessor().submitBooking(new Booking(this.provider, this.offer, NIF, IBAN));
+		this.provider.getProcessor().submitBooking(new Booking(this.provider, this.offer, NIF, IBAN));
 		Booking booking = new Booking(this.provider, this.offer, NIF, IBAN);
+		this.provider.getProcessor().submitBooking(booking);
 		booking.cancel();
-		new Booking(this.provider, this.offer, NIF, IBAN);
+		booking = new Booking(this.provider, this.offer, NIF, IBAN);
+		this.provider.getProcessor().submitBooking(booking);
 
 		Assert.assertFalse(this.offer.hasVacancy());
 	}

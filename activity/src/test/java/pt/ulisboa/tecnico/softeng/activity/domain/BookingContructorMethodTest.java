@@ -11,14 +11,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import mockit.Expectations;
 import mockit.FullVerifications;
-import mockit.Mocked;
 import mockit.integration.junit4.JMockit;
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
-import pt.ulisboa.tecnico.softeng.activity.interfaces.BankInterface;
-import pt.ulisboa.tecnico.softeng.activity.interfaces.TaxInterface;
-import pt.ulisboa.tecnico.softeng.tax.dataobjects.InvoiceData;
 
 @RunWith(JMockit.class)
 public class BookingContructorMethodTest {
@@ -39,15 +34,7 @@ public class BookingContructorMethodTest {
 	}
 
 	@Test
-	public void success(@Mocked final TaxInterface taxInterface, @Mocked final BankInterface bankInterface) {
-		new Expectations() {
-			{
-				BankInterface.processPayment(this.anyString, this.anyDouble);
-
-				TaxInterface.submitInvoice((InvoiceData) this.any);
-			}
-		};
-
+	public void success() {
 		Booking booking = new Booking(this.provider, this.offer, NIF, IBAN);
 
 		assertTrue(booking.getReference().startsWith(this.provider.getCode()));
@@ -59,7 +46,7 @@ public class BookingContructorMethodTest {
 	}
 
 	@Test(expected = ActivityException.class)
-	public void nullProvider(@Mocked final TaxInterface taxInterface, @Mocked final BankInterface bankInterface) {
+	public void nullProvider() {
 		new Booking(null, this.offer, NIF, IBAN);
 
 		new FullVerifications() {
@@ -67,7 +54,7 @@ public class BookingContructorMethodTest {
 	}
 
 	@Test(expected = ActivityException.class)
-	public void nullOffer(@Mocked final TaxInterface taxInterface, @Mocked final BankInterface bankInterface) {
+	public void nullOffer() {
 		new Booking(this.provider, null, NIF, IBAN);
 
 		new FullVerifications() {
@@ -75,7 +62,7 @@ public class BookingContructorMethodTest {
 	}
 
 	@Test(expected = ActivityException.class)
-	public void nullNIF(@Mocked final TaxInterface taxInterface, @Mocked final BankInterface bankInterface) {
+	public void nullNIF() {
 		new Booking(null, this.offer, null, IBAN);
 
 		new FullVerifications() {
@@ -83,12 +70,12 @@ public class BookingContructorMethodTest {
 	}
 
 	@Test(expected = ActivityException.class)
-	public void emptyIBAN(@Mocked final TaxInterface taxInterface, @Mocked final BankInterface bankInterface) {
+	public void emptyIBAN() {
 		new Booking(this.provider, null, NIF, "     ");
 	}
 
 	@Test(expected = ActivityException.class)
-	public void nullIBAN(@Mocked final TaxInterface taxInterface, @Mocked final BankInterface bankInterface) {
+	public void nullIBAN() {
 		new Booking(null, this.offer, NIF, null);
 
 		new FullVerifications() {
@@ -96,20 +83,12 @@ public class BookingContructorMethodTest {
 	}
 
 	@Test(expected = ActivityException.class)
-	public void emptyNIF(@Mocked final TaxInterface taxInterface, @Mocked final BankInterface bankInterface) {
+	public void emptyNIF() {
 		new Booking(this.provider, null, "     ", IBAN);
 	}
 
 	@Test
-	public void bookingEqualCapacity(@Mocked final TaxInterface taxInterface,
-			@Mocked final BankInterface bankInterface) {
-		new Expectations() {
-			{
-				BankInterface.processPayment(this.anyString, this.anyDouble);
-				TaxInterface.submitInvoice((InvoiceData) this.any);
-			}
-		};
-
+	public void bookingEqualCapacity() {
 		new Booking(this.provider, this.offer, NIF, IBAN);
 		new Booking(this.provider, this.offer, NIF, IBAN);
 		new Booking(this.provider, this.offer, NIF, IBAN);
@@ -122,16 +101,7 @@ public class BookingContructorMethodTest {
 	}
 
 	@Test
-	public void bookingEqualCapacityButHasCancelled(@Mocked final TaxInterface taxInterface,
-			@Mocked final BankInterface bankInterface) {
-		new Expectations() {
-			{
-				BankInterface.processPayment(this.anyString, this.anyDouble);
-
-				TaxInterface.submitInvoice((InvoiceData) this.any);
-			}
-		};
-
+	public void bookingEqualCapacityButHasCancelled() {
 		new Booking(this.provider, this.offer, NIF, IBAN);
 		new Booking(this.provider, this.offer, NIF, IBAN);
 		Booking booking = new Booking(this.provider, this.offer, NIF, IBAN);

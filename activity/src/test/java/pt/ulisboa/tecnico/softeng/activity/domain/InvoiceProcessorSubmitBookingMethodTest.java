@@ -19,12 +19,13 @@ import pt.ulisboa.tecnico.softeng.tax.dataobjects.InvoiceData;
 import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 
 @RunWith(JMockit.class)
-public class InvoiceProcessorProcessInvoiceMethodTest {
+public class InvoiceProcessorSubmitBookingMethodTest {
 	private static final int AMOUNT = 30;
 	private static final String IBAN = "IBAN";
 	private static final String NIF = "123456789";
 	private ActivityProvider provider;
 	private ActivityOffer offer;
+	private Booking booking;
 
 	@Before
 	public void setUp() {
@@ -34,6 +35,7 @@ public class InvoiceProcessorProcessInvoiceMethodTest {
 		LocalDate begin = new LocalDate(2016, 12, 19);
 		LocalDate end = new LocalDate(2016, 12, 21);
 		this.offer = new ActivityOffer(activity, begin, end, AMOUNT);
+		this.booking = new Booking(this.provider, this.offer, NIF, IBAN);
 	}
 
 	@Test
@@ -45,7 +47,7 @@ public class InvoiceProcessorProcessInvoiceMethodTest {
 			}
 		};
 
-		new Booking(this.provider, this.offer, NIF, IBAN);
+		this.provider.getProcessor().submitBooking(this.booking);
 
 		new FullVerifications() {
 			{
@@ -65,8 +67,8 @@ public class InvoiceProcessorProcessInvoiceMethodTest {
 			}
 		};
 
-		new Booking(this.provider, this.offer, NIF, IBAN);
-		new Booking(this.provider, this.offer, NIF, IBAN);
+		this.provider.getProcessor().submitBooking(this.booking);
+		this.provider.getProcessor().submitBooking(new Booking(this.provider, this.offer, NIF, IBAN));
 
 		new FullVerifications(taxInterface) {
 			{
@@ -88,8 +90,8 @@ public class InvoiceProcessorProcessInvoiceMethodTest {
 			}
 		};
 
-		new Booking(this.provider, this.offer, NIF, IBAN);
-		new Booking(this.provider, this.offer, NIF, IBAN);
+		this.provider.getProcessor().submitBooking(this.booking);
+		this.provider.getProcessor().submitBooking(new Booking(this.provider, this.offer, NIF, IBAN));
 
 		new FullVerifications(taxInterface) {
 			{
@@ -111,8 +113,8 @@ public class InvoiceProcessorProcessInvoiceMethodTest {
 			}
 		};
 
-		new Booking(this.provider, this.offer, NIF, IBAN);
-		new Booking(this.provider, this.offer, NIF, IBAN);
+		this.provider.getProcessor().submitBooking(this.booking);
+		this.provider.getProcessor().submitBooking(new Booking(this.provider, this.offer, NIF, IBAN));
 
 		new FullVerifications(bankInterface) {
 			{
@@ -134,8 +136,8 @@ public class InvoiceProcessorProcessInvoiceMethodTest {
 			}
 		};
 
-		new Booking(this.provider, this.offer, NIF, IBAN);
-		new Booking(this.provider, this.offer, NIF, IBAN);
+		this.provider.getProcessor().submitBooking(this.booking);
+		this.provider.getProcessor().submitBooking(new Booking(this.provider, this.offer, NIF, IBAN));
 
 		new FullVerifications(bankInterface) {
 			{
@@ -157,8 +159,8 @@ public class InvoiceProcessorProcessInvoiceMethodTest {
 			}
 		};
 
-		Booking booking = new Booking(this.provider, this.offer, NIF, IBAN);
-		booking.cancel();
+		this.provider.getProcessor().submitBooking(this.booking);
+		this.booking.cancel();
 
 		new FullVerifications() {
 			{
@@ -181,9 +183,9 @@ public class InvoiceProcessorProcessInvoiceMethodTest {
 			}
 		};
 
-		Booking booking = new Booking(this.provider, this.offer, NIF, IBAN);
-		booking.cancel();
-		new Booking(this.provider, this.offer, NIF, IBAN);
+		this.provider.getProcessor().submitBooking(this.booking);
+		this.booking.cancel();
+		this.provider.getProcessor().submitBooking(new Booking(this.provider, this.offer, NIF, IBAN));
 
 		new FullVerifications(bankInterface) {
 			{
@@ -208,9 +210,9 @@ public class InvoiceProcessorProcessInvoiceMethodTest {
 			}
 		};
 
-		Booking booking = new Booking(this.provider, this.offer, NIF, IBAN);
-		booking.cancel();
-		new Booking(this.provider, this.offer, NIF, IBAN);
+		this.provider.getProcessor().submitBooking(this.booking);
+		this.booking.cancel();
+		this.provider.getProcessor().submitBooking(new Booking(this.provider, this.offer, NIF, IBAN));
 
 		new FullVerifications(bankInterface) {
 			{
@@ -243,9 +245,9 @@ public class InvoiceProcessorProcessInvoiceMethodTest {
 			}
 		};
 
-		Booking booking = new Booking(this.provider, this.offer, NIF, IBAN);
-		booking.cancel();
-		new Booking(this.provider, this.offer, NIF, IBAN);
+		this.provider.getProcessor().submitBooking(this.booking);
+		this.booking.cancel();
+		this.provider.getProcessor().submitBooking(new Booking(this.provider, this.offer, NIF, IBAN));
 
 		new FullVerifications(taxInterface) {
 			{
@@ -278,9 +280,9 @@ public class InvoiceProcessorProcessInvoiceMethodTest {
 			}
 		};
 
-		Booking booking = new Booking(this.provider, this.offer, NIF, IBAN);
-		booking.cancel();
-		new Booking(this.provider, this.offer, NIF, IBAN);
+		this.provider.getProcessor().submitBooking(this.booking);
+		this.booking.cancel();
+		this.provider.getProcessor().submitBooking(new Booking(this.provider, this.offer, NIF, IBAN));
 
 		new FullVerifications(taxInterface) {
 			{

@@ -33,8 +33,6 @@ public class Booking {
 		this.amount = offer.getAmount();
 		this.date = offer.getBegin();
 
-		provider.getProcessor().submitBooking(this);
-
 		offer.addBooking(this);
 	}
 

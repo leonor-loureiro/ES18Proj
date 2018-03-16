@@ -118,7 +118,9 @@ public class ActivityProvider {
 		for (ActivityProvider provider : ActivityProvider.providers) {
 			offers = provider.findOffer(begin, end, age);
 			if (!offers.isEmpty()) {
-				return new Booking(provider, offers.get(0), nif, iban).getReference();
+				Booking booking = new Booking(provider, offers.get(0), nif, iban);
+				provider.getProcessor().submitBooking(booking);
+				return booking.getReference();
 			}
 		}
 		throw new ActivityException();

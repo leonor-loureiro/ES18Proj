@@ -45,6 +45,7 @@ public class ActivityProviderCancelReservationMethodTest {
 		};
 
 		Booking booking = new Booking(this.provider, this.offer, NIF, IBAN);
+		this.provider.getProcessor().submitBooking(booking);
 
 		String cancel = ActivityProvider.cancelReservation(booking.getReference());
 
@@ -62,7 +63,7 @@ public class ActivityProviderCancelReservationMethodTest {
 			}
 		};
 
-		new Booking(this.provider, this.offer, NIF, IBAN);
+		this.provider.getProcessor().submitBooking(new Booking(this.provider, this.offer, NIF, IBAN));
 
 		ActivityProvider.cancelReservation("XPTO");
 	}

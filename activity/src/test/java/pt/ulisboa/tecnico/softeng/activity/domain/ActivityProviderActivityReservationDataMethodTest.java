@@ -10,14 +10,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import mockit.Expectations;
-import mockit.Mocked;
 import mockit.integration.junit4.JMockit;
 import pt.ulisboa.tecnico.softeng.activity.dataobjects.ActivityReservationData;
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
-import pt.ulisboa.tecnico.softeng.activity.interfaces.BankInterface;
-import pt.ulisboa.tecnico.softeng.activity.interfaces.TaxInterface;
-import pt.ulisboa.tecnico.softeng.tax.dataobjects.InvoiceData;
 
 @RunWith(JMockit.class)
 public class ActivityProviderActivityReservationDataMethodTest {
@@ -38,14 +33,7 @@ public class ActivityProviderActivityReservationDataMethodTest {
 	}
 
 	@Test
-	public void success(@Mocked final TaxInterface taxInterface, @Mocked final BankInterface bankInterface) {
-		new Expectations() {
-			{
-				BankInterface.processPayment(this.anyString, this.anyDouble);
-
-				TaxInterface.submitInvoice((InvoiceData) this.any);
-			}
-		};
+	public void success() {
 		this.booking = new Booking(this.provider, this.offer, "123456789", "IBAN");
 
 		ActivityReservationData data = ActivityProvider.getActivityReservationData(this.booking.getReference());
@@ -60,16 +48,9 @@ public class ActivityProviderActivityReservationDataMethodTest {
 	}
 
 	@Test
-	public void successCancelled(@Mocked final TaxInterface taxInterface, @Mocked final BankInterface bankInterface) {
-		new Expectations() {
-			{
-				BankInterface.processPayment(this.anyString, this.anyDouble);
-
-				TaxInterface.submitInvoice((InvoiceData) this.any);
-			}
-		};
-
+	public void successCancelled() {
 		this.booking = new Booking(this.provider, this.offer, "123456789", "IBAN");
+		this.provider.getProcessor().submitBooking(this.booking);
 		this.booking.cancel();
 		ActivityReservationData data = ActivityProvider.getActivityReservationData(this.booking.getCancellation());
 
