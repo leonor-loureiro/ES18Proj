@@ -30,7 +30,7 @@ public class IRSSubmitInvoiceTest {
 	@Test
 	public void success() {
 		InvoiceData invoiceData = new InvoiceData(SELLER_NIF, BUYER_NIF, FOOD, VALUE, this.date);
-		String invoiceReference = this.irs.submitInvoice(invoiceData);
+		String invoiceReference = IRS.submitInvoice(invoiceData);
 
 		Invoice invoice = this.irs.getTaxPayerByNIF(SELLER_NIF).getInvoiceByReference(invoiceReference);
 
@@ -45,66 +45,67 @@ public class IRSSubmitInvoiceTest {
 	@Test(expected = TaxException.class)
 	public void nullSellerNIF() {
 		InvoiceData invoiceData = new InvoiceData(null, BUYER_NIF, FOOD, VALUE, this.date);
-		this.irs.submitInvoice(invoiceData);
+		IRS.submitInvoice(invoiceData);
 	}
 
 	@Test(expected = TaxException.class)
 	public void emptySellerNIF() {
 		InvoiceData invoiceData = new InvoiceData("", BUYER_NIF, FOOD, VALUE, this.date);
-		this.irs.submitInvoice(invoiceData);
+		IRS.submitInvoice(invoiceData);
 	}
 
 	@Test(expected = TaxException.class)
 	public void nullBuyerNIF() {
 		InvoiceData invoiceData = new InvoiceData(SELLER_NIF, null, FOOD, VALUE, this.date);
-		this.irs.submitInvoice(invoiceData);
+		IRS.submitInvoice(invoiceData);
 	}
 
 	@Test(expected = TaxException.class)
 	public void emptyBuyerNIF() {
 		InvoiceData invoiceData = new InvoiceData(SELLER_NIF, "", FOOD, VALUE, this.date);
-		this.irs.submitInvoice(invoiceData);
+		IRS.submitInvoice(invoiceData);
 	}
 
 	@Test(expected = TaxException.class)
 	public void nullItemType() {
 		InvoiceData invoiceData = new InvoiceData(SELLER_NIF, BUYER_NIF, null, VALUE, this.date);
-		this.irs.submitInvoice(invoiceData);
+		IRS.submitInvoice(invoiceData);
 	}
 
 	@Test(expected = TaxException.class)
 	public void emptyItemType() {
 		InvoiceData invoiceData = new InvoiceData(SELLER_NIF, BUYER_NIF, "", VALUE, this.date);
-		this.irs.submitInvoice(invoiceData);
+		IRS.submitInvoice(invoiceData);
 	}
 
 	@Test(expected = TaxException.class)
 	public void zeroValue() {
 		InvoiceData invoiceData = new InvoiceData(SELLER_NIF, BUYER_NIF, FOOD, 0.0f, this.date);
-		this.irs.submitInvoice(invoiceData);
+		IRS.submitInvoice(invoiceData);
 	}
 
 	@Test(expected = TaxException.class)
 	public void negativeValue() {
 		InvoiceData invoiceData = new InvoiceData(SELLER_NIF, BUYER_NIF, FOOD, -23.7f, this.date);
-		this.irs.submitInvoice(invoiceData);
+		IRS.submitInvoice(invoiceData);
 	}
 
 	@Test(expected = TaxException.class)
 	public void nullDate() {
 		InvoiceData invoiceData = new InvoiceData(SELLER_NIF, BUYER_NIF, FOOD, VALUE, null);
-		this.irs.submitInvoice(invoiceData);
+		IRS.submitInvoice(invoiceData);
 	}
 
 	@Test(expected = TaxException.class)
 	public void before1970() {
 		InvoiceData invoiceData = new InvoiceData(SELLER_NIF, BUYER_NIF, FOOD, VALUE, new LocalDate(1969, 12, 31));
-		this.irs.submitInvoice(invoiceData);
+		IRS.submitInvoice(invoiceData);
 	}
 
+	@Test
 	public void equal1970() {
 		InvoiceData invoiceData = new InvoiceData(SELLER_NIF, BUYER_NIF, FOOD, VALUE, new LocalDate(1970, 01, 01));
-		this.irs.submitInvoice(invoiceData);
+		IRS.submitInvoice(invoiceData);
 	}
 
 	@After

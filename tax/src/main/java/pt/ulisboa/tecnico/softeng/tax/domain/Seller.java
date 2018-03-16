@@ -14,7 +14,7 @@ public class Seller extends TaxPayer {
 
 		double result = 0;
 		for (Invoice invoice : this.invoices) {
-			if (invoice.getDate().getYear() == year) {
+			if (!invoice.isCancelled() && invoice.getDate().getYear() == year) {
 				result = result + invoice.getIva();
 			}
 		}

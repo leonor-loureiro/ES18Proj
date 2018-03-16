@@ -59,13 +59,30 @@ public class BuyerToReturnTest {
 
 	@Test(expected = TaxException.class)
 	public void before1970() {
-		this.buyer.taxReturn(1969);
+		new Invoice(100, new LocalDate(1969, 02, 13), this.itemType, this.seller, this.buyer);
+
+		assertEquals(0.0f, this.buyer.taxReturn(1969), 0.00f);
 	}
 
+	@Test
 	public void equal1970() {
-		double value = this.buyer.taxReturn(1969);
+		new Invoice(100, new LocalDate(1970, 02, 13), this.itemType, this.seller, this.buyer);
+		double value = this.buyer.taxReturn(1970);
 
-		assertEquals(0.0f, value, 0.00f);
+		assertEquals(0.5f, value, 0.00f);
+	}
+
+	@Test
+	public void ignoreCancelled() {
+		new Invoice(100, this.date, this.itemType, this.seller, this.buyer);
+		Invoice invoice = new Invoice(100, this.date, this.itemType, this.seller, this.buyer);
+		new Invoice(50, this.date, this.itemType, this.seller, this.buyer);
+
+		invoice.cancel();
+
+		double value = this.buyer.taxReturn(2018);
+
+		assertEquals(0.75f, value, 0.00f);
 	}
 
 	@After

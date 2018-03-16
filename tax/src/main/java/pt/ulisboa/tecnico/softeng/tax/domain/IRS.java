@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import pt.ulisboa.tecnico.softeng.tax.dataobjects.InvoiceData;
+import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 
 public class IRS {
 	private final Set<TaxPayer> taxPayers = new HashSet<>();
@@ -70,8 +71,27 @@ public class IRS {
 		removeTaxPayers();
 	}
 
-	public static String cancelInvoice(String reference) {
-		// TODO Auto-generated method stub
+	public static void cancelInvoice(String reference) {
+		if (reference == null || reference.isEmpty()) {
+			throw new TaxException();
+		}
+
+		Invoice invoice = IRS.getIRS().getInvoiceByReference(reference);
+
+		if (invoice == null) {
+			throw new TaxException();
+		}
+
+		invoice.cancel();
+	}
+
+	private Invoice getInvoiceByReference(String reference) {
+		for (TaxPayer taxPayer : this.taxPayers) {
+			Invoice invoice = taxPayer.getInvoiceByReference(reference);
+			if (invoice != null) {
+				return invoice;
+			}
+		}
 		return null;
 	}
 

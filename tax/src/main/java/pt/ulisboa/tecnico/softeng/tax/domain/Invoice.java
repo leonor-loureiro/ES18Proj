@@ -14,6 +14,7 @@ public class Invoice {
 	private final ItemType itemType;
 	private final Seller seller;
 	private final Buyer buyer;
+	private boolean cancelled = false;
 
 	Invoice(double value, LocalDate date, ItemType itemType, Seller seller, Buyer buyer) {
 		checkArguments(value, date, itemType, seller, buyer);
@@ -79,4 +80,13 @@ public class Invoice {
 	public Buyer getBuyer() {
 		return this.buyer;
 	}
+
+	public void cancel() {
+		this.cancelled = true;
+	}
+
+	public boolean isCancelled() {
+		return this.cancelled;
+	}
+
 }

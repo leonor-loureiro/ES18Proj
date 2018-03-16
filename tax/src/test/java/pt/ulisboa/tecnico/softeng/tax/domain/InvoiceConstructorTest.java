@@ -1,6 +1,7 @@
 package pt.ulisboa.tecnico.softeng.tax.domain;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 
 import org.joda.time.LocalDate;
@@ -41,6 +42,7 @@ public class InvoiceConstructorTest {
 		assertEquals(this.seller, invoice.getSeller());
 		assertEquals(this.buyer, invoice.getBuyer());
 		assertEquals(VALUE * TAX / 100.0, invoice.getIva(), 0.00001f);
+		assertFalse(invoice.isCancelled());
 
 		assertEquals(invoice, this.seller.getInvoiceByReference(invoice.getReference()));
 		assertEquals(invoice, this.buyer.getInvoiceByReference(invoice.getReference()));
