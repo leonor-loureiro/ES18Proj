@@ -21,25 +21,43 @@ public class Processor {
 	private void processInvoices() {
 		Set<Booking> failedToProcess = new HashSet<>();
 		for (Booking booking : this.bookingToProcess) {
-			if (booking.getPaymentReference() == null) {
-				try {
-					booking.setPaymentReference(BankInterface.processPayment(booking.getNif(), booking.getAmount()));
-				} catch (BankException | RemoteAccessException ex) {
-					failedToProcess.add(booking);
-					continue;
+			if (!booking.isCancelled()) {
+				if (booking.getPaymentReference() == null) {
+					try {
+						booking.setPaymentReference(
+								BankInterface.processPayment(booking.getNif(), booking.getAmount()));
+					} catch (BankException | RemoteAccessException ex) {
+						failedToProcess.add(booking);
+						continue;
+					}
 				}
-			}
-			InvoiceData invoiceData = new InvoiceData(booking.getProviderNif(), booking.getNif(), booking.getType(),
-					booking.getAmount(), booking.getDate());
-			try {
-				booking.setInvoiceReference(TaxInterface.submitInvoice(invoiceData));
-			} catch (TaxException | RemoteAccessException ex) {
-				failedToProcess.add(booking);
+				InvoiceData invoiceData = new InvoiceData(booking.getProviderNif(), booking.getNif(), booking.getType(),
+						booking.getAmount(), booking.getDate());
+				try {
+					booking.setInvoiceReference(TaxInterface.submitInvoice(invoiceData));
+				} catch (TaxException | RemoteAccessException ex) {
+					failedToProcess.add(booking);
+				}
+			} else {
+				try {
+					if (booking.getCancelledPaymentReference() == null) {
+						booking.setCancelledPaymentReference(
+								BankInterface.cancelPayment(booking.getPaymentReference()));
+					}
+					if (!booking.isCancelledInvoice()) {
+						TaxInterface.cancelInvoice(booking.getInvoiceReference());
+						booking.setCancelledInvoice(true);
+					}
+				} catch (BankException | TaxException | RemoteAccessException ex) {
+					failedToProcess.add(booking);
+				}
+
 			}
 		}
 
 		this.bookingToProcess.clear();
 		this.bookingToProcess.addAll(failedToProcess);
+
 	}
 
 	public void clean() {

@@ -1,15 +1,15 @@
 package pt.ulisboa.tecnico.softeng.hotel.domain;
 
-import mockit.Expectations;
-import mockit.Mocked;
-import mockit.integration.junit4.JMockit;
 import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
 import org.junit.runner.RunWith;
+
+import mockit.Expectations;
+import mockit.Mocked;
+import mockit.integration.junit4.JMockit;
 import pt.ulisboa.tecnico.softeng.hotel.domain.Room.Type;
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 import pt.ulisboa.tecnico.softeng.hotel.interfaces.BankInterface;
@@ -23,13 +23,14 @@ public class HotelCancelBookingMethodTest {
 	private Room room;
 	private Booking booking;
 
-    @Mocked
-    private TaxInterface taxInterface;
-    @Mocked private BankInterface bankInterface;
+	@Mocked
+	private TaxInterface taxInterface;
+	@Mocked
+	private BankInterface bankInterface;
 
-    @Before
+	@Before
 	public void setUp() {
-		this.hotel = new Hotel("XPTO123", "Paris","NIF", "IBAN", 20.0, 30.0);
+		this.hotel = new Hotel("XPTO123", "Paris", "NIF", "IBAN", 20.0, 30.0);
 		this.room = new Room(this.hotel, "01", Type.DOUBLE);
 		this.booking = this.room.reserve(Type.DOUBLE, this.arrival, this.departure, "NIF");
 	}
@@ -56,7 +57,7 @@ public class HotelCancelBookingMethodTest {
 	public void emptyReference() {
 		Hotel.cancelBooking("");
 	}
-	
+
 	@Test
 	public void successIntegration() {
 		new Expectations() {
@@ -69,13 +70,13 @@ public class HotelCancelBookingMethodTest {
 		Assert.assertTrue(this.booking.isCancelled());
 		Assert.assertEquals(cancel, this.booking.getCancellation());
 	}
-	
+
 	@Test(expected = HotelException.class)
 	public void doesNotExistIntegration() {
 		new Expectations() {
 			{
 				TaxInterface.cancelInvoice(this.anyString);
-				times = 0;
+				this.times = 0;
 			}
 		};
 		Hotel.cancelBooking("XPTO");
