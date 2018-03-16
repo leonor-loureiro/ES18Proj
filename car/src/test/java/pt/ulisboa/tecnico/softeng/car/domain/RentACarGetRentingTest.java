@@ -2,11 +2,16 @@ package pt.ulisboa.tecnico.softeng.car.domain;
 
 import static org.junit.Assert.*;
 
+import mockit.Mocked;
+import mockit.integration.junit4.JMockit;
 import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import pt.ulisboa.tecnico.softeng.car.interfaces.BankInterface;
 
+@RunWith(JMockit.class)
 public class RentACarGetRentingTest {
 	private static final String NAME1 = "eartz";
 	private static final String PLATE_CAR1 = "aa-00-11";
@@ -19,7 +24,10 @@ public class RentACarGetRentingTest {
 	private static final String IBAN = "IBAN";
 	private Renting renting;
 
-	@Before
+    @Mocked
+    private BankInterface bankInterface;
+
+    @Before
 	public void setUp() {
 		RentACar rentACar1 = new RentACar(NAME1, NIF, IBAN);
 		Vehicle car1 = new Car(PLATE_CAR1, 10, 10, rentACar1);

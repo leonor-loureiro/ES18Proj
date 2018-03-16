@@ -30,7 +30,9 @@ public class Adventure {
 	private String activityConfirmation;
 	private String activityCancellation;
 
-	private AdventureState state;
+    private final String invoiceReference;
+
+    private AdventureState state;
 
 	public Adventure(Broker broker, LocalDate begin, LocalDate end, Client client, double amount) {
 		checkArguments(broker, begin, end, client, amount);
@@ -47,7 +49,7 @@ public class Adventure {
 		setState(State.PROCESS_PAYMENT);
 
 		InvoiceData invoiceData = new InvoiceData(broker.getNifAsSeller(), client.getNIF(), "ADVENTURE", amount, begin);
-		TaxInterface.submitInvoice(invoiceData);
+        invoiceReference = TaxInterface.submitInvoice(invoiceData);
 	}
 
 	private void checkArguments(Broker broker, LocalDate begin, LocalDate end, Client client, double amount) {
@@ -194,5 +196,9 @@ public class Adventure {
 	public boolean cancelPayment() {
 		return getPaymentConfirmation() != null && getPaymentCancellation() == null;
 	}
+
+    public String getInvoiceReference() {
+        return invoiceReference;
+    }
 
 }

@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import org.junit.runner.RunWith;
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
+import pt.ulisboa.tecnico.softeng.hotel.interfaces.BankInterface;
 import pt.ulisboa.tecnico.softeng.hotel.interfaces.TaxInterface;
 
 @RunWith(JMockit.class)
@@ -20,6 +21,7 @@ public class BookingConflictMethodTest {
 	private final String NIF = "NIF";
 
 	@Mocked private TaxInterface taxInterface;
+    @Mocked private BankInterface bankInterface;
 
 	@Before
 	public void setUp() {
