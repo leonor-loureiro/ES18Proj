@@ -5,11 +5,16 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Set;
 
+import mockit.Mocked;
+import mockit.integration.junit4.JMockit;
 import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import pt.ulisboa.tecnico.softeng.car.interfaces.BankInterface;
 
+@RunWith(JMockit.class)
 public class RentACarGetAllAvailableVehiclesTest {
 
 	private static final String NAME1 = "eartz";
@@ -26,6 +31,8 @@ public class RentACarGetAllAvailableVehiclesTest {
 	private static final String IBAN = "IBAN";
 	private RentACar rentACar1;
 	private RentACar rentACar2;
+
+	@Mocked private BankInterface bankInterface;
 
 	@Before
 	public void setUp() {

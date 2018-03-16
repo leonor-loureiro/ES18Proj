@@ -13,6 +13,7 @@ import org.junit.runner.RunWith;
 import mockit.integration.junit4.JMockit;
 import pt.ulisboa.tecnico.softeng.hotel.domain.Room.Type;
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
+import pt.ulisboa.tecnico.softeng.hotel.interfaces.BankInterface;
 import pt.ulisboa.tecnico.softeng.hotel.interfaces.TaxInterface;
 
 @RunWith(JMockit.class)
@@ -25,6 +26,7 @@ public class HotelHasVacancyMethodTest {
 
     @Mocked
     private TaxInterface taxInterface;
+    @Mocked private BankInterface bankInterface;
 
     @Before
 	public void setUp() {

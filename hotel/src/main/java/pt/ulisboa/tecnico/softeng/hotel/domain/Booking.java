@@ -2,6 +2,7 @@ package pt.ulisboa.tecnico.softeng.hotel.domain;
 
 import org.joda.time.LocalDate;
 
+import pt.ulisboa.tecnico.softeng.hotel.interfaces.BankInterface;
 import pt.ulisboa.tecnico.softeng.tax.dataobjects.InvoiceData;
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 import pt.ulisboa.tecnico.softeng.hotel.interfaces.TaxInterface;
@@ -16,7 +17,8 @@ public class Booking {
 	private final LocalDate departure;
 	private final double price;
 
-	private String invoiceReference;
+    private final String paymentReference;
+    private final String invoiceReference;
 
 	Booking(Hotel hotel, Room.Type type, LocalDate arrival, LocalDate departure, String buyerNIF) {
 		checkArguments(hotel, arrival, departure);
@@ -26,8 +28,10 @@ public class Booking {
 		this.departure = departure;
 		this.price = hotel.getPrice(type);
 
+     this.paymentReference = BankInterface.processPayment(hotel.getNIF(), this.price);
+
 		InvoiceData invoiceData = new InvoiceData(hotel.getNIF(), buyerNIF, "Room", price, arrival);
-		this.invoiceReference = TaxInterface.submitInvoice(invoiceData);
+    invoiceReference = TaxInterface.submitInvoice(invoiceData);
 	}
 
 	private void checkArguments(Hotel hotel, LocalDate arrival, LocalDate departure) {
@@ -104,6 +108,14 @@ public class Booking {
 
 	public boolean isCancelled() {
 		return this.cancellation != null;
+	}
+
+	public String getPaymentReference() {
+        return this.paymentReference;
+    }
+
+    public String getInvoiceReference() {
+        return this.invoiceReference;
 	}
 
 }

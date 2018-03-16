@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
+import pt.ulisboa.tecnico.softeng.hotel.interfaces.BankInterface;
 import pt.ulisboa.tecnico.softeng.hotel.interfaces.TaxInterface;
 
 import static junit.framework.TestCase.assertTrue;
@@ -22,6 +23,7 @@ public class HotelReserveRoomMethodTest {
 
     @Mocked
     private TaxInterface taxInterface;
+    @Mocked private BankInterface bankInterface;
 
     @Before
     public void setUp() {
