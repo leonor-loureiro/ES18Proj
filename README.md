@@ -31,5 +31,5 @@ To run tests execute: mvn clean install
 	Group 2:
 		- anfifo: create tests for Car module
 		- dfAndrade: implement Car module
-		- leonor-loureiro: increase tests coverage for all modules, except the Broker
+		- leonor-loureiro: increase tests coverage for all modules, except the Broker and the Car
 		- patricia-melo: increase tests coverage for Car module
