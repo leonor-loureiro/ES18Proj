@@ -30,7 +30,11 @@ public class BookRoomState extends AdventureState {
 			return;
 		}
 
-		adventure.setState(State.CONFIRMED);
+		if (adventure.shouldRentVehicle()) {
+			adventure.setState(State.RENT_VEHICLE);
+		} else {
+			adventure.setState(State.CONFIRMED);
+		}
 	}
 
 }

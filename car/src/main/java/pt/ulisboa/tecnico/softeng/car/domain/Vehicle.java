@@ -1,14 +1,11 @@
 package pt.ulisboa.tecnico.softeng.car.domain;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import pt.ulisboa.tecnico.softeng.car.exception.CarException;
 
 public abstract class Vehicle {
@@ -21,7 +18,7 @@ public abstract class Vehicle {
 	private int kilometers;
 	private double price;
 	private final RentACar rentACar;
-	public final Map<String, Renting> rentings = new HashMap<>();
+	public final Set<Renting> rentings = new HashSet<>();
 
 	public Vehicle(String plate, int kilometers, double price, RentACar rentACar) {
 		logger.debug("Vehicle plate: {}", plate);
@@ -86,7 +83,7 @@ public abstract class Vehicle {
 		if (begin == null || end == null) {
 			throw new CarException();
 		}
-		for (Renting renting : this.rentings.values()) {
+		for (Renting renting : this.rentings) {
 			if (renting.conflict(begin, end)) {
 				return false;
 			}
@@ -97,21 +94,26 @@ public abstract class Vehicle {
 	/**
 	 * Add a <code>Renting</code> object to the vehicle. Use with caution --- no
 	 * validation is being made.
-	 * 
+	 *
 	 * @param renting
 	 */
 	private void addRenting(Renting renting) {
-		this.rentings.put(renting.getReference(), renting);
+		this.rentings.add(renting);
 	}
 
 	/**
 	 * Lookup for a <code>Renting</code> with the given reference.
-	 * 
+	 *
 	 * @param reference
 	 * @return Renting with the given reference
 	 */
 	public Renting getRenting(String reference) {
-		return this.rentings.get(reference);
+		return this.rentings
+				.stream()
+				.filter(renting -> renting.getReference().equals(reference)
+                        || renting.isCancelled() && renting.getCancellationReference().equals(reference))
+				.findFirst()
+				.orElse(null);
 	}
 
 	/**

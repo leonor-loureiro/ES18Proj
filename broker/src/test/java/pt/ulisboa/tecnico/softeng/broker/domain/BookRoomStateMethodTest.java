@@ -1,23 +1,21 @@
 package pt.ulisboa.tecnico.softeng.broker.domain;
 
+import mockit.Delegate;
+import mockit.Expectations;
+import mockit.Mocked;
+import mockit.integration.junit4.JMockit;
 import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import mockit.Delegate;
-import mockit.Expectations;
-import mockit.Mocked;
-import mockit.integration.junit4.JMockit;
 import pt.ulisboa.tecnico.softeng.broker.domain.Adventure.State;
 import pt.ulisboa.tecnico.softeng.broker.exception.RemoteAccessException;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.HotelInterface;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.TaxInterface;
 import pt.ulisboa.tecnico.softeng.hotel.domain.Room.Type;
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
-import pt.ulisboa.tecnico.softeng.tax.dataobjects.InvoiceData;
 
 @RunWith(JMockit.class)
 public class BookRoomStateMethodTest {
@@ -60,6 +58,23 @@ public class BookRoomStateMethodTest {
 		this.adventure.process();
 
 		Assert.assertEquals(State.CONFIRMED, this.adventure.getState());
+	}
+
+	@Test
+	public void successBookRoomToRenting(@Mocked final HotelInterface hotelInterface) {
+		Adventure adv = new Adventure(broker, arrival, departure, client, AMOUNT, true);
+		adv.setState(State.BOOK_ROOM);
+
+		new Expectations() {
+			{
+				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure);
+				this.result = ROOM_CONFIRMATION;
+			}
+		};
+
+		adv.process();
+
+		Assert.assertEquals(State.RENT_VEHICLE, adv.getState());
 	}
 
 	@Test
@@ -157,7 +172,7 @@ public class BookRoomStateMethodTest {
 	}
 
 	@Test
-	public void oneRemoteAccessExceptionOneActivityException(@Mocked final HotelInterface hotelInterface) {
+	public void oneRemoteAccessExceptionOneHotelException(@Mocked final HotelInterface hotelInterface) {
 		new Expectations() {
 			{
 				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure);

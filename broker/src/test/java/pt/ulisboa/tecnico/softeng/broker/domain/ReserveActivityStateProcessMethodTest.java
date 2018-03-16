@@ -1,16 +1,15 @@
 package pt.ulisboa.tecnico.softeng.broker.domain;
 
+import mockit.Delegate;
+import mockit.Expectations;
+import mockit.Mocked;
+import mockit.integration.junit4.JMockit;
 import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import mockit.Delegate;
-import mockit.Expectations;
-import mockit.Mocked;
-import mockit.integration.junit4.JMockit;
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
 import pt.ulisboa.tecnico.softeng.broker.domain.Adventure.State;
 import pt.ulisboa.tecnico.softeng.broker.exception.RemoteAccessException;
@@ -61,6 +60,24 @@ public class ReserveActivityStateProcessMethodTest {
 		sameDayAdventure.process();
 
 		Assert.assertEquals(State.CONFIRMED, sameDayAdventure.getState());
+	}
+
+
+	@Test
+	public void successToRentVehicle(@Mocked final ActivityInterface activityInterface) {
+		Adventure adv = new Adventure(broker, begin, begin, client, AMOUNT, true);
+		adv.setState(State.RESERVE_ACTIVITY);
+
+		new Expectations() {
+			{
+				ActivityInterface.reserveActivity(begin, begin, AGE, this.anyString, this.anyString);
+				this.result = ACTIVITY_CONFIRMATION;
+			}
+		};
+
+		adv.process();
+
+		Assert.assertEquals(State.RENT_VEHICLE, adv.getState());
 	}
 
 	@Test
