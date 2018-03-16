@@ -11,7 +11,7 @@ import pt.ulisboa.tecnico.softeng.tax.dataobjects.InvoiceData;
 public class Adventure {
 	private static Logger logger = LoggerFactory.getLogger(Adventure.class);
 
-	public static enum State {
+	public enum State {
 		PROCESS_PAYMENT, RESERVE_ACTIVITY, BOOK_ROOM, UNDO, CONFIRMED, CANCELLED
 	}
 
@@ -150,6 +150,10 @@ public class Adventure {
 		this.roomCancellation = roomCancellation;
 	}
 
+	public String getInvoiceReference() {
+		return invoiceReference;
+	}
+
 	public State getState() {
 		return this.state.getState();
 	}
@@ -185,20 +189,28 @@ public class Adventure {
 		this.state.process(this);
 	}
 
-	public boolean cancelRoom() {
+	public boolean shouldCancelRoom() {
 		return getRoomConfirmation() != null && getRoomCancellation() == null;
 	}
 
-	public boolean cancelActivity() {
+	public boolean roomIsCancelled() {
+		return !shouldCancelRoom();
+	}
+
+	public boolean shouldCancelActivity() {
 		return getActivityConfirmation() != null && getActivityCancellation() == null;
 	}
 
-	public boolean cancelPayment() {
+	public boolean activityIsCancelled() {
+		return !shouldCancelActivity();
+	}
+
+	public boolean shouldCancelPayment() {
 		return getPaymentConfirmation() != null && getPaymentCancellation() == null;
 	}
 
-    public String getInvoiceReference() {
-        return invoiceReference;
-    }
+	public boolean paymentIsCancelled() {
+		return !shouldCancelPayment();
+	}
 
 }
