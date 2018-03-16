@@ -21,8 +21,8 @@ public class Renting {
 	private int kilometers = -1;
 	private final Vehicle vehicle;
 
-    private final String paymentReference;
-    private final String invoiceReference;
+	private final String paymentReference;
+	private final String invoiceReference;
 
 	public Renting(String drivingLicense, LocalDate begin, LocalDate end, Vehicle vehicle, String buyerNIF) {
 		checkArguments(drivingLicense, begin, end, vehicle);
@@ -32,15 +32,16 @@ public class Renting {
 		this.end = end;
 		this.vehicle = vehicle;
 
-        this.paymentReference = BankInterface.processPayment(vehicle.getRentACar().getNIF(), vehicle.getPrice());
+		this.paymentReference = BankInterface.processPayment(vehicle.getRentACar().getNIF(), vehicle.getPrice());
 
-        InvoiceData invoiceData = new InvoiceData(vehicle.getRentACar().getNIF(), buyerNIF, "CAR", vehicle.getPrice(), begin);
-        invoiceReference = TaxInterface.submitInvoice(invoiceData);
+		InvoiceData invoiceData = new InvoiceData(vehicle.getRentACar().getNIF(), buyerNIF, "CAR", vehicle.getPrice(),
+				begin);
+		invoiceReference = TaxInterface.submitInvoice(invoiceData);
 	}
 
 	private void checkArguments(String drivingLicense, LocalDate begin, LocalDate end, Vehicle vehicle) {
-		if (drivingLicense == null || !drivingLicense.matches(drivingLicenseFormat) || begin == null || end == null || vehicle == null
-				|| end.isBefore(begin))
+		if (drivingLicense == null || !drivingLicense.matches(drivingLicenseFormat) || begin == null || end == null
+				|| vehicle == null || end.isBefore(begin))
 			throw new CarException();
 	}
 
@@ -123,17 +124,20 @@ public class Renting {
 		this.vehicle.addKilometers(this.kilometers);
 	}
 
-  public String cancel() {
+	public String cancel() {
 		this.cancellationReference = this.reference + "CANCEL";
 		this.cancellationDate = LocalDate.now();
-		return this.cancellationReference;
-    }
-  
-  public String getPaymentReference() {
-        return this.paymentReference;
-    }
 
-  public String getInvoiceReference() {
-        return this.invoiceReference;
-    }
+		TaxInterface.cancelInvoice(this.reference);
+		
+		return this.cancellationReference;
+	}
+
+	public String getPaymentReference() {
+		return this.paymentReference;
+	}
+
+	public String getInvoiceReference() {
+		return this.invoiceReference;
+	}
 }
