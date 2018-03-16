@@ -59,12 +59,14 @@ public class AdventureProcessMethodTest {
 	@Test
 	public void success(@Mocked final TaxInterface taxInterface,
                         @Mocked final IRS irs,
-                        @Mocked final BankInterface bankInterface) {
+                        @Mocked final BankInterface bankInterface,
+                        @Mocked final pt.ulisboa.tecnico.softeng.hotel.interfaces.BankInterface hbi) {
 		new Expectations() {
 			{
                 TaxInterface.submitInvoice((InvoiceData) this.any);
                 IRS.submitInvoice((InvoiceData) this.any);
                 BankInterface.processPayment(this.anyString, this.anyDouble);
+                pt.ulisboa.tecnico.softeng.hotel.interfaces.BankInterface.processPayment(this.anyString, this.anyDouble);
 			}
 		};
 

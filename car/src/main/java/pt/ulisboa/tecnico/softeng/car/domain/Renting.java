@@ -2,6 +2,7 @@ package pt.ulisboa.tecnico.softeng.car.domain;
 
 import org.joda.time.LocalDate;
 
+import pt.ulisboa.tecnico.softeng.car.interfaces.BankInterface;
 import pt.ulisboa.tecnico.softeng.tax.dataobjects.InvoiceData;
 import pt.ulisboa.tecnico.softeng.car.exception.CarException;
 
@@ -18,6 +19,9 @@ public class Renting {
 	private int kilometers = -1;
 	private final Vehicle vehicle;
 
+    private final String paymentReference;
+    private final String invoiceReference;
+
 	public Renting(String drivingLicense, LocalDate begin, LocalDate end, Vehicle vehicle, String buyerNIF) {
 		checkArguments(drivingLicense, begin, end, vehicle);
 		this.reference = Integer.toString(++Renting.counter);
@@ -26,8 +30,10 @@ public class Renting {
 		this.end = end;
 		this.vehicle = vehicle;
 
-		InvoiceData invoiceData = new InvoiceData(vehicle.getRentACar().getNIF(), buyerNIF, "CAR", vehicle.getPrice(), begin);
-		TaxInterface.submitInvoice(invoiceData);
+        this.paymentReference = BankInterface.processPayment(vehicle.getRentACar().getNIF(), vehicle.getPrice());
+
+        InvoiceData invoiceData = new InvoiceData(vehicle.getRentACar().getNIF(), buyerNIF, "CAR", vehicle.getPrice(), begin);
+        invoiceReference = TaxInterface.submitInvoice(invoiceData);
 	}
 
 	private void checkArguments(String drivingLicense, LocalDate begin, LocalDate end, Vehicle vehicle) {
@@ -102,5 +108,13 @@ public class Renting {
 		this.kilometers = kilometers;
 		this.vehicle.addKilometers(this.kilometers);
 	}
+
+    public String getPaymentReference() {
+        return this.paymentReference;
+    }
+
+    public String getInvoiceReference() {
+        return this.invoiceReference;
+    }
 
 }

@@ -1,14 +1,19 @@
 package pt.ulisboa.tecnico.softeng.car.domain;
 
+import mockit.Mocked;
+import mockit.integration.junit4.JMockit;
 import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import pt.ulisboa.tecnico.softeng.car.exception.CarException;
+import pt.ulisboa.tecnico.softeng.car.interfaces.BankInterface;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 
+@RunWith(JMockit.class)
 public class RentACarRentTest {
 
 	private static final String PLATE_CAR = "22-33-HZ";
@@ -20,6 +25,9 @@ public class RentACarRentTest {
 	private static final String IBAN = "IBAN";
 	private RentACar rentACar;
 	private Car car;
+
+    @Mocked
+    private BankInterface bankInterface;
 
 	@Before
 	public void setUp() {
