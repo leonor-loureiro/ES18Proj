@@ -32,6 +32,7 @@ public class AdventureProcessMethodTest {
 	private static final String NIF_AS_BUYER = "buyerNIF";
 	private static final String NIF_AS_SELLER = "sellerNIF";
 	private static final String NIF = "123456789";
+	private static final String DRIVING_LICENSE = "IMT1234";
 	private final LocalDate begin = new LocalDate(2016, 12, 19);
 	private final LocalDate end = new LocalDate(2016, 12, 21);
 	private Broker broker;
@@ -71,7 +72,8 @@ public class AdventureProcessMethodTest {
 		};
 
 		Adventure adventure = new Adventure(this.broker, this.begin, this.end,
-				new pt.ulisboa.tecnico.softeng.broker.domain.Client(this.broker, this.IBAN, NIF, 20), 300);
+				new pt.ulisboa.tecnico.softeng.broker.domain.Client(this.broker, this.IBAN, NIF, DRIVING_LICENSE, 20),
+				300);
 
 		adventure.process();
 		adventure.process();
@@ -95,7 +97,8 @@ public class AdventureProcessMethodTest {
 		};
 
 		Adventure adventure = new Adventure(this.broker, this.begin, this.begin,
-				new pt.ulisboa.tecnico.softeng.broker.domain.Client(this.broker, this.IBAN, NIF, 20), 300);
+				new pt.ulisboa.tecnico.softeng.broker.domain.Client(this.broker, this.IBAN, NIF, DRIVING_LICENSE, 20),
+				300);
 
 		adventure.process();
 		adventure.process();

@@ -28,6 +28,7 @@ public class AdventureSequenceTest {
 	private static final String NIF_AS_SELLER = "sellerNIF";
 	private static final String NIF = "123456789";
 	private static final String IBAN = "BK01987654321";
+	private static final String DRIVING_LICENSE = "IMT1234";
 	private static final int AMOUNT = 300;
 	private static final int AGE = 20;
 	private static final String PAYMENT_CONFIRMATION = "PaymentConfirmation";
@@ -45,7 +46,7 @@ public class AdventureSequenceTest {
 	@Before
 	public void setUp() {
 		this.broker = new Broker("Br013", "HappyWeek", NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
-		this.client = new Client(this.broker, IBAN, NIF, AGE);
+		this.client = new Client(this.broker, IBAN, NIF, DRIVING_LICENSE, AGE);
 	}
 
 	@Test

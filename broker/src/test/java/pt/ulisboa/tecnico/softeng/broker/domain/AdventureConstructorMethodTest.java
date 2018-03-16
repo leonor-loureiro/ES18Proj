@@ -22,6 +22,7 @@ public class AdventureConstructorMethodTest {
 	private static final String NIF_AS_SELLER = "sellerNIF";
 	private static final String OTHER_NIF = "987654321";
 	private static final String NIF = "123456789";
+	private static final String DRIVING_LICENSE = "IMT1234";
 	private static final int AGE = 20;
 	private static final int AMOUNT = 300;
 	private static final String IBAN = "BK011234567";
@@ -35,7 +36,7 @@ public class AdventureConstructorMethodTest {
 	public void setUp() {
 		this.broker = new Broker("BR01", "eXtremeADVENTURE", NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
 
-		this.client = new Client(this.broker, IBAN, NIF, AGE);
+		this.client = new Client(this.broker, IBAN, NIF, DRIVING_LICENSE, AGE);
 	}
 
 	@Test
@@ -83,7 +84,7 @@ public class AdventureConstructorMethodTest {
         }};
 
 		Adventure adventure = new Adventure(this.broker, this.begin, this.end,
-				new Client(this.broker, IBAN, OTHER_NIF, 18), AMOUNT);
+				new Client(this.broker, IBAN, OTHER_NIF, DRIVING_LICENSE + "1",18), AMOUNT);
 
 		Assert.assertEquals(this.broker, adventure.getBroker());
 		Assert.assertEquals(this.begin, adventure.getBegin());
@@ -100,7 +101,8 @@ public class AdventureConstructorMethodTest {
 
 	@Test(expected = BrokerException.class)
 	public void negativeAge() {
-		new Adventure(this.broker, this.begin, this.end, new Client(this.broker, IBAN, OTHER_NIF, 17), AMOUNT);
+		Client c = new Client(this.broker, IBAN, OTHER_NIF, DRIVING_LICENSE, 17);
+		new Adventure(this.broker, this.begin, this.end, c, AMOUNT);
 	}
 
 	@Test
@@ -110,8 +112,8 @@ public class AdventureConstructorMethodTest {
             this.result = this.anyString;
         }};
 
-		Adventure adventure = new Adventure(this.broker, this.begin, this.end,
-				new Client(this.broker, IBAN, OTHER_NIF, 100), AMOUNT);
+        Client c = new Client(this.broker, IBAN, OTHER_NIF, DRIVING_LICENSE + "1", 100);
+		Adventure adventure = new Adventure(this.broker, this.begin, this.end, c, AMOUNT);
 
 		Assert.assertEquals(this.broker, adventure.getBroker());
 		Assert.assertEquals(this.begin, adventure.getBegin());
@@ -128,7 +130,8 @@ public class AdventureConstructorMethodTest {
 
 	@Test(expected = BrokerException.class)
 	public void over100() {
-		new Adventure(this.broker, this.begin, this.end, new Client(this.broker, IBAN, OTHER_NIF, 101), AMOUNT);
+		Client c = new Client(this.broker, IBAN, OTHER_NIF, DRIVING_LICENSE, 101);
+		new Adventure(this.broker, this.begin, this.end, c, AMOUNT);
 	}
 
 	@Test(expected = BrokerException.class)

@@ -5,19 +5,26 @@ import pt.ulisboa.tecnico.softeng.broker.exception.BrokerException;
 public class Client {
 	private final String IBAN;
 	private final String NIF;
+	private final String drivingLicense;
 	private final int age;
 
-	public Client(Broker broker, String IBAN, String NIF, int age) {
-		checkArguments(broker, IBAN, NIF, age);
+	public Client(Broker broker, String IBAN, String NIF, String drivingLicense, int age) {
+		checkArguments(broker, IBAN, NIF, drivingLicense, age);
 		this.IBAN = IBAN;
 		this.NIF = NIF;
+		this.drivingLicense = drivingLicense;
 		this.age = age;
 
 		broker.addClient(this);
 	}
 
-	private void checkArguments(Broker broker, String IBAN, String NIF, int age) {
-		if (broker == null || IBAN == null || IBAN.trim().equals("") || NIF == null || NIF.trim().equals("")) {
+	private void checkArguments(Broker broker, String IBAN, String NIF, String drivingLicense, int age) {
+		if (broker == null || IBAN == null || NIF == null ||
+				IBAN.trim().isEmpty() || NIF.trim().isEmpty()) {
+			throw new BrokerException();
+		}
+
+		if (drivingLicense != null && drivingLicense.trim().isEmpty()) {
 			throw new BrokerException();
 		}
 
@@ -26,6 +33,10 @@ public class Client {
 		}
 
 		if (broker.getClientByNIF(NIF) != null) {
+			throw new BrokerException();
+		}
+
+		if (broker.drivingLicenseIsRegistered(drivingLicense)) {
 			throw new BrokerException();
 		}
 
@@ -43,4 +54,7 @@ public class Client {
 		return this.age;
 	}
 
+	public String getDrivingLicense() {
+		return drivingLicense;
+	}
 }

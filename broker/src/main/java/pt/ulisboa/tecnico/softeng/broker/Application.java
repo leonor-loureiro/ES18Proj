@@ -19,7 +19,7 @@ public class Application {
 
 		Broker broker = new Broker("BR01", "Fun", "SELLER_NIF", "BUYER_NIF", "BROKER_IBAN");
 		Adventure adventure = new Adventure(broker, new LocalDate(), new LocalDate(),
-				new pt.ulisboa.tecnico.softeng.broker.domain.Client(broker, account.getIBAN(), "123456789", 33), 50);
+				new pt.ulisboa.tecnico.softeng.broker.domain.Client(broker, account.getIBAN(), "123456789", "IMT123", 33), 50);
 
 		adventure.process();
 
