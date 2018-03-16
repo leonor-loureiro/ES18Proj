@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import pt.ulisboa.tecnico.softeng.car.interfaces.BankInterface;
+import pt.ulisboa.tecnico.softeng.car.interfaces.TaxInterface;
 
 @RunWith(JMockit.class)
 public class RentACarGetRentingTest {
@@ -24,10 +25,12 @@ public class RentACarGetRentingTest {
 	private static final String IBAN = "IBAN";
 	private Renting renting;
 
-    @Mocked
-    private BankInterface bankInterface;
+	@Mocked
+	private BankInterface bankInterface;
+	@Mocked
+	private TaxInterface taxInterface;
 
-    @Before
+	@Before
 	public void setUp() {
 		RentACar rentACar1 = new RentACar(NAME1, NIF, IBAN);
 		Vehicle car1 = new Car(PLATE_CAR1, 10, 10, rentACar1);

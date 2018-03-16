@@ -7,10 +7,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import mockit.Mocked;
-import mockit.integration.junit4.JMockit;
 import pt.ulisboa.tecnico.softeng.car.exception.CarException;
 import pt.ulisboa.tecnico.softeng.car.interfaces.BankInterface;
+import pt.ulisboa.tecnico.softeng.car.interfaces.TaxInterface;
+import mockit.Mocked;
+import mockit.Expectations;
+import mockit.integration.junit4.JMockit;
 
 @RunWith(JMockit.class)
 public class RentACarCancelRentingMethodTest {
@@ -24,6 +26,9 @@ public class RentACarCancelRentingMethodTest {
 	private RentACar rentACar;
 	private Car car;
 	private Renting renting;
+	
+    @Mocked
+    private TaxInterface taxInterface;
 
 	@Mocked
 	private BankInterface bankInterface;
@@ -59,6 +64,30 @@ public class RentACarCancelRentingMethodTest {
 	@Test(expected = CarException.class)
 	public void emptyReference() {
 		RentACar.cancelRenting("");
+	}
+	
+	@Test
+	public void successIntegration() {
+		new Expectations(){
+			{
+				TaxInterface.cancelInvoice(this.anyString);
+			}
+		};
+		String cancel = RentACar.cancelRenting(this.renting.getReference());
+
+		Assert.assertTrue(this.renting.isCancelled());
+		Assert.assertEquals(cancel, this.renting.getCancellationReference());
+	}
+	
+	@Test(expected = CarException.class)
+	public void doesNotExistIntegration() {
+		new Expectations() {
+			{
+				TaxInterface.cancelInvoice(this.anyString);
+				times = 0;
+			}
+		};
+		RentACar.cancelRenting("MISSING_REFERENCE");
 	}
 
 	@After

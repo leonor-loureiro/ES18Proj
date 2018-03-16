@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import pt.ulisboa.tecnico.softeng.car.exception.CarException;
 import pt.ulisboa.tecnico.softeng.car.interfaces.BankInterface;
+import pt.ulisboa.tecnico.softeng.car.interfaces.TaxInterface;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -26,8 +27,10 @@ public class RentACarRentTest {
 	private RentACar rentACar;
 	private Car car;
 
-    @Mocked
-    private BankInterface bankInterface;
+	@Mocked
+	private BankInterface bankInterface;
+	@Mocked
+	private TaxInterface taxInterface;
 
 	@Before
 	public void setUp() {
