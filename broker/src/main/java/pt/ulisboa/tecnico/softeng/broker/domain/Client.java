@@ -19,8 +19,12 @@ public class Client {
 	}
 
 	private void checkArguments(Broker broker, String IBAN, String NIF, String drivingLicense, int age) {
-		if (broker == null || IBAN == null || drivingLicense == null ||
-				IBAN.trim().isEmpty() || NIF == null || NIF.trim().isEmpty() || drivingLicense.trim().isEmpty()) {
+		if (broker == null || IBAN == null || NIF == null ||
+				IBAN.trim().isEmpty() || NIF.trim().isEmpty()) {
+			throw new BrokerException();
+		}
+
+		if (drivingLicense != null && drivingLicense.trim().isEmpty()) {
 			throw new BrokerException();
 		}
 

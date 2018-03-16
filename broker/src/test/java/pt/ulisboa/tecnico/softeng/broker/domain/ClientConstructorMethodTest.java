@@ -81,9 +81,14 @@ public class ClientConstructorMethodTest {
 		}
 	}
 
-	@Test(expected = BrokerException.class)
+	@Test
 	public void nullDrivingLicense() {
-		new Client(this.broker, IBAN, NIF, null, age);
+		Client client = new Client(this.broker, IBAN, NIF, null, age);
+
+		Assert.assertEquals(IBAN, client.getIBAN());
+		Assert.assertEquals(NIF, client.getNIF());
+		Assert.assertEquals(age, client.getAge());
+		Assert.assertNull(client.getDrivingLicense());
 	}
 
 	@Test(expected = BrokerException.class)
