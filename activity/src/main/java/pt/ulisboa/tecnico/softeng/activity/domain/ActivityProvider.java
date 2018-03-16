@@ -21,6 +21,8 @@ public class ActivityProvider {
 	private final String iban;
 	private final Set<Activity> activities = new HashSet<>();
 
+	private final Processor processor = new Processor();
+
 	public ActivityProvider(String code, String name, String nif, String iban) {
 		checkArguments(code, name, nif, iban);
 
@@ -69,6 +71,10 @@ public class ActivityProvider {
 
 	public String getIban() {
 		return this.iban;
+	}
+
+	public Processor getProcessor() {
+		return this.processor;
 	}
 
 	int getNumberOfActivities() {

@@ -3,7 +3,6 @@ package pt.ulisboa.tecnico.softeng.activity.domain;
 import org.joda.time.LocalDate;
 
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
-import pt.ulisboa.tecnico.softeng.activity.interfaces.BankInterface;
 
 public class Booking {
 	private static int counter = 0;
@@ -15,7 +14,7 @@ public class Booking {
 	private final String iban;
 	private final double amount;
 	private final LocalDate date;
-	private final String paymentReference;
+	private String paymentReference;
 	private String invoiceReference;
 	private String cancel;
 	private LocalDate cancellationDate;
@@ -30,9 +29,7 @@ public class Booking {
 		this.amount = offer.getAmount();
 		this.date = offer.getBegin();
 
-		this.paymentReference = BankInterface.processPayment(this.nif, this.amount);
-
-		InvoiceProcessor.getInvoiceProcessor().submitInvoice(this);
+		provider.getProcessor().submitBooking(this);
 
 		offer.addBooking(this);
 	}
@@ -74,6 +71,10 @@ public class Booking {
 
 	public String getPaymentReference() {
 		return this.paymentReference;
+	}
+
+	public void setPaymentReference(String paymentReference) {
+		this.paymentReference = paymentReference;
 	}
 
 	public String getInvoiceReference() {
