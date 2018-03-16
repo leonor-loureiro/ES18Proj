@@ -12,6 +12,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import pt.ulisboa.tecnico.softeng.car.exception.CarException;
 import pt.ulisboa.tecnico.softeng.car.interfaces.BankInterface;
+import pt.ulisboa.tecnico.softeng.car.interfaces.TaxInterface;
 
 @RunWith(JMockit.class)
 public class RentingConflictTest {
@@ -27,10 +28,12 @@ public class RentingConflictTest {
 	private static final String IBAN = "IBAN";
 	private Car car;
 
-    @Mocked
-    private BankInterface bankInterface;
+	@Mocked
+	private BankInterface bankInterface;
+	@Mocked
+	private TaxInterface taxInterface;
 
-    @Before
+	@Before
 	public void setUp() {
 		RentACar rentACar = new RentACar(RENT_A_CAR_NAME, NIF, IBAN);
 		this.car = new Car(PLATE_CAR, 10, 10, rentACar);

@@ -13,6 +13,7 @@ import org.junit.runner.RunWith;
 import pt.ulisboa.tecnico.softeng.car.dataobjects.RentingData;
 import pt.ulisboa.tecnico.softeng.car.exception.CarException;
 import pt.ulisboa.tecnico.softeng.car.interfaces.BankInterface;
+import pt.ulisboa.tecnico.softeng.car.interfaces.TaxInterface;
 
 @RunWith(JMockit.class)
 public class RentACarGetRentingDataTest {
@@ -26,10 +27,12 @@ public class RentACarGetRentingDataTest {
 	private static final String IBAN = "IBAN";
 	private Car car;
 
-    @Mocked
-    private BankInterface bankInterface;
+	@Mocked
+	private BankInterface bankInterface;
+	@Mocked
+	private TaxInterface taxInterface;
 
-    @Before
+	@Before
 	public void setUp() {
 		RentACar rentACar1 = new RentACar(NAME1, NIF, IBAN);
 		this.car = new Car(PLATE_CAR1, 10, 10, rentACar1);
@@ -49,7 +52,7 @@ public class RentACarGetRentingDataTest {
 	public void getRentingDataFail() {
 		RentACar.getRentingData("1");
 	}
-	
+
 	@After
 	public void tearDown() {
 		RentACar.rentACars.clear();

@@ -13,6 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import pt.ulisboa.tecnico.softeng.car.interfaces.BankInterface;
+import pt.ulisboa.tecnico.softeng.car.interfaces.TaxInterface;
 
 @RunWith(JMockit.class)
 public class RentACarGetAllAvailableVehiclesTest {
@@ -32,7 +33,10 @@ public class RentACarGetAllAvailableVehiclesTest {
 	private RentACar rentACar1;
 	private RentACar rentACar2;
 
-	@Mocked private BankInterface bankInterface;
+	@Mocked
+	private BankInterface bankInterface;
+	@Mocked
+	private TaxInterface taxInterface;
 
 	@Before
 	public void setUp() {
