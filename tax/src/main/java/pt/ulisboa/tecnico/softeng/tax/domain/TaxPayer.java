@@ -24,10 +24,6 @@ public abstract class TaxPayer {
 		TaxPayer.taxPayers.add(this);
 	}
 	
-	public TaxPayer() {
-		
-	}
-	
 	private void checkArguments(String nif, String name, String address) {
 		if (nif == null || name == null || address == null || name.trim().length() == 0 || address.trim().length() == 0) {
 			throw new TaxException();
