@@ -28,10 +28,10 @@ public class Booking {
 		this.departure = departure;
 		this.price = hotel.getPrice(type);
 
-        this.paymentReference = BankInterface.processPayment(hotel.getNIF(), this.price);
+     this.paymentReference = BankInterface.processPayment(hotel.getNIF(), this.price);
 
 		InvoiceData invoiceData = new InvoiceData(hotel.getNIF(), buyerNIF, "Room", price, arrival);
-        invoiceReference = TaxInterface.submitInvoice(invoiceData);
+    invoiceReference = TaxInterface.submitInvoice(invoiceData);
 	}
 
 	private void checkArguments(Hotel hotel, LocalDate arrival, LocalDate departure) {
@@ -100,6 +100,9 @@ public class Booking {
 	public String cancel() {
 		this.cancellation = this.reference + "CANCEL";
 		this.cancellationDate = new LocalDate();
+		
+		TaxInterface.cancelInvoice(this.invoiceReference);
+		
 		return this.cancellation;
 	}
 

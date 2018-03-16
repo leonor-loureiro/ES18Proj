@@ -1,5 +1,6 @@
 package pt.ulisboa.tecnico.softeng.hotel.domain;
 
+import mockit.Expectations;
 import mockit.Mocked;
 import mockit.integration.junit4.JMockit;
 import org.joda.time.LocalDate;
@@ -54,6 +55,30 @@ public class HotelCancelBookingMethodTest {
 	@Test(expected = HotelException.class)
 	public void emptyReference() {
 		Hotel.cancelBooking("");
+	}
+	
+	@Test
+	public void successIntegration() {
+		new Expectations() {
+			{
+				TaxInterface.cancelInvoice(this.anyString);
+			}
+		};
+		String cancel = Hotel.cancelBooking(this.booking.getReference());
+
+		Assert.assertTrue(this.booking.isCancelled());
+		Assert.assertEquals(cancel, this.booking.getCancellation());
+	}
+	
+	@Test(expected = HotelException.class)
+	public void doesNotExistIntegration() {
+		new Expectations() {
+			{
+				TaxInterface.cancelInvoice(this.anyString);
+				times = 0;
+			}
+		};
+		Hotel.cancelBooking("XPTO");
 	}
 
 	@After
