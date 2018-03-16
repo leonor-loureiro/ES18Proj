@@ -15,10 +15,7 @@ import pt.ulisboa.tecnico.softeng.bank.dataobjects.BankOperationData;
 import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
 import pt.ulisboa.tecnico.softeng.broker.domain.Adventure.State;
 import pt.ulisboa.tecnico.softeng.broker.exception.RemoteAccessException;
-import pt.ulisboa.tecnico.softeng.broker.interfaces.ActivityInterface;
-import pt.ulisboa.tecnico.softeng.broker.interfaces.BankInterface;
-import pt.ulisboa.tecnico.softeng.broker.interfaces.HotelInterface;
-import pt.ulisboa.tecnico.softeng.broker.interfaces.TaxInterface;
+import pt.ulisboa.tecnico.softeng.broker.interfaces.*;
 
 @RunWith(JMockit.class)
 public class CancelledStateProcessMethodTest {
@@ -38,6 +35,8 @@ public class CancelledStateProcessMethodTest {
 	private static final String ACTIVITY_CANCELLATION = "ActivityCancellation";
 	private static final String ROOM_CONFIRMATION = "RoomConfirmation";
 	private static final String ROOM_CANCELLATION = "RoomCancellation";
+	private static final String RENT_CONFIRMATION = "1234";
+	private static final String RENT_CANCELLATION = "1234CANCEL";
 	private Adventure adventure;
 
 	private Broker broker;
@@ -213,6 +212,61 @@ public class CancelledStateProcessMethodTest {
 
 		Assert.assertEquals(Adventure.State.CANCELLED, this.adventure.getState());
 	}
+
+	@Test
+	public void cancelledRenting(@Mocked final BankInterface bankInterface,
+								 @Mocked final ActivityInterface activityInterface,
+								 @Mocked final CarInterface carInterface) {
+		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
+		this.adventure.setPaymentCancellation(PAYMENT_CANCELLATION);
+		this.adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION);
+		this.adventure.setActivityCancellation(ACTIVITY_CANCELLATION);
+		this.adventure.setRentingConfirmation(RENT_CONFIRMATION);
+		this.adventure.setRentingCancellation(RENT_CANCELLATION);
+
+		new Expectations() {
+			{
+				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
+				BankInterface.getOperationData(PAYMENT_CANCELLATION);
+				ActivityInterface.getActivityReservationData(ACTIVITY_CANCELLATION);
+				CarInterface.getRentingData(RENT_CANCELLATION);
+			}
+		};
+
+		this.adventure.process();
+
+		Assert.assertEquals(Adventure.State.CANCELLED, this.adventure.getState());
+	}
+
+	@Test
+	public void cancelledBookAndRenting(@Mocked final BankInterface bankInterface,
+										@Mocked final ActivityInterface activityInterface,
+										@Mocked final HotelInterface hotelInterface,
+										@Mocked final CarInterface carInterface) {
+		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
+		this.adventure.setPaymentCancellation(PAYMENT_CANCELLATION);
+		this.adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION);
+		this.adventure.setActivityCancellation(ACTIVITY_CANCELLATION);
+		this.adventure.setRoomConfirmation(ROOM_CONFIRMATION);
+		this.adventure.setRoomCancellation(ROOM_CANCELLATION);
+        this.adventure.setRentingConfirmation(RENT_CONFIRMATION);
+        this.adventure.setRentingCancellation(RENT_CANCELLATION);
+
+		new Expectations() {
+			{
+				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
+				BankInterface.getOperationData(PAYMENT_CANCELLATION);
+				ActivityInterface.getActivityReservationData(ACTIVITY_CANCELLATION);
+				HotelInterface.getRoomBookingData(ROOM_CANCELLATION);
+				CarInterface.getRentingData(RENT_CANCELLATION);
+			}
+		};
+
+		this.adventure.process();
+
+		Assert.assertEquals(Adventure.State.CANCELLED, this.adventure.getState());
+	}
+
 
 	@After
 	public void tearDown() {
