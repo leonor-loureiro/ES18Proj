@@ -120,6 +120,16 @@ public class RentACar {
 				.getReference();
 	}
 
+	public static String cancelRenting(String reference) {
+		Renting renting = getRenting(reference);
+
+		if (renting != null) {
+			return renting.cancel();
+		}
+
+		throw new CarException();
+	}
+
 	/**
 	 * Lookup for a renting using its reference.
 	 *
