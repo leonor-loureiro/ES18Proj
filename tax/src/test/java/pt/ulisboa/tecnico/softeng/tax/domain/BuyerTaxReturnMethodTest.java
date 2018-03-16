@@ -8,6 +8,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
+
 
 public class BuyerTaxReturnMethodTest {
 	private String NIF = "123456789";
@@ -27,6 +29,12 @@ public class BuyerTaxReturnMethodTest {
 		Assert.assertEquals(pay,0,0.0);
 	}
 	
+	@Test(expected = TaxException.class )
+	public void failure() {
+		double pay = this.buyer.taxReturn(1960);		
+	}
+	
+	
 	@Test
 	public void sucess() {
 		Seller seller = new Seller("987654321", "Manuel", "Lisboa");
@@ -40,7 +48,8 @@ public class BuyerTaxReturnMethodTest {
 		double expectedPay = itemIVAValue * 0.05; 
 		Assert.assertEquals(expectedPay, pay, 0.0);
 	}
-	
+
+		
 	@Test
 	public void successMultipleInvoices() {
 		Seller seller = new Seller("987654321", "Manuel", "Lisboa");

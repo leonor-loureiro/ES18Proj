@@ -3,6 +3,7 @@ package pt.ulisboa.tecnico.softeng.tax.domain;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
+
 import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 
 public class BuyerConstructorTest {

@@ -8,6 +8,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
+
 
 public class SellerToPayMethodTest {
 	private String NIF = "123456789";
@@ -26,6 +28,11 @@ public class SellerToPayMethodTest {
 		double pay = this.seller.toPay(YEAR);
 		Assert.assertEquals(pay,0,0.0);
 		
+	}
+	
+	@Test(expected = TaxException.class )
+	public void failure() {
+		double pay = this.seller.toPay(1960);		
 	}
 	
 	@Test
