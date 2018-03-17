@@ -9,7 +9,7 @@ import java.util.stream.Stream;
 
 import org.joda.time.LocalDate;
 
-import pt.ulisboa.tecnico.softeng.car.dataobject.RentingData;
+import pt.ulisboa.tecnico.softeng.car.dataobjects.RentingData;
 import pt.ulisboa.tecnico.softeng.car.exception.CarException;
 import pt.ulisboa.tecnico.softeng.car.exception.RentingException;
 

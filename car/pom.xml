@@ -9,7 +9,7 @@
 	</parent>
 
 
-	<artifactId>Car</artifactId>
+	<artifactId>car</artifactId>
 	<packaging>jar</packaging>
 	<build>
 		<plugins>
