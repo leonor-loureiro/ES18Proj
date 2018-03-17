@@ -21,6 +21,8 @@ public class Hotel {
 	private double priceDouble;
 
 	private final Set<Room> rooms = new HashSet<>();
+	
+	private final Processor processor = new Processor();
 
 	public Hotel(String code, String name, String nif, String iban, double priceSingle, double priceDouble) {
 		checkArguments(code, name, nif, iban, priceSingle, priceDouble);
@@ -90,6 +92,10 @@ public class Hotel {
 		return this.iban;
 	}
 
+	public Processor getProcessor() {
+		return this.processor;
+	}
+	
 	public double getPriceSingle() {
 		return this.priceSingle;
 	}
@@ -155,7 +161,9 @@ public class Hotel {
 		for (Hotel hotel : Hotel.hotels) {
 			Room room = hotel.hasVacancy(type, arrival, departure);
 			if (room != null) {
-				return room.reserve(type, arrival, departure, buyerNIF).getReference();
+				Booking booking = room.reserve(type, arrival, departure, buyerNIF);
+				hotel.getProcessor().submitBooking(booking);
+				return booking.getReference();
 			}
 		}
 		throw new HotelException();
@@ -195,7 +203,9 @@ public class Hotel {
 
 		Set<String> references = new HashSet<>();
 		for (Room room : rooms) {
-			references.add(room.reserve(room.getType(), arrival, departure, buyerNIF).getReference());
+			Booking booking = room.reserve(room.getType(), arrival, departure, buyerNIF);
+			room.getHotel().getProcessor().submitBooking(booking);
+			references.add(booking.getReference());
 		}
 
 		return references;

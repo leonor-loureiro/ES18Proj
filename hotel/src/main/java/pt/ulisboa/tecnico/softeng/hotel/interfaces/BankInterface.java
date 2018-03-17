@@ -7,4 +7,7 @@ public class BankInterface {
 		return Bank.processPayment(IBAN, amount);
 	}
 
+	public static String cancelPayment(String reference) {
+		return Bank.cancelPayment(reference);
+	}
 }

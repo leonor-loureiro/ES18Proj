@@ -10,32 +10,35 @@ import pt.ulisboa.tecnico.softeng.hotel.interfaces.TaxInterface;
 public class Booking {
 	private static int counter = 0;
 
+	private static final String type = "HOUSING";
+	private final Hotel hotel;
 	private final String reference;
-	private String cancellation;
+	private String cancel;
 	private LocalDate cancellationDate;
 	private final LocalDate arrival;
 	private final LocalDate departure;
 	private final double price;
+	private final String nif;
+	private final String providerNif;	
+	private String paymentReference;
+	private String invoiceReference;
+	private boolean cancelledInvoice = false;
+	private String cancelledPaymentReference = null;
 
-    private final String paymentReference;
-    private final String invoiceReference;
-
-	Booking(Hotel hotel, Room.Type type, LocalDate arrival, LocalDate departure, String buyerNIF) {
-		checkArguments(hotel, arrival, departure);
+	public Booking(Hotel hotel, Room.Type type, LocalDate arrival, LocalDate departure, String buyerNIF) {
+		checkArguments(hotel, arrival, departure, buyerNIF);
 
 		this.reference = hotel.getCode() + Integer.toString(++Booking.counter);
+		this.hotel = hotel;
 		this.arrival = arrival;
 		this.departure = departure;
 		this.price = hotel.getPrice(type);
-
-     this.paymentReference = BankInterface.processPayment(hotel.getNIF(), this.price);
-
-		InvoiceData invoiceData = new InvoiceData(hotel.getNIF(), buyerNIF, "Room", price, arrival);
-    invoiceReference = TaxInterface.submitInvoice(invoiceData);
+		this.nif = buyerNIF;
+		this.providerNif = hotel.getNIF();
 	}
 
-	private void checkArguments(Hotel hotel, LocalDate arrival, LocalDate departure) {
-		if (hotel == null || arrival == null || departure == null) {
+	private void checkArguments(Hotel hotel, LocalDate arrival, LocalDate departure, String buyerNIF) {
+		if (hotel == null || arrival == null || departure == null || buyerNIF == null || buyerNIF.trim().length() == 0) {
 			throw new HotelException();
 		}
 
@@ -49,7 +52,7 @@ public class Booking {
 	}
 
 	public String getCancellation() {
-		return this.cancellation;
+		return this.cancel;
 	}
 
 	public LocalDate getArrival() {
@@ -66,6 +69,18 @@ public class Booking {
 
 	public double getPrice() {
 		return this.price;
+	}
+
+	public String getNif() {
+		return this.nif;
+	}
+
+	public static String getType() {
+		return type;
+	}
+
+	public String getProviderNif() {
+		return this.providerNif;
 	}
 
 	boolean conflict(LocalDate arrival, LocalDate departure) {
@@ -97,25 +112,48 @@ public class Booking {
 		return false;
 	}
 
+	public boolean isCancelledInvoice() {
+		return this.cancelledInvoice;
+	}
+
+	public void setCancelledInvoice(boolean cancelledInvoice) {
+		this.cancelledInvoice = cancelledInvoice;
+	}
+
+	public String getCancelledPaymentReference() {
+		return this.cancelledPaymentReference;
+	}
+
+	public void setCancelledPaymentReference(String cancelledPaymentReference) {
+		this.cancelledPaymentReference = cancelledPaymentReference;
+	}
+
 	public String cancel() {
-		this.cancellation = this.reference + "CANCEL";
+		this.cancel = "CANCEL" + this.reference;
 		this.cancellationDate = new LocalDate();
-		
-		TaxInterface.cancelInvoice(this.invoiceReference);
-		
-		return this.cancellation;
+
+		this.hotel.getProcessor().submitBooking(this);
+
+		return this.cancel;
 	}
 
 	public boolean isCancelled() {
-		return this.cancellation != null;
+		return this.cancel != null;
 	}
 
 	public String getPaymentReference() {
-        return this.paymentReference;
-    }
-
-    public String getInvoiceReference() {
-        return this.invoiceReference;
+		return this.paymentReference;
 	}
 
+	public void setPaymentReference(String paymentReference) {
+		this.paymentReference = paymentReference;
+	}
+
+	public String getInvoiceReference() {
+		return this.invoiceReference;
+	}
+
+	public void setInvoiceReference(String invoiceReference) {
+		this.invoiceReference = invoiceReference;
+	}
 }
