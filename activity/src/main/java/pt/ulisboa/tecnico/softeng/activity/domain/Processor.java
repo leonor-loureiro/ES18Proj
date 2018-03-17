@@ -44,10 +44,8 @@ public class Processor {
 						booking.setCancelledPaymentReference(
 								BankInterface.cancelPayment(booking.getPaymentReference()));
 					}
-					if (!booking.isCancelledInvoice()) {
-						TaxInterface.cancelInvoice(booking.getInvoiceReference());
-						booking.setCancelledInvoice(true);
-					}
+					TaxInterface.cancelInvoice(booking.getInvoiceReference());
+					booking.setCancelledInvoice(true);
 				} catch (BankException | TaxException | RemoteAccessException ex) {
 					failedToProcess.add(booking);
 				}

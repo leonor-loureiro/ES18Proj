@@ -20,6 +20,9 @@ import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 
 @RunWith(JMockit.class)
 public class InvoiceProcessorSubmitBookingMethodTest {
+	private static final String CANCEL_PAYMENT_REFERENCE = "CancelPaymentReference";
+	private static final String INVOICE_REFERENCE = "InvoiceReference";
+	private static final String PAYMENT_REFERENCE = "PaymentReference";
 	private static final int AMOUNT = 30;
 	private static final String IBAN = "IBAN";
 	private static final String NIF = "123456789";
@@ -61,9 +64,10 @@ public class InvoiceProcessorSubmitBookingMethodTest {
 		new Expectations() {
 			{
 				BankInterface.processPayment(this.anyString, this.anyDouble);
+				this.result = PAYMENT_REFERENCE;
 				TaxInterface.submitInvoice((InvoiceData) this.any);
 				this.result = new TaxException();
-				this.result = this.anyString;
+				this.result = INVOICE_REFERENCE;
 			}
 		};
 
@@ -84,9 +88,10 @@ public class InvoiceProcessorSubmitBookingMethodTest {
 		new Expectations() {
 			{
 				BankInterface.processPayment(this.anyString, this.anyDouble);
+				this.result = PAYMENT_REFERENCE;
 				TaxInterface.submitInvoice((InvoiceData) this.any);
 				this.result = new RemoteAccessException();
-				this.result = this.anyString;
+				this.result = INVOICE_REFERENCE;
 			}
 		};
 
@@ -106,10 +111,11 @@ public class InvoiceProcessorSubmitBookingMethodTest {
 			@Mocked final BankInterface bankInterface) {
 		new Expectations() {
 			{
-				TaxInterface.submitInvoice((InvoiceData) this.any);
 				BankInterface.processPayment(this.anyString, this.anyDouble);
 				this.result = new BankException();
-				this.result = this.anyString;
+				this.result = PAYMENT_REFERENCE;
+				TaxInterface.submitInvoice((InvoiceData) this.any);
+				this.result = INVOICE_REFERENCE;
 			}
 		};
 
@@ -129,10 +135,11 @@ public class InvoiceProcessorSubmitBookingMethodTest {
 			@Mocked final BankInterface bankInterface) {
 		new Expectations() {
 			{
-				TaxInterface.submitInvoice((InvoiceData) this.any);
 				BankInterface.processPayment(this.anyString, this.anyDouble);
 				this.result = new RemoteAccessException();
-				this.result = this.anyString;
+				this.result = PAYMENT_REFERENCE;
+				TaxInterface.submitInvoice((InvoiceData) this.any);
+				this.result = INVOICE_REFERENCE;
 			}
 		};
 
@@ -176,10 +183,10 @@ public class InvoiceProcessorSubmitBookingMethodTest {
 				TaxInterface.submitInvoice((InvoiceData) this.any);
 				BankInterface.processPayment(this.anyString, this.anyDouble);
 
-				TaxInterface.cancelInvoice(this.anyString);
 				BankInterface.cancelPayment(this.anyString);
 				this.result = new BankException();
-				this.result = this.anyString;
+				this.result = CANCEL_PAYMENT_REFERENCE;
+				TaxInterface.cancelInvoice(this.anyString);
 			}
 		};
 
@@ -203,10 +210,10 @@ public class InvoiceProcessorSubmitBookingMethodTest {
 				TaxInterface.submitInvoice((InvoiceData) this.any);
 				BankInterface.processPayment(this.anyString, this.anyDouble);
 
-				TaxInterface.cancelInvoice(this.anyString);
 				BankInterface.cancelPayment(this.anyString);
 				this.result = new RemoteAccessException();
-				this.result = this.anyString;
+				this.result = CANCEL_PAYMENT_REFERENCE;
+				TaxInterface.cancelInvoice(this.anyString);
 			}
 		};
 
@@ -227,10 +234,10 @@ public class InvoiceProcessorSubmitBookingMethodTest {
 			@Mocked final BankInterface bankInterface) {
 		new Expectations() {
 			{
-				TaxInterface.submitInvoice((InvoiceData) this.any);
 				BankInterface.processPayment(this.anyString, this.anyDouble);
-
+				TaxInterface.submitInvoice((InvoiceData) this.any);
 				BankInterface.cancelPayment(this.anyString);
+				this.result = CANCEL_PAYMENT_REFERENCE;
 				TaxInterface.cancelInvoice(this.anyString);
 				this.result = new Delegate() {
 					int i = 0;
@@ -262,10 +269,11 @@ public class InvoiceProcessorSubmitBookingMethodTest {
 			@Mocked final BankInterface bankInterface) {
 		new Expectations() {
 			{
-				TaxInterface.submitInvoice((InvoiceData) this.any);
 				BankInterface.processPayment(this.anyString, this.anyDouble);
+				TaxInterface.submitInvoice((InvoiceData) this.any);
 
 				BankInterface.cancelPayment(this.anyString);
+				this.result = CANCEL_PAYMENT_REFERENCE;
 				TaxInterface.cancelInvoice(this.anyString);
 				this.result = new Delegate() {
 					int i = 0;
