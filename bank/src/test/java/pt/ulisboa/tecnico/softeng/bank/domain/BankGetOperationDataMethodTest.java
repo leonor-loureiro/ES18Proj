@@ -32,7 +32,7 @@ public class BankGetOperationDataMethodTest {
 		assertEquals(this.reference, data.getReference());
 		assertEquals(this.account.getIBAN(), data.getIban());
 		assertEquals(Type.DEPOSIT.name(), data.getType());
-		assertEquals(AMOUNT, data.getValue());
+		assertEquals(AMOUNT, data.getValue(), 0.0d);
 		assertNotNull(data.getTime());
 	}
 
@@ -50,7 +50,7 @@ public class BankGetOperationDataMethodTest {
 	public void referenceNotExists() {
 		Bank.getOperationData("XPTO");
 	}
-	
+
 	@After
 	public void tearDown() {
 		Bank.banks.clear();

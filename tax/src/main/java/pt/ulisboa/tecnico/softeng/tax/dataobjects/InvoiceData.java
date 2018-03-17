@@ -6,13 +6,13 @@ public class InvoiceData {
 	private String sellerNIF;
 	private String buyerNIF;
 	private String itemType;
-	private float value;
+	private double value;
 	private LocalDate date;
 
 	public InvoiceData() {
 	}
 
-	public InvoiceData(String sellerNIF, String buyerNIF, String itemType, float value, LocalDate date) {
+	public InvoiceData(String sellerNIF, String buyerNIF, String itemType, double value, LocalDate date) {
 		this.sellerNIF = sellerNIF;
 		this.buyerNIF = buyerNIF;
 		this.itemType = itemType;
@@ -44,7 +44,7 @@ public class InvoiceData {
 		this.itemType = itemType;
 	}
 
-	public float getValue() {
+	public double getValue() {
 		return this.value;
 	}
 

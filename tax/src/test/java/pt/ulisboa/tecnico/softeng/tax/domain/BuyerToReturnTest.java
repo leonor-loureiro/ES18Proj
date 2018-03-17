@@ -34,9 +34,9 @@ public class BuyerToReturnTest {
 		new Invoice(100, this.date, this.itemType, this.seller, this.buyer);
 		new Invoice(50, this.date, this.itemType, this.seller, this.buyer);
 
-		float value = this.buyer.taxReturn(2018);
+		double value = this.buyer.taxReturn(2018);
 
-		assertEquals(1.25f, value, 0.00f);
+		assertEquals(1.25d, value, 0.00d);
 	}
 
 	@Test
@@ -45,16 +45,16 @@ public class BuyerToReturnTest {
 		new Invoice(100, this.date, this.itemType, this.seller, this.buyer);
 		new Invoice(50, this.date, this.itemType, this.seller, this.buyer);
 
-		float value = this.buyer.taxReturn(2017);
+		double value = this.buyer.taxReturn(2017);
 
-		assertEquals(0.0f, value, 0.00f);
+		assertEquals(0.0d, value, 0.00d);
 	}
 
 	@Test
 	public void noInvoices() {
-		float value = this.buyer.taxReturn(2018);
+		double value = this.buyer.taxReturn(2018);
 
-		assertEquals(0.0f, value, 0.00f);
+		assertEquals(0.0d, value, 0.00d);
 	}
 
 	@Test(expected = TaxException.class)
@@ -63,9 +63,9 @@ public class BuyerToReturnTest {
 	}
 
 	public void equal1970() {
-		float value = this.buyer.taxReturn(1969);
+		double value = this.buyer.taxReturn(1969);
 
-		assertEquals(0.0f, value, 0.00f);
+		assertEquals(0.0d, value, 0.00d);
 	}
 
 	@After

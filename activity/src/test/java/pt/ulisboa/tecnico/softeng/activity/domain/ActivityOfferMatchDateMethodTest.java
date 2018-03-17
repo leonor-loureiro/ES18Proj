@@ -16,10 +16,10 @@ public class ActivityOfferMatchDateMethodTest {
 
 	@Before
 	public void setUp() {
-		ActivityProvider provider = new ActivityProvider("XtremX", "ExtremeAdventure");
+		ActivityProvider provider = new ActivityProvider("XtremX", "ExtremeAdventure", "NIF", "IBAN");
 		Activity activity = new Activity(provider, "Bush Walking", 18, 80, 3);
 
-		this.offer = new ActivityOffer(activity, this.begin, this.end);
+		this.offer = new ActivityOffer(activity, this.begin, this.end, 30);
 	}
 
 	@Test

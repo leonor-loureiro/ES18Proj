@@ -8,6 +8,8 @@ import org.junit.Test;
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
 
 public class ActivityConstructorMethodTest {
+	private static final String IBAN = "IBAN";
+	private static final String NIF = "NIF";
 	private static final String PROVIDER_NAME = "Bush Walking";
 	private static final int MIN_AGE = 25;
 	private static final int MAX_AGE = 50;
@@ -16,7 +18,7 @@ public class ActivityConstructorMethodTest {
 
 	@Before
 	public void setUp() {
-		this.provider = new ActivityProvider("XtremX", "ExtremeAdventure");
+		this.provider = new ActivityProvider("XtremX", "ExtremeAdventure", NIF, IBAN);
 	}
 
 	@Test

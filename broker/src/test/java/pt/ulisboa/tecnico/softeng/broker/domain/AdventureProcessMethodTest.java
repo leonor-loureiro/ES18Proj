@@ -37,10 +37,10 @@ public class AdventureProcessMethodTest {
 		Hotel hotel = new Hotel("XPTO123", "Paris");
 		new Room(hotel, "01", Type.SINGLE);
 
-		ActivityProvider provider = new ActivityProvider("XtremX", "ExtremeAdventure");
+		ActivityProvider provider = new ActivityProvider("XtremX", "ExtremeAdventure", "NIF", "IBAN");
 		Activity activity = new Activity(provider, "Bush Walking", 18, 80, 10);
-		new ActivityOffer(activity, this.begin, this.end);
-		new ActivityOffer(activity, this.begin, this.begin);
+		new ActivityOffer(activity, this.begin, this.end, 30);
+		new ActivityOffer(activity, this.begin, this.begin, 30);
 	}
 
 	@Test

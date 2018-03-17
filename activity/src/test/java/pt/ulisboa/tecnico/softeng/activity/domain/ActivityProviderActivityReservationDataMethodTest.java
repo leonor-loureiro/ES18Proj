@@ -8,10 +8,13 @@ import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
+import mockit.integration.junit4.JMockit;
 import pt.ulisboa.tecnico.softeng.activity.dataobjects.ActivityReservationData;
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
 
+@RunWith(JMockit.class)
 public class ActivityProviderActivityReservationDataMethodTest {
 	private static final String NAME = "ExtremeAdventure";
 	private static final String CODE = "XtremX";
@@ -23,15 +26,16 @@ public class ActivityProviderActivityReservationDataMethodTest {
 
 	@Before
 	public void setUp() {
-		this.provider = new ActivityProvider(CODE, NAME);
+		this.provider = new ActivityProvider(CODE, NAME, "NIF", "IBAN");
 		Activity activity = new Activity(this.provider, "Bush Walking", 18, 80, 3);
 
-		this.offer = new ActivityOffer(activity, this.begin, this.end);
-		this.booking = new Booking(this.provider, this.offer);
+		this.offer = new ActivityOffer(activity, this.begin, this.end, 30);
 	}
 
 	@Test
 	public void success() {
+		this.booking = new Booking(this.provider, this.offer, "123456789", "IBAN");
+
 		ActivityReservationData data = ActivityProvider.getActivityReservationData(this.booking.getReference());
 
 		assertEquals(this.booking.getReference(), data.getReference());
@@ -45,6 +49,8 @@ public class ActivityProviderActivityReservationDataMethodTest {
 
 	@Test
 	public void successCancelled() {
+		this.booking = new Booking(this.provider, this.offer, "123456789", "IBAN");
+		this.provider.getProcessor().submitBooking(this.booking);
 		this.booking.cancel();
 		ActivityReservationData data = ActivityProvider.getActivityReservationData(this.booking.getCancellation());
 

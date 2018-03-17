@@ -7,9 +7,12 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
+import mockit.integration.junit4.JMockit;
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
 
+@RunWith(JMockit.class)
 public class ActivityProviderFindOfferMethodTest {
 	private static final int MIN_AGE = 25;
 	private static final int MAX_AGE = 80;
@@ -24,10 +27,10 @@ public class ActivityProviderFindOfferMethodTest {
 
 	@Before
 	public void setUp() {
-		this.provider = new ActivityProvider("XtremX", "ExtremeAdventure");
+		this.provider = new ActivityProvider("XtremX", "ExtremeAdventure", "NIF", "IBAN");
 		this.activity = new Activity(this.provider, "Bush Walking", MIN_AGE, MAX_AGE, CAPACITY);
 
-		this.offer = new ActivityOffer(this.activity, this.begin, this.end);
+		this.offer = new ActivityOffer(this.activity, this.begin, this.end, 30);
 	}
 
 	@Test
@@ -82,7 +85,7 @@ public class ActivityProviderFindOfferMethodTest {
 
 	@Test
 	public void emptyActivitySet() {
-		ActivityProvider otherProvider = new ActivityProvider("Xtrems", "Adventure");
+		ActivityProvider otherProvider = new ActivityProvider("Xtrems", "Adventure", "NIF2", "IBAN");
 
 		List<ActivityOffer> offers = otherProvider.findOffer(this.begin, this.end, AGE);
 
@@ -91,7 +94,7 @@ public class ActivityProviderFindOfferMethodTest {
 
 	@Test
 	public void emptyActivityOfferSet() {
-		ActivityProvider otherProvider = new ActivityProvider("Xtrems", "Adventure");
+		ActivityProvider otherProvider = new ActivityProvider("Xtrems", "Adventure", "NIF2", "IBAN");
 		new Activity(otherProvider, "Bush Walking", 18, 80, 25);
 
 		List<ActivityOffer> offers = otherProvider.findOffer(this.begin, this.end, AGE);
@@ -101,7 +104,7 @@ public class ActivityProviderFindOfferMethodTest {
 
 	@Test
 	public void twoMatchActivityOffers() {
-		new ActivityOffer(this.activity, this.begin, this.end);
+		new ActivityOffer(this.activity, this.begin, this.end, 30);
 
 		List<ActivityOffer> offers = this.provider.findOffer(this.begin, this.end, AGE);
 
@@ -110,7 +113,7 @@ public class ActivityProviderFindOfferMethodTest {
 
 	@Test
 	public void oneMatchActivityOfferAndOneNotMatch() {
-		new ActivityOffer(this.activity, this.begin, this.end.plusDays(1));
+		new ActivityOffer(this.activity, this.begin, this.end.plusDays(1), 30);
 
 		List<ActivityOffer> offers = this.provider.findOffer(this.begin, this.end, AGE);
 
@@ -120,8 +123,8 @@ public class ActivityProviderFindOfferMethodTest {
 	@Test
 	public void oneMatchActivityOfferAndOtherNoCapacity() {
 		Activity otherActivity = new Activity(this.provider, "Bush Walking", MIN_AGE, MAX_AGE, 1);
-		ActivityOffer otherActivityOffer = new ActivityOffer(otherActivity, this.begin, this.end);
-		new Booking(this.provider, otherActivityOffer);
+		ActivityOffer otherActivityOffer = new ActivityOffer(otherActivity, this.begin, this.end, 30);
+		new Booking(this.provider, otherActivityOffer, "123456789", "IBAN");
 
 		List<ActivityOffer> offers = this.provider.findOffer(this.begin, this.end, AGE);
 

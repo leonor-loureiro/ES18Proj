@@ -14,6 +14,7 @@ public class ActivityReservationData {
 	private LocalDate begin;
 	private LocalDate end;
 	private LocalDate cancellationDate;
+    private double amount;
 
 	public ActivityReservationData() {
 	}
@@ -26,6 +27,7 @@ public class ActivityReservationData {
 		this.begin = offer.getBegin();
 		this.end = offer.getEnd();
 		this.cancellationDate = booking.getCancellationDate();
+		this.amount = offer.getAmount();
 	}
 
 	public String getReference() {
@@ -83,4 +85,8 @@ public class ActivityReservationData {
 	public void setCancellationDate(LocalDate cancellationDate) {
 		this.cancellationDate = cancellationDate;
 	}
+
+    public double getAmount() {
+        return amount;
+    }
 }

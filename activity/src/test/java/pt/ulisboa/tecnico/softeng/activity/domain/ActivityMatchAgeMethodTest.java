@@ -13,7 +13,7 @@ public class ActivityMatchAgeMethodTest {
 
 	@Before
 	public void setUp() {
-		ActivityProvider provider = new ActivityProvider("XtremX", "ExtremeAdventure");
+		ActivityProvider provider = new ActivityProvider("XtremX", "ExtremeAdventure", "NIF", "IBAN");
 		this.activity = new Activity(provider, "Bush Walking", MIN_AGE, MAX_AGE, CAPACITY);
 	}
 
