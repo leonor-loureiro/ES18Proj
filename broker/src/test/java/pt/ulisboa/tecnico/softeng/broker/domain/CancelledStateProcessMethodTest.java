@@ -24,7 +24,7 @@ public class CancelledStateProcessMethodTest {
 	private static final String NIF_AS_SELLER = "sellerNIF";
 	private static final String NIF = "123456789";
 	private static final String DRIVING_LICENSE = "IMT1234";
-	private static final int AMOUNT = 300;
+	private static final double MARGIN = 0.3;
 	private static final int AGE = 20;
 	private static final LocalDate arrival = new LocalDate(2016, 12, 19);
 	private static final LocalDate departure = new LocalDate(2016, 12, 21);
@@ -49,7 +49,7 @@ public class CancelledStateProcessMethodTest {
 		this.broker = new Broker("Br013", "HappyWeek", NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
 		this.client = new Client(this.broker, IBAN, NIF, DRIVING_LICENSE, AGE);
 
-		this.adventure = new Adventure(this.broker, arrival, departure, this.client, AMOUNT);
+		this.adventure = new Adventure(this.broker, arrival, departure, this.client, MARGIN);
 		this.adventure.setState(State.CANCELLED);
 	}
 

@@ -73,7 +73,7 @@ public class AdventureProcessMethodTest {
 
 		Adventure adventure = new Adventure(this.broker, this.begin, this.end,
 				new pt.ulisboa.tecnico.softeng.broker.domain.Client(this.broker, this.IBAN, NIF, DRIVING_LICENSE, 20),
-				300);
+				0.3);
 
 		adventure.process();
 		adventure.process();
@@ -98,7 +98,7 @@ public class AdventureProcessMethodTest {
 
 		Adventure adventure = new Adventure(this.broker, this.begin, this.begin,
 				new pt.ulisboa.tecnico.softeng.broker.domain.Client(this.broker, this.IBAN, NIF, DRIVING_LICENSE, 20),
-				300);
+				0.3);
 
 		adventure.process();
 		adventure.process();
@@ -106,6 +106,7 @@ public class AdventureProcessMethodTest {
 		assertEquals(Adventure.State.CONFIRMED, adventure.getState());
 		assertNotNull(adventure.getPaymentConfirmation());
 		assertNotNull(adventure.getActivityConfirmation());
+        assertEquals(52.0, adventure.getAmount(), 0);
 	}
 
 	@After

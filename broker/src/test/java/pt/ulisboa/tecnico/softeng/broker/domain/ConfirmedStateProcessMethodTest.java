@@ -29,7 +29,7 @@ public class ConfirmedStateProcessMethodTest {
 	private static final String NIF = "123456789";
 	private static final String IBAN = "BK01987654321";
 	private static final String DRIVING_LICENSE = "IMT1234";
-	private static final int AMOUNT = 300;
+	private static final double MARGIN = 0.3;
 	private static final int AGE = 20;
 	private static final String PAYMENT_CONFIRMATION = "PaymentConfirmation";
 	private static final String ACTIVITY_CONFIRMATION = "ActivityConfirmation";
@@ -48,7 +48,7 @@ public class ConfirmedStateProcessMethodTest {
 		this.broker = new Broker("Br013", "HappyWeek", NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
 		this.client = new Client(this.broker, IBAN, NIF, DRIVING_LICENSE, AGE);
 
-		this.adventure = new Adventure(this.broker, arrival, departure, this.client, AMOUNT);
+		this.adventure = new Adventure(this.broker, arrival, departure, this.client, MARGIN);
 		this.adventure.setState(State.CONFIRMED);
 	}
 

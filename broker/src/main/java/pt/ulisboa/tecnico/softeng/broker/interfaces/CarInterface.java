@@ -18,4 +18,9 @@ public class CarInterface {
     public static RentingData getRentingData(String reference) {
         return RentACar.getRentingData(reference);
     }
+
+    public static double getPrice(String reference) {
+        RentingData renting = RentACar.getRentingData(reference);
+        return RentACar.getRenting(renting.getReference()).getVehicle().getPrice();
+    }
 }

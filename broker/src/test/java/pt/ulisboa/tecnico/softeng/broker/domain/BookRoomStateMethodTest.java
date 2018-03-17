@@ -25,7 +25,7 @@ public class BookRoomStateMethodTest {
 	private static final String NIF = "123456789";
 	private static final String IBAN = "BK01987654321";
 	private static final String DRIVING_LICENSE = "IMT1234";
-	private static final int AMOUNT = 300;
+	private static final double MARGIN = 0.3;
 	private static final int AGE = 20;
 	private static final String ROOM_CONFIRMATION = "RoomConfirmation";
 	private static final LocalDate arrival = new LocalDate(2016, 12, 19);
@@ -42,7 +42,7 @@ public class BookRoomStateMethodTest {
 		this.broker = new Broker("Br013", "HappyWeek", NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
 		this.client = new Client(this.broker, IBAN, NIF, DRIVING_LICENSE, AGE);
 
-		this.adventure = new Adventure(this.broker, arrival, departure, this.client, AMOUNT);
+		this.adventure = new Adventure(this.broker, arrival, departure, this.client, MARGIN);
 		this.adventure.setState(State.BOOK_ROOM);
 	}
 
@@ -57,12 +57,12 @@ public class BookRoomStateMethodTest {
 
 		this.adventure.process();
 
-		Assert.assertEquals(State.CONFIRMED, this.adventure.getState());
+		Assert.assertEquals(State.PROCESS_PAYMENT, this.adventure.getState());
 	}
 
 	@Test
 	public void successBookRoomToRenting(@Mocked final HotelInterface hotelInterface) {
-		Adventure adv = new Adventure(broker, arrival, departure, client, AMOUNT, true);
+		Adventure adv = new Adventure(broker, arrival, departure, client, MARGIN, true);
 		adv.setState(State.BOOK_ROOM);
 
 		new Expectations() {
@@ -168,7 +168,7 @@ public class BookRoomStateMethodTest {
 		this.adventure.process();
 		this.adventure.process();
 
-		Assert.assertEquals(State.CONFIRMED, this.adventure.getState());
+		Assert.assertEquals(State.PROCESS_PAYMENT, this.adventure.getState());
 	}
 
 	@Test

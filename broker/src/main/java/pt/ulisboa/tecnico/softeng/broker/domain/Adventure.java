@@ -22,7 +22,7 @@ public class Adventure {
 	private final LocalDate begin;
 	private final LocalDate end;
 	private final Client client;
-	private final double amount;
+	private final double margin;
 	private final boolean rentVehicle;
 	private String paymentConfirmation;
 	private String paymentCancellation;
@@ -33,34 +33,35 @@ public class Adventure {
 	private String activityConfirmation;
 	private String activityCancellation;
 
-    private final String invoiceReference;
+    private String invoiceReference;
+
+    private double currentAmount;
+
 
     private AdventureState state;
 
-    public Adventure(Broker broker, LocalDate begin, LocalDate end, Client client, double amount) {
-    	this(broker, begin, end, client, amount, false);
+    public Adventure(Broker broker, LocalDate begin, LocalDate end, Client client, double margin) {
+    	this(broker, begin, end, client, margin, false);
 	}
 
-	public Adventure(Broker broker, LocalDate begin, LocalDate end, Client client, double amount, boolean rentVehicle) {
-		checkArguments(broker, begin, end, client, amount);
+	public Adventure(Broker broker, LocalDate begin, LocalDate end, Client client, double margin, boolean rentVehicle) {
+		checkArguments(broker, begin, end, client, margin);
 
 		this.ID = broker.getCode() + Integer.toString(++counter);
 		this.broker = broker;
 		this.begin = begin;
 		this.end = end;
 		this.client = client;
-		this.amount = amount;
+		this.margin = margin;
 		this.rentVehicle = rentVehicle;
+		this.currentAmount = 0.0;
 
 		broker.addAdventure(this);
 
-		setState(State.PROCESS_PAYMENT);
-
-		InvoiceData invoiceData = new InvoiceData(broker.getNifAsSeller(), client.getNIF(), "ADVENTURE", amount, begin);
-        invoiceReference = TaxInterface.submitInvoice(invoiceData);
+		setState(State.RESERVE_ACTIVITY);
 	}
 
-	private void checkArguments(Broker broker, LocalDate begin, LocalDate end, Client client, double amount) {
+	private void checkArguments(Broker broker, LocalDate begin, LocalDate end, Client client, double margin) {
 		if (broker == null || begin == null || end == null) {
 			throw new BrokerException();
 		}
@@ -73,7 +74,7 @@ public class Adventure {
 			throw new BrokerException();
 		}
 
-		if (amount < 1) {
+		if (margin <= 0 || margin > 1) {
 			throw new BrokerException();
 		}
 	}
@@ -106,8 +107,14 @@ public class Adventure {
 		return this.client;
 	}
 
+	public double getMargin() { return this.margin; }
+
+	public void incAmountToPay(double toPay) {
+        this.currentAmount += toPay;
+    }
+
 	public double getAmount() {
-		return this.amount;
+		return this.currentAmount * (1 + this.margin);
 	}
 
 	public boolean shouldRentVehicle() {
@@ -250,5 +257,9 @@ public class Adventure {
 	public boolean rentingIsCancelled() {
     	return !shouldCancelVehicleRenting();
 	}
+
+    public void setInvoiceReference(String invoiceReference) {
+        this.invoiceReference = invoiceReference;
+    }
 
 }

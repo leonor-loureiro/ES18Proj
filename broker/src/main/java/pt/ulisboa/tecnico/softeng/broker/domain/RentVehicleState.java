@@ -23,7 +23,10 @@ public class RentVehicleState extends AdventureState {
                     adventure.getClient().getNIF(),
                     adventure.getBegin(), adventure.getEnd());
 
+            adventure.incAmountToPay(CarInterface.getPrice(reference));
+
             adventure.setRentingConfirmation(reference);
+
         } catch (CarException ce) {
             adventure.setState(State.UNDO);
             return;
@@ -35,6 +38,6 @@ public class RentVehicleState extends AdventureState {
             return;
         }
 
-        adventure.setState(State.CONFIRMED);
+        adventure.setState(State.PROCESS_PAYMENT);
     }
 }

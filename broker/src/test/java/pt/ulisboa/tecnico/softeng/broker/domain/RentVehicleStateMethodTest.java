@@ -25,7 +25,7 @@ public class RentVehicleStateMethodTest {
 	private static final String NIF = "123456789";
 	private static final String IBAN = "BK01987654321";
 	private static final String DRIVING_LICENSE = "IMT1234";
-	private static final int AMOUNT = 300;
+    private static final double MARGIN = 0.3;
 	private static final int AGE = 20;
 	private static final String RENT_CONFIRMATION = "1541";
 	private static final LocalDate BEGIN = new LocalDate(2016, 12, 19);
@@ -39,7 +39,7 @@ public class RentVehicleStateMethodTest {
 		Broker broker = new Broker("Br013", "HappyWeek", NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
 		Client client = new Client(broker, IBAN, NIF, DRIVING_LICENSE, AGE);
 
-		this.adventure = new Adventure(broker, BEGIN, END, client, AMOUNT, true);
+		this.adventure = new Adventure(broker, BEGIN, END, client, MARGIN, true);
 		this.adventure.setState(State.RENT_VEHICLE);
 	}
 
@@ -55,7 +55,7 @@ public class RentVehicleStateMethodTest {
 
 		this.adventure.process();
 
-		Assert.assertEquals(State.CONFIRMED, this.adventure.getState());
+		Assert.assertEquals(State.PROCESS_PAYMENT, this.adventure.getState());
 	}
 
 	@Test
@@ -147,7 +147,7 @@ public class RentVehicleStateMethodTest {
 		this.adventure.process();
 		this.adventure.process();
 
-		Assert.assertEquals(State.CONFIRMED, this.adventure.getState());
+		Assert.assertEquals(State.PROCESS_PAYMENT, this.adventure.getState());
 	}
 
 	@Test
