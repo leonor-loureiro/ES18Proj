@@ -72,6 +72,7 @@ public class ProcessPaymentStateProcessMethodTest {
 		};
 
 		this.adventure.process();
+		this.adventure.process();
 
 		Assert.assertEquals(State.CANCELLED, this.adventure.getState());
 	}
@@ -99,6 +100,7 @@ public class ProcessPaymentStateProcessMethodTest {
 			}
 		};
 
+		this.adventure.process();
 		this.adventure.process();
 		this.adventure.process();
 		this.adventure.process();

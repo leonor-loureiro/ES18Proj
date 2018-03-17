@@ -118,7 +118,7 @@ public class AdventureSequenceTest {
         };
 
         Adventure adventure = new Adventure(this.broker, arrival, departure, this.client, MARGIN);
-
+      
         adventure.process();
         adventure.process();
         adventure.process();
@@ -140,9 +140,8 @@ public class AdventureSequenceTest {
                 ActivityInterface.reserveActivity(arrival, arrival, AGE, this.anyString, this.anyString);
                 this.result = ACTIVITY_CONFIRMATION;
 
-                ActivityInterface.getActivityReservationData(ACTIVITY_CONFIRMATION);
-
                 CarInterface.rentCar((Class<? extends Vehicle>)any, anyString, anyString, (LocalDate)any, (LocalDate)any);
+                this.result = RENTING_CONFIRMATION;
 
                 BankInterface.processPayment(IBAN, anyDouble);
                 this.result = PAYMENT_CONFIRMATION;
@@ -267,7 +266,6 @@ public class AdventureSequenceTest {
         //Testing: activity, fail car, undo, cancelled
         new Expectations() {
             {
-
                 ActivityInterface.reserveActivity(arrival, arrival, AGE, this.anyString, this.anyString);
                 this.result = ACTIVITY_CONFIRMATION;
 
@@ -358,13 +356,14 @@ public class AdventureSequenceTest {
                 HotelInterface.cancelBooking(ROOM_CONFIRMATION);
                 this.result = ROOM_CANCELLATION;
 
-                CarInterface.cancelRenting(RENTING_CANCELLATION);
+                CarInterface.cancelRenting(RENTING_CONFIRMATION);
                 this.result = RENTING_CANCELLATION;
             }
         };
 
         Adventure adventure = new Adventure(this.broker, arrival, departure, this.client, MARGIN, true);
 
+        adventure.process();
         adventure.process();
         adventure.process();
         adventure.process();
