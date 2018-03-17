@@ -5,6 +5,7 @@ import static org.junit.Assert.fail;
 
 import java.util.Set;
 
+import mockit.Expectations;
 import mockit.Mocked;
 import mockit.integration.junit4.JMockit;
 import org.joda.time.LocalDate;
@@ -17,6 +18,7 @@ import pt.ulisboa.tecnico.softeng.hotel.domain.Room.Type;
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 import pt.ulisboa.tecnico.softeng.hotel.interfaces.BankInterface;
 import pt.ulisboa.tecnico.softeng.hotel.interfaces.TaxInterface;
+import pt.ulisboa.tecnico.softeng.tax.dataobjects.InvoiceData;
 
 @RunWith(JMockit.class)
 public class HotelBulkBookingMethodTest {
@@ -25,11 +27,11 @@ public class HotelBulkBookingMethodTest {
 	private Hotel hotel;
 	private final String NIF = "NIF";
 
-    @Mocked
-    private TaxInterface taxInterface;
-    @Mocked private BankInterface bankInterface;
+	@Mocked
+	private TaxInterface taxInterface;
+	@Mocked private BankInterface bankInterface;
 
-    @Before
+	@Before
 	public void setUp() {
 		this.hotel = new Hotel("XPTO123", "Paris", "NIF", "IBAN", 20.0, 30.0);
 		new Room(this.hotel, "01", Type.DOUBLE);
@@ -46,6 +48,14 @@ public class HotelBulkBookingMethodTest {
 
 	@Test
 	public void success() {
+		new Expectations() {
+			{
+				BankInterface.processPayment(this.anyString, this.anyDouble);
+
+				TaxInterface.submitInvoice((InvoiceData) this.any);
+			}
+		};
+		
 		Set<String> references = Hotel.bulkBooking(2, this.arrival, this.departure, NIF);
 
 		assertEquals(2, references.size());
