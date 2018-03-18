@@ -27,6 +27,16 @@ public class RentACarGetAllAvailableMotorcyclesMethodsTest {
 	public void successEmpty() {
 		Assert.assertTrue(rentACar.getAllAvailableMotorcycles(begin, end).isEmpty());
 	}
+	
+	@Test
+	public void successNonConflictRent() {
+		Motorcycle bike = new Motorcycle("AN-FI-FO", 1, rentACar);
+		LocalDate begin3 = new LocalDate(2016, 12, 25);
+		LocalDate end3 = new LocalDate(2016, 12, 26);
+		bike.rent(drivingLicense, begin3, end3);
+		
+		Assert.assertTrue(rentACar.getAllAvailableMotorcycles(begin, end).contains(bike));
+	}
 
 	/**
 	 * Adds 3 bikes and rents one of them.

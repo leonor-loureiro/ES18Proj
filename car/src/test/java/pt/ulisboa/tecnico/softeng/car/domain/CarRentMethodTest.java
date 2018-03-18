@@ -46,8 +46,14 @@ public class CarRentMethodTest {
 	
 	@Test(expected = RentingException.class)
 	public void nullBeginDate() {
-		car.rent(drivingLicense, null, begin);
+		car.rent(drivingLicense, null, end);
 	}
+	
+	@Test(expected = RentingException.class)
+	public void invalidLicence() {
+		car.rent("12335689", begin, end);
+	}
+	
 	
 	@Test(expected = RentingException.class)
 	public void nullEndDate() {

@@ -20,9 +20,20 @@ public class RentACarGetRentingMethodTest {
 	}
 	
 	@Test
-	public void success() {
+	public void successCar() {
 		Car car = new Car("BA-TM-AN", 2, rentACar);
 		String reference = car.rent(drivingLicense, begin, end);
+		
+		Renting renting = rentACar.getRenting(reference);
+		
+		Assert.assertNotNull(renting);
+		Assert.assertEquals("BA-TM-AN", renting.getPlate());
+	}
+	
+	@Test
+	public void successBike() {
+		Motorcycle bike = new Motorcycle("BA-TM-AN", 2, rentACar);
+		String reference = bike.rent(drivingLicense, begin, end);
 		
 		Renting renting = rentACar.getRenting(reference);
 		

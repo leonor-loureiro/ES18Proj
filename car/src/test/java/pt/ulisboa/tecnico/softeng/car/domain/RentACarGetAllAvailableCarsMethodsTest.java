@@ -27,13 +27,24 @@ public class RentACarGetAllAvailableCarsMethodsTest {
 	public void successEmpty() {
 		Assert.assertTrue(rentACar.getAllAvailableCars(begin, end).isEmpty());
 	}
+	
+	@Test
+	public void successNonConflictRent() {
+		Car car1 = new Car("AN-FI-FO", 1, rentACar);
+		LocalDate begin3 = new LocalDate(2016, 12, 25);
+		LocalDate end3 = new LocalDate(2016, 12, 26);
+		car1.rent(drivingLicense, begin3, end3);
+		
+		Assert.assertTrue(rentACar.getAllAvailableCars(begin, end).contains(car1));
+	}
 
+	
 	/**
 	 * Adds 3 cars and rents one of them.
 	 * Proceeds to check if they're found available or not
 	 */
 	@Test
-	public void success() {
+	public void successMultples() {
 		Car car1 = new Car("AN-FI-FO", 1, rentACar);
 		Car car2 = new Car("ST-EV-EH", 1, rentACar);
 		Car car3 = new Car("SY-ST-EM", 1, rentACar);
