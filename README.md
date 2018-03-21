@@ -8,7 +8,7 @@ To see the coverage reports, go to module_name/target/site/jacoco/index.html.
 |   Number   |          Name           |            Email                  |   Name GitHUb   | Grupo |
 | ---------- | ----------------------- | --------------------------------- | --------------- | ----- |
 |   84736    | Leonor Loureiro         | leonor.filipa@tecnico.ulisboa.pt  | leonor-loureiro |   1   |
-|            |                         |                                   |                 |   2   |
+|   84709    | Diogo Andrade           | diogo.freire.dandrade@gmail.com   | dfAndrade       |   1   |
 |            |                         |                                   |                 |   3   |
 |            |                         |                                   |                 |   4   |
 |            |                         |                                   |                 |   5   |
