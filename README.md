@@ -1,15 +1,16 @@
-# Adventure Builder
+-# Adventure Builder
 
 To run tests execute: mvn clean install
 
 To see the coverage reports, go to module_name/target/site/jacoco/index.html.
 
 
-|   Number   |          Name           |            Email        |   Name GitHUb  | Grupo |
-| ---------- | ----------------------- | ----------------------- | ---------------| ----- |
-|            |                         |                         |                |   1   |
-|            |                         |                         |                |   2   |
-|            |                         |                         |                |   3   |
-|            |                         |                         |                |   4   |
-|            |                         |                         |                |   5   |
-|            |                         |                         |                |   6   |
+|   Number   |          Name           |            Email                  |   Name GitHUb   | Grupo |
+| ---------- | ----------------------- | --------------------------------- | --------------- | ----- |
+|   84736    | Leonor Loureiro         | leonor.filipa@tecnico.ulisboa.pt  | leonor-loureiro |   1   |
+|            |                         |                                   |                 |   2   |
+|            |                         |                                   |                 |   3   |
+|            |                         |                                   |                 |   4   |
+|            |                         |                                   |                 |   5   |
+|            |                         |                                   |                 |   6   |
+
