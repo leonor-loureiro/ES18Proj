@@ -13,12 +13,12 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<packaging>jar</packaging>
 
     <properties>
-        <coverage.class.ratio>0.5</coverage.class.ratio>
-        <coverage.instruction.ratio>0.5</coverage.instruction.ratio>
-        <coverage.method.ratio>0.5</coverage.method.ratio>
-        <coverage.branch.ratio>0.5</coverage.branch.ratio>
-        <coverage.complexity.ratio>0.5</coverage.complexity.ratio>
-        <coverage.line.ratio>0.5</coverage.line.ratio>
+        <coverage.class.ratio>0.8</coverage.class.ratio>
+        <coverage.instruction.ratio>0.8</coverage.instruction.ratio>
+        <coverage.method.ratio>0.8</coverage.method.ratio>
+        <coverage.branch.ratio>0.8</coverage.branch.ratio>
+        <coverage.complexity.ratio>0.8</coverage.complexity.ratio>
+        <coverage.line.ratio>0.8</coverage.line.ratio>
     </properties>
 
 	<build>
