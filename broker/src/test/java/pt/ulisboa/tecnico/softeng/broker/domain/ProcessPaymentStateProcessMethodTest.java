@@ -59,7 +59,7 @@ public class ProcessPaymentStateProcessMethodTest {
 
 		this.adventure.process();
 
-		Assert.assertEquals(State.CONFIRMED, this.adventure.getState());
+		Assert.assertEquals(State.TAX_PAYMENT, this.adventure.getState());
 	}
 
 	@Test
@@ -149,7 +149,7 @@ public class ProcessPaymentStateProcessMethodTest {
 		this.adventure.process();
 		this.adventure.process();
 
-		Assert.assertEquals(State.CONFIRMED, this.adventure.getState());
+		Assert.assertEquals(State.TAX_PAYMENT, this.adventure.getState());
 	}
 
 	@Test

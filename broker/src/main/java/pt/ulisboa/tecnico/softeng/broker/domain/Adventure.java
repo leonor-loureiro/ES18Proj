@@ -12,7 +12,7 @@ public class Adventure {
 	private static Logger logger = LoggerFactory.getLogger(Adventure.class);
 
 	public enum State {
-		PROCESS_PAYMENT, RESERVE_ACTIVITY, BOOK_ROOM, RENT_VEHICLE, UNDO, CONFIRMED, CANCELLED
+		PROCESS_PAYMENT, RESERVE_ACTIVITY, BOOK_ROOM, RENT_VEHICLE, UNDO, CONFIRMED, CANCELLED, TAX_PAYMENT
 	}
 
 	private static int counter = 0;
@@ -203,9 +203,6 @@ public class Adventure {
 
 	public void setState(State state) {
 		switch (state) {
-		case PROCESS_PAYMENT:
-			this.state = new ProcessPaymentState();
-			break;
 		case RESERVE_ACTIVITY:
 			this.state = new ReserveActivityState();
 			break;
@@ -214,6 +211,12 @@ public class Adventure {
 			break;
 		case RENT_VEHICLE:
 			this.state = new RentVehicleState();
+			break;
+		case PROCESS_PAYMENT:
+			this.state = new ProcessPaymentState();
+			break;
+		case TAX_PAYMENT:
+			this.state = new TaxPaymentState();
 			break;
 		case UNDO:
 			this.state = new UndoState();
