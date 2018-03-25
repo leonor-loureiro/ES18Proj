@@ -32,8 +32,8 @@ public class Adventure {
 	private String rentingCancellation;
 	private String activityConfirmation;
 	private String activityCancellation;
-
     private String invoiceReference;
+    private boolean invoiceCancelled = false;
 
     private double currentAmount;
 
@@ -189,6 +189,14 @@ public class Adventure {
 		return invoiceReference;
 	}
 
+    public void setInvoiceReference(String invoiceReference) {
+        this.invoiceReference = invoiceReference;
+    }
+
+    public void setInvoiceCancelled(boolean value) {
+        this.invoiceCancelled = value;
+    }
+
 	public State getState() {
 		return this.state.getState();
 	}
@@ -258,8 +266,12 @@ public class Adventure {
     	return !shouldCancelVehicleRenting();
 	}
 
-    public void setInvoiceReference(String invoiceReference) {
-        this.invoiceReference = invoiceReference;
-    }
+	public boolean shouldCancelInvoice() {
+		return getInvoiceReference()!= null && !invoiceCancelled;
+	}
+	
+	public boolean invoiceIsCancelled() {
+		return !shouldCancelInvoice();
+	}
 
 }

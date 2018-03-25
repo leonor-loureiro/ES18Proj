@@ -162,12 +162,12 @@
 	</dependencies>
 
 	<modules>
-        	<module>car</module>
+		<module>tax</module>
 		<module>bank</module>
+        <module>car</module>
 		<module>hotel</module>
 		<module>activity</module>
 		<module>broker</module>
-		<module>tax</module>
 	</modules>
 </project>
 
