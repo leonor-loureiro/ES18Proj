@@ -22,7 +22,6 @@ public class ReserveActivityState extends AdventureState {
 			adventure.setActivityConfirmation(reference);
 
 			adventure.incAmountToPay(ActivityInterface.getPrice(reference));
-
 		} catch (ActivityException ae) {
 			adventure.setState(State.UNDO);
 			return;
