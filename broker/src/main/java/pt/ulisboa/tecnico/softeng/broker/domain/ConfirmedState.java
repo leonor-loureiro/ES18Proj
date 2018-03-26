@@ -16,7 +16,6 @@ import pt.ulisboa.tecnico.softeng.hotel.dataobjects.RoomBookingData;
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 
 public class ConfirmedState extends AdventureState {
-	public static int MAX_REMOTE_ERRORS = 20;
 	public static int MAX_BANK_EXCEPTIONS = 5;
 
 	private int numberOfBankExceptions = 0;
@@ -31,33 +30,28 @@ public class ConfirmedState extends AdventureState {
 		BankOperationData operation;
 		try {
 			operation = BankInterface.getOperationData(adventure.getPaymentConfirmation());
-		} catch (BankException be) {
+		} catch (final BankException be) {
 			this.numberOfBankExceptions++;
 			if (this.numberOfBankExceptions == MAX_BANK_EXCEPTIONS) {
 				adventure.setState(State.UNDO);
 			}
 			return;
-		} catch (RemoteAccessException rae) {
-			incNumOfRemoteErrors();
-			if (getNumOfRemoteErrors() == MAX_REMOTE_ERRORS) {
-				adventure.setState(State.UNDO);
-			}
+		} catch (final RemoteAccessException rae) {
 			return;
 		}
-		resetNumOfRemoteErrors();
 		this.numberOfBankExceptions = 0;
 
 		ActivityReservationData reservation;
 		try {
 			reservation = ActivityInterface.getActivityReservationData(adventure.getActivityConfirmation());
-		} catch (ActivityException ae) {
+		} catch (final ActivityException ae) {
 			adventure.setState(State.UNDO);
 			return;
-		} catch (RemoteAccessException rae) {
-			incNumOfRemoteErrors();
-			if (getNumOfRemoteErrors() == MAX_REMOTE_ERRORS) {
-				adventure.setState(State.UNDO);
-			}
+		} catch (final RemoteAccessException rae) {
+			return;
+		}
+		if (reservation.getPaymentReference() == null || reservation.getInvoiceReference() == null) {
+			adventure.setState(State.UNDO);
 			return;
 		}
 		resetNumOfRemoteErrors();
@@ -66,14 +60,14 @@ public class ConfirmedState extends AdventureState {
 			RentingData rentingData;
 			try {
 				rentingData = CarInterface.getRentingData(adventure.getRentingConfirmation());
-			} catch (CarException he) {
+			} catch (final CarException he) {
 				adventure.setState(State.UNDO);
 				return;
-			} catch (RemoteAccessException rae) {
-				incNumOfRemoteErrors();
-				if (getNumOfRemoteErrors() == MAX_REMOTE_ERRORS) {
-					adventure.setState(State.UNDO);
-				}
+			} catch (final RemoteAccessException rae) {
+				return;
+			}
+			if (rentingData.getPaymentReference() == null || rentingData.getInvoiceReference() == null) {
+				adventure.setState(State.UNDO);
 				return;
 			}
 			resetNumOfRemoteErrors();
@@ -83,14 +77,14 @@ public class ConfirmedState extends AdventureState {
 			RoomBookingData booking;
 			try {
 				booking = HotelInterface.getRoomBookingData(adventure.getRoomConfirmation());
-			} catch (HotelException he) {
+			} catch (final HotelException he) {
 				adventure.setState(State.UNDO);
 				return;
-			} catch (RemoteAccessException rae) {
-				incNumOfRemoteErrors();
-				if (getNumOfRemoteErrors() == MAX_REMOTE_ERRORS) {
-					adventure.setState(State.UNDO);
-				}
+			} catch (final RemoteAccessException rae) {
+				return;
+			}
+			if (booking.getPaymentReference() == null || booking.getInvoiceReference() == null) {
+				adventure.setState(State.UNDO);
 				return;
 			}
 			resetNumOfRemoteErrors();
