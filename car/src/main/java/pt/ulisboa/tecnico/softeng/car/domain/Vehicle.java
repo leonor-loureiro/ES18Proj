@@ -130,6 +130,9 @@ public abstract class Vehicle {
 		Renting renting = new Renting(drivingLicense, begin, end, this, buyerNIF);
 		this.addRenting(renting);
 
-		return renting;
+        this.getRentACar().getProcessor().submitRenting(renting);
+
+
+        return renting;
 	}
 }

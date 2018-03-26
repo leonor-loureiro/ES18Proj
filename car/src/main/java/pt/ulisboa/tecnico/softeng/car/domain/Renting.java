@@ -128,7 +128,7 @@ public class Renting {
 
 		TaxInterface.cancelInvoice(this.reference);
 
-		this.getVehicle().getRentACar().getProcessor().submitBooking(this);
+		this.getVehicle().getRentACar().getProcessor().submitRenting(this);
 
 		return this.cancellationReference;
 	}

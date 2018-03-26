@@ -14,7 +14,7 @@ public class Processor {
 
     private final Set<Renting> rentingToProcess = new HashSet<>();
 
-    public void submitBooking(Renting renting) {
+    public void submitRenting(Renting renting) {
         this.rentingToProcess.add(renting);
         processInvoices();
     }
