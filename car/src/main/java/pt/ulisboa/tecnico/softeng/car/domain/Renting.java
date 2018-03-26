@@ -127,9 +127,7 @@ public class Renting {
 	public String cancel() {
 		this.cancellationReference = this.reference + "CANCEL";
 		this.cancellationDate = LocalDate.now();
-
-		TaxInterface.cancelInvoice(this.reference);
-
+		
 		this.getVehicle().getRentACar().getProcessor().submitRenting(this);
 
 		return this.cancellationReference;

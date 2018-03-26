@@ -282,6 +282,7 @@ public class InvoiceProcessorSubmitRentingMethodTest {
 
 				BankInterface.cancelPayment(this.anyString);
 				this.result = CANCEL_PAYMENT_REFERENCE;
+
 				TaxInterface.cancelInvoice(this.anyString);
 				this.result = new Delegate() {
 					int i = 0;
