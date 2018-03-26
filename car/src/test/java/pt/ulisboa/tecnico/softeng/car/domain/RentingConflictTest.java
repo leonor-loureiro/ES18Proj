@@ -26,7 +26,8 @@ public class RentingConflictTest {
 	private static final String RENT_A_CAR_NAME = "Eartz";
 	private static final String NIF = "NIF";
 	private static final String IBAN = "IBAN";
-	private Car car;
+    private static final String IBAN_BUYER = "IBAN";
+    private Car car;
 
 	@Mocked
 	private BankInterface bankInterface;
@@ -41,37 +42,37 @@ public class RentingConflictTest {
 
 	@Test()
 	public void retingIsBeforeDates() {
-		Renting renting = new Renting(DRIVING_LICENSE, date1, date2, car, NIF);
+		Renting renting = new Renting(DRIVING_LICENSE, date1, date2, car, NIF, IBAN_BUYER);
 		assertFalse(renting.conflict(date3, date4));
 	}
 
 	@Test()
 	public void retingIsBeforeDatesSameDayInterval() {
-		Renting renting = new Renting(DRIVING_LICENSE, date1, date2, car, NIF);
+		Renting renting = new Renting(DRIVING_LICENSE, date1, date2, car, NIF, IBAN_BUYER);
 		assertFalse(renting.conflict(date3, date3));
 	}
 
 	@Test()
 	public void rentingEndsOnStartDate() {
-		Renting renting = new Renting(DRIVING_LICENSE, date1, date2, car, NIF);
+		Renting renting = new Renting(DRIVING_LICENSE, date1, date2, car, NIF, IBAN_BUYER);
 		assertTrue(renting.conflict(date2, date3));
 	}
 
 	@Test()
 	public void rentingStartsOnEndDate() {
-		Renting renting = new Renting(DRIVING_LICENSE, date1, date2, car, NIF);
+		Renting renting = new Renting(DRIVING_LICENSE, date1, date2, car, NIF, IBAN_BUYER);
 		assertTrue(renting.conflict(date1, date1));
 	}
 
 	@Test()
 	public void rentingStartsDuringInterval() {
-		Renting renting = new Renting(DRIVING_LICENSE, date1, date2, car, NIF);
+		Renting renting = new Renting(DRIVING_LICENSE, date1, date2, car, NIF, IBAN_BUYER);
 		assertTrue(renting.conflict(date0, date3));
 	}
 
 	@Test(expected = CarException.class)
 	public void endBeforeBegin() {
-		Renting renting = new Renting(DRIVING_LICENSE, date1, date2, car, NIF);
+		Renting renting = new Renting(DRIVING_LICENSE, date1, date2, car, NIF, IBAN_BUYER);
 		renting.conflict(date2, date1);
 	}
 

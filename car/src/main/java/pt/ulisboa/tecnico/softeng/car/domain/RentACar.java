@@ -105,7 +105,7 @@ public class RentACar {
 	}
 
 	public static String rent(Class<? extends Vehicle> vehicleType,
-							  String drivingLicense, String buyerNIF, LocalDate begin, LocalDate end) {
+							  String drivingLicense, String buyerNIF, String buyerIBAN, LocalDate begin, LocalDate end) {
 		Set<Vehicle> availableVehicles;
 
 		if (vehicleType == Car.class) {
@@ -117,7 +117,7 @@ public class RentACar {
 		return availableVehicles
 				.stream()
 				.findFirst()
-				.map(v -> v.rent(drivingLicense, begin, end, buyerNIF))
+				.map(v -> v.rent(drivingLicense, begin, end, buyerNIF, buyerIBAN))
 				.orElseThrow(CarException::new)
 				.getReference();
 	}

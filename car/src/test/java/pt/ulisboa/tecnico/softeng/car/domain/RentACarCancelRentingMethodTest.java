@@ -23,7 +23,8 @@ public class RentACarCancelRentingMethodTest {
 	private static final LocalDate END = LocalDate.parse("2018-01-09");
 	private static final String NIF = "NIF";
 	private static final String IBAN = "IBAN";
-	private RentACar rentACar;
+    private static final String IBAN_BUYER = "IBAN";
+    private RentACar rentACar;
 	private Car car;
 	private Renting renting;
 	
@@ -38,7 +39,7 @@ public class RentACarCancelRentingMethodTest {
 		rentACar = new RentACar(RENT_A_CAR_NAME, NIF, IBAN);
 		car = new Car(PLATE_CAR, 10, 10, rentACar);
 
-		String reference = RentACar.rent(Car.class, DRIVING_LICENSE, NIF, BEGIN, END);
+		String reference = RentACar.rent(Car.class, DRIVING_LICENSE, NIF, IBAN_BUYER, BEGIN, END);
 
 		renting = RentACar.getRenting(reference);
 	}

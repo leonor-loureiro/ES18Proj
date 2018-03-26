@@ -25,7 +25,8 @@ public class RentACarGetRentingDataTest {
 	private static final LocalDate date2 = LocalDate.parse("2018-01-07");
 	private static final String NIF = "NIF";
 	private static final String IBAN = "IBAN";
-	private Car car;
+    private static final String IBAN_BUYER = "IBAN";
+    private Car car;
 
 	@Mocked
 	private BankInterface bankInterface;
@@ -40,7 +41,7 @@ public class RentACarGetRentingDataTest {
 
 	@Test
 	public void success() {
-		Renting renting = car.rent(DRIVING_LICENSE, date1, date2, NIF);
+		Renting renting = car.rent(DRIVING_LICENSE, date1, date2, NIF, IBAN_BUYER);
 		RentingData rentingData = RentACar.getRentingData(renting.getReference());
 		assertEquals(renting.getReference(), rentingData.getReference());
 		assertEquals(DRIVING_LICENSE, rentingData.getDrivingLicense());

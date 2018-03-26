@@ -19,6 +19,7 @@ public class Renting {
 	private int kilometers = -1;
 	private final Vehicle vehicle;
 	private final String clientNIF;
+	private final String clientIBAN;
 
     private String paymentReference;
     private String invoiceReference;
@@ -27,7 +28,7 @@ public class Renting {
     private boolean cancelledInvoice = false;
     private String cancelledPaymentReference = null;
 
-	public Renting(String drivingLicense, LocalDate begin, LocalDate end, Vehicle vehicle, String buyerNIF) {
+	public Renting(String drivingLicense, LocalDate begin, LocalDate end, Vehicle vehicle, String buyerNIF, String buyerIBAN) {
 		checkArguments(drivingLicense, begin, end, vehicle);
 		this.reference = Integer.toString(++Renting.counter);
 		this.drivingLicense = drivingLicense;
@@ -35,6 +36,7 @@ public class Renting {
 		this.end = end;
 		this.vehicle = vehicle;
 		this.clientNIF = buyerNIF;
+		this.clientIBAN = buyerIBAN;
 	}
 
 	private void checkArguments(String drivingLicense, LocalDate begin, LocalDate end, Vehicle vehicle) {
