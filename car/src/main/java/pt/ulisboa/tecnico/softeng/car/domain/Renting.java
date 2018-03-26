@@ -2,8 +2,6 @@ package pt.ulisboa.tecnico.softeng.car.domain;
 
 import org.joda.time.LocalDate;
 
-import pt.ulisboa.tecnico.softeng.car.interfaces.BankInterface;
-import pt.ulisboa.tecnico.softeng.tax.dataobjects.InvoiceData;
 import pt.ulisboa.tecnico.softeng.car.exception.CarException;
 
 import pt.ulisboa.tecnico.softeng.car.interfaces.TaxInterface;
@@ -12,31 +10,33 @@ public class Renting {
 	private static String drivingLicenseFormat = "^[a-zA-Z]+\\d+$";
 	private static int counter;
 
-	private final String reference;
+    private static final String type = "RENTAL";
+    private final String reference;
 	private String cancellationReference;
 	private final String drivingLicense;
 	private final LocalDate begin;
 	private final LocalDate end;
-	private LocalDate cancellationDate;
 	private int kilometers = -1;
 	private final Vehicle vehicle;
+	private final String clientNIF;
+	private final String clientIBAN;
 
-	private final String paymentReference;
-	private final String invoiceReference;
+    private String paymentReference;
+    private String invoiceReference;
+    private String cancel;
+    private LocalDate cancellationDate;
+    private boolean cancelledInvoice = false;
+    private String cancelledPaymentReference = null;
 
-	public Renting(String drivingLicense, LocalDate begin, LocalDate end, Vehicle vehicle, String buyerNIF) {
+	public Renting(String drivingLicense, LocalDate begin, LocalDate end, Vehicle vehicle, String buyerNIF, String buyerIBAN) {
 		checkArguments(drivingLicense, begin, end, vehicle);
 		this.reference = Integer.toString(++Renting.counter);
 		this.drivingLicense = drivingLicense;
 		this.begin = begin;
 		this.end = end;
 		this.vehicle = vehicle;
-
-		this.paymentReference = BankInterface.processPayment(vehicle.getRentACar().getNIF(), vehicle.getPrice());
-
-		InvoiceData invoiceData = new InvoiceData(vehicle.getRentACar().getNIF(), buyerNIF, "CAR", vehicle.getPrice(),
-				begin);
-		invoiceReference = TaxInterface.submitInvoice(invoiceData);
+		this.clientNIF = buyerNIF;
+		this.clientIBAN = buyerIBAN;
 	}
 
 	private void checkArguments(String drivingLicense, LocalDate begin, LocalDate end, Vehicle vehicle) {
@@ -127,9 +127,9 @@ public class Renting {
 	public String cancel() {
 		this.cancellationReference = this.reference + "CANCEL";
 		this.cancellationDate = LocalDate.now();
-
-		TaxInterface.cancelInvoice(this.reference);
 		
+		this.getVehicle().getRentACar().getProcessor().submitRenting(this);
+
 		return this.cancellationReference;
 	}
 
@@ -137,7 +137,50 @@ public class Renting {
 		return this.paymentReference;
 	}
 
+	public void setPaymentReference(String paymentReference) {
+	    this.paymentReference = paymentReference;
+    }
+
 	public String getInvoiceReference() {
 		return this.invoiceReference;
 	}
+
+    public String getClientNIF() {
+        return clientNIF;
+    }
+
+    public String getType() {
+        return this.type;
+    }
+
+    public void setCancellationReference(String cancellationReference) {
+        this.cancellationReference = cancellationReference;
+    }
+
+    public void setInvoiceReference(String invoiceReference) {
+        this.invoiceReference = invoiceReference;
+    }
+
+    public void setCancelledInvoice(boolean cancelledInvoice) {
+        this.cancelledInvoice = cancelledInvoice;
+    }
+
+    public String getCancelledPaymentReference() {
+        return cancelledPaymentReference;
+    }
+
+    public boolean isCancelledInvoice() {
+        return this.cancelledInvoice;
+    }
+
+    public String getCancellation() {
+        return this.cancel;
+    }
+
+
+    public void setCancelledPaymentReference(String cancelledPaymentReference) {
+        this.cancelledPaymentReference = cancelledPaymentReference;
+    }
+
+
 }

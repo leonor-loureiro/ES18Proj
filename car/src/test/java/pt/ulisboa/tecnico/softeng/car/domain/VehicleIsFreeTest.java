@@ -24,7 +24,8 @@ public class VehicleIsFreeTest {
 	private static final LocalDate date4 = LocalDate.parse("2018-01-09");
 	private static final String NIF = "NIF";
 	private static final String IBAN = "IBAN";
-	private Car car;
+    private static final String IBAN_BUYER = "IBAN";
+    private Car car;
 
 	@Mocked
 	private BankInterface bankInterface;
@@ -47,8 +48,8 @@ public class VehicleIsFreeTest {
 
 	@Test
 	public void bookingsWereMade() {
-		car.rent(DRIVING_LICENSE, date2, date2, NIF);
-		car.rent(DRIVING_LICENSE, date3, date4, NIF);
+		car.rent(DRIVING_LICENSE, date2, date2, NIF, IBAN_BUYER);
+		car.rent(DRIVING_LICENSE, date3, date4, NIF, IBAN_BUYER);
 
 		assertFalse(car.isFree(date1, date2));
 		assertFalse(car.isFree(date1, date3));

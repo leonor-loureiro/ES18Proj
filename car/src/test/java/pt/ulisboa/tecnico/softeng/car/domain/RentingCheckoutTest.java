@@ -23,7 +23,8 @@ public class RentingCheckoutTest {
 	private static final LocalDate date2 = LocalDate.parse("2018-01-07");
 	private static final String NIF = "NIF";
 	private static final String IBAN = "IBAN";
-	private Car car;
+    private static final String IBAN_BUYER = "IBAN";
+    private Car car;
 
     @Mocked
     private BankInterface bankInterface;
@@ -39,14 +40,14 @@ public class RentingCheckoutTest {
 
 	@Test
 	public void checkout() {
-		Renting renting = car.rent(DRIVING_LICENSE, date1, date2, NIF);
+		Renting renting = car.rent(DRIVING_LICENSE, date1, date2, NIF, IBAN_BUYER);
 		renting.checkout(100);
 		assertEquals(110, car.getKilometers());
 	}
 
 	@Test(expected = CarException.class)
 	public void failCheckout() {
-		Renting renting = car.rent(DRIVING_LICENSE, date1, date2, NIF);
+		Renting renting = car.rent(DRIVING_LICENSE, date1, date2, NIF, IBAN_BUYER);
 		renting.checkout(-10);
 	}
 

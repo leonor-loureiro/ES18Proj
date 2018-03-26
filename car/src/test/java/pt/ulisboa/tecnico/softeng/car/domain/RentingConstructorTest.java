@@ -23,7 +23,9 @@ public class RentingConstructorTest {
 	private static final LocalDate date2 = LocalDate.parse("2018-01-07");
 	private static final String NIF = "NIF";
 	private static final String IBAN = "IBAN";
-	private Car car;
+    private static final String IBAN_BUYER = "IBAN";
+
+    private Car car;
 
 	@Mocked
 	private BankInterface bankInterface;
@@ -38,43 +40,43 @@ public class RentingConstructorTest {
 
 	@Test
 	public void success() {
-		Renting renting = new Renting(DRIVING_LICENSE, date1, date2, car, NIF);
+		Renting renting = new Renting(DRIVING_LICENSE, date1, date2, car, NIF, IBAN_BUYER);
 		assertEquals(DRIVING_LICENSE, renting.getDrivingLicense());
 	}
 
 	@Test(expected = CarException.class)
 	public void nullDrivingLicense() {
-		new Renting(null, date1, date2, car, NIF);
+		new Renting(null, date1, date2, car, NIF, IBAN_BUYER);
 	}
 
 	@Test(expected = CarException.class)
 	public void emptyDrivingLicense() {
-		new Renting("", date1, date2, car, NIF);
+		new Renting("", date1, date2, car, NIF, IBAN_BUYER);
 	}
 
 	@Test(expected = CarException.class)
 	public void invalidDrivingLicense() {
-		new Renting("12", date1, date2, car, NIF);
+		new Renting("12", date1, date2, car, NIF, IBAN_BUYER);
 	}
 
 	@Test(expected = CarException.class)
 	public void nullBegin() {
-		new Renting(DRIVING_LICENSE, null, date2, car, NIF);
+		new Renting(DRIVING_LICENSE, null, date2, car, NIF, IBAN_BUYER);
 	}
 
 	@Test(expected = CarException.class)
 	public void nullEnd() {
-		new Renting(DRIVING_LICENSE, date1, null, car, NIF);
+		new Renting(DRIVING_LICENSE, date1, null, car, NIF, IBAN_BUYER);
 	}
 
 	@Test(expected = CarException.class)
 	public void endBeforeBegin() {
-		new Renting(DRIVING_LICENSE, date2, date1, car, NIF);
+		new Renting(DRIVING_LICENSE, date2, date1, car, NIF, IBAN_BUYER);
 	}
 
 	@Test(expected = CarException.class)
 	public void nullCar() {
-		new Renting(DRIVING_LICENSE, date1, date2, null, NIF);
+		new Renting(DRIVING_LICENSE, date1, date2, null, NIF, IBAN_BUYER);
 	}
 
 	@After

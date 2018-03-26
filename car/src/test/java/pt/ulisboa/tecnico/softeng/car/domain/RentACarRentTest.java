@@ -24,7 +24,8 @@ public class RentACarRentTest {
 	private static final LocalDate END = LocalDate.parse("2018-01-09");
 	private static final String NIF = "NIF";
 	private static final String IBAN = "IBAN";
-	private RentACar rentACar;
+    private static final String IBAN_BUYER = "IBAN";
+    private RentACar rentACar;
 	private Car car;
 
 	@Mocked
@@ -40,26 +41,26 @@ public class RentACarRentTest {
 
 	@Test
 	public void rentACarHasCarAvailable() {
-		String reference = RentACar.rent(Car.class, DRIVING_LICENSE, NIF, BEGIN, END);
+		String reference = RentACar.rent(Car.class, DRIVING_LICENSE, NIF, IBAN_BUYER, BEGIN, END);
 		assertNotNull(reference);
 		assertFalse(car.isFree(BEGIN, END));
 	}
 
 	@Test(expected = CarException.class)
 	public void rentACarHasNoCarsAvailable() {
-		RentACar.rent(Car.class, DRIVING_LICENSE, NIF, BEGIN, END);
-		RentACar.rent(Car.class, DRIVING_LICENSE, NIF, BEGIN.plusDays(1), END.plusDays(1));
+		RentACar.rent(Car.class, DRIVING_LICENSE, NIF, IBAN_BUYER, BEGIN, END);
+		RentACar.rent(Car.class, DRIVING_LICENSE, NIF, IBAN_BUYER, BEGIN.plusDays(1), END.plusDays(1));
 	}
 
 	@Test(expected = CarException.class)
 	public void noRentACars() {
 		RentACar.rentACars.clear();
-		RentACar.rent(Car.class, DRIVING_LICENSE, NIF, BEGIN, END);
+		RentACar.rent(Car.class, DRIVING_LICENSE, NIF, IBAN_BUYER, BEGIN, END);
 	}
 
 	@Test(expected = CarException.class)
 	public void noMotorcycles() {
-		RentACar.rent(Motorcycle.class, DRIVING_LICENSE, NIF, BEGIN, END);
+		RentACar.rent(Motorcycle.class, DRIVING_LICENSE, NIF, IBAN_BUYER, BEGIN, END);
 	}
 
 	@After
