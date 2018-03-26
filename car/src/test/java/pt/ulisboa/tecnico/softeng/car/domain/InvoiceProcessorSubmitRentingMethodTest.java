@@ -40,7 +40,6 @@ public class InvoiceProcessorSubmitRentingMethodTest {
     private Car car;
 
 	private  RentACar rentACar;
-	private Renting renting;
 
 	@Before
 	public void setUp() {
@@ -175,8 +174,8 @@ public class InvoiceProcessorSubmitRentingMethodTest {
 			}
 		};
 
-        this.car.rent(DRIVING_LICENSE, date0, date1, NIF_CUSTOMER, IBAN_CUSTOMER);
-		this.renting.cancel();
+        Renting renting = this.car.rent(DRIVING_LICENSE, date0, date1, NIF_CUSTOMER, IBAN_CUSTOMER);
+		renting.cancel();
 
 		new FullVerifications() {
 			{
@@ -199,8 +198,8 @@ public class InvoiceProcessorSubmitRentingMethodTest {
 			}
 		};
 
-        this.car.rent(DRIVING_LICENSE, date0, date1, NIF_CUSTOMER, IBAN_CUSTOMER);
-		this.renting.cancel();
+        Renting renting = this.car.rent(DRIVING_LICENSE, date0, date1, NIF_CUSTOMER, IBAN_CUSTOMER);
+		renting.cancel();
         this.car.rent(DRIVING_LICENSE, date2, date3, NIF_CUSTOMER, IBAN_CUSTOMER);
 
 		new FullVerifications(bankInterface) {
@@ -226,8 +225,8 @@ public class InvoiceProcessorSubmitRentingMethodTest {
 			}
 		};
 
-        this.car.rent(DRIVING_LICENSE, date0, date1, NIF_CUSTOMER, IBAN_CUSTOMER);
-        this.renting.cancel();
+        Renting renting = this.car.rent(DRIVING_LICENSE, date0, date1, NIF_CUSTOMER, IBAN_CUSTOMER);
+        renting.cancel();
         this.car.rent(DRIVING_LICENSE, date2, date3, NIF_CUSTOMER, IBAN_CUSTOMER);
 
         new FullVerifications(bankInterface) {
@@ -261,8 +260,8 @@ public class InvoiceProcessorSubmitRentingMethodTest {
 			}
 		};
 
-        this.car.rent(DRIVING_LICENSE, date0, date1, NIF_CUSTOMER, IBAN_CUSTOMER);
-        this.renting.cancel();
+        Renting renting = this.car.rent(DRIVING_LICENSE, date0, date1, NIF_CUSTOMER, IBAN_CUSTOMER);
+        renting.cancel();
         this.car.rent(DRIVING_LICENSE, date2, date3, NIF_CUSTOMER, IBAN_CUSTOMER);
 
 		new FullVerifications(taxInterface) {
@@ -297,8 +296,8 @@ public class InvoiceProcessorSubmitRentingMethodTest {
 			}
 		};
 
-        this.car.rent(DRIVING_LICENSE, date0, date1, NIF_CUSTOMER, IBAN_CUSTOMER);
-        this.renting.cancel();
+        Renting renting = this.car.rent(DRIVING_LICENSE, date0, date1, NIF_CUSTOMER, IBAN_CUSTOMER);
+        renting.cancel();
         this.car.rent(DRIVING_LICENSE, date2, date3, NIF_CUSTOMER, IBAN_CUSTOMER);
 
 		new FullVerifications(taxInterface) {
