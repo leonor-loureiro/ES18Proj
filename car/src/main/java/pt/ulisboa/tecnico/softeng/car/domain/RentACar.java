@@ -21,7 +21,9 @@ public class RentACar {
 	private final String iban;
 	private final Map<String, Vehicle> vehicles = new HashMap<>();
 
-	public RentACar(String name, String nif, String iban) {
+    private final Processor processor = new Processor();
+
+    public RentACar(String name, String nif, String iban) {
 		checkArguments(name, nif, iban);
 		this.name = name;
 		this.nif = nif;
@@ -162,4 +164,8 @@ public class RentACar {
 			renting.getEnd()
 		);
 	}
+
+	public Processor getProcessor() {
+	    return this.processor;
+    }
 }
