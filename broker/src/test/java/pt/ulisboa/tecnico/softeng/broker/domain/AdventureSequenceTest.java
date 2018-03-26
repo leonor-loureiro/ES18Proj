@@ -74,7 +74,7 @@ public class AdventureSequenceTest {
 				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure);
 				this.result = ROOM_CONFIRMATION;
 
-				CarInterface.rentCar((Class<? extends Vehicle>) any, anyString, anyString, (LocalDate) any,
+				CarInterface.rentCar((Class<? extends Vehicle>) any, anyString, anyString, anyString, (LocalDate) any,
 						(LocalDate) any);
 				this.result = RENTING_CONFIRMATION;
 
@@ -141,7 +141,7 @@ public class AdventureSequenceTest {
 				ActivityInterface.reserveActivity(arrival, arrival, AGE, this.anyString, this.anyString);
 				this.result = ACTIVITY_CONFIRMATION;
 
-				CarInterface.rentCar((Class<? extends Vehicle>) any, anyString, anyString, (LocalDate) any,
+				CarInterface.rentCar((Class<? extends Vehicle>) any, anyString, anyString, anyString, (LocalDate) any,
 						(LocalDate) any);
 				this.result = RENTING_CONFIRMATION;
 
@@ -246,7 +246,7 @@ public class AdventureSequenceTest {
 				ActivityInterface.reserveActivity(arrival, arrival, AGE, this.anyString, this.anyString);
 				this.result = ACTIVITY_CONFIRMATION;
 
-				CarInterface.rentCar((Class<? extends Vehicle>) any, anyString, anyString, (LocalDate) any,
+				CarInterface.rentCar((Class<? extends Vehicle>) any, anyString, anyString, anyString, (LocalDate) any,
 						(LocalDate) any);
 				this.result = new CarException();
 
@@ -280,7 +280,7 @@ public class AdventureSequenceTest {
 				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure);
 				this.result = ROOM_CONFIRMATION;
 
-				CarInterface.rentCar((Class<? extends Vehicle>) any, anyString, anyString, (LocalDate) any,
+				CarInterface.rentCar((Class<? extends Vehicle>) any, anyString, anyString, anyString, (LocalDate) any,
 						(LocalDate) any);
 				this.result = RENTING_CONFIRMATION;
 
@@ -324,7 +324,7 @@ public class AdventureSequenceTest {
 				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure);
 				this.result = ROOM_CONFIRMATION;
 
-				CarInterface.rentCar((Class<? extends Vehicle>) any, anyString, anyString, (LocalDate) any,
+				CarInterface.rentCar((Class<? extends Vehicle>) any, anyString, anyString, anyString, (LocalDate) any,
 						(LocalDate) any);
 				this.result = RENTING_CONFIRMATION;
 

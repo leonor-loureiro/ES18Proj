@@ -21,6 +21,7 @@ public class RentVehicleState extends AdventureState {
             String reference = CarInterface.rentCar(Car.class,
                     adventure.getClient().getDrivingLicense(),
                     adventure.getClient().getNIF(),
+                    adventure.getClient().getIBAN(),
                     adventure.getBegin(), adventure.getEnd());
 
             adventure.incAmountToPay(CarInterface.getPrice(reference));

@@ -24,6 +24,7 @@ public class RentVehicleStateMethodTest {
 	private static final String NIF_AS_SELLER = "sellerNIF";
 	private static final String NIF = "123456789";
 	private static final String IBAN = "BK01987654321";
+	private static final String IBAN_CUSTOMER = "BK01987654321";
 	private static final String DRIVING_LICENSE = "IMT1234";
     private static final double MARGIN = 0.3;
 	private static final int AGE = 20;
@@ -47,7 +48,7 @@ public class RentVehicleStateMethodTest {
 	public void successRentVehicle(@Mocked final CarInterface carInterface) {
 		new Expectations() {
 			{
-				CarInterface.rentCar(Car.class, DRIVING_LICENSE, NIF, BEGIN, END);
+				CarInterface.rentCar(Car.class, DRIVING_LICENSE, NIF, IBAN_CUSTOMER, BEGIN, END);
 				this.result = RENT_CONFIRMATION;
 				this.times = 1;
 			}
@@ -62,7 +63,7 @@ public class RentVehicleStateMethodTest {
 	public void carException(@Mocked final CarInterface carInterface) {
 		new Expectations() {
 			{
-				CarInterface.rentCar(Car.class, DRIVING_LICENSE, NIF, BEGIN, END);
+				CarInterface.rentCar(Car.class, DRIVING_LICENSE, NIF, IBAN_CUSTOMER, BEGIN, END);
 				this.result = new CarException();
 				this.times = 1;
 			}
@@ -77,7 +78,7 @@ public class RentVehicleStateMethodTest {
 	public void singleRemoteAccessException(@Mocked final CarInterface carInterface) {
 		new Expectations() {
 			{
-				CarInterface.rentCar(Car.class, DRIVING_LICENSE, NIF, BEGIN, END);
+				CarInterface.rentCar(Car.class, DRIVING_LICENSE, NIF, IBAN_CUSTOMER, BEGIN, END);
 				this.result = new RemoteAccessException();
 				this.times = 1;
 			}
@@ -92,7 +93,7 @@ public class RentVehicleStateMethodTest {
 	public void maxRemoteAccessException(@Mocked final CarInterface carInterface) {
 		new Expectations() {
 			{
-				CarInterface.rentCar(Car.class, DRIVING_LICENSE, NIF, BEGIN, END);
+				CarInterface.rentCar(Car.class, DRIVING_LICENSE, NIF, IBAN_CUSTOMER, BEGIN, END);
 				this.result = new RemoteAccessException();
 				this.times = RentVehicleState.MAX_REMOTE_ERRORS;
 			}
@@ -109,7 +110,7 @@ public class RentVehicleStateMethodTest {
 	public void maxMinusOneRemoteAccessException(@Mocked final CarInterface carInterface) {
 		new Expectations() {
 			{
-				CarInterface.rentCar(Car.class, DRIVING_LICENSE, NIF, BEGIN, END);
+				CarInterface.rentCar(Car.class, DRIVING_LICENSE, NIF, IBAN_CUSTOMER, BEGIN, END);
 				this.result = new RemoteAccessException();
 				this.times = RentVehicleState.MAX_REMOTE_ERRORS - 1;
 			}
@@ -126,7 +127,7 @@ public class RentVehicleStateMethodTest {
 	public void twoRemoteAccessExceptionOneSuccess(@Mocked final CarInterface carInterface) {
 		new Expectations() {
 			{
-				CarInterface.rentCar(Car.class, DRIVING_LICENSE, NIF, BEGIN, END);
+				CarInterface.rentCar(Car.class, DRIVING_LICENSE, NIF, IBAN_CUSTOMER, BEGIN, END);
 				this.result = new Delegate() {
 					int i = 0;
 
@@ -154,7 +155,7 @@ public class RentVehicleStateMethodTest {
 	public void oneRemoteAccessExceptionOneCarException(@Mocked final CarInterface carInterface) {
 		new Expectations() {
 			{
-				CarInterface.rentCar(Car.class, DRIVING_LICENSE, NIF, BEGIN, END);
+				CarInterface.rentCar(Car.class, DRIVING_LICENSE, NIF, IBAN_CUSTOMER, BEGIN, END);
 				this.result = new Delegate() {
 					int i = 0;
 
