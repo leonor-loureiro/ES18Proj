@@ -19,6 +19,8 @@ public class BookingConstructorTest {
 	private final LocalDate departure = new LocalDate(2016, 12, 21);
 	private Hotel hotel;
 	private final double price = 20.0;
+	private String NIF_BUYER = "123456789";
+	private String IBAN_BUYER = "IBAN_BUYER";
 
     @Mocked
     private TaxInterface taxInterface;
@@ -31,7 +33,7 @@ public class BookingConstructorTest {
 
 	@Test
 	public void success() {
-		Booking booking = new Booking(this.hotel, Room.Type.SINGLE, this.arrival, this.departure, "NIF");
+		Booking booking = new Booking(this.hotel, Room.Type.SINGLE, this.arrival, this.departure, NIF_BUYER, IBAN_BUYER);
 
 		Assert.assertTrue(booking.getReference().startsWith(this.hotel.getCode()));
 		Assert.assertTrue(booking.getReference().length() > Hotel.CODE_SIZE);
@@ -42,27 +44,27 @@ public class BookingConstructorTest {
 
 	@Test(expected = HotelException.class)
 	public void nullHotel() {
-		new Booking(null, Room.Type.SINGLE, this.arrival, this.departure, "NIF");
+		new Booking(null, Room.Type.SINGLE, this.arrival, this.departure, NIF_BUYER, IBAN_BUYER);
 	}
 
 	@Test(expected = HotelException.class)
 	public void nullArrival() {
-		new Booking(this.hotel, Room.Type.SINGLE, null, this.departure, "NIF");
+		new Booking(this.hotel, Room.Type.SINGLE, null, this.departure, NIF_BUYER, IBAN_BUYER);
 	}
 
 	@Test(expected = HotelException.class)
 	public void nullDeparture() {
-		new Booking(this.hotel, Room.Type.SINGLE, this.arrival, null, "NIF");
+		new Booking(this.hotel, Room.Type.SINGLE, this.arrival, null, NIF_BUYER, IBAN_BUYER);
 	}
 
 	@Test(expected = HotelException.class)
 	public void departureBeforeArrival() {
-		new Booking(this.hotel, Room.Type.SINGLE, this.arrival, this.arrival.minusDays(1), "NIF");
+		new Booking(this.hotel, Room.Type.SINGLE, this.arrival, this.arrival.minusDays(1), NIF_BUYER, IBAN_BUYER);
 	}
 
 	@Test
 	public void arrivalEqualDeparture() {
-		new Booking(this.hotel, Room.Type.SINGLE, this.arrival, this.arrival, "NIF");
+		new Booking(this.hotel, Room.Type.SINGLE, this.arrival, this.arrival, NIF_BUYER, IBAN_BUYER);
 	}
 
 	@After

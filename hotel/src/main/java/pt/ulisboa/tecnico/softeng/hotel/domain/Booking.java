@@ -24,9 +24,10 @@ public class Booking {
 	private String invoiceReference;
 	private boolean cancelledInvoice = false;
 	private String cancelledPaymentReference = null;
+	private final String buyerIban;
 
-	public Booking(Hotel hotel, Room.Type type, LocalDate arrival, LocalDate departure, String buyerNIF) {
-		checkArguments(hotel, arrival, departure, buyerNIF);
+	public Booking(Hotel hotel, Room.Type type, LocalDate arrival, LocalDate departure, String buyerNIF, String buyerIban) {
+		checkArguments(hotel, arrival, departure, buyerNIF, buyerIban);
 
 		this.reference = hotel.getCode() + Integer.toString(++Booking.counter);
 		this.hotel = hotel;
@@ -34,11 +35,13 @@ public class Booking {
 		this.departure = departure;
 		this.price = hotel.getPrice(type);
 		this.nif = buyerNIF;
+		this.buyerIban = buyerIban;
 		this.providerNif = hotel.getNIF();
 	}
 
-	private void checkArguments(Hotel hotel, LocalDate arrival, LocalDate departure, String buyerNIF) {
-		if (hotel == null || arrival == null || departure == null || buyerNIF == null || buyerNIF.trim().length() == 0) {
+	private void checkArguments(Hotel hotel, LocalDate arrival, LocalDate departure, String buyerNIF, String buyerIban) {
+		if (hotel == null || arrival == null || departure == null || buyerNIF == null || buyerNIF.trim().length() == 0 || buyerIban == null
+				|| buyerIban.trim().length() == 0) {
 			throw new HotelException();
 		}
 
@@ -155,5 +158,9 @@ public class Booking {
 
 	public void setInvoiceReference(String invoiceReference) {
 		this.invoiceReference = invoiceReference;
+	}
+
+	public String getIban() {
+		return this.buyerIban;
 	}
 }

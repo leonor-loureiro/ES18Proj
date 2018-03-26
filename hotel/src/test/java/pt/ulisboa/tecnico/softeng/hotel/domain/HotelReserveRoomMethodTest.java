@@ -23,7 +23,10 @@ public class HotelReserveRoomMethodTest {
 	private final LocalDate departure = new LocalDate(2016, 12, 24);
 	private Room room;
 	private Hotel hotel;
-	private final String NIF = "NIF";
+	private static final String NIF_HOTEL = "123456789";
+	private static final String NIF_BUYER = "123456700";
+	private static final String IBAN_BUYER = "IBAN_CUSTOMER";
+	private static final String IBAN_HOTEL = "IBAN_HOTEL";
 
 	@Mocked
 	private TaxInterface taxInterface;
@@ -31,7 +34,7 @@ public class HotelReserveRoomMethodTest {
 
 	@Before
 	public void setUp() {
-		hotel = new Hotel("XPTO123", "Lisboa", "NIF", "IBAN", 20.0, 30.0);
+		hotel = new Hotel("XPTO123", "Lisboa", NIF_HOTEL, IBAN_HOTEL, 20.0, 30.0);
 		this.room = new Room(hotel, "01", Room.Type.SINGLE);
 	}
 
@@ -45,7 +48,7 @@ public class HotelReserveRoomMethodTest {
 			}
 		};
 
-		String ref = Hotel.reserveRoom(Room.Type.SINGLE, arrival, departure, NIF);
+		String ref = Hotel.reserveRoom(Room.Type.SINGLE, arrival, departure, NIF_BUYER, IBAN_BUYER);
 
 		assertTrue(ref != null);
 		assertTrue(ref.startsWith("XPTO123"));
@@ -54,20 +57,20 @@ public class HotelReserveRoomMethodTest {
 	@Test(expected = HotelException.class)
 	public void noHotels() {
 		Hotel.hotels.clear();
-		Hotel.reserveRoom(Room.Type.SINGLE, arrival, departure, NIF);
+		Hotel.reserveRoom(Room.Type.SINGLE, arrival, departure, NIF_BUYER, IBAN_BUYER);
 	}
 
 	@Test(expected = HotelException.class)
 	public void noVacancy() {
 		hotel.removeRooms();
-		String ref = Hotel.reserveRoom(Room.Type.SINGLE, arrival, new LocalDate(2016, 12, 25), NIF);
+		String ref = Hotel.reserveRoom(Room.Type.SINGLE, arrival, new LocalDate(2016, 12, 25), NIF_BUYER, IBAN_BUYER);
 		System.out.println(ref);
 	}
 
 	@Test(expected = HotelException.class)
 	public void noRooms() {
 		hotel.removeRooms();
-		Hotel.reserveRoom(Room.Type.SINGLE, arrival, new LocalDate(2016, 12, 25), NIF);
+		Hotel.reserveRoom(Room.Type.SINGLE, arrival, new LocalDate(2016, 12, 25), NIF_BUYER, IBAN_BUYER);
 	}
 
 	@After

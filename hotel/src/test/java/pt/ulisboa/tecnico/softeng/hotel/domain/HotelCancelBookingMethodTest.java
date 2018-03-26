@@ -22,6 +22,8 @@ public class HotelCancelBookingMethodTest {
 	private Hotel hotel;
 	private Room room;
 	private Booking booking;
+	private String NIF_BUYER = "123456789";
+	private String IBAN_BUYER = "IBAN_BUYER";
 
 	@Mocked
 	private TaxInterface taxInterface;
@@ -32,7 +34,7 @@ public class HotelCancelBookingMethodTest {
 	public void setUp() {
 		this.hotel = new Hotel("XPTO123", "Paris", "NIF", "IBAN", 20.0, 30.0);
 		this.room = new Room(this.hotel, "01", Type.DOUBLE);
-		this.booking = this.room.reserve(Type.DOUBLE, this.arrival, this.departure, "NIF");
+		this.booking = this.room.reserve(Type.DOUBLE, this.arrival, this.departure, NIF_BUYER, IBAN_BUYER);
 	}
 
 	@Test

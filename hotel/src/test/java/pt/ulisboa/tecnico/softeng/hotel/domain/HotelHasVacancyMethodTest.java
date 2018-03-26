@@ -22,7 +22,9 @@ public class HotelHasVacancyMethodTest {
 	private final LocalDate departure = new LocalDate(2016, 12, 21);
 	private Hotel hotel;
 	private Room room;
-	private final String NIF = "NIF";
+	private final String NIF_HOTEL = "123456700";
+	private String NIF_BUYER = "123456789";
+	private String IBAN_BUYER = "IBAN_BUYER";
 
     @Mocked
     private TaxInterface taxInterface;
@@ -30,7 +32,7 @@ public class HotelHasVacancyMethodTest {
 
     @Before
 	public void setUp() {
-		this.hotel = new Hotel("XPTO123", "Paris", "NIF", "IBAN", 20.0, 30.0);
+		this.hotel = new Hotel("XPTO123", "Paris", NIF_HOTEL, "IBAN", 20.0, 30.0);
 		this.room = new Room(this.hotel, "01", Type.DOUBLE);
 	}
 
@@ -44,7 +46,7 @@ public class HotelHasVacancyMethodTest {
 
 	@Test
 	public void noVacancy() {
-		this.room.reserve(Type.DOUBLE, this.arrival, this.departure, NIF);
+		this.room.reserve(Type.DOUBLE, this.arrival, this.departure, NIF_BUYER, IBAN_BUYER);
 
 		assertNull(this.hotel.hasVacancy(Type.DOUBLE, this.arrival, this.departure));
 	}
