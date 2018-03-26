@@ -312,6 +312,7 @@ public class InvoiceProcessorSubmitRentingMethodTest {
 	@After
 	public void tearDown() {
 		 RentACar.rentACars.clear();
+		 Vehicle.plates.clear();
 	}
 
 }
