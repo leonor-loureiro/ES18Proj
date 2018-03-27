@@ -23,13 +23,16 @@ public class ProcessorSubmitBookingMethodTest {
 	private Hotel hotel;
 	private Booking booking;
 	private static LocalDate arrival = new LocalDate(2016, 12, 19);
-	private static LocalDate departure = new LocalDate(2016, 12, 24); 
+	private static LocalDate departure = new LocalDate(2016, 12, 24);
+	private final String NIF_HOTEL = "123456700";
+	private String NIF_BUYER = "123456789";
+	private String IBAN_BUYER = "IBAN_BUYER"; 
 
 	@Before
 	public void setUp() {
-		this.hotel = new Hotel("XPTO123", "Lisboa", "NIF", "IBAN", 20.0, 30.0);
+		this.hotel = new Hotel("XPTO123", "Lisboa", NIF_HOTEL, "IBAN", 20.0, 30.0);
 		new Room(hotel, "01", Room.Type.SINGLE);
-		this.booking = new Booking(this.hotel, Room.Type.SINGLE, arrival, departure, "NIF");
+		this.booking = new Booking(this.hotel, Room.Type.SINGLE, arrival, departure, NIF_BUYER, IBAN_BUYER);
 	}
 
 	@Test
@@ -62,7 +65,7 @@ public class ProcessorSubmitBookingMethodTest {
 		};
 
 		this.hotel.getProcessor().submitBooking(this.booking);
-		this.hotel.getProcessor().submitBooking(new Booking(this.hotel, Room.Type.SINGLE, arrival, departure, "NIF"));
+		this.hotel.getProcessor().submitBooking(new Booking(this.hotel, Room.Type.SINGLE, arrival, departure, NIF_BUYER, IBAN_BUYER));
 
 		new FullVerifications(taxInterface) {
 			{
@@ -85,7 +88,7 @@ public class ProcessorSubmitBookingMethodTest {
 		};
 
 		this.hotel.getProcessor().submitBooking(this.booking);
-		this.hotel.getProcessor().submitBooking(new Booking(this.hotel, Room.Type.SINGLE, arrival, departure, "NIF"));
+		this.hotel.getProcessor().submitBooking(new Booking(this.hotel, Room.Type.SINGLE, arrival, departure, NIF_BUYER, IBAN_BUYER));
 
 		new FullVerifications(taxInterface) {
 			{
@@ -108,7 +111,7 @@ public class ProcessorSubmitBookingMethodTest {
 		};
 
 		this.hotel.getProcessor().submitBooking(this.booking);
-		this.hotel.getProcessor().submitBooking(new Booking(this.hotel, Room.Type.SINGLE, arrival, departure, "NIF"));
+		this.hotel.getProcessor().submitBooking(new Booking(this.hotel, Room.Type.SINGLE, arrival, departure, NIF_BUYER, IBAN_BUYER));
 
 		new FullVerifications(bankInterface) {
 			{
@@ -131,7 +134,7 @@ public class ProcessorSubmitBookingMethodTest {
 		};
 
 		this.hotel.getProcessor().submitBooking(this.booking);
-		this.hotel.getProcessor().submitBooking(new Booking(this.hotel, Room.Type.SINGLE, arrival, departure, "NIF"));
+		this.hotel.getProcessor().submitBooking(new Booking(this.hotel, Room.Type.SINGLE, arrival, departure, NIF_BUYER, IBAN_BUYER));
 
 		new FullVerifications(bankInterface) {
 			{
@@ -179,7 +182,7 @@ public class ProcessorSubmitBookingMethodTest {
 
 		this.hotel.getProcessor().submitBooking(this.booking);
 		this.booking.cancel();
-		this.hotel.getProcessor().submitBooking(new Booking(this.hotel, Room.Type.SINGLE, arrival, departure, "NIF"));
+		this.hotel.getProcessor().submitBooking(new Booking(this.hotel, Room.Type.SINGLE, arrival, departure, NIF_BUYER, IBAN_BUYER));
 
 		new FullVerifications(bankInterface) {
 			{
@@ -206,7 +209,7 @@ public class ProcessorSubmitBookingMethodTest {
 
 		this.hotel.getProcessor().submitBooking(this.booking);
 		this.booking.cancel();
-		this.hotel.getProcessor().submitBooking(new Booking(this.hotel, Room.Type.SINGLE, arrival, departure, "NIF"));
+		this.hotel.getProcessor().submitBooking(new Booking(this.hotel, Room.Type.SINGLE, arrival, departure, NIF_BUYER, IBAN_BUYER));
 
 		new FullVerifications(bankInterface) {
 			{
@@ -241,7 +244,7 @@ public class ProcessorSubmitBookingMethodTest {
 
 		this.hotel.getProcessor().submitBooking(this.booking);
 		this.booking.cancel();
-		this.hotel.getProcessor().submitBooking(new Booking(this.hotel, Room.Type.SINGLE, arrival, departure, "NIF"));
+		this.hotel.getProcessor().submitBooking(new Booking(this.hotel, Room.Type.SINGLE, arrival, departure, NIF_BUYER, IBAN_BUYER));
 
 		new FullVerifications(taxInterface) {
 			{
@@ -276,7 +279,7 @@ public class ProcessorSubmitBookingMethodTest {
 
 		this.hotel.getProcessor().submitBooking(this.booking);
 		this.booking.cancel();
-		this.hotel.getProcessor().submitBooking(new Booking(this.hotel, Room.Type.SINGLE, arrival, departure, "NIF"));
+		this.hotel.getProcessor().submitBooking(new Booking(this.hotel, Room.Type.SINGLE, arrival, departure, NIF_BUYER, IBAN_BUYER));
 
 		new FullVerifications(taxInterface) {
 			{

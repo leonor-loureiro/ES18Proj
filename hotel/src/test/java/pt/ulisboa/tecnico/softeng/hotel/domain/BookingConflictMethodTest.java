@@ -18,16 +18,18 @@ public class BookingConflictMethodTest {
 	private final LocalDate arrival = new LocalDate(2016, 12, 19);
 	private final LocalDate departure = new LocalDate(2016, 12, 24);
 	private Booking booking;
-	private final String NIF = "NIF";
+	private final String NIF_HOTEL = "123456700";
+	private String NIF_BUYER = "123456789";
+	private String IBAN_BUYER = "IBAN_BUYER";
 
 	@Mocked private TaxInterface taxInterface;
     @Mocked private BankInterface bankInterface;
 
 	@Before
 	public void setUp() {
-		Hotel hotel = new Hotel("XPTO123", "Londres", "NIF", "IBAN", 20.0, 30.0);
+		Hotel hotel = new Hotel("XPTO123", "Londres", NIF_HOTEL, "IBAN", 20.0, 30.0);
 
-		this.booking = new Booking(hotel, Room.Type.SINGLE, this.arrival, this.departure, NIF);
+		this.booking = new Booking(hotel, Room.Type.SINGLE, this.arrival, this.departure, NIF_BUYER, IBAN_BUYER);
 	}
 
 	@Test

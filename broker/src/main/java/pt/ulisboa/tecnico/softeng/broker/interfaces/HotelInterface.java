@@ -10,7 +10,7 @@ import pt.ulisboa.tecnico.softeng.hotel.domain.Room;
 
 public class HotelInterface {
 	public static String reserveRoom(Room.Type type, LocalDate arrival, LocalDate departure) {
-		return Hotel.reserveRoom(type, arrival, departure, "NIF");
+		return Hotel.reserveRoom(type, arrival, departure, "NIF", "IBAN");
 	}
 
 	public static String cancelBooking(String roomConfirmation) {
@@ -22,7 +22,7 @@ public class HotelInterface {
 	}
 
 	public static Set<String> bulkBooking(int number, LocalDate arrival, LocalDate departure) {
-		return Hotel.bulkBooking(number, arrival, departure, "NIF");
+		return Hotel.bulkBooking(number, arrival, departure, "NIF", "IBAN");
 	}
 
 	public static double getPrice(String reference) {

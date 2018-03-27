@@ -24,6 +24,9 @@ public class HotelGetRoomBookingDataMethodTest {
 	private Hotel hotel;
 	private Room room;
 	private Booking booking;
+	private final String NIF_HOTEL = "123456700";
+	private String NIF_BUYER = "123456789";
+	private String IBAN_BUYER = "IBAN_BUYER";
 
     @Mocked
     private TaxInterface taxInterface;
@@ -31,9 +34,9 @@ public class HotelGetRoomBookingDataMethodTest {
 
     @Before
 	public void setUp() {
-		this.hotel = new Hotel("XPTO123", "Lisboa", "NIF", "IBAN", 20.0, 30.0);
+		this.hotel = new Hotel("XPTO123", "Lisboa", NIF_HOTEL, "IBAN", 20.0, 30.0);
 		this.room = new Room(this.hotel, "01", Type.SINGLE);
-		this.booking = this.room.reserve(Type.SINGLE, this.arrival, this.departure, "NIF");
+		this.booking = this.room.reserve(Type.SINGLE, this.arrival, this.departure, NIF_BUYER, IBAN_BUYER);
 	}
 
 	@Test

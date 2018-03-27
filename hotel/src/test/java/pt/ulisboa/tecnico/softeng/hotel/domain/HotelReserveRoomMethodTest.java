@@ -22,7 +22,10 @@ public class HotelReserveRoomMethodTest {
 	private final LocalDate departure = new LocalDate(2016, 12, 24);
 	private Room room;
 	private Hotel hotel;
-	private final String NIF = "NIF";
+	private static final String NIF_HOTEL = "123456789";
+	private static final String NIF_BUYER = "123456700";
+	private static final String IBAN_BUYER = "IBAN_CUSTOMER";
+	private static final String IBAN_HOTEL = "IBAN_HOTEL";
 
 	@Mocked
 	private TaxInterface taxInterface;
@@ -31,7 +34,7 @@ public class HotelReserveRoomMethodTest {
 
 	@Before
 	public void setUp() {
-		this.hotel = new Hotel("XPTO123", "Lisboa", "NIF", "IBAN", 20.0, 30.0);
+		this.hotel = new Hotel("XPTO123", "Lisboa", NIF_HOTEL, IBAN_HOTEL, 20.0, 30.0);
 		this.room = new Room(this.hotel, "01", Room.Type.SINGLE);
 	}
 
@@ -45,7 +48,7 @@ public class HotelReserveRoomMethodTest {
 			}
 		};
 
-		final String ref = Hotel.reserveRoom(Room.Type.SINGLE, this.arrival, this.departure, this.NIF);
+		final String ref = Hotel.reserveRoom(Room.Type.SINGLE, this.arrival, this.departure, NIF_BUYER, IBAN_BUYER);
 
 		assertTrue(ref != null);
 		assertTrue(ref.startsWith("XPTO123"));
@@ -54,19 +57,19 @@ public class HotelReserveRoomMethodTest {
 	@Test(expected = HotelException.class)
 	public void noHotels() {
 		Hotel.hotels.clear();
-		Hotel.reserveRoom(Room.Type.SINGLE, this.arrival, this.departure, this.NIF);
+		Hotel.reserveRoom(Room.Type.SINGLE, this.arrival, this.departure, NIF_BUYER, IBAN_BUYER);
 	}
 
 	@Test(expected = HotelException.class)
 	public void noVacancy() {
-		Hotel.reserveRoom(Room.Type.SINGLE, this.arrival, new LocalDate(2016, 12, 25), this.NIF);
-		Hotel.reserveRoom(Room.Type.SINGLE, this.arrival, new LocalDate(2016, 12, 25), this.NIF);
+		Hotel.reserveRoom(Room.Type.SINGLE, this.arrival, new LocalDate(2016, 12, 25), NIF_BUYER, IBAN_BUYER);
+		Hotel.reserveRoom(Room.Type.SINGLE, this.arrival, new LocalDate(2016, 12, 25), NIF_BUYER, IBAN_BUYER);
 	}
 
 	@Test(expected = HotelException.class)
 	public void noRooms() {
 		this.hotel.removeRooms();
-		Hotel.reserveRoom(Room.Type.SINGLE, this.arrival, new LocalDate(2016, 12, 25), this.NIF);
+		Hotel.reserveRoom(Room.Type.SINGLE, this.arrival, new LocalDate(2016, 12, 25), NIF_BUYER, IBAN_BUYER);
 	}
 
 	@After
