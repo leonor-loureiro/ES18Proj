@@ -8,8 +8,6 @@ import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 
 public class BookRoomState extends AdventureState {
 	public static final int MAX_REMOTE_ERRORS = 10;
-	private static final String IBAN = "BK01987600000";
-	private static final String NIF = "123456000";
 
 	@Override
 	public State getState() {
@@ -19,8 +17,8 @@ public class BookRoomState extends AdventureState {
 	@Override
 	public void process(Adventure adventure) {
 		try {
-			adventure.setRoomConfirmation(
-					HotelInterface.reserveRoom(Room.Type.SINGLE, adventure.getBegin(), adventure.getEnd(), NIF, IBAN));
+			adventure.setRoomConfirmation(HotelInterface.reserveRoom(Room.Type.SINGLE, adventure.getBegin(),
+					adventure.getEnd(), adventure.getBroker().getNifAsBuyer(), adventure.getBroker().getIBAN()));
 
 			adventure.incAmountToPay(HotelInterface.getPrice(adventure.getRoomConfirmation()));
 
