@@ -6,18 +6,33 @@ import pt.ulisboa.tecnico.softeng.hotel.domain.Booking;
 import pt.ulisboa.tecnico.softeng.hotel.domain.Room;
 
 public class RoomBookingData {
-	private String reference;
-	private String cancellation;
-	private String hotelName;
-	private String hotelCode;
-	private String roomNumber;
-	private String roomType;
-	private LocalDate arrival;
-	private LocalDate departure;
-	private LocalDate cancellationDate;
-	private double price;
+	private final String reference;
+	private final String cancellation;
+	private final String hotelName;
+	private final String hotelCode;
+	private final String roomNumber;
+	private final String roomType;
+	private final LocalDate arrival;
+	private final LocalDate departure;
+	private final LocalDate cancellationDate;
+	private final double price;
+	private final String paymentReference;
+	private final String invoiceReference;
 
-	public RoomBookingData() {
+	public RoomBookingData(String roomType) {
+		this.reference = null;
+		this.cancellation = null;
+		this.hotelName = null;
+		this.hotelCode = null;
+		this.roomNumber = null;
+		this.roomType = roomType;
+		this.arrival = null;
+		this.departure = null;
+		this.cancellationDate = null;
+		this.price = 0;
+		this.paymentReference = null;
+		this.invoiceReference = null;
+
 	}
 
 	public RoomBookingData(Room room, Booking booking) {
@@ -31,85 +46,56 @@ public class RoomBookingData {
 		this.departure = booking.getDeparture();
 		this.cancellationDate = booking.getCancellationDate();
 		this.price = booking.getPrice();
+		this.paymentReference = booking.getPaymentReference();
+		this.invoiceReference = booking.getInvoiceReference();
 	}
 
 	public String getReference() {
 		return this.reference;
 	}
 
-	public void setReference(String reference) {
-		this.reference = reference;
-	}
-
 	public String getCancellation() {
 		return this.cancellation;
-	}
-
-	public void setCancellation(String cancellation) {
-		this.cancellation = cancellation;
 	}
 
 	public String getHotelName() {
 		return this.hotelName;
 	}
 
-	public void setHotelName(String hotelName) {
-		this.hotelName = hotelName;
-	}
-
 	public String getHotelCode() {
 		return this.hotelCode;
-	}
-
-	public void setHotelCode(String hotelCode) {
-		this.hotelCode = hotelCode;
 	}
 
 	public String getRoomNumber() {
 		return this.roomNumber;
 	}
 
-	public void setRoomNumber(String roomNumber) {
-		this.roomNumber = roomNumber;
-	}
-
 	public String getRoomType() {
 		return this.roomType;
-	}
-
-	public void setRoomType(String roomType) {
-		this.roomType = roomType;
 	}
 
 	public LocalDate getArrival() {
 		return this.arrival;
 	}
 
-	public void setArrival(LocalDate arrival) {
-		this.arrival = arrival;
-	}
-
 	public LocalDate getDeparture() {
 		return this.departure;
-	}
-
-	public void setDeparture(LocalDate departure) {
-		this.departure = departure;
 	}
 
 	public LocalDate getCancellationDate() {
 		return this.cancellationDate;
 	}
 
-	public void setCancellationDate(LocalDate cancellationDate) {
-		this.cancellationDate = cancellationDate;
-	}
-
 	public double getPrice() {
-		return price;
+		return this.price;
 	}
 
-	public void setPrice(double price) {
-		this.price = price;
+	public String getPaymentReference() {
+		return this.paymentReference;
 	}
+
+	public String getInvoiceReference() {
+		return this.invoiceReference;
+	}
+
 }

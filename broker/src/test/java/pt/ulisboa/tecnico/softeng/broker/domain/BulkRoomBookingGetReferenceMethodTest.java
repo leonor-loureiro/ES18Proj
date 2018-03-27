@@ -43,9 +43,7 @@ public class BulkRoomBookingGetReferenceMethodTest {
 				HotelInterface.getRoomBookingData(this.anyString);
 				this.result = new Delegate() {
 					RoomBookingData delegate() {
-						RoomBookingData data = new RoomBookingData();
-						data.setRoomType(SINGLE);
-						return data;
+						return new RoomBookingData(SINGLE);
 					}
 				};
 			}
@@ -63,9 +61,7 @@ public class BulkRoomBookingGetReferenceMethodTest {
 				HotelInterface.getRoomBookingData(this.anyString);
 				this.result = new Delegate() {
 					RoomBookingData delegate() {
-						RoomBookingData data = new RoomBookingData();
-						data.setRoomType(DOUBLE);
-						return data;
+						return new RoomBookingData(DOUBLE);
 					}
 				};
 			}
@@ -137,16 +133,14 @@ public class BulkRoomBookingGetReferenceMethodTest {
 						if (this.i < BulkRoomBooking.MAX_REMOTE_ERRORS - 1) {
 							throw new RemoteAccessException();
 						} else {
-							RoomBookingData data = new RoomBookingData();
-							data.setRoomType(DOUBLE);
-							return data;
+							return new RoomBookingData(DOUBLE);
 						}
 					}
 				};
 			}
 		};
 
-		for (int i = 0; i < (BulkRoomBooking.MAX_REMOTE_ERRORS / 2) - 1; i++) {
+		for (int i = 0; i < BulkRoomBooking.MAX_REMOTE_ERRORS / 2 - 1; i++) {
 			assertNull(this.bulk.getReference(DOUBLE));
 		}
 		this.bulk.getReference(DOUBLE);
@@ -167,9 +161,7 @@ public class BulkRoomBookingGetReferenceMethodTest {
 						if (this.i < BulkRoomBooking.MAX_REMOTE_ERRORS - 1) {
 							throw new RemoteAccessException();
 						} else if (this.i == BulkRoomBooking.MAX_REMOTE_ERRORS - 1) {
-							RoomBookingData data = new RoomBookingData();
-							data.setRoomType(DOUBLE);
-							return data;
+							return new RoomBookingData(DOUBLE);
 						} else {
 							throw new RemoteAccessException();
 						}
@@ -178,7 +170,7 @@ public class BulkRoomBookingGetReferenceMethodTest {
 			}
 		};
 
-		for (int i = 0; i < (BulkRoomBooking.MAX_REMOTE_ERRORS / 2) - 1; i++) {
+		for (int i = 0; i < BulkRoomBooking.MAX_REMOTE_ERRORS / 2 - 1; i++) {
 			assertNull(this.bulk.getReference(DOUBLE));
 		}
 
@@ -213,7 +205,7 @@ public class BulkRoomBookingGetReferenceMethodTest {
 			}
 		};
 
-		for (int i = 0; i < (BulkRoomBooking.MAX_REMOTE_ERRORS / 2) - 1; i++) {
+		for (int i = 0; i < BulkRoomBooking.MAX_REMOTE_ERRORS / 2 - 1; i++) {
 			assertNull(this.bulk.getReference(DOUBLE));
 		}
 

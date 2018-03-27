@@ -2,25 +2,27 @@ package pt.ulisboa.tecnico.softeng.car.dataobjects;
 
 import org.joda.time.LocalDate;
 
+import pt.ulisboa.tecnico.softeng.car.domain.Renting;
+
 public class RentingData {
-	private String reference;
-	private String plate;
-	private String drivingLicense;
-	private String rentACarCode;
-	private LocalDate begin;
-	private LocalDate end;
+	private final String reference;
+	private final String plate;
+	private final String drivingLicense;
+	private final String rentACarCode;
+	private final LocalDate begin;
+	private final LocalDate end;
+	private final String paymentReference;
+	private final String invoiceReference;
 
-	public RentingData() {
-	}
-
-	public RentingData(String reference, String plate, String drivingLicense, String rentACarCode, LocalDate begin,
-			LocalDate end) {
-		this.reference = reference;
-		this.plate = plate;
-		this.drivingLicense = drivingLicense;
-		this.rentACarCode = rentACarCode;
-		this.begin = begin;
-		this.end = end;
+	public RentingData(Renting renting) {
+		this.reference = renting.getReference();
+		this.plate = renting.getVehicle().getPlate();
+		this.drivingLicense = renting.getDrivingLicense();
+		this.rentACarCode = renting.getVehicle().getRentACar().getCode();
+		this.begin = renting.getBegin();
+		this.end = renting.getEnd();
+		this.paymentReference = renting.getPaymentReference();
+		this.invoiceReference = renting.getInvoiceReference();
 	}
 
 	/**
@@ -31,85 +33,46 @@ public class RentingData {
 	}
 
 	/**
-	 * @param reference
-	 *            the reference to set
-	 */
-	public void setReference(String reference) {
-		this.reference = reference;
-	}
-
-	/**
 	 * @return the vehicle plate
 	 */
 	public String getPlate() {
-		return plate;
-	}
-
-	/**
-	 * @param plate
-	 *            the vehicle plate to set
-	 */
-	public void setPlate(String plate) {
-		this.plate = plate;
+		return this.plate;
 	}
 
 	/**
 	 * @return the drivingLicense
 	 */
 	public String getDrivingLicense() {
-		return drivingLicense;
-	}
-
-	/**
-	 * @param drivingLicense
-	 *            the drivingLicense to set
-	 */
-	public void setDrivingLicense(String drivingLicense) {
-		this.drivingLicense = drivingLicense;
+		return this.drivingLicense;
 	}
 
 	/**
 	 * @return the rentACarCode
 	 */
 	public String getRentACarCode() {
-		return rentACarCode;
-	}
-
-	/**
-	 * @param rentACarCode
-	 *            the rentACarCode to set
-	 */
-	public void setRentACarCode(String rentACarCode) {
-		this.rentACarCode = rentACarCode;
+		return this.rentACarCode;
 	}
 
 	/**
 	 * @return the begin
 	 */
 	public LocalDate getBegin() {
-		return begin;
-	}
-
-	/**
-	 * @param begin
-	 *            the begin to set
-	 */
-	public void setBegin(LocalDate begin) {
-		this.begin = begin;
+		return this.begin;
 	}
 
 	/**
 	 * @return the end
 	 */
 	public LocalDate getEnd() {
-		return end;
+		return this.end;
 	}
 
-	/**
-	 * @param end
-	 *            the end to set
-	 */
-	public void setEnd(LocalDate end) {
-		this.end = end;
+	public String getPaymentReference() {
+		return this.paymentReference;
 	}
+
+	public String getInvoiceReference() {
+		return this.invoiceReference;
+	}
+
 }

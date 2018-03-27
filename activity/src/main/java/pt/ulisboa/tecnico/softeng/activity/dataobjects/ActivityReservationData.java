@@ -7,17 +7,16 @@ import pt.ulisboa.tecnico.softeng.activity.domain.ActivityProvider;
 import pt.ulisboa.tecnico.softeng.activity.domain.Booking;
 
 public class ActivityReservationData {
-	private String reference;
-	private String cancellation;
-	private String name;
-	private String code;
-	private LocalDate begin;
-	private LocalDate end;
-	private LocalDate cancellationDate;
-    private double amount;
-
-	public ActivityReservationData() {
-	}
+	private final String reference;
+	private final String cancellation;
+	private final String name;
+	private final String code;
+	private final LocalDate begin;
+	private final LocalDate end;
+	private final LocalDate cancellationDate;
+	private final double amount;
+	private final String paymentReference;
+	private final String invoiceReference;
 
 	public ActivityReservationData(ActivityProvider provider, ActivityOffer offer, Booking booking) {
 		this.reference = booking.getReference();
@@ -28,65 +27,48 @@ public class ActivityReservationData {
 		this.end = offer.getEnd();
 		this.cancellationDate = booking.getCancellationDate();
 		this.amount = offer.getAmount();
+		this.paymentReference = booking.getPaymentReference();
+		this.invoiceReference = booking.getInvoiceReference();
 	}
 
 	public String getReference() {
 		return this.reference;
 	}
 
-	public void setReference(String reference) {
-		this.reference = reference;
-	}
-
 	public String getCancellation() {
 		return this.cancellation;
-	}
-
-	public void setCancellation(String cancellation) {
-		this.cancellation = cancellation;
 	}
 
 	public String getName() {
 		return this.name;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
 	public String getCode() {
 		return this.code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
 	}
 
 	public LocalDate getBegin() {
 		return this.begin;
 	}
 
-	public void setBegin(LocalDate begin) {
-		this.begin = begin;
-	}
-
 	public LocalDate getEnd() {
 		return this.end;
-	}
-
-	public void setEnd(LocalDate end) {
-		this.end = end;
 	}
 
 	public LocalDate getCancellationDate() {
 		return this.cancellationDate;
 	}
 
-	public void setCancellationDate(LocalDate cancellationDate) {
-		this.cancellationDate = cancellationDate;
+	public double getAmount() {
+		return this.amount;
 	}
 
-    public double getAmount() {
-        return amount;
-    }
+	public String getPaymentReference() {
+		return this.paymentReference;
+	}
+
+	public String getInvoiceReference() {
+		return this.invoiceReference;
+	}
+
 }

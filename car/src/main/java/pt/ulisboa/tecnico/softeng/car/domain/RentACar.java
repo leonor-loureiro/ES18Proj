@@ -21,9 +21,9 @@ public class RentACar {
 	private final String iban;
 	private final Map<String, Vehicle> vehicles = new HashMap<>();
 
-    private final Processor processor = new Processor();
+	private final Processor processor = new Processor();
 
-    public RentACar(String name, String nif, String iban) {
+	public RentACar(String name, String nif, String iban) {
 		checkArguments(name, nif, iban);
 		this.name = name;
 		this.nif = nif;
@@ -34,14 +34,12 @@ public class RentACar {
 	}
 
 	private void checkArguments(String name, String nif, String iban) {
-		if (name == null || name.isEmpty() ||
-				nif == null || nif.isEmpty() ||
-				iban == null || iban.isEmpty()) {
+		if (name == null || name.isEmpty() || nif == null || nif.isEmpty() || iban == null || iban.isEmpty()) {
 
 			throw new CarException();
 		}
 
-		for (RentACar rental : rentACars) {
+		for (final RentACar rental : rentACars) {
 			if (rental.getNIF().equals(nif)) {
 				throw new CarException();
 			}
@@ -52,7 +50,7 @@ public class RentACar {
 	 * @return the name
 	 */
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	public String getNIF() {
@@ -67,7 +65,7 @@ public class RentACar {
 	 * @return the code
 	 */
 	public String getCode() {
-		return code;
+		return this.code;
 	}
 
 	void addVehicle(Vehicle vehicle) {
@@ -75,12 +73,12 @@ public class RentACar {
 	}
 
 	public boolean hasVehicle(String plate) {
-		return vehicles.containsKey(plate);
+		return this.vehicles.containsKey(plate);
 	}
 
 	public Set<Vehicle> getAvailableVehicles(Class<?> cls, LocalDate begin, LocalDate end) {
-		Set<Vehicle> availableVehicles = new HashSet<>();
-		for (Vehicle vehicle : this.vehicles.values()) {
+		final Set<Vehicle> availableVehicles = new HashSet<>();
+		for (final Vehicle vehicle : this.vehicles.values()) {
 			if (cls == vehicle.getClass() && vehicle.isFree(begin, end)) {
 				availableVehicles.add(vehicle);
 			}
@@ -89,8 +87,8 @@ public class RentACar {
 	}
 
 	private static Set<Vehicle> getAllAvailableVehicles(Class<?> cls, LocalDate begin, LocalDate end) {
-		Set<Vehicle> vehicles = new HashSet<>();
-		for (RentACar rentACar : rentACars) {
+		final Set<Vehicle> vehicles = new HashSet<>();
+		for (final RentACar rentACar : rentACars) {
 			vehicles.addAll(rentACar.getAvailableVehicles(cls, begin, end));
 		}
 		return vehicles;
@@ -104,8 +102,8 @@ public class RentACar {
 		return getAllAvailableVehicles(Car.class, begin, end);
 	}
 
-	public static String rent(Class<? extends Vehicle> vehicleType,
-							  String drivingLicense, String buyerNIF, String buyerIBAN, LocalDate begin, LocalDate end) {
+	public static String rent(Class<? extends Vehicle> vehicleType, String drivingLicense, String buyerNIF,
+			String buyerIBAN, LocalDate begin, LocalDate end) {
 		Set<Vehicle> availableVehicles;
 
 		if (vehicleType == Car.class) {
@@ -114,16 +112,12 @@ public class RentACar {
 			availableVehicles = getAllAvailableMotorcycles(begin, end);
 		}
 
-		return availableVehicles
-				.stream()
-				.findFirst()
-				.map(v -> v.rent(drivingLicense, begin, end, buyerNIF, buyerIBAN))
-				.orElseThrow(CarException::new)
-				.getReference();
+		return availableVehicles.stream().findFirst().map(v -> v.rent(drivingLicense, begin, end, buyerNIF, buyerIBAN))
+				.orElseThrow(CarException::new).getReference();
 	}
 
 	public static String cancelRenting(String reference) {
-		Renting renting = getRenting(reference);
+		final Renting renting = getRenting(reference);
 
 		if (renting != null) {
 			return renting.cancel();
@@ -139,9 +133,9 @@ public class RentACar {
 	 * @return the renting with the given reference.
 	 */
 	public static Renting getRenting(String reference) {
-		for (RentACar rentACar : rentACars) {
-			for (Vehicle vehicle : rentACar.vehicles.values()) {
-				Renting renting = vehicle.getRenting(reference);
+		for (final RentACar rentACar : rentACars) {
+			for (final Vehicle vehicle : rentACar.vehicles.values()) {
+				final Renting renting = vehicle.getRenting(reference);
 				if (renting != null) {
 					return renting;
 				}
@@ -151,21 +145,14 @@ public class RentACar {
 	}
 
 	public static RentingData getRentingData(String reference) {
-		Renting renting = getRenting(reference);
+		final Renting renting = getRenting(reference);
 		if (renting == null) {
 			throw new CarException();
 		}
-		return new RentingData(
-			renting.getReference(),
-			renting.getVehicle().getPlate(),
-			renting.getDrivingLicense(),
-			renting.getVehicle().getRentACar().getCode(),
-			renting.getBegin(),
-			renting.getEnd()
-		);
+		return new RentingData(renting);
 	}
 
 	public Processor getProcessor() {
-	    return this.processor;
-    }
+		return this.processor;
+	}
 }
