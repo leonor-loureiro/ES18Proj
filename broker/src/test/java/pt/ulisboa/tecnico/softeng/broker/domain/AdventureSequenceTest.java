@@ -36,10 +36,10 @@ import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 @RunWith(JMockit.class)
 public class AdventureSequenceTest {
 	private static final String REFERENCE = "REFERENCE";
-	private static final String BROKER_IBAN = "BROKER_IBAN";
-	private static final String NIF_AS_BUYER = "buyerNIF";
+	private static final String BROKER_IBAN = "BK01987600000";
+	private static final String NIF_AS_BUYER = "123456000";
 	private static final String NIF_AS_SELLER = "sellerNIF";
-	private static final String NIF = "123456789";
+	private static final String NIF_CUSTOMER = "123456789";
 	private static final String IBAN = "BK01987654321";
 	private static final String DRIVING_LICENSE = "IMT1234";
 	private static final double MARGIN = 0.3;
@@ -75,7 +75,7 @@ public class AdventureSequenceTest {
 	@Before
 	public void setUp() {
 		this.broker = new Broker("Br013", "HappyWeek", NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
-		this.client = new Client(this.broker, IBAN, NIF, DRIVING_LICENSE, AGE);
+		this.client = new Client(this.broker, IBAN, NIF_CUSTOMER, DRIVING_LICENSE, AGE);
 	}
 
 	@Test
@@ -89,7 +89,7 @@ public class AdventureSequenceTest {
 				ActivityInterface.reserveActivity(arrival, departure, AGE, this.anyString, this.anyString);
 				this.result = ACTIVITY_CONFIRMATION;
 
-				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure);
+				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure, NIF_AS_BUYER, BROKER_IBAN);
 				this.result = ROOM_CONFIRMATION;
 
 				CarInterface.rentCar((Class<? extends Vehicle>) this.any, this.anyString, this.anyString,
@@ -145,7 +145,7 @@ public class AdventureSequenceTest {
 				ActivityInterface.reserveActivity(arrival, departure, AGE, this.anyString, this.anyString);
 				this.result = ACTIVITY_CONFIRMATION;
 
-				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure);
+				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure, NIF_AS_BUYER, BROKER_IBAN);
 				this.result = ROOM_CONFIRMATION;
 
 				BankInterface.processPayment(IBAN, this.anyDouble);
@@ -288,7 +288,7 @@ public class AdventureSequenceTest {
 				ActivityInterface.reserveActivity(arrival, departure, this.anyInt, this.anyString, this.anyString);
 				this.result = ACTIVITY_CONFIRMATION;
 
-				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure);
+				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure, NIF_AS_BUYER, BROKER_IBAN);
 				this.result = new HotelException();
 
 				ActivityInterface.cancelReservation(ACTIVITY_CONFIRMATION);
@@ -346,7 +346,7 @@ public class AdventureSequenceTest {
 				ActivityInterface.reserveActivity(arrival, departure, AGE, this.anyString, this.anyString);
 				this.result = ACTIVITY_CONFIRMATION;
 
-				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure);
+				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure, NIF_AS_BUYER, BROKER_IBAN);
 				this.result = ROOM_CONFIRMATION;
 
 				CarInterface.rentCar((Class<? extends Vehicle>) this.any, this.anyString, this.anyString,
@@ -390,7 +390,7 @@ public class AdventureSequenceTest {
 				ActivityInterface.reserveActivity(arrival, departure, AGE, this.anyString, this.anyString);
 				this.result = ACTIVITY_CONFIRMATION;
 
-				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure);
+				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure, NIF_AS_BUYER, BROKER_IBAN);
 				this.result = ROOM_CONFIRMATION;
 
 				CarInterface.rentCar((Class<? extends Vehicle>) this.any, this.anyString, this.anyString,
