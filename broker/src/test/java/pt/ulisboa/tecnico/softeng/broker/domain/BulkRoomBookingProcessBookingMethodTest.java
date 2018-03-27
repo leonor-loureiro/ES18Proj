@@ -24,18 +24,20 @@ public class BulkRoomBookingProcessBookingMethodTest {
 	private static final int NUMBER = 20;
 	private static final LocalDate arrival = new LocalDate(2016, 12, 19);
 	private static final LocalDate departure = new LocalDate(2016, 12, 21);
+	private static final String NIF_BUYER = "123456789";
+	private static final String IBAN_BUYER = "IBAN";
 	private BulkRoomBooking bulk;
 
 	@Before
 	public void setUp() {
-		this.bulk = new BulkRoomBooking(NUMBER, arrival, departure);
+		this.bulk = new BulkRoomBooking(NUMBER, arrival, departure, NIF_BUYER, IBAN_BUYER);
 	}
 
 	@Test
 	public void success(@Mocked final HotelInterface roomInterface) {
 		new Expectations() {
 			{
-				HotelInterface.bulkBooking(NUMBER, arrival, departure);
+				HotelInterface.bulkBooking(NUMBER, arrival, departure, NIF_BUYER, IBAN_BUYER);
 				this.result = new HashSet<>(Arrays.asList("ref1", "ref2"));
 			}
 		};
@@ -49,7 +51,7 @@ public class BulkRoomBookingProcessBookingMethodTest {
 	public void successTwice(@Mocked final HotelInterface roomInterface) {
 		new Expectations() {
 			{
-				HotelInterface.bulkBooking(NUMBER, arrival, departure);
+				HotelInterface.bulkBooking(NUMBER, arrival, departure, NIF_BUYER, IBAN_BUYER);
 				this.result = new HashSet<>(Arrays.asList("ref1", "ref2"));
 				this.result = new HashSet<>(Arrays.asList("ref3", "ref4"));
 			}
@@ -65,7 +67,7 @@ public class BulkRoomBookingProcessBookingMethodTest {
 	public void cancelled(@Mocked final HotelInterface roomInterface) {
 		new Expectations() {
 			{
-				HotelInterface.bulkBooking(NUMBER, arrival, departure);
+				HotelInterface.bulkBooking(NUMBER, arrival, departure, NIF_BUYER, IBAN_BUYER);
 				this.result = new HashSet<>(Arrays.asList("ref1", "ref2"));
 				this.result = new HotelException();
 			}
@@ -84,7 +86,7 @@ public class BulkRoomBookingProcessBookingMethodTest {
 	public void oneHotelException(@Mocked final HotelInterface roomInterface) {
 		new Expectations() {
 			{
-				HotelInterface.bulkBooking(NUMBER, arrival, departure);
+				HotelInterface.bulkBooking(NUMBER, arrival, departure, NIF_BUYER, IBAN_BUYER);
 				this.result = new HotelException();
 				this.result = new HashSet<>(Arrays.asList("ref1", "ref2"));
 			}
@@ -100,7 +102,7 @@ public class BulkRoomBookingProcessBookingMethodTest {
 	public void maxHotelException(@Mocked final HotelInterface roomInterface) {
 		new Expectations() {
 			{
-				HotelInterface.bulkBooking(NUMBER, arrival, departure);
+				HotelInterface.bulkBooking(NUMBER, arrival, departure, NIF_BUYER, IBAN_BUYER);
 				this.result = new HotelException();
 			}
 		};
@@ -117,7 +119,7 @@ public class BulkRoomBookingProcessBookingMethodTest {
 	public void maxMinusOneHotelException(@Mocked final HotelInterface roomInterface) {
 		new Expectations() {
 			{
-				HotelInterface.bulkBooking(NUMBER, arrival, departure);
+				HotelInterface.bulkBooking(NUMBER, arrival, departure, NIF_BUYER, IBAN_BUYER);
 				this.result = new Delegate() {
 					int i = 0;
 
@@ -144,7 +146,7 @@ public class BulkRoomBookingProcessBookingMethodTest {
 	public void hotelExceptionValueIsResetBySuccess(@Mocked final HotelInterface roomInterface) {
 		new Expectations() {
 			{
-				HotelInterface.bulkBooking(NUMBER, arrival, departure);
+				HotelInterface.bulkBooking(NUMBER, arrival, departure, NIF_BUYER, IBAN_BUYER);
 				this.result = new Delegate() {
 					int i = 0;
 
@@ -179,7 +181,7 @@ public class BulkRoomBookingProcessBookingMethodTest {
 	public void hotelExceptionValueIsResetByRemoteException(@Mocked final HotelInterface roomInterface) {
 		new Expectations() {
 			{
-				HotelInterface.bulkBooking(NUMBER, arrival, departure);
+				HotelInterface.bulkBooking(NUMBER, arrival, departure, NIF_BUYER, IBAN_BUYER);
 				this.result = new Delegate() {
 					int i = 0;
 
@@ -213,7 +215,7 @@ public class BulkRoomBookingProcessBookingMethodTest {
 	public void oneRemoteException(@Mocked final HotelInterface roomInterface) {
 		new Expectations() {
 			{
-				HotelInterface.bulkBooking(NUMBER, arrival, departure);
+				HotelInterface.bulkBooking(NUMBER, arrival, departure, NIF_BUYER, IBAN_BUYER);
 				this.result = new RemoteAccessException();
 				this.result = new HashSet<>(Arrays.asList("ref1", "ref2"));
 			}
@@ -229,7 +231,7 @@ public class BulkRoomBookingProcessBookingMethodTest {
 	public void maxRemoteException(@Mocked final HotelInterface roomInterface) {
 		new Expectations() {
 			{
-				HotelInterface.bulkBooking(NUMBER, arrival, departure);
+				HotelInterface.bulkBooking(NUMBER, arrival, departure, NIF_BUYER, IBAN_BUYER);
 				this.result = new RemoteAccessException();
 			}
 		};
@@ -246,7 +248,7 @@ public class BulkRoomBookingProcessBookingMethodTest {
 	public void maxMinusOneRemoteException(@Mocked final HotelInterface roomInterface) {
 		new Expectations() {
 			{
-				HotelInterface.bulkBooking(NUMBER, arrival, departure);
+				HotelInterface.bulkBooking(NUMBER, arrival, departure, NIF_BUYER, IBAN_BUYER);
 				this.result = new Delegate() {
 					int i = 0;
 
@@ -262,7 +264,7 @@ public class BulkRoomBookingProcessBookingMethodTest {
 				this.result = new RemoteAccessException();
 				this.times = BulkRoomBooking.MAX_REMOTE_ERRORS - 1;
 
-				HotelInterface.bulkBooking(NUMBER, arrival, departure);
+				HotelInterface.bulkBooking(NUMBER, arrival, departure, NIF_BUYER, IBAN_BUYER);
 				this.result = new HashSet<>(Arrays.asList("ref1", "ref2"));
 			}
 		};
@@ -279,7 +281,7 @@ public class BulkRoomBookingProcessBookingMethodTest {
 	public void remoteExceptionValueIsResetBySuccess(@Mocked final HotelInterface roomInterface) {
 		new Expectations() {
 			{
-				HotelInterface.bulkBooking(NUMBER, arrival, departure);
+				HotelInterface.bulkBooking(NUMBER, arrival, departure, NIF_BUYER, IBAN_BUYER);
 				this.result = new Delegate() {
 					int i = 0;
 
@@ -315,7 +317,7 @@ public class BulkRoomBookingProcessBookingMethodTest {
 	public void remoteExceptionValueIsResetByHotelException(@Mocked final HotelInterface roomInterface) {
 		new Expectations() {
 			{
-				HotelInterface.bulkBooking(NUMBER, arrival, departure);
+				HotelInterface.bulkBooking(NUMBER, arrival, departure, NIF_BUYER, IBAN_BUYER);
 				this.result = new Delegate() {
 					int i = 0;
 
