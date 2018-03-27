@@ -19,8 +19,8 @@ public class BookRoomState extends AdventureState {
 	@Override
 	public void process(Adventure adventure) {
 		try {
-			adventure.setRoomConfirmation(
-					HotelInterface.reserveRoom(Room.Type.SINGLE, adventure.getBegin(), adventure.getEnd(), NIF, IBAN));
+			adventure.setRoomConfirmation(HotelInterface.reserveRoom(Room.Type.SINGLE, adventure.getBegin(),
+					adventure.getEnd(), adventure.getBroker().getNifAsBuyer(), adventure.getBroker().getIBAN()));
 
 			adventure.incAmountToPay(HotelInterface.getPrice(adventure.getRoomConfirmation()));
 
