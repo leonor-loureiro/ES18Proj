@@ -1,11 +1,9 @@
 package pt.ulisboa.tecnico.softeng.hotel.domain;
 
+import org.joda.time.Days;
 import org.joda.time.LocalDate;
 
-import pt.ulisboa.tecnico.softeng.hotel.interfaces.BankInterface;
-import pt.ulisboa.tecnico.softeng.tax.dataobjects.InvoiceData;
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
-import pt.ulisboa.tecnico.softeng.hotel.interfaces.TaxInterface;
 
 public class Booking {
 	private static int counter = 0;
@@ -19,29 +17,31 @@ public class Booking {
 	private final LocalDate departure;
 	private final double price;
 	private final String nif;
-	private final String providerNif;	
+	private final String providerNif;
 	private String paymentReference;
 	private String invoiceReference;
 	private boolean cancelledInvoice = false;
 	private String cancelledPaymentReference = null;
 	private final String buyerIban;
 
-	public Booking(Hotel hotel, Room.Type type, LocalDate arrival, LocalDate departure, String buyerNIF, String buyerIban) {
+	public Booking(Hotel hotel, Room.Type type, LocalDate arrival, LocalDate departure, String buyerNIF,
+			String buyerIban) {
 		checkArguments(hotel, arrival, departure, buyerNIF, buyerIban);
 
 		this.reference = hotel.getCode() + Integer.toString(++Booking.counter);
 		this.hotel = hotel;
 		this.arrival = arrival;
 		this.departure = departure;
-		this.price = hotel.getPrice(type);
+		this.price = hotel.getPrice(type) * Days.daysBetween(arrival, departure).getDays();
 		this.nif = buyerNIF;
 		this.buyerIban = buyerIban;
 		this.providerNif = hotel.getNIF();
 	}
 
-	private void checkArguments(Hotel hotel, LocalDate arrival, LocalDate departure, String buyerNIF, String buyerIban) {
-		if (hotel == null || arrival == null || departure == null || buyerNIF == null || buyerNIF.trim().length() == 0 || buyerIban == null
-				|| buyerIban.trim().length() == 0) {
+	private void checkArguments(Hotel hotel, LocalDate arrival, LocalDate departure, String buyerNIF,
+			String buyerIban) {
+		if (hotel == null || arrival == null || departure == null || buyerNIF == null || buyerNIF.trim().length() == 0
+				|| buyerIban == null || buyerIban.trim().length() == 0) {
 			throw new HotelException();
 		}
 
@@ -108,7 +108,7 @@ public class Booking {
 			return true;
 		}
 
-		if ((arrival.isBefore(this.arrival) && departure.isAfter(this.departure))) {
+		if (arrival.isBefore(this.arrival) && departure.isAfter(this.departure)) {
 			return true;
 		}
 
