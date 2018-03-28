@@ -24,6 +24,29 @@ import pt.ulisboa.tecnico.softeng.tax.domain.IRS;
 import pt.ulisboa.tecnico.softeng.tax.domain.ItemType;
 import pt.ulisboa.tecnico.softeng.tax.domain.Seller;
 
+/*
+  This is an end-to-end (integration) test of an adventure.
+
+  It tests the following interactions:
+    - Broker books an activity
+        - activity module charges the amount of the activity to the bank account of the broker
+        - activity module sends the invoice to the tax module
+    - Broker books a room (if activity is longer than a day)
+        - hotel module charges the amount of the room to the  bank account of the broker
+        - hotel module sends the invoice to the tax module
+    - [Optional] Broker rents a car
+        - car module charges the amount of the room to the  bank account of the broker
+        - car module sends the invoice to the tax module
+    - Broker charges the Client the total amount plus its margin
+    - Broker sends invoice to of the total amount plus margin to the tax module.
+
+		Note that the payment process is not fully implemented, neither it is
+		necessary to implement it now, but a payment should actually be a transfer
+		between two accounts. Therefore, the TODO comments show what would be the
+		balance in some of the accounts if the payment process was fully
+		implemented. This implementation, is, however, left for a future
+		development iteration.
+ */
 public class CompleteProcessOfAnAdentureTest {
 	// Broker
 	private static final String CODE = "BR01";
