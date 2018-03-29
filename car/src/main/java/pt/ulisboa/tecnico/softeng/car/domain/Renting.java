@@ -18,6 +18,7 @@ public class Renting {
 	private final Vehicle vehicle;
 	private final String clientNIF;
 	private final String clientIBAN;
+	private final double price;
 
 	private String paymentReference;
 	private String invoiceReference;
@@ -36,6 +37,7 @@ public class Renting {
 		this.vehicle = vehicle;
 		this.clientNIF = buyerNIF;
 		this.clientIBAN = buyerIBAN;
+		this.price = vehicle.getPrice() * (end.getDayOfYear() - begin.getDayOfYear());
 	}
 
 	private void checkArguments(String drivingLicense, LocalDate begin, LocalDate end, Vehicle vehicle) {
@@ -182,7 +184,11 @@ public class Renting {
 	}
 
 	public String getClientIBAN() {
-		return clientIBAN;
+		return this.clientIBAN;
+	}
+
+	public double getPrice() {
+		return price;
 	}
 
 }

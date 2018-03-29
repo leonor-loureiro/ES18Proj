@@ -13,6 +13,7 @@ public class RentingData {
 	private final LocalDate end;
 	private final String paymentReference;
 	private final String invoiceReference;
+	private final double price;
 
 	public RentingData(Renting renting) {
 		this.reference = renting.getReference();
@@ -23,6 +24,7 @@ public class RentingData {
 		this.end = renting.getEnd();
 		this.paymentReference = renting.getPaymentReference();
 		this.invoiceReference = renting.getInvoiceReference();
+		this.price = renting.getPrice();
 	}
 
 	/**
@@ -73,6 +75,10 @@ public class RentingData {
 
 	public String getInvoiceReference() {
 		return this.invoiceReference;
+	}
+
+	public double getPrice() {
+		return price;
 	}
 
 }

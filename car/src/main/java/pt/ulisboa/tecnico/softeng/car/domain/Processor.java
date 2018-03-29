@@ -26,7 +26,7 @@ public class Processor {
 				if (renting.getPaymentReference() == null) {
 					try {
 						renting.setPaymentReference(
-								BankInterface.processPayment(renting.getClientIBAN(), renting.getVehicle().getPrice()));
+								BankInterface.processPayment(renting.getClientIBAN(), renting.getPrice()));
 					} catch (BankException | RemoteAccessException ex) {
 						failedToProcess.add(renting);
 						continue;
@@ -34,7 +34,7 @@ public class Processor {
 				}
 
 				InvoiceData invoiceData = new InvoiceData(renting.getVehicle().getRentACar().getNIF(),
-						renting.getClientNIF(), renting.getType(), renting.getVehicle().getPrice(), renting.getBegin());
+						renting.getClientNIF(), renting.getType(), renting.getPrice(), renting.getBegin());
 				try {
 					renting.setInvoiceReference(TaxInterface.submitInvoice(invoiceData));
 				} catch (TaxException | RemoteAccessException ex) {

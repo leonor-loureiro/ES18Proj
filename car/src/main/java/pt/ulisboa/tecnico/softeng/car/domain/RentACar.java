@@ -132,7 +132,7 @@ public class RentACar {
 	 * @param reference
 	 * @return the renting with the given reference.
 	 */
-	public static Renting getRenting(String reference) {
+	protected static Renting getRenting(String reference) {
 		for (final RentACar rentACar : rentACars) {
 			for (final Vehicle vehicle : rentACar.vehicles.values()) {
 				final Renting renting = vehicle.getRenting(reference);

@@ -162,64 +162,68 @@ public class CompleteProcessOfAnAdentureTest {
 
 	@Test
 	public void successEndToEnd() {
+		int numberOfDays = this.end.getDayOfYear() - this.begin.getDayOfYear();
+
 		assertEquals(Adventure.State.RESERVE_ACTIVITY, this.adventure.getState());
 
 		this.brokerAccount.deposit(ACTIVITY_COST);
-
 		this.adventure.process();
 
-		assertEquals(Adventure.State.BOOK_ROOM, this.adventure.getState());
 		assertEquals(0, this.brokerAccount.getBalance(), 0.0f);
 		// TODO: assertEquals(ACTIVITY_COST, this.providerAccount.getBalance(), 0.0f);
 		assertEquals(0.15, this.brokerAsBuyer.taxReturn(this.begin.getYear()), 0.0f);
 		assertEquals(3.0, this.providerAsSeller.toPay(this.begin.getYear()), 0.0f);
+		assertEquals(Adventure.State.BOOK_ROOM, this.adventure.getState());
 
-		this.brokerAccount.deposit(PRICE_SINGLE * (this.end.getDayOfYear() - this.begin.getDayOfYear()));
-
+		this.brokerAccount.deposit(PRICE_SINGLE * numberOfDays);
 		this.adventure.process();
 
-		assertEquals(Adventure.State.RENT_VEHICLE, this.adventure.getState());
 		assertEquals(0, this.brokerAccount.getBalance(), 0.0f);
-		// TODO: assertEquals(PRICE_SINGLE, this.hotelAccount.getBalance(), 0.0f);
+		// TODO: assertEquals(PRICE_SINGLE * numberOfDays,
+		// this.hotelAccount.getBalance(), 0.0f);
 		assertEquals(0.35, this.brokerAsBuyer.taxReturn(this.begin.getYear()), 0.0f);
 		assertEquals(4.0, this.hotelAsSeller.toPay(this.begin.getYear()), 0.0f);
+		assertEquals(Adventure.State.RENT_VEHICLE, this.adventure.getState());
 
-		this.brokerAccount.deposit(PRICE_OF_CAR);
-
+		this.brokerAccount.deposit(PRICE_OF_CAR * numberOfDays);
 		this.adventure.process();
+
+		assertEquals(0, this.brokerAccount.getBalance(), 0.0d);
+		// TODO: assertEquals(PRICE_OF_CAR * numberOfDays,
+		// this.rentACarAccount.getBalance(), 0.0f);
+		assertEquals(0.45, this.brokerAsBuyer.taxReturn(this.begin.getYear()), 0.001);
+		assertEquals(2.0, this.rentACarAsSeller.toPay(this.begin.getYear()), 0.0f);
 		assertEquals(Adventure.State.PROCESS_PAYMENT, this.adventure.getState());
-		assertEquals(0, this.brokerAccount.getBalance(), 0.0f);
-		// TODO: assertEquals(PRICE_OF_CAR, this.rentACarAccount.getBalance(), 0.0f);
-		assertEquals(0.4, this.brokerAsBuyer.taxReturn(this.begin.getYear()), 0.000001f);
-		assertEquals(1.0, this.rentACarAsSeller.toPay(this.begin.getYear()), 0.0f);
 
-		this.clientAccount.deposit(
-				(ACTIVITY_COST + PRICE_SINGLE * (this.end.getDayOfYear() - this.begin.getDayOfYear()) + PRICE_OF_CAR)
-						* (1 + MARGIN));
+		this.clientAccount
+				.deposit((ACTIVITY_COST + PRICE_SINGLE * numberOfDays + PRICE_OF_CAR * numberOfDays) * (1 + MARGIN));
 
 		this.adventure.process();
-		assertEquals(Adventure.State.TAX_PAYMENT, this.adventure.getState());
+
 		assertEquals(0, this.clientAccount.getBalance(), 0.0f);
 		// TODO: assertEquals(78, this.brokerAccount.getBalance(), 0.0f);
+		assertEquals(Adventure.State.TAX_PAYMENT, this.adventure.getState());
 
 		this.adventure.process();
+
+		assertEquals(0.585, this.clientAsBuyer.taxReturn(this.begin.getYear()), 0.0f);
+		assertEquals(11.7, this.brokerAsSeller.toPay(this.begin.getYear()), 0.0f);
 		assertEquals(Adventure.State.CONFIRMED, this.adventure.getState());
-		assertEquals(0.52, this.clientAsBuyer.taxReturn(this.begin.getYear()), 0.0f);
-		assertEquals(10.4, this.brokerAsSeller.toPay(this.begin.getYear()), 0.0f);
 
 		this.adventure.process();
-		assertEquals(Adventure.State.CONFIRMED, this.adventure.getState());
+
 		assertEquals(0, this.clientAccount.getBalance(), 0.0f);
 		// TODO: assertEquals(78, this.brokerAccount.getBalance(), 0.0f);
 		// TODO: assertEquals(PRICE_OF_CAR, this.rentACarAccount.getBalance(), 0.0f);
 		// TODO: assertEquals(PRICE_SINGLE, this.hotelAccount.getBalance(), 0.0f);
 		// TODO: assertEquals(ACTIVITY_COST, this.providerAccount.getBalance(), 0.0f);
-		assertEquals(0.52, this.clientAsBuyer.taxReturn(this.begin.getYear()), 0.0f);
-		assertEquals(0.4, this.brokerAsBuyer.taxReturn(this.begin.getYear()), 0.000001f);
-		assertEquals(10.4, this.brokerAsSeller.toPay(this.begin.getYear()), 0.0f);
+		assertEquals(0.585, this.clientAsBuyer.taxReturn(this.begin.getYear()), 0.0f);
+		assertEquals(0.45, this.brokerAsBuyer.taxReturn(this.begin.getYear()), 0.001f);
+		assertEquals(11.7, this.brokerAsSeller.toPay(this.begin.getYear()), 0.0f);
 		assertEquals(3.0, this.providerAsSeller.toPay(this.begin.getYear()), 0.0f);
 		assertEquals(4.0, this.hotelAsSeller.toPay(this.begin.getYear()), 0.0f);
-		assertEquals(1.0, this.rentACarAsSeller.toPay(this.begin.getYear()), 0.0f);
+		assertEquals(2.0, this.rentACarAsSeller.toPay(this.begin.getYear()), 0.0f);
+		assertEquals(Adventure.State.CONFIRMED, this.adventure.getState());
 	}
 
 	@After
