@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -13,9 +12,6 @@ import mockit.Expectations;
 import mockit.Mocked;
 import mockit.integration.junit4.JMockit;
 import pt.ulisboa.tecnico.softeng.activity.dataobjects.ActivityReservationData;
-import pt.ulisboa.tecnico.softeng.activity.domain.ActivityOffer;
-import pt.ulisboa.tecnico.softeng.activity.domain.ActivityProvider;
-import pt.ulisboa.tecnico.softeng.activity.domain.Booking;
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
 import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
 import pt.ulisboa.tecnico.softeng.broker.domain.Adventure.State;
@@ -34,27 +30,7 @@ import pt.ulisboa.tecnico.softeng.tax.dataobjects.InvoiceData;
 import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 
 @RunWith(JMockit.class)
-public class AdventureSequenceTest {
-	private static final String REFERENCE = "REFERENCE";
-	private static final String BROKER_IBAN = "BK01987600000";
-	private static final String NIF_AS_BUYER = "123456000";
-	private static final String NIF_AS_SELLER = "sellerNIF";
-	private static final String NIF_CUSTOMER = "123456789";
-	private static final String IBAN = "BK01987654321";
-	private static final String DRIVING_LICENSE = "IMT1234";
-	private static final double MARGIN = 0.3;
-	private static final int AGE = 20;
-	private static final String PAYMENT_CONFIRMATION = "PaymentConfirmation";
-	private static final String PAYMENT_CANCELLATION = "PaymentCancellation";
-	private static final String ACTIVITY_CONFIRMATION = "ActivityConfirmation";
-	private static final String ACTIVITY_CANCELLATION = "ActivityCancellation";
-	private static final String ROOM_CONFIRMATION = "RoomConfirmation";
-	private static final String ROOM_CANCELLATION = "RoomCancellation";
-	private static final String RENTING_CONFIRMATION = "RentingConfirmation";
-	private static final String RENTING_CANCELLATION = "RentingCancellation";
-	private static final String INVOICE_DATA = "InvoiceData";
-	private static final LocalDate arrival = new LocalDate(2016, 12, 19);
-	private static final LocalDate departure = new LocalDate(2016, 12, 21);
+public class AdventureSequenceTest extends BaseTest {
 
 	@Mocked
 	private ActivityReservationData activityReservationData;
@@ -64,19 +40,6 @@ public class AdventureSequenceTest {
 
 	@Mocked
 	private RoomBookingData roomBookingData;
-
-	private Broker broker;
-	private Client client;
-
-	private static ActivityProvider aprov;
-	private static ActivityOffer offer;
-	private static Booking book;
-
-	@Before
-	public void setUp() {
-		this.broker = new Broker("Br013", "HappyWeek", NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
-		this.client = new Client(this.broker, IBAN, NIF_CUSTOMER, DRIVING_LICENSE, AGE);
-	}
 
 	@Test
 	public void successSequence(@Mocked final TaxInterface taxInterface, @Mocked final BankInterface bankInterface,

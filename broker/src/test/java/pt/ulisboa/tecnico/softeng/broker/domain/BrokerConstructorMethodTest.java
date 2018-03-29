@@ -1,19 +1,19 @@
 package pt.ulisboa.tecnico.softeng.broker.domain;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.*;
 
 import pt.ulisboa.tecnico.softeng.broker.exception.BrokerException;
 
-public class BrokerConstructorMethodTest {
+public class BrokerConstructorMethodTest extends BaseTest {
 	private static final String CODE = "BR01";
 	private static final String NAME = "WeExplore";
-	private static final String BROKER_IBAN = "BROKER_IBAN";
-	private static final String NIF_AS_BUYER = "buyerNIF";
-	private static final String NIF_AS_SELLER = "sellerNIF";
 
-	@Test
+	@Before
+    public void setUp() {
+	    //override BaseTest's setup.
+    }
+
+    @Test
 	public void success() {
 		Broker broker = new Broker(CODE, NAME, NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
 

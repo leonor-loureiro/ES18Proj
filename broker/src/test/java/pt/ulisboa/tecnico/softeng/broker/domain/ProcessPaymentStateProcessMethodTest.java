@@ -1,6 +1,5 @@
 package pt.ulisboa.tecnico.softeng.broker.domain;
 
-import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -18,33 +17,13 @@ import pt.ulisboa.tecnico.softeng.broker.interfaces.BankInterface;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.TaxInterface;
 
 @RunWith(JMockit.class)
-public class ProcessPaymentStateProcessMethodTest {
-	private static final String BROKER_IBAN = "BROKER_IBAN";
-	private static final String NIF_AS_BUYER = "buyerNIF";
-	private static final String NIF_AS_SELLER = "sellerNIF";
-	private static final String NIF = "123456789";
-	private static final String DRIVING_LICENSE = "IMT1234";
-	private static final double MARGIN = 0.3;
-	private static final int AGE = 20;
-	private static final LocalDate arrival = new LocalDate(2016, 12, 19);
-	private static final LocalDate departure = new LocalDate(2016, 12, 21);
-	private static final String IBAN = "BK01987654321";
-	private static final String PAYMENT_CONFIRMATION = "PaymentConfirmation";
-	private final LocalDate begin = new LocalDate(2016, 12, 19);
-	private final LocalDate end = new LocalDate(2016, 12, 21);
-	private Adventure adventure;
-
-	private Broker broker;
-	private Client client;
+public class ProcessPaymentStateProcessMethodTest extends BaseTest {
 
     @Mocked private TaxInterface taxInterface;
 
     @Before
 	public void setUp() {
-		this.broker = new Broker("Br013", "HappyWeek", NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
-		this.client = new Client(this.broker, IBAN, NIF, DRIVING_LICENSE, AGE);
-
-		this.adventure = new Adventure(this.broker, arrival, departure, this.client, MARGIN);
+		super.setUp();
 		this.adventure.setState(State.PROCESS_PAYMENT);
 	}
 

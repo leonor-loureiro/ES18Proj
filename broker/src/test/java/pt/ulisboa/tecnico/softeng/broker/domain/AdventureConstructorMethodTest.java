@@ -1,43 +1,16 @@
 package pt.ulisboa.tecnico.softeng.broker.domain;
 
-import mockit.Mocked;
 import mockit.integration.junit4.JMockit;
-import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
-
-import mockit.Expectations;
 
 import org.junit.runner.RunWith;
 import pt.ulisboa.tecnico.softeng.broker.exception.BrokerException;
-import pt.ulisboa.tecnico.softeng.broker.interfaces.TaxInterface;
-import pt.ulisboa.tecnico.softeng.tax.dataobjects.InvoiceData;
 
 @RunWith(JMockit.class)
-public class AdventureConstructorMethodTest {
-	private static final String BROKER_IBAN = "BROKER_IBAN";
-	private static final String NIF_AS_BUYER = "buyerNIF";
-	private static final String NIF_AS_SELLER = "sellerNIF";
-	private static final String OTHER_NIF = "987654321";
-	private static final String NIF = "123456789";
-	private static final String DRIVING_LICENSE = "IMT1234";
-	private static final int AGE = 20;
-	private static final double MARGIN = 0.3;
-	private static final String IBAN = "BK011234567";
-	private final LocalDate begin = new LocalDate(2016, 12, 19);
-	private final LocalDate end = new LocalDate(2016, 12, 21);
+public class AdventureConstructorMethodTest extends BaseTest {
 
-	private Broker broker;
-	private Client client;
-
-	@Before
-	public void setUp() {
-		this.broker = new Broker("BR01", "eXtremeADVENTURE", NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
-
-		this.client = new Client(this.broker, IBAN, NIF, DRIVING_LICENSE, AGE);
-	}
 
 	@Test
 	public void success() {

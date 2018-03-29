@@ -1,6 +1,5 @@
 package pt.ulisboa.tecnico.softeng.broker.domain;
 
-import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -20,41 +19,15 @@ import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 
 @RunWith(JMockit.class)
-public class UndoStateProcessMethodTest {
-	private static final String BROKER_IBAN = "BROKER_IBAN";
-	private static final String NIF_AS_BUYER = "buyerNIF";
-	private static final String NIF_AS_SELLER = "sellerNIF";
-	private static final String NIF = "123456789";
-	private static final String IBAN = "BK01987654321";
-	private static final String DRIVING_LICENSE = "IMT1234";
-	private static final double MARGIN = 0.3;
-	private static final int AGE = 20;
-	private static final LocalDate arrival = new LocalDate(2016, 12, 19);
-	private static final LocalDate departure = new LocalDate(2016, 12, 21);
-	private static final String PAYMENT_CONFIRMATION = "PaymentConfirmation";
-	private static final String PAYMENT_CANCELLATION = "PaymentCancellation";
-	private static final String ACTIVITY_CONFIRMATION = "ActivityConfirmation";
-	private static final String ACTIVITY_CANCELLATION = "ActivityCancellation";
-	private static final String ROOM_CONFIRMATION = "RoomConfirmation";
-	private static final String ROOM_CANCELLATION = "RoomCancellation";
-	private static final String RENT_CONFIRMATION = "1234";
-	private static final String RENT_CANCELLATION = "1234CANCEL";
-	private static final String INVOICE_REFERENCE = "InvoiceReference";
+public class UndoStateProcessMethodTest extends BaseTest {
 
-	private Adventure adventure;
-
-	private Broker broker;
-	private Client client;
 
 	@Mocked
 	private TaxInterface taxInterface;
 
 	@Before
 	public void setUp() {
-		this.broker = new Broker("Br013", "HappyWeek", NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
-		this.client = new Client(this.broker, IBAN, NIF, DRIVING_LICENSE, AGE);
-
-		this.adventure = new Adventure(this.broker, arrival, departure, this.client, MARGIN);
+		super.setUp();
 		this.adventure.setState(State.UNDO);
 	}
 
@@ -227,11 +200,11 @@ public class UndoStateProcessMethodTest {
 		this.adventure.setActivityCancellation(ACTIVITY_CANCELLATION);
 		this.adventure.setRoomConfirmation(ROOM_CONFIRMATION);
 		this.adventure.setRoomCancellation(ROOM_CANCELLATION);
-		this.adventure.setRentingConfirmation(RENT_CONFIRMATION);
+		this.adventure.setRentingConfirmation(RENTING_CONFIRMATION);
 		new Expectations() {
 			{
-				CarInterface.cancelRenting(RENT_CONFIRMATION);
-				result = RENT_CANCELLATION;
+				CarInterface.cancelRenting(RENTING_CONFIRMATION);
+				result = RENTING_CANCELLATION;
 			}
 		};
 
@@ -249,10 +222,10 @@ public class UndoStateProcessMethodTest {
 		this.adventure.setActivityCancellation(ACTIVITY_CANCELLATION);
 		this.adventure.setRoomConfirmation(ROOM_CONFIRMATION);
 		this.adventure.setRoomCancellation(ROOM_CANCELLATION);
-		this.adventure.setRentingConfirmation(RENT_CONFIRMATION);
+		this.adventure.setRentingConfirmation(RENTING_CONFIRMATION);
 		new Expectations() {
 			{
-				CarInterface.cancelRenting(RENT_CONFIRMATION);
+				CarInterface.cancelRenting(RENTING_CONFIRMATION);
 				result = new CarException();
 			}
 		};
@@ -271,10 +244,10 @@ public class UndoStateProcessMethodTest {
 		this.adventure.setActivityCancellation(ACTIVITY_CANCELLATION);
 		this.adventure.setRoomConfirmation(ROOM_CONFIRMATION);
 		this.adventure.setRoomCancellation(ROOM_CANCELLATION);
-		this.adventure.setRentingConfirmation(RENT_CONFIRMATION);
+		this.adventure.setRentingConfirmation(RENTING_CONFIRMATION);
 		new Expectations() {
 			{
-				CarInterface.cancelRenting(RENT_CONFIRMATION);
+				CarInterface.cancelRenting(RENTING_CONFIRMATION);
 				result = new RemoteAccessException();
 			}
 		};
@@ -294,8 +267,8 @@ public class UndoStateProcessMethodTest {
 		this.adventure.setActivityCancellation(ACTIVITY_CANCELLATION);
 		this.adventure.setRoomConfirmation(ROOM_CONFIRMATION);
 		this.adventure.setRoomCancellation(ROOM_CANCELLATION);
-		this.adventure.setRentingConfirmation(RENT_CONFIRMATION);
-		this.adventure.setRentingCancellation(RENT_CANCELLATION);
+		this.adventure.setRentingConfirmation(RENTING_CONFIRMATION);
+		this.adventure.setRentingCancellation(RENTING_CONFIRMATION);
 		this.adventure.setInvoiceReference(INVOICE_REFERENCE);
 		new Expectations() {
 			{
@@ -318,8 +291,8 @@ public class UndoStateProcessMethodTest {
 		this.adventure.setActivityCancellation(ACTIVITY_CANCELLATION);
 		this.adventure.setRoomConfirmation(ROOM_CONFIRMATION);
 		this.adventure.setRoomCancellation(ROOM_CANCELLATION);
-		this.adventure.setRentingConfirmation(RENT_CONFIRMATION);
-		this.adventure.setRentingCancellation(RENT_CANCELLATION);
+		this.adventure.setRentingConfirmation(RENTING_CONFIRMATION);
+		this.adventure.setRentingCancellation(RENTING_CONFIRMATION);
 		this.adventure.setInvoiceReference(INVOICE_REFERENCE);
 		new Expectations() {
 			{
@@ -343,8 +316,8 @@ public class UndoStateProcessMethodTest {
 		this.adventure.setActivityCancellation(ACTIVITY_CANCELLATION);
 		this.adventure.setRoomConfirmation(ROOM_CONFIRMATION);
 		this.adventure.setRoomCancellation(ROOM_CANCELLATION);
-		this.adventure.setRentingConfirmation(RENT_CONFIRMATION);
-		this.adventure.setRentingCancellation(RENT_CANCELLATION);
+		this.adventure.setRentingConfirmation(RENTING_CANCELLATION);
+		this.adventure.setRentingCancellation(RENTING_CANCELLATION);
 		this.adventure.setInvoiceReference(INVOICE_REFERENCE);
 		new Expectations() {
 			{
