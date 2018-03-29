@@ -30,7 +30,7 @@ public class Booking {
 		this.providerNif = provider.getNif();
 		this.nif = buyerNif;
 		this.iban = buyerIban;
-		this.amount = offer.getAmount();
+		this.amount = offer.getPrice();
 		this.date = offer.getBegin();
 
 		offer.addBooking(this);

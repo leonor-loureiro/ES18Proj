@@ -14,7 +14,7 @@ public class ActivityReservationData {
 	private final LocalDate begin;
 	private final LocalDate end;
 	private final LocalDate cancellationDate;
-	private final double amount;
+	private final double price;
 	private final String paymentReference;
 	private final String invoiceReference;
 
@@ -26,7 +26,7 @@ public class ActivityReservationData {
 		this.begin = offer.getBegin();
 		this.end = offer.getEnd();
 		this.cancellationDate = booking.getCancellationDate();
-		this.amount = offer.getAmount();
+		this.price = offer.getPrice();
 		this.paymentReference = booking.getPaymentReference();
 		this.invoiceReference = booking.getInvoiceReference();
 	}
@@ -59,8 +59,8 @@ public class ActivityReservationData {
 		return this.cancellationDate;
 	}
 
-	public double getAmount() {
-		return this.amount;
+	public double getPrice() {
+		return this.price;
 	}
 
 	public String getPaymentReference() {

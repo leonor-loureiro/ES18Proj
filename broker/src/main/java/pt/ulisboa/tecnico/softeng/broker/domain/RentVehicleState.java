@@ -22,7 +22,7 @@ public class RentVehicleState extends AdventureState {
 					adventure.getBroker().getNifAsBuyer(), adventure.getBroker().getIBAN(), adventure.getBegin(),
 					adventure.getEnd());
 
-			adventure.incAmountToPay(CarInterface.getPrice(reference));
+			adventure.incAmountToPay(CarInterface.getRentingData(reference).getPrice());
 
 			adventure.setRentingConfirmation(reference);
 

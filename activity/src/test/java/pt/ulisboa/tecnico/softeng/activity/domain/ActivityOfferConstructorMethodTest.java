@@ -32,7 +32,7 @@ public class ActivityOfferConstructorMethodTest {
 		assertEquals(this.end, offer.getEnd());
 		assertEquals(1, this.activity.getNumberOfOffers());
 		assertEquals(0, offer.getNumberOfBookings());
-		assertEquals(30, offer.getAmount());
+		assertEquals(30, offer.getPrice());
 	}
 
 	@Test(expected = ActivityException.class)

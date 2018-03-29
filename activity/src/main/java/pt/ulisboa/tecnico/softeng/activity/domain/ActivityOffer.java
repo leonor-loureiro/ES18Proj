@@ -47,7 +47,7 @@ public class ActivityOffer {
 		return this.end;
 	}
 
-	public int getAmount() {
+	public int getPrice() {
 		return this.amount;
 	}
 
