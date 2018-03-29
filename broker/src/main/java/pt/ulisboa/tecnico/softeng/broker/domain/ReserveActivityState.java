@@ -16,12 +16,12 @@ public class ReserveActivityState extends AdventureState {
 	@Override
 	public void process(Adventure adventure) {
 		try {
-		    String reference = ActivityInterface.reserveActivity(adventure.getBegin(), adventure.getEnd(), adventure.getAge(),
-                    adventure.getBroker().getNifAsBuyer(), adventure.getBroker().getIBAN());
+			String reference = ActivityInterface.reserveActivity(adventure.getBegin(), adventure.getEnd(),
+					adventure.getAge(), adventure.getBroker().getNifAsBuyer(), adventure.getBroker().getIBAN());
 
 			adventure.setActivityConfirmation(reference);
 
-			adventure.incAmountToPay(ActivityInterface.getPrice(reference));
+			adventure.incAmountToPay(ActivityInterface.getActivityReservationData(reference).getPrice());
 		} catch (ActivityException ae) {
 			adventure.setState(State.UNDO);
 			return;

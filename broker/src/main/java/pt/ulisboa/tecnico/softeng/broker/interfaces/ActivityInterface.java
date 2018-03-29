@@ -18,8 +18,4 @@ public class ActivityInterface {
 		return ActivityProvider.getActivityReservationData(reference);
 	}
 
-	public static double getPrice(String reference) {
-        ActivityReservationData act = ActivityProvider.getActivityReservationData(reference);
-        return act.getAmount();
-    }
 }
