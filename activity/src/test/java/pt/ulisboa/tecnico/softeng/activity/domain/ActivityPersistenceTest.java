@@ -20,6 +20,10 @@ public class ActivityPersistenceTest {
 	private static final String ACTIVITY_NAME = "Activity_Name";
 	private static final String PROVIDER_NAME = "Wicket";
 	private static final String PROVIDER_CODE = "A12345";
+	private static final String IBAN = "IBAN";
+	private static final String NIF = "NIF";
+	private static final String BUYER_IBAN = "IBAN2";
+	private static final String BUYER_NIF = "NIF2";
 	private static final int CAPACITY = 25;
 
 	private final LocalDate begin = new LocalDate(2017, 04, 01);
@@ -33,13 +37,13 @@ public class ActivityPersistenceTest {
 
 	@Atomic(mode = TxMode.WRITE)
 	public void atomicProcess() {
-		ActivityProvider activityProvider = new ActivityProvider(PROVIDER_CODE, PROVIDER_NAME);
+		ActivityProvider activityProvider = new ActivityProvider(PROVIDER_CODE, PROVIDER_NAME, NIF, IBAN);
 
 		Activity activity = new Activity(activityProvider, ACTIVITY_NAME, 18, 65, CAPACITY);
 
-		ActivityOffer activityOffer = new ActivityOffer(activity, this.begin, this.end);
+		ActivityOffer activityOffer = new ActivityOffer(activity, this.begin, this.end, 30);
 
-		new Booking(activityOffer);
+		new Booking(activityProvider, activityOffer, BUYER_NIF, BUYER_IBAN);
 	}
 
 	@Atomic(mode = TxMode.READ)

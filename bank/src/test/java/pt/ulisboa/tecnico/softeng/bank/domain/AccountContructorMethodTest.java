@@ -22,7 +22,7 @@ public class AccountContructorMethodTest extends RollbackTestAbstractClass {
 		Assert.assertEquals(this.bank, account.getBank());
 		Assert.assertTrue(account.getIBAN().startsWith(this.bank.getCode()));
 		Assert.assertEquals(this.client, account.getClient());
-		Assert.assertEquals(0, account.getBalance());
+		Assert.assertEquals(0, account.getBalance(), 0.0d);
 		Assert.assertEquals(1, this.bank.getAccountSet().size());
 		Assert.assertTrue(this.bank.getClientSet().contains(this.client));
 	}

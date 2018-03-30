@@ -1,34 +1,29 @@
 package pt.ulisboa.tecnico.softeng.broker.domain;
 
-import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
+import mockit.integration.junit4.JMockit;
 import pt.ulisboa.tecnico.softeng.broker.exception.BrokerException;
 
+@RunWith(JMockit.class)
 public class AdventureConstructorMethodTest extends RollbackTestAbstractClass {
-	private static final int AGE = 20;
-	private static final int AMOUNT = 300;
-	private static final String IBAN = "BK011234567";
-	private Broker broker;
-	private final LocalDate begin = new LocalDate(2016, 12, 19);
-	private final LocalDate end = new LocalDate(2016, 12, 21);
-
 	@Override
 	public void populate4Test() {
-		this.broker = new Broker("BR01", "eXtremeADVENTURE");
+		this.broker = new Broker("BR01", "eXtremeADVENTURE", BROKER_NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
+		this.client = new Client(this.broker, CLIENT_IBAN, CLIENT_NIF, DRIVING_LICENSE, AGE);
 	}
 
 	@Test
 	public void success() {
-		Adventure adventure = new Adventure(this.broker, this.begin, this.end, AGE, IBAN, AMOUNT);
+		Adventure adventure = new Adventure(this.broker, this.begin, this.end, this.client, MARGIN);
 
 		Assert.assertEquals(this.broker, adventure.getBroker());
 		Assert.assertEquals(this.begin, adventure.getBegin());
 		Assert.assertEquals(this.end, adventure.getEnd());
-		Assert.assertEquals(20, adventure.getAge());
-		Assert.assertEquals(IBAN, adventure.getIBAN());
-		Assert.assertEquals(300, adventure.getAmount());
+		Assert.assertEquals(this.client, adventure.getClient());
+		Assert.assertEquals(MARGIN, adventure.getMargin(), 0.0d);
 		Assert.assertTrue(this.broker.getAdventureSet().contains(adventure));
 
 		Assert.assertNull(adventure.getPaymentConfirmation());
@@ -38,29 +33,30 @@ public class AdventureConstructorMethodTest extends RollbackTestAbstractClass {
 
 	@Test(expected = BrokerException.class)
 	public void nullBroker() {
-		new Adventure(null, this.begin, this.end, AGE, IBAN, AMOUNT);
+		new Adventure(null, this.begin, this.end, this.client, MARGIN);
 	}
 
 	@Test(expected = BrokerException.class)
 	public void nullBegin() {
-		new Adventure(this.broker, null, this.end, AGE, IBAN, AMOUNT);
+		new Adventure(this.broker, null, this.end, this.client, MARGIN);
 	}
 
 	@Test(expected = BrokerException.class)
 	public void nullEnd() {
-		new Adventure(this.broker, this.begin, null, AGE, IBAN, AMOUNT);
+		new Adventure(this.broker, this.begin, null, this.client, MARGIN);
 	}
 
 	@Test
 	public void successEqual18() {
-		Adventure adventure = new Adventure(this.broker, this.begin, this.end, 18, IBAN, AMOUNT);
+		Adventure adventure = new Adventure(this.broker, this.begin, this.end,
+				new Client(this.broker, CLIENT_IBAN, OTHER_NIF, DRIVING_LICENSE + "1", 18), MARGIN);
 
 		Assert.assertEquals(this.broker, adventure.getBroker());
 		Assert.assertEquals(this.begin, adventure.getBegin());
 		Assert.assertEquals(this.end, adventure.getEnd());
 		Assert.assertEquals(18, adventure.getAge());
-		Assert.assertEquals(IBAN, adventure.getIBAN());
-		Assert.assertEquals(300, adventure.getAmount());
+		Assert.assertEquals(CLIENT_IBAN, adventure.getIBAN());
+		Assert.assertEquals(MARGIN, adventure.getMargin(), 0);
 		Assert.assertTrue(this.broker.getAdventureSet().contains(adventure));
 
 		Assert.assertNull(adventure.getPaymentConfirmation());
@@ -69,20 +65,22 @@ public class AdventureConstructorMethodTest extends RollbackTestAbstractClass {
 	}
 
 	@Test(expected = BrokerException.class)
-	public void lessThan18Age() {
-		new Adventure(this.broker, this.begin, this.end, 17, IBAN, AMOUNT);
+	public void negativeAge() {
+		Client c = new Client(this.broker, CLIENT_IBAN, OTHER_NIF, DRIVING_LICENSE, 17);
+		new Adventure(this.broker, this.begin, this.end, c, MARGIN);
 	}
 
 	@Test
 	public void successEqual100() {
-		Adventure adventure = new Adventure(this.broker, this.begin, this.end, 100, IBAN, AMOUNT);
+		Client c = new Client(this.broker, CLIENT_IBAN, OTHER_NIF, DRIVING_LICENSE + "1", 100);
+		Adventure adventure = new Adventure(this.broker, this.begin, this.end, c, MARGIN);
 
 		Assert.assertEquals(this.broker, adventure.getBroker());
 		Assert.assertEquals(this.begin, adventure.getBegin());
 		Assert.assertEquals(this.end, adventure.getEnd());
 		Assert.assertEquals(100, adventure.getAge());
-		Assert.assertEquals(IBAN, adventure.getIBAN());
-		Assert.assertEquals(300, adventure.getAmount());
+		Assert.assertEquals(CLIENT_IBAN, adventure.getIBAN());
+		Assert.assertEquals(MARGIN, adventure.getMargin(), 0);
 		Assert.assertTrue(this.broker.getAdventureSet().contains(adventure));
 
 		Assert.assertNull(adventure.getPaymentConfirmation());
@@ -92,34 +90,25 @@ public class AdventureConstructorMethodTest extends RollbackTestAbstractClass {
 
 	@Test(expected = BrokerException.class)
 	public void over100() {
-		new Adventure(this.broker, this.begin, this.end, 101, IBAN, AMOUNT);
-	}
-
-	@Test(expected = BrokerException.class)
-	public void nullIBAN() {
-		new Adventure(this.broker, this.begin, this.end, AGE, null, AMOUNT);
-	}
-
-	@Test(expected = BrokerException.class)
-	public void emptyIBAN() {
-		new Adventure(this.broker, this.begin, this.end, AGE, "     ", AMOUNT);
+		Client c = new Client(this.broker, CLIENT_IBAN, OTHER_NIF, DRIVING_LICENSE, 101);
+		new Adventure(this.broker, this.begin, this.end, c, MARGIN);
 	}
 
 	@Test(expected = BrokerException.class)
 	public void negativeAmount() {
-		new Adventure(this.broker, this.begin, this.end, AGE, IBAN, -100);
+		new Adventure(this.broker, this.begin, this.end, this.client, -100);
 	}
 
 	@Test
 	public void success1Amount() {
-		Adventure adventure = new Adventure(this.broker, this.begin, this.end, AGE, IBAN, 1);
+		Adventure adventure = new Adventure(this.broker, this.begin, this.end, this.client, 1);
 
 		Assert.assertEquals(this.broker, adventure.getBroker());
 		Assert.assertEquals(this.begin, adventure.getBegin());
 		Assert.assertEquals(this.end, adventure.getEnd());
 		Assert.assertEquals(20, adventure.getAge());
-		Assert.assertEquals(IBAN, adventure.getIBAN());
-		Assert.assertEquals(1, adventure.getAmount());
+		Assert.assertEquals(CLIENT_IBAN, adventure.getIBAN());
+		Assert.assertEquals(1, adventure.getMargin(), 0);
 		Assert.assertTrue(this.broker.getAdventureSet().contains(adventure));
 
 		Assert.assertNull(adventure.getPaymentConfirmation());
@@ -129,19 +118,19 @@ public class AdventureConstructorMethodTest extends RollbackTestAbstractClass {
 
 	@Test(expected = BrokerException.class)
 	public void zeroAmount() {
-		new Adventure(this.broker, this.begin, this.end, AGE, IBAN, 0);
+		new Adventure(this.broker, this.begin, this.end, this.client, 0);
 	}
 
 	@Test
 	public void successEqualDates() {
-		Adventure adventure = new Adventure(this.broker, this.begin, this.begin, AGE, IBAN, AMOUNT);
+		Adventure adventure = new Adventure(this.broker, this.begin, this.begin, this.client, MARGIN);
 
 		Assert.assertEquals(this.broker, adventure.getBroker());
 		Assert.assertEquals(this.begin, adventure.getBegin());
 		Assert.assertEquals(this.begin, adventure.getEnd());
 		Assert.assertEquals(20, adventure.getAge());
-		Assert.assertEquals(IBAN, adventure.getIBAN());
-		Assert.assertEquals(300, adventure.getAmount());
+		Assert.assertEquals(CLIENT_IBAN, adventure.getIBAN());
+		Assert.assertEquals(MARGIN, adventure.getMargin(), 0);
 		Assert.assertTrue(this.broker.getAdventureSet().contains(adventure));
 
 		Assert.assertNull(adventure.getPaymentConfirmation());
@@ -151,7 +140,7 @@ public class AdventureConstructorMethodTest extends RollbackTestAbstractClass {
 
 	@Test(expected = BrokerException.class)
 	public void inconsistentDates() {
-		new Adventure(this.broker, this.begin, this.begin.minusDays(1), AGE, IBAN, AMOUNT);
+		new Adventure(this.broker, this.begin, this.begin.minusDays(1), this.client, MARGIN);
 	}
 
 }

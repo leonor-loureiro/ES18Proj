@@ -12,11 +12,19 @@ import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
 public class ActivityProvider extends ActivityProvider_Base {
 	static final int CODE_SIZE = 6;
 
-	public ActivityProvider(String code, String name) {
-		checkArguments(code, name);
+	private final String nif;
+	private final String iban;
+
+	private final Processor processor = new Processor();
+
+	public ActivityProvider(String code, String name, String nif, String iban) {
+		checkArguments(code, name, nif, iban);
 
 		setCode(code);
 		setName(name);
+
+		this.nif = nif;
+		this.iban = iban;
 
 		FenixFramework.getDomainRoot().addActivityProvider(this);
 	}
@@ -31,8 +39,9 @@ public class ActivityProvider extends ActivityProvider_Base {
 		deleteDomainObject();
 	}
 
-	private void checkArguments(String code, String name) {
-		if (code == null || name == null || code.trim().equals("") || name.trim().equals("")) {
+	private void checkArguments(String code, String name, String nif, String iban) {
+		if (code == null || name == null || code.trim().equals("") || name.trim().equals("") || nif == null
+				|| nif.trim().length() == 0 || iban == null || iban.trim().length() == 0) {
 			throw new ActivityException();
 		}
 
@@ -45,6 +54,24 @@ public class ActivityProvider extends ActivityProvider_Base {
 				throw new ActivityException();
 			}
 		}
+
+		for (ActivityProvider activityProvider : FenixFramework.getDomainRoot().getActivityProviderSet()) {
+			if (activityProvider.getNif().equals(nif)) {
+				throw new ActivityException();
+			}
+		}
+	}
+
+	public String getNif() {
+		return this.nif;
+	}
+
+	public String getIban() {
+		return this.iban;
+	}
+
+	public Processor getProcessor() {
+		return this.processor;
 	}
 
 	public List<ActivityOffer> findOffer(LocalDate begin, LocalDate end, int age) {
@@ -75,12 +102,14 @@ public class ActivityProvider extends ActivityProvider_Base {
 		return null;
 	}
 
-	public static String reserveActivity(LocalDate begin, LocalDate end, int age) {
+	public static String reserveActivity(LocalDate begin, LocalDate end, int age, String nif, String iban) {
 		List<ActivityOffer> offers;
 		for (ActivityProvider provider : FenixFramework.getDomainRoot().getActivityProviderSet()) {
 			offers = provider.findOffer(begin, end, age);
 			if (!offers.isEmpty()) {
-				return new Booking(offers.get(0)).getReference();
+				Booking booking = new Booking(provider, offers.get(0), nif, iban);
+				provider.getProcessor().submitBooking(booking);
+				return booking.getReference();
 			}
 		}
 		throw new ActivityException();

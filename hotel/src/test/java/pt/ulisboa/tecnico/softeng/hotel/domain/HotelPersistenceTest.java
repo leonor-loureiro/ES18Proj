@@ -31,11 +31,11 @@ public class HotelPersistenceTest {
 
 	@Atomic(mode = TxMode.WRITE)
 	public void atomicProcess() {
-		Hotel hotel = new Hotel(HOTEL_CODE, HOTEL_NAME);
+		Hotel hotel = new Hotel(HOTEL_CODE, HOTEL_NAME, "123456789", "IBAN", 10.0, 20.0);
 
 		Room room = new Room(hotel, ROOM_NUMBER, Type.DOUBLE);
 
-		room.reserve(Type.DOUBLE, this.arrival, this.departure);
+		room.reserve(Type.DOUBLE, this.arrival, this.departure, "123456789", "IBAN");
 
 	}
 

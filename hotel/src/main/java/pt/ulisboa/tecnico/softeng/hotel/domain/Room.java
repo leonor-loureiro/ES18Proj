@@ -52,7 +52,7 @@ public class Room extends Room_Base {
 		return true;
 	}
 
-	public Booking reserve(Type type, LocalDate arrival, LocalDate departure) {
+	public Booking reserve(Type type, LocalDate arrival, LocalDate departure, String buyerNIF, String buyerIban) {
 		if (type == null || arrival == null || departure == null) {
 			throw new HotelException();
 		}
@@ -61,7 +61,7 @@ public class Room extends Room_Base {
 			throw new HotelException();
 		}
 
-		Booking booking = new Booking(this, arrival, departure);
+		Booking booking = new Booking(this, arrival, departure, buyerNIF, buyerIban);
 
 		return booking;
 	}
@@ -69,7 +69,7 @@ public class Room extends Room_Base {
 	public Booking getBooking(String reference) {
 		for (Booking booking : getBookingSet()) {
 			if (booking.getReference().equals(reference)
-					|| (booking.isCancelled() && booking.getCancellation().equals(reference))) {
+					|| booking.isCancelled() && booking.getCancellation().equals(reference)) {
 				return booking;
 			}
 		}

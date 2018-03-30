@@ -1,57 +1,120 @@
 package pt.ulisboa.tecnico.softeng.broker.domain;
 
-import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import mockit.Injectable;
+import mockit.Expectations;
 import mockit.Mocked;
-import mockit.StrictExpectations;
 import mockit.integration.junit4.JMockit;
+import pt.ulisboa.tecnico.softeng.activity.dataobjects.ActivityReservationData;
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
 import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
 import pt.ulisboa.tecnico.softeng.broker.domain.Adventure.State;
 import pt.ulisboa.tecnico.softeng.broker.exception.RemoteAccessException;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.ActivityInterface;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.BankInterface;
+import pt.ulisboa.tecnico.softeng.broker.interfaces.CarInterface;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.HotelInterface;
+import pt.ulisboa.tecnico.softeng.broker.interfaces.TaxInterface;
+import pt.ulisboa.tecnico.softeng.car.dataobjects.RentingData;
+import pt.ulisboa.tecnico.softeng.car.exception.CarException;
+import pt.ulisboa.tecnico.softeng.hotel.dataobjects.RoomBookingData;
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 
 @RunWith(JMockit.class)
 public class ConfirmedStateProcessMethodTest extends RollbackTestAbstractClass {
-	private static final String IBAN = "BK01987654321";
-	private static final int AMOUNT = 300;
-	private static final int AGE = 20;
-	private static final String PAYMENT_CONFIRMATION = "PaymentConfirmation";
-	private static final String ACTIVITY_CONFIRMATION = "ActivityConfirmation";
-	private static final String ROOM_CONFIRMATION = "RoomConfirmation";
-	private static final LocalDate arrival = new LocalDate(2016, 12, 19);
-	private static final LocalDate departure = new LocalDate(2016, 12, 21);
-	private Adventure adventure;
-
-	@Injectable
-	private Broker broker;
+	@Mocked
+	private ActivityReservationData activityReservationData;
+	@Mocked
+	private RentingData rentingData;
+	@Mocked
+	private RoomBookingData roomBookingData;
+	@Mocked
+	private BankInterface bankInterface;
+	@Mocked
+	private ActivityInterface activityInterface;
+	@Mocked
+	private HotelInterface roomInterface;
+	@Mocked
+	private CarInterface carInterface;
+	@Mocked
+	private TaxInterface taxInterface;
 
 	@Override
 	public void populate4Test() {
-		this.adventure = new Adventure(this.broker, arrival, departure, AGE, IBAN, AMOUNT);
+		this.broker = new Broker("BR01", "eXtremeADVENTURE", BROKER_NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
+		this.client = new Client(this.broker, CLIENT_IBAN, CLIENT_NIF, DRIVING_LICENSE, AGE);
+		this.adventure = new Adventure(this.broker, this.begin, this.end, this.client, MARGIN);
+
 		this.adventure.setState(State.CONFIRMED);
 	}
 
 	@Test
-	public void successAll(@Mocked final BankInterface bankInterface, @Mocked final ActivityInterface activityInterface,
-			@Mocked final HotelInterface roomInterface) {
+	public void successAll() {
+		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
+		this.adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION);
+		this.adventure.setRentingConfirmation(RENTING_CONFIRMATION);
+		this.adventure.setRoomConfirmation(ROOM_CONFIRMATION);
+		new Expectations() {
+			{
+				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
+
+				ActivityInterface.getActivityReservationData(ACTIVITY_CONFIRMATION);
+
+				CarInterface.getRentingData(RENTING_CONFIRMATION);
+
+				HotelInterface.getRoomBookingData(ROOM_CONFIRMATION);
+
+				ConfirmedStateProcessMethodTest.this.activityReservationData.getPaymentReference();
+				this.result = REFERENCE;
+
+				ConfirmedStateProcessMethodTest.this.activityReservationData.getInvoiceReference();
+				this.result = REFERENCE;
+
+				ConfirmedStateProcessMethodTest.this.rentingData.getPaymentReference();
+				this.result = REFERENCE;
+
+				ConfirmedStateProcessMethodTest.this.rentingData.getInvoiceReference();
+				this.result = REFERENCE;
+
+				ConfirmedStateProcessMethodTest.this.roomBookingData.getPaymentReference();
+				this.result = REFERENCE;
+
+				ConfirmedStateProcessMethodTest.this.roomBookingData.getInvoiceReference();
+				this.result = REFERENCE;
+			}
+		};
+
+		this.adventure.process();
+
+		Assert.assertEquals(State.CONFIRMED, this.adventure.getState().getValue());
+	}
+
+	@Test
+	public void successActivityAndHotel() {
 		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
 		this.adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION);
 		this.adventure.setRoomConfirmation(ROOM_CONFIRMATION);
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
 
 				ActivityInterface.getActivityReservationData(ACTIVITY_CONFIRMATION);
 
 				HotelInterface.getRoomBookingData(ROOM_CONFIRMATION);
+
+				ConfirmedStateProcessMethodTest.this.activityReservationData.getPaymentReference();
+				this.result = REFERENCE;
+
+				ConfirmedStateProcessMethodTest.this.activityReservationData.getInvoiceReference();
+				this.result = REFERENCE;
+
+				ConfirmedStateProcessMethodTest.this.roomBookingData.getPaymentReference();
+				this.result = REFERENCE;
+
+				ConfirmedStateProcessMethodTest.this.roomBookingData.getInvoiceReference();
+				this.result = REFERENCE;
 			}
 		};
 
@@ -61,15 +124,29 @@ public class ConfirmedStateProcessMethodTest extends RollbackTestAbstractClass {
 	}
 
 	@Test
-	public void successPaymentAndActivity(@Mocked final BankInterface bankInterface,
-			@Mocked final ActivityInterface activityInterface) {
+	public void successActivityAndCar() {
 		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
 		this.adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION);
-		new StrictExpectations() {
+		this.adventure.setRentingConfirmation(RENTING_CONFIRMATION);
+		new Expectations() {
 			{
 				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
 
 				ActivityInterface.getActivityReservationData(ACTIVITY_CONFIRMATION);
+
+				CarInterface.getRentingData(RENTING_CONFIRMATION);
+
+				ConfirmedStateProcessMethodTest.this.activityReservationData.getPaymentReference();
+				this.result = REFERENCE;
+
+				ConfirmedStateProcessMethodTest.this.activityReservationData.getInvoiceReference();
+				this.result = REFERENCE;
+
+				ConfirmedStateProcessMethodTest.this.rentingData.getPaymentReference();
+				this.result = REFERENCE;
+
+				ConfirmedStateProcessMethodTest.this.rentingData.getInvoiceReference();
+				this.result = REFERENCE;
 			}
 		};
 
@@ -79,11 +156,33 @@ public class ConfirmedStateProcessMethodTest extends RollbackTestAbstractClass {
 	}
 
 	@Test
-	public void oneBankException(@Mocked final BankInterface bankInterface) {
+	public void successActivity() {
 		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
 		this.adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION);
-		this.adventure.setRoomConfirmation(ROOM_CONFIRMATION);
-		new StrictExpectations() {
+		new Expectations() {
+			{
+				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
+
+				ActivityInterface.getActivityReservationData(ACTIVITY_CONFIRMATION);
+
+				ConfirmedStateProcessMethodTest.this.activityReservationData.getPaymentReference();
+				this.result = REFERENCE;
+
+				ConfirmedStateProcessMethodTest.this.activityReservationData.getInvoiceReference();
+				this.result = REFERENCE;
+			}
+		};
+
+		this.adventure.process();
+
+		Assert.assertEquals(State.CONFIRMED, this.adventure.getState().getValue());
+	}
+
+	@Test
+	public void oneBankException() {
+		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
+		this.adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION);
+		new Expectations() {
 			{
 				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
 				this.result = new BankException();
@@ -96,15 +195,13 @@ public class ConfirmedStateProcessMethodTest extends RollbackTestAbstractClass {
 	}
 
 	@Test
-	public void maxBankException(@Mocked final BankInterface bankInterface) {
+	public void maxBankException() {
 		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
 		this.adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION);
-		this.adventure.setRoomConfirmation(ROOM_CONFIRMATION);
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
 				this.result = new BankException();
-				this.times = ConfirmedState.MAX_BANK_EXCEPTIONS;
 			}
 		};
 
@@ -116,15 +213,13 @@ public class ConfirmedStateProcessMethodTest extends RollbackTestAbstractClass {
 	}
 
 	@Test
-	public void maxMinusOneBankException(@Mocked final BankInterface bankInterface) {
+	public void maxMinusOneBankException() {
 		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
 		this.adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION);
-		this.adventure.setRoomConfirmation(ROOM_CONFIRMATION);
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
 				this.result = new BankException();
-				this.times = ConfirmedState.MAX_BANK_EXCEPTIONS - 1;
 			}
 		};
 
@@ -136,11 +231,10 @@ public class ConfirmedStateProcessMethodTest extends RollbackTestAbstractClass {
 	}
 
 	@Test
-	public void oneRemoteAccessExceptionStartingInPayment(@Mocked final BankInterface bankInterface) {
+	public void oneRemoteAccessExceptionInPayment() {
 		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
 		this.adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION);
-		this.adventure.setRoomConfirmation(ROOM_CONFIRMATION);
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
 				this.result = new RemoteAccessException();
@@ -153,202 +247,10 @@ public class ConfirmedStateProcessMethodTest extends RollbackTestAbstractClass {
 	}
 
 	@Test
-	public void maxRemoteAccessExceptionStartingInPayment(@Mocked final BankInterface bankInterface) {
+	public void activityException() {
 		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
 		this.adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION);
-		this.adventure.setRoomConfirmation(ROOM_CONFIRMATION);
-		new StrictExpectations() {
-			{
-				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
-				this.result = new RemoteAccessException();
-				this.times = ConfirmedState.MAX_REMOTE_ERRORS;
-			}
-		};
-
-		for (int i = 0; i < ConfirmedState.MAX_REMOTE_ERRORS; i++) {
-			this.adventure.process();
-		}
-
-		Assert.assertEquals(State.UNDO, this.adventure.getState().getValue());
-	}
-
-	@Test
-	public void maxMinusOneRemoteAccessExceptionStartingInPayment(@Mocked final BankInterface bankInterface) {
-		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
-		this.adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION);
-		this.adventure.setRoomConfirmation(ROOM_CONFIRMATION);
-		new StrictExpectations() {
-			{
-				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
-				this.result = new RemoteAccessException();
-				this.times = ConfirmedState.MAX_REMOTE_ERRORS - 1;
-			}
-		};
-
-		for (int i = 0; i < ConfirmedState.MAX_REMOTE_ERRORS - 1; i++) {
-			this.adventure.process();
-		}
-
-		Assert.assertEquals(State.CONFIRMED, this.adventure.getState().getValue());
-	}
-
-	@Test
-	public void oneRemoteAccessExceptionStartingInActivity(@Mocked final BankInterface bankInterface,
-			@Mocked final ActivityInterface activityInterface) {
-		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
-		this.adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION);
-		this.adventure.setRoomConfirmation(ROOM_CONFIRMATION);
-		new StrictExpectations() {
-			{
-				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
-
-				ActivityInterface.getActivityReservationData(ACTIVITY_CONFIRMATION);
-				this.result = new RemoteAccessException();
-			}
-		};
-
-		this.adventure.process();
-
-		Assert.assertEquals(State.CONFIRMED, this.adventure.getState().getValue());
-	}
-
-	@Test
-	public void maxRemoteAccessExceptionStartingInActivity(@Mocked final BankInterface bankInterface,
-			@Mocked final ActivityInterface activityInterface) {
-		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
-		this.adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION);
-		this.adventure.setRoomConfirmation(ROOM_CONFIRMATION);
-		new StrictExpectations() {
-			{
-				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
-
-				ActivityInterface.getActivityReservationData(ACTIVITY_CONFIRMATION);
-				this.result = new RemoteAccessException();
-
-				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
-				this.result = new RemoteAccessException();
-				this.times = ConfirmedState.MAX_REMOTE_ERRORS - 1;
-			}
-		};
-
-		for (int i = 0; i < ConfirmedState.MAX_REMOTE_ERRORS; i++) {
-			this.adventure.process();
-		}
-
-		Assert.assertEquals(State.UNDO, this.adventure.getState().getValue());
-	}
-
-	@Test
-	public void maxMinusOneRemoteAccessExceptionStartingInActivity(@Mocked final BankInterface bankInterface,
-			@Mocked final ActivityInterface activityInterface) {
-		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
-		this.adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION);
-		this.adventure.setRoomConfirmation(ROOM_CONFIRMATION);
-		new StrictExpectations() {
-			{
-				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
-
-				ActivityInterface.getActivityReservationData(ACTIVITY_CONFIRMATION);
-				this.result = new RemoteAccessException();
-
-				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
-				this.result = new RemoteAccessException();
-				this.times = ConfirmedState.MAX_REMOTE_ERRORS - 2;
-			}
-		};
-
-		for (int i = 0; i < ConfirmedState.MAX_REMOTE_ERRORS - 1; i++) {
-			this.adventure.process();
-		}
-
-		Assert.assertEquals(State.CONFIRMED, this.adventure.getState().getValue());
-	}
-
-	@Test
-	public void oneRemoteAccessExceptionStartingInRoom(@Mocked final BankInterface bankInterface,
-			@Mocked final ActivityInterface activityInterface, @Mocked final HotelInterface roomInterface) {
-		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
-		this.adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION);
-		this.adventure.setRoomConfirmation(ROOM_CONFIRMATION);
-		new StrictExpectations() {
-			{
-				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
-
-				ActivityInterface.getActivityReservationData(ACTIVITY_CONFIRMATION);
-
-				HotelInterface.getRoomBookingData(ROOM_CONFIRMATION);
-				this.result = new RemoteAccessException();
-			}
-		};
-
-		this.adventure.process();
-
-		Assert.assertEquals(State.CONFIRMED, this.adventure.getState().getValue());
-	}
-
-	@Test
-	public void maxRemoteAccessExceptionStartingInRoom(@Mocked final BankInterface bankInterface,
-			@Mocked final ActivityInterface activityInterface, @Mocked final HotelInterface roomInterface) {
-		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
-		this.adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION);
-		this.adventure.setRoomConfirmation(ROOM_CONFIRMATION);
-		new StrictExpectations() {
-			{
-				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
-
-				ActivityInterface.getActivityReservationData(ACTIVITY_CONFIRMATION);
-
-				HotelInterface.getRoomBookingData(ROOM_CONFIRMATION);
-				this.result = new RemoteAccessException();
-
-				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
-				this.result = new RemoteAccessException();
-				this.times = ConfirmedState.MAX_REMOTE_ERRORS - 1;
-			}
-		};
-
-		for (int i = 0; i < ConfirmedState.MAX_REMOTE_ERRORS; i++) {
-			this.adventure.process();
-		}
-
-		Assert.assertEquals(State.UNDO, this.adventure.getState().getValue());
-	}
-
-	@Test
-	public void maxMinusOneRemoteAccessExceptionStartingInRoom(@Mocked final BankInterface bankInterface,
-			@Mocked final ActivityInterface activityInterface, @Mocked final HotelInterface roomInterface) {
-		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
-		this.adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION);
-		this.adventure.setRoomConfirmation(ROOM_CONFIRMATION);
-		new StrictExpectations() {
-			{
-				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
-
-				ActivityInterface.getActivityReservationData(ACTIVITY_CONFIRMATION);
-
-				HotelInterface.getRoomBookingData(ROOM_CONFIRMATION);
-				this.result = new RemoteAccessException();
-
-				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
-				this.result = new RemoteAccessException();
-				this.times = ConfirmedState.MAX_REMOTE_ERRORS - 2;
-			}
-		};
-
-		for (int i = 0; i < ConfirmedState.MAX_REMOTE_ERRORS - 1; i++) {
-			this.adventure.process();
-		}
-
-		Assert.assertEquals(State.CONFIRMED, this.adventure.getState().getValue());
-	}
-
-	@Test
-	public void activityException(@Mocked final BankInterface bankInterface,
-			@Mocked final ActivityInterface activityInterface) {
-		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
-		this.adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION);
-		this.adventure.setRoomConfirmation(ROOM_CONFIRMATION);
-		new StrictExpectations() {
+		new Expectations() {
 			{
 				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
 
@@ -363,19 +265,288 @@ public class ConfirmedStateProcessMethodTest extends RollbackTestAbstractClass {
 	}
 
 	@Test
-	public void hotelException(@Mocked final BankInterface bankInterface,
-			@Mocked final ActivityInterface activityInterface, @Mocked final HotelInterface roomInterface) {
+	public void oneRemoteAccessExceptionInActivity() {
 		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
 		this.adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION);
-		this.adventure.setRoomConfirmation(ROOM_CONFIRMATION);
-		new StrictExpectations() {
+		new Expectations() {
+			{
+				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
+
+				ActivityInterface.getActivityReservationData(ACTIVITY_CONFIRMATION);
+				this.result = new RemoteAccessException();
+			}
+		};
+
+		this.adventure.process();
+
+		Assert.assertEquals(State.CONFIRMED, this.adventure.getState().getValue());
+	}
+
+	@Test
+	public void activityNoPaymentConfirmation() {
+		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
+		this.adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION);
+		new Expectations() {
 			{
 				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
 
 				ActivityInterface.getActivityReservationData(ACTIVITY_CONFIRMATION);
 
+				ConfirmedStateProcessMethodTest.this.activityReservationData.getPaymentReference();
+				this.result = null;
+			}
+		};
+
+		this.adventure.process();
+
+		Assert.assertEquals(State.UNDO, this.adventure.getState().getValue());
+	}
+
+	@Test
+	public void activityNoInvoiceReference() {
+		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
+		this.adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION);
+		new Expectations() {
+			{
+				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
+
+				ActivityInterface.getActivityReservationData(ACTIVITY_CONFIRMATION);
+
+				ConfirmedStateProcessMethodTest.this.activityReservationData.getPaymentReference();
+				this.result = REFERENCE;
+
+				ConfirmedStateProcessMethodTest.this.activityReservationData.getInvoiceReference();
+				this.result = null;
+			}
+		};
+
+		this.adventure.process();
+
+		Assert.assertEquals(State.UNDO, this.adventure.getState().getValue());
+	}
+
+	@Test
+	public void carException() {
+		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
+		this.adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION);
+		this.adventure.setRentingConfirmation(RENTING_CONFIRMATION);
+		new Expectations() {
+			{
+				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
+
+				ActivityInterface.getActivityReservationData(ACTIVITY_CONFIRMATION);
+
+				ConfirmedStateProcessMethodTest.this.activityReservationData.getPaymentReference();
+				this.result = REFERENCE;
+
+				ConfirmedStateProcessMethodTest.this.activityReservationData.getInvoiceReference();
+				this.result = REFERENCE;
+
+				CarInterface.getRentingData(RENTING_CONFIRMATION);
+				this.result = new CarException();
+			}
+		};
+
+		this.adventure.process();
+
+		Assert.assertEquals(State.UNDO, this.adventure.getState().getValue());
+	}
+
+	@Test
+	public void oneRemoteExceptionInCar() {
+		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
+		this.adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION);
+		this.adventure.setRentingConfirmation(RENTING_CONFIRMATION);
+		new Expectations() {
+			{
+				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
+
+				ActivityInterface.getActivityReservationData(ACTIVITY_CONFIRMATION);
+
+				ConfirmedStateProcessMethodTest.this.activityReservationData.getPaymentReference();
+				this.result = REFERENCE;
+
+				ConfirmedStateProcessMethodTest.this.activityReservationData.getInvoiceReference();
+				this.result = REFERENCE;
+
+				CarInterface.getRentingData(RENTING_CONFIRMATION);
+				this.result = new RemoteAccessException();
+			}
+		};
+
+		this.adventure.process();
+
+		Assert.assertEquals(State.CONFIRMED, this.adventure.getState().getValue());
+	}
+
+	@Test
+	public void carNoPaymentConfirmation() {
+		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
+		this.adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION);
+		this.adventure.setRentingConfirmation(RENTING_CONFIRMATION);
+		new Expectations() {
+			{
+				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
+
+				ActivityInterface.getActivityReservationData(ACTIVITY_CONFIRMATION);
+
+				ConfirmedStateProcessMethodTest.this.activityReservationData.getPaymentReference();
+				this.result = REFERENCE;
+
+				ConfirmedStateProcessMethodTest.this.activityReservationData.getInvoiceReference();
+				this.result = REFERENCE;
+
+				CarInterface.getRentingData(RENTING_CONFIRMATION);
+
+				ConfirmedStateProcessMethodTest.this.rentingData.getPaymentReference();
+				this.result = null;
+			}
+		};
+
+		this.adventure.process();
+
+		Assert.assertEquals(State.UNDO, this.adventure.getState().getValue());
+	}
+
+	@Test
+	public void carNoInvoiceReference() {
+		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
+		this.adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION);
+		this.adventure.setRentingConfirmation(RENTING_CONFIRMATION);
+		new Expectations() {
+			{
+				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
+
+				ActivityInterface.getActivityReservationData(ACTIVITY_CONFIRMATION);
+
+				ConfirmedStateProcessMethodTest.this.activityReservationData.getPaymentReference();
+				this.result = REFERENCE;
+
+				ConfirmedStateProcessMethodTest.this.activityReservationData.getInvoiceReference();
+				this.result = REFERENCE;
+
+				CarInterface.getRentingData(RENTING_CONFIRMATION);
+
+				ConfirmedStateProcessMethodTest.this.rentingData.getPaymentReference();
+				this.result = REFERENCE;
+
+				ConfirmedStateProcessMethodTest.this.rentingData.getInvoiceReference();
+				this.result = null;
+			}
+		};
+
+		this.adventure.process();
+
+		Assert.assertEquals(State.UNDO, this.adventure.getState().getValue());
+	}
+
+	@Test
+	public void hotelException() {
+		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
+		this.adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION);
+		this.adventure.setRoomConfirmation(ROOM_CONFIRMATION);
+		new Expectations() {
+			{
+				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
+
+				ActivityInterface.getActivityReservationData(ACTIVITY_CONFIRMATION);
+
+				ConfirmedStateProcessMethodTest.this.activityReservationData.getPaymentReference();
+				this.result = REFERENCE;
+
+				ConfirmedStateProcessMethodTest.this.activityReservationData.getInvoiceReference();
+				this.result = REFERENCE;
+
 				HotelInterface.getRoomBookingData(ROOM_CONFIRMATION);
 				this.result = new HotelException();
+			}
+		};
+
+		this.adventure.process();
+
+		Assert.assertEquals(State.UNDO, this.adventure.getState().getValue());
+	}
+
+	@Test
+	public void oneRemoteAccessExceptionInHotel() {
+		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
+		this.adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION);
+		this.adventure.setRoomConfirmation(ROOM_CONFIRMATION);
+		new Expectations() {
+			{
+				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
+
+				ActivityInterface.getActivityReservationData(ACTIVITY_CONFIRMATION);
+
+				ConfirmedStateProcessMethodTest.this.activityReservationData.getPaymentReference();
+				this.result = REFERENCE;
+
+				ConfirmedStateProcessMethodTest.this.activityReservationData.getInvoiceReference();
+				this.result = REFERENCE;
+
+				HotelInterface.getRoomBookingData(ROOM_CONFIRMATION);
+				this.result = new RemoteAccessException();
+			}
+		};
+
+		this.adventure.process();
+
+		Assert.assertEquals(State.CONFIRMED, this.adventure.getState().getValue());
+	}
+
+	@Test
+	public void hotelNoPaymentConfirmation() {
+		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
+		this.adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION);
+		this.adventure.setRoomConfirmation(ROOM_CONFIRMATION);
+		new Expectations() {
+			{
+				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
+
+				ActivityInterface.getActivityReservationData(ACTIVITY_CONFIRMATION);
+
+				ConfirmedStateProcessMethodTest.this.activityReservationData.getPaymentReference();
+				this.result = REFERENCE;
+
+				ConfirmedStateProcessMethodTest.this.activityReservationData.getInvoiceReference();
+				this.result = REFERENCE;
+
+				HotelInterface.getRoomBookingData(ROOM_CONFIRMATION);
+
+				ConfirmedStateProcessMethodTest.this.roomBookingData.getPaymentReference();
+				this.result = null;
+			}
+		};
+
+		this.adventure.process();
+
+		Assert.assertEquals(State.UNDO, this.adventure.getState().getValue());
+	}
+
+	@Test
+	public void hotelNoInvoiceReference() {
+		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
+		this.adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION);
+		this.adventure.setRoomConfirmation(ROOM_CONFIRMATION);
+		new Expectations() {
+			{
+				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
+
+				ActivityInterface.getActivityReservationData(ACTIVITY_CONFIRMATION);
+
+				ConfirmedStateProcessMethodTest.this.activityReservationData.getPaymentReference();
+				this.result = REFERENCE;
+
+				ConfirmedStateProcessMethodTest.this.activityReservationData.getInvoiceReference();
+				this.result = REFERENCE;
+
+				HotelInterface.getRoomBookingData(ROOM_CONFIRMATION);
+
+				ConfirmedStateProcessMethodTest.this.roomBookingData.getPaymentReference();
+				this.result = REFERENCE;
+
+				ConfirmedStateProcessMethodTest.this.roomBookingData.getInvoiceReference();
+				this.result = null;
 			}
 		};
 

@@ -52,6 +52,7 @@ public class BankGetAccountMethodTest extends RollbackTestAbstractClass {
 		new Account(this.bank, this.client);
 
 		assertNull(this.bank.getAccount("XPTO"));
+
 	}
 
 }

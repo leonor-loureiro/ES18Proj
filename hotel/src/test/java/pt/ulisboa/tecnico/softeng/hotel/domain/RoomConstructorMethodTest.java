@@ -13,7 +13,7 @@ public class RoomConstructorMethodTest extends RollbackTestAbstractClass {
 
 	@Override
 	public void populate4Test() {
-		this.hotel = new Hotel("XPTO123", "Lisboa");
+		this.hotel = new Hotel("XPTO123", "Lisboa", "NIF", "IBAN", 20.0, 30.0);
 	}
 
 	@Test

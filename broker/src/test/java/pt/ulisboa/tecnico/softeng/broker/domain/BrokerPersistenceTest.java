@@ -7,7 +7,6 @@ import static org.junit.Assert.assertNotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Test;
 
@@ -15,17 +14,7 @@ import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
 
-public class BrokerPersistenceTest {
-	private static final String REF_ONE = "REF_ONE";
-	private static final String BROKER_NAME = "Happy Going";
-	private static final String BROKER_CODE = "BK1017";
-	private static final int AGE = 20;
-	private static final int AMOUNT = 300;
-	private static final String IBAN = "BK011234567";
-
-	private final LocalDate begin = new LocalDate(2016, 12, 19);
-	private final LocalDate end = new LocalDate(2016, 12, 21);
-
+public class BrokerPersistenceTest extends BaseTest {
 	@Test
 	public void success() {
 		atomicProcess();
@@ -34,11 +23,11 @@ public class BrokerPersistenceTest {
 
 	@Atomic(mode = TxMode.WRITE)
 	public void atomicProcess() {
-		Broker broker = new Broker(BROKER_CODE, BROKER_NAME);
+		Broker broker = new Broker(BROKER_CODE, BROKER_NAME, BROKER_NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
+		Client client = new Client(broker, CLIENT_IBAN, CLIENT_NIF, DRIVING_LICENSE, AGE);
+		new Adventure(broker, this.begin, this.end, client, MARGIN);
 
-		new Adventure(broker, this.begin, this.end, AGE, IBAN, AMOUNT);
-
-		BulkRoomBooking bulk = new BulkRoomBooking(broker, 100, this.begin, this.end);
+		BulkRoomBooking bulk = new BulkRoomBooking(broker, NUMBER_OF_BULK, this.begin, this.end, NIF_AS_BUYER, CLIENT_IBAN);
 
 		new Reference(bulk, REF_ONE);
 	}
@@ -63,10 +52,9 @@ public class BrokerPersistenceTest {
 		assertEquals(this.begin, adventure.getBegin());
 		assertEquals(this.end, adventure.getEnd());
 		assertEquals(AGE, adventure.getAge());
-		assertEquals(IBAN, adventure.getIBAN());
-		assertEquals(AMOUNT, adventure.getAmount());
+		assertEquals(CLIENT_IBAN, adventure.getIBAN());
 
-		assertEquals(Adventure.State.PROCESS_PAYMENT, adventure.getState().getValue());
+		assertEquals(Adventure.State.RESERVE_ACTIVITY, adventure.getState().getValue());
 		assertEquals(0, adventure.getState().getNumOfRemoteErrors());
 
 		List<BulkRoomBooking> bulks = new ArrayList<>(broker.getRoomBulkBookingSet());
@@ -75,7 +63,7 @@ public class BrokerPersistenceTest {
 		assertNotNull(bulk);
 		assertEquals(this.begin, bulk.getArrival());
 		assertEquals(this.end, bulk.getDeparture());
-		assertEquals(100, bulk.getNumber());
+		assertEquals(NUMBER_OF_BULK, bulk.getNumber());
 		assertFalse(bulk.getCancelled());
 		assertEquals(0, bulk.getNumberOfHotelExceptions());
 		assertEquals(0, bulk.getNumberOfRemoteErrors());

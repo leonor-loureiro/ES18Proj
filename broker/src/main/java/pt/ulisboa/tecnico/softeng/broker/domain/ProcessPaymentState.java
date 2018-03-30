@@ -19,17 +19,17 @@ public class ProcessPaymentState extends ProcessPaymentState_Base {
 			getAdventure().setPaymentConfirmation(
 					BankInterface.processPayment(getAdventure().getIBAN(), getAdventure().getAmount()));
 		} catch (BankException be) {
-			getAdventure().setState(State.CANCELLED);
+			getAdventure().setState(State.UNDO);
 			return;
 		} catch (RemoteAccessException rae) {
 			incNumOfRemoteErrors();
 			if (getNumOfRemoteErrors() == MAX_REMOTE_ERRORS) {
-				getAdventure().setState(State.CANCELLED);
+				getAdventure().setState(State.UNDO);
 			}
 			return;
 		}
 
-		getAdventure().setState(State.RESERVE_ACTIVITY);
+		getAdventure().setState(State.TAX_PAYMENT);
 	}
 
 }

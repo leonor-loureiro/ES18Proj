@@ -4,5 +4,7 @@
 target
 jmeter.log
 infer-out
+*.iml
+.idea
 .DS_Store
 fenix-framework.properties

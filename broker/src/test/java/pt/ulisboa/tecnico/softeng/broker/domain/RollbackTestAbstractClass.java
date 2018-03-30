@@ -9,7 +9,7 @@ import org.junit.Before;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.fenixframework.core.WriteOnReadError;
 
-public abstract class RollbackTestAbstractClass {
+public abstract class RollbackTestAbstractClass extends BaseTest {
 	@Before
 	public void setUp() throws Exception {
 

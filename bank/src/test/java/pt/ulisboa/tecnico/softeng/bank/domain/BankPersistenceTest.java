@@ -55,13 +55,13 @@ public class BankPersistenceTest {
 
 		assertEquals(client, account.getClient());
 		assertNotNull(account.getIBAN());
-		assertEquals(100, account.getBalance());
+		assertEquals(100, account.getBalance(), 0.0f);
 
 		List<Operation> operations = new ArrayList<>(bank.getOperationSet());
 		Operation operation = operations.get(0);
 
 		assertEquals(Operation.Type.DEPOSIT, operation.getType());
-		assertEquals(100, operation.getValue());
+		assertEquals(100, operation.getValue(), 0.0d);
 		assertNotNull(operation.getReference());
 		assertNotNull(operation.getTime());
 	}

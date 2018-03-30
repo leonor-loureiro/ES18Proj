@@ -16,8 +16,13 @@ public class ReserveActivityState extends ReserveActivityState_Base {
 	@Override
 	public void process() {
 		try {
-			getAdventure().setActivityConfirmation(ActivityInterface.reserveActivity(getAdventure().getBegin(),
-					getAdventure().getEnd(), getAdventure().getAge()));
+			String reference = ActivityInterface.reserveActivity(getAdventure().getBegin(), getAdventure().getEnd(),
+					getAdventure().getAge(), getAdventure().getBroker().getNifAsBuyer(),
+					getAdventure().getBroker().getIBAN());
+
+			getAdventure().setActivityConfirmation(reference);
+
+			getAdventure().incAmountToPay(ActivityInterface.getActivityReservationData(reference).getPrice());
 		} catch (ActivityException ae) {
 			getAdventure().setState(State.UNDO);
 			return;
@@ -30,7 +35,11 @@ public class ReserveActivityState extends ReserveActivityState_Base {
 		}
 
 		if (getAdventure().getBegin().equals(getAdventure().getEnd())) {
-			getAdventure().setState(State.CONFIRMED);
+			if (getAdventure().shouldRentVehicle()) {
+				getAdventure().setState(State.RENT_VEHICLE);
+			} else {
+				getAdventure().setState(State.PROCESS_PAYMENT);
+			}
 		} else {
 			getAdventure().setState(State.BOOK_ROOM);
 		}

@@ -1,9 +1,12 @@
 package pt.ulisboa.tecnico.softeng.bank.domain;
 
+import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 
+import pt.ist.fenixframework.FenixFramework;
 import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
 
 public class BankProcessPaymentMethodTest extends RollbackTestAbstractClass {
@@ -22,9 +25,14 @@ public class BankProcessPaymentMethodTest extends RollbackTestAbstractClass {
 
 	@Test
 	public void success() {
-		Bank.processPayment(this.iban, 100);
+		String iban = this.account.getIBAN();
+		String newReference = Bank.processPayment(iban, 50);
 
-		assertEquals(400, this.account.getBalance());
+		assertNotNull(newReference);
+		assertTrue(newReference.startsWith("BK01"));
+
+		assertNotNull(this.bank.getOperation(newReference));
+		assertEquals(Operation.Type.WITHDRAW, this.bank.getOperation(newReference).getType());
 	}
 
 	@Test
@@ -36,10 +44,26 @@ public class BankProcessPaymentMethodTest extends RollbackTestAbstractClass {
 		otherAccount.deposit(1000);
 
 		Bank.processPayment(otherIban, 100);
-		assertEquals(900, otherAccount.getBalance());
+		assertEquals(900, otherAccount.getBalance(), 0.0d);
 
 		Bank.processPayment(this.iban, 100);
-		assertEquals(400, this.account.getBalance());
+		assertEquals(400, this.account.getBalance(), 0.0d);
+	}
+
+	@Test
+	public void twoOtherBanks() {
+		Bank bank = new Bank("OtherDream", "BK02");
+		Client client = new Client(bank, "Manuel");
+		Account account = new Account(bank, client);
+		account.deposit(10);
+
+		String reference = Bank.processPayment(account.getIBAN(), 10);
+
+		assertNotNull(reference);
+		assertTrue(reference.startsWith("BK02"));
+
+		assertNotNull(bank.getOperation(reference));
+		assertEquals(Operation.Type.WITHDRAW, bank.getOperation(reference).getType());
 	}
 
 	@Test(expected = BankException.class)
@@ -61,7 +85,7 @@ public class BankProcessPaymentMethodTest extends RollbackTestAbstractClass {
 	public void oneAmount() {
 		Bank.processPayment(this.iban, 1);
 
-		assertEquals(499, this.account.getBalance());
+		assertEquals(499, this.account.getBalance(), 0.0d);
 	}
 
 	@Test(expected = BankException.class)
@@ -69,4 +93,24 @@ public class BankProcessPaymentMethodTest extends RollbackTestAbstractClass {
 		Bank.processPayment("other", 0);
 	}
 
+	@Test(expected = BankException.class)
+	public void nullReference() {
+		Bank.processPayment(null, 10);
+	}
+
+	@Test(expected = BankException.class)
+	public void emptyReference() {
+		Bank.processPayment("", 10);
+	}
+
+	@Test(expected = BankException.class)
+	public void notExistsReference() {
+		Bank.processPayment("XPTO", 10);
+	}
+
+	@Test(expected = BankException.class)
+	public void noBanks() {
+		FenixFramework.getDomainRoot().getBankSet().clear();
+		Bank.processPayment(this.account.getIBAN(), 10);
+	}
 }

@@ -30,7 +30,7 @@ public class BankGetOperationDataMethodTest extends RollbackTestAbstractClass {
 		assertEquals(this.reference, data.getReference());
 		assertEquals(this.account.getIBAN(), data.getIban());
 		assertEquals(Type.DEPOSIT.name(), data.getType());
-		assertEquals(AMOUNT, data.getValue());
+		assertEquals(AMOUNT, data.getValue(), 0);
 		assertNotNull(data.getTime());
 	}
 

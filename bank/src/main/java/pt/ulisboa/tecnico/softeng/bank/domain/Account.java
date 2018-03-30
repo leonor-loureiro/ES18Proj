@@ -37,7 +37,7 @@ public class Account extends Account_Base {
 
 	}
 
-	public String deposit(int amount) {
+	public String deposit(double amount) {
 		if (amount <= 0) {
 			throw new BankException();
 		}
@@ -48,7 +48,7 @@ public class Account extends Account_Base {
 		return operation.getReference();
 	}
 
-	public String withdraw(int amount) {
+	public String withdraw(double amount) {
 		if (amount <= 0 || amount > getBalance()) {
 			throw new BankException();
 		}

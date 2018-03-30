@@ -11,7 +11,7 @@ public class Operation extends Operation_Base {
 
 	private static int counter = 0;
 
-	public Operation(Type type, Account account, int value) {
+	public Operation(Type type, Account account, double value) {
 		checkArguments(type, account, value);
 
 		setReference(account.getBank().getCode() + Integer.toString(++Operation.counter));
@@ -31,7 +31,7 @@ public class Operation extends Operation_Base {
 		deleteDomainObject();
 	}
 
-	private void checkArguments(Type type, Account account, int value) {
+	private void checkArguments(Type type, Account account, double value) {
 		if (type == null || account == null || value <= 0) {
 			throw new BankException();
 		}

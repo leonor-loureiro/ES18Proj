@@ -21,12 +21,12 @@ public class AccountWithdrawMethodTest extends RollbackTestAbstractClass {
 	public void success() {
 		String reference = this.account.withdraw(40);
 
-		Assert.assertEquals(60, this.account.getBalance());
+		Assert.assertEquals(60, this.account.getBalance(), 0);
 		Operation operation = this.bank.getOperation(reference);
 		Assert.assertNotNull(operation);
 		Assert.assertEquals(Operation.Type.WITHDRAW, operation.getType());
 		Assert.assertEquals(this.account, operation.getAccount());
-		Assert.assertEquals(40, operation.getValue());
+		Assert.assertEquals(40, operation.getValue(), 0);
 	}
 
 	@Test(expected = BankException.class)
@@ -42,13 +42,13 @@ public class AccountWithdrawMethodTest extends RollbackTestAbstractClass {
 	@Test
 	public void oneAmount() {
 		this.account.withdraw(1);
-		Assert.assertEquals(99, this.account.getBalance());
+		Assert.assertEquals(99, this.account.getBalance(), 0);
 	}
 
 	@Test
 	public void equalToBalance() {
 		this.account.withdraw(100);
-		Assert.assertEquals(0, this.account.getBalance());
+		Assert.assertEquals(0, this.account.getBalance(), 0);
 	}
 
 	@Test(expected = BankException.class)

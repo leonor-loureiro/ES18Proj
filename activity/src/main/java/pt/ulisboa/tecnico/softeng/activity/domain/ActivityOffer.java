@@ -5,12 +5,17 @@ import org.joda.time.LocalDate;
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
 
 public class ActivityOffer extends ActivityOffer_Base {
-	public ActivityOffer(Activity activity, LocalDate begin, LocalDate end) {
-		checkArguments(activity, begin, end);
+
+	private final int amount;
+
+	public ActivityOffer(Activity activity, LocalDate begin, LocalDate end, int amount) {
+		checkArguments(activity, begin, end, amount);
 
 		setBegin(begin);
 		setEnd(end);
 		setCapacity(activity.getCapacity());
+
+		this.amount = amount;
 
 		setActivity(activity);
 	}
@@ -25,12 +30,16 @@ public class ActivityOffer extends ActivityOffer_Base {
 		deleteDomainObject();
 	}
 
-	private void checkArguments(Activity activity, LocalDate begin, LocalDate end) {
+	private void checkArguments(Activity activity, LocalDate begin, LocalDate end, int amount) {
 		if (activity == null || begin == null || end == null) {
 			throw new ActivityException();
 		}
 
 		if (end.isBefore(begin)) {
+			throw new ActivityException();
+		}
+
+		if (amount < 1) {
 			throw new ActivityException();
 		}
 	}
@@ -43,6 +52,10 @@ public class ActivityOffer extends ActivityOffer_Base {
 			}
 		}
 		return count;
+	}
+
+	public int getPrice() {
+		return this.amount;
 	}
 
 	boolean available(LocalDate begin, LocalDate end) {
@@ -64,7 +77,7 @@ public class ActivityOffer extends ActivityOffer_Base {
 	public Booking getBooking(String reference) {
 		for (Booking booking : getBookingSet()) {
 			if (booking.getReference().equals(reference)
-					|| (booking.isCancelled() && booking.getCancel().equals(reference))) {
+					|| booking.isCancelled() && booking.getCancel().equals(reference)) {
 				return booking;
 			}
 		}

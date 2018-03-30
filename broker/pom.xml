@@ -12,7 +12,7 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<artifactId>broker</artifactId>
 	<packaging>jar</packaging>
 
-	<build>
+ 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -22,6 +22,10 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
 				<groupId>pt.ist</groupId>
 				<artifactId>ff-maven-plugin</artifactId>
 			</plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+             </plugin>
 		</plugins>
 	</build>
 
@@ -42,6 +46,18 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
 		<dependency>
 			<groupId>pt.ulisboa.tecnico.softeng</groupId>
 			<artifactId>activity</artifactId>
+			<version>1.0-SNAPSHOT</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>pt.ulisboa.tecnico.softeng</groupId>
+			<artifactId>car</artifactId>
+			<version>1.0-SNAPSHOT</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>pt.ulisboa.tecnico.softeng</groupId>
+			<artifactId>tax</artifactId>
 			<version>1.0-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>

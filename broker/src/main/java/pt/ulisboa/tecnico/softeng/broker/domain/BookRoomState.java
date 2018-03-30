@@ -18,7 +18,10 @@ public class BookRoomState extends BookRoomState_Base {
 	public void process() {
 		try {
 			getAdventure().setRoomConfirmation(
-					HotelInterface.reserveRoom(Room.Type.SINGLE, getAdventure().getBegin(), getAdventure().getEnd()));
+					HotelInterface.reserveRoom(Room.Type.SINGLE, getAdventure().getBegin(), getAdventure().getEnd(),
+							getAdventure().getBroker().getNifAsBuyer(), getAdventure().getBroker().getIBAN()));
+			getAdventure()
+					.incAmountToPay(HotelInterface.getRoomBookingData(getAdventure().getRoomConfirmation()).getPrice());
 		} catch (HotelException he) {
 			getAdventure().setState(State.UNDO);
 			return;
@@ -30,7 +33,11 @@ public class BookRoomState extends BookRoomState_Base {
 			return;
 		}
 
-		getAdventure().setState(State.CONFIRMED);
+		if (getAdventure().shouldRentVehicle()) {
+			getAdventure().setState(State.RENT_VEHICLE);
+		} else {
+			getAdventure().setState(State.PROCESS_PAYMENT);
+		}
 	}
 
 }

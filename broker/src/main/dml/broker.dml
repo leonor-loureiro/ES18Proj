@@ -18,9 +18,6 @@ class Adventure {
 	String ID;
 	LocalDate begin;
 	LocalDate end;
-	int age;
-	String IBAN;
-	int amount;
 	String paymentConfirmation;
 	String paymentCancellation;
 	String roomConfirmation;
@@ -45,7 +42,9 @@ class AdventureState {
 class ProcessPaymentState extends AdventureState;
 class ReserveActivityState extends AdventureState;
 class BookRoomState extends AdventureState;
+class RentVehicleState extends AdventureState;
 class ConfirmedState extends AdventureState;
+class TaxPaymentState extends AdventureState;
 class UndoState extends AdventureState;
 class CancelledState extends AdventureState;
 
