@@ -15,9 +15,12 @@ public class VehicleRentTest {
 	private static final LocalDate date2 = LocalDate.parse("2018-01-09");
 	private Car car;
 
+	private static final String NIF1 = "123456789"; // novo
+	private static final String IBAN1 = "ES061"; // novo
+	
 	@Before
 	public void setUp() {
-		RentACar rentACar = new RentACar(RENT_A_CAR_NAME);
+		RentACar rentACar = new RentACar(RENT_A_CAR_NAME, NIF1, IBAN1); // novo
 		this.car = new Car(PLATE_CAR, 10, rentACar);
 	}
 
@@ -29,14 +32,14 @@ public class VehicleRentTest {
 
 	@Test(expected = CarException.class)
 	public void beginIsNull() {
-		RentACar rentACar = new RentACar(RENT_A_CAR_NAME);
+		RentACar rentACar = new RentACar(RENT_A_CAR_NAME, NIF1, IBAN1); // novo
 		Vehicle car = new Car(PLATE_CAR, 10, rentACar);
 		car.rent(DRIVING_LICENSE, null, date2);
 	}
 
 	@Test(expected = CarException.class)
 	public void endIsNull() {
-		RentACar rentACar = new RentACar(RENT_A_CAR_NAME);
+		RentACar rentACar = new RentACar(RENT_A_CAR_NAME, NIF1, IBAN1); // novo
 		Vehicle car = new Car(PLATE_CAR, 10, rentACar);
 		car.rent(DRIVING_LICENSE, date1, null);
 	}

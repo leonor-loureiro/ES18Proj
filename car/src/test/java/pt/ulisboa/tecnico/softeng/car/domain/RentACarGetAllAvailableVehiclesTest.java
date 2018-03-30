@@ -24,10 +24,15 @@ public class RentACarGetAllAvailableVehiclesTest {
 	private RentACar rentACar1;
 	private RentACar rentACar2;
 
+	private static final String NIF1 = "123456789"; // not sure
+	private static final String NIF2 = "987654321"; // not sure
+	private static final String IBAN1 = "ES061"; // not sure
+	private static final String IBAN2 = "ESo62"; // not sure
+	
 	@Before
 	public void setUp() {
-		this.rentACar1 = new RentACar(NAME1);
-		this.rentACar2 = new RentACar(NAME2);
+		this.rentACar1 = new RentACar(NAME1, NIF1, IBAN1); // novo
+		this.rentACar2 = new RentACar(NAME2, NIF2, IBAN2); // novo
 	}
 
 	@Test
