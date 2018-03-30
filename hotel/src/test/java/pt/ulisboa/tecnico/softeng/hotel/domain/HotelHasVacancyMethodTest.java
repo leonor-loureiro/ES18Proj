@@ -17,9 +17,14 @@ public class HotelHasVacancyMethodTest {
 	private Hotel hotel;
 	private Room room;
 
+	private static final String NIF1 = "123456789"; // novo
+	private static final String IBAN1 = "ES061"; // novo
+	private static final String NIF2 = "987654321"; // novo
+	private static final String IBAN2 = "ES062"; // novo
+	
 	@Before
 	public void setUp() {
-		this.hotel = new Hotel("XPTO123", "Paris");
+		this.hotel = new Hotel("XPTO123", "Paris", NIF1, IBAN1); // novo
 		this.room = new Room(this.hotel, "01", Type.DOUBLE);
 	}
 
@@ -40,7 +45,7 @@ public class HotelHasVacancyMethodTest {
 
 	@Test
 	public void noVacancyEmptyRoomSet() {
-		Hotel otherHotel = new Hotel("XPTO124", "Paris Germain");
+		Hotel otherHotel = new Hotel("XPTO124", "Paris Germain", NIF2, IBAN2); // novo
 
 		assertNull(otherHotel.hasVacancy(Type.DOUBLE, this.arrival, this.departure));
 	}

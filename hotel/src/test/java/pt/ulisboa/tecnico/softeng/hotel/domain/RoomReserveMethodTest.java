@@ -16,9 +16,12 @@ public class RoomReserveMethodTest {
 	private final LocalDate departure = new LocalDate(2016, 12, 24);
 	private Room room;
 
+	private static final String NIF = "123456789"; // novo
+	private static final String IBAN = "ES061"; // novo
+	
 	@Before
 	public void setUp() {
-		Hotel hotel = new Hotel("XPTO123", "Lisboa");
+		Hotel hotel = new Hotel("XPTO123", "Lisboa", NIF, IBAN); // novo
 		this.room = new Room(hotel, "01", Type.SINGLE);
 	}
 
