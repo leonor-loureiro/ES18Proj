@@ -9,5 +9,5 @@ public class BankInterface {
 
 	public static String cancelPayment(String reference) {
 		return Bank.cancelPayment(reference);
-	}
+	} 
 }
