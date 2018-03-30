@@ -1,108 +1,108 @@
 package pt.ulisboa.tecnico.softeng.broker.domain;
 
-import org.junit.*;
+import org.junit.Assert;
+import org.junit.Test;
 
+import pt.ist.fenixframework.FenixFramework;
 import pt.ulisboa.tecnico.softeng.broker.exception.BrokerException;
 
-public class BrokerConstructorMethodTest extends BaseTest {
-	private static final String CODE = "BR01";
-	private static final String NAME = "WeExplore";
+public class BrokerConstructorMethodTest extends RollbackTestAbstractClass {
 
-	@Before
-    public void setUp() {
-	    //override BaseTest's setup.
-    }
+	@Override
+	public void populate4Test() {
+	}
 
-    @Test
+	@Test
 	public void success() {
-		Broker broker = new Broker(CODE, NAME, NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
+		Broker broker = new Broker(BROKER_CODE, BROKER_NAME, BROKER_NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
 
-		Assert.assertEquals(CODE, broker.getCode());
-		Assert.assertEquals(NAME, broker.getName());
-		Assert.assertEquals(0, broker.getNumberOfAdventures());
-		Assert.assertTrue(Broker.brokers.contains(broker));
+		Assert.assertEquals(BROKER_CODE, broker.getCode());
+		Assert.assertEquals(BROKER_NAME, broker.getName());
+		Assert.assertEquals(0, broker.getAdventureSet().size());
+		Assert.assertTrue(FenixFramework.getDomainRoot().getBrokerSet().contains(broker));
+
 	}
 
 	@Test
 	public void nullCode() {
 		try {
-			new Broker(null, NAME, NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
+			new Broker(null, BROKER_NAME, BROKER_NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
 			Assert.fail();
 		} catch (BrokerException be) {
-			Assert.assertEquals(0, Broker.brokers.size());
+			Assert.assertEquals(0, FenixFramework.getDomainRoot().getBrokerSet().size());
 		}
 	}
 
 	@Test
 	public void emptyCode() {
 		try {
-			new Broker("", NAME, NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
+			new Broker("", BROKER_NAME, BROKER_NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
 			Assert.fail();
 		} catch (BrokerException be) {
-			Assert.assertEquals(0, Broker.brokers.size());
+			Assert.assertEquals(0, FenixFramework.getDomainRoot().getBrokerSet().size());
 		}
 	}
 
 	@Test
 	public void blankCode() {
 		try {
-			new Broker("  ", NAME, NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
+			new Broker("  ", BROKER_NAME, BROKER_NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
 			Assert.fail();
 		} catch (BrokerException be) {
-			Assert.assertEquals(0, Broker.brokers.size());
+			Assert.assertEquals(0, FenixFramework.getDomainRoot().getBrokerSet().size());
 		}
 	}
 
 	@Test
 	public void uniqueCode() {
-		Broker broker = new Broker(CODE, NAME, NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
+		Broker broker = new Broker(BROKER_CODE, BROKER_NAME, BROKER_NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
 
 		try {
-			new Broker(CODE, "WeExploreX", NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
+			new Broker(BROKER_CODE, "WeExploreX", BROKER_NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
 			Assert.fail();
 		} catch (BrokerException be) {
-			Assert.assertEquals(1, Broker.brokers.size());
-			Assert.assertTrue(Broker.brokers.contains(broker));
+			Assert.assertEquals(1, FenixFramework.getDomainRoot().getBrokerSet().size());
+			Assert.assertTrue(FenixFramework.getDomainRoot().getBrokerSet().contains(broker));
 		}
 	}
 
 	@Test
 	public void nullName() {
 		try {
-			new Broker(CODE, null, NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
+			new Broker(BROKER_CODE, null, BROKER_NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
 			Assert.fail();
 		} catch (BrokerException be) {
-			Assert.assertEquals(0, Broker.brokers.size());
+			Assert.assertEquals(0, FenixFramework.getDomainRoot().getBrokerSet().size());
 		}
 	}
 
 	@Test
 	public void emptyName() {
 		try {
-			new Broker(CODE, "", NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
+			new Broker(BROKER_CODE, "", BROKER_NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
 			Assert.fail();
 		} catch (BrokerException be) {
-			Assert.assertEquals(0, Broker.brokers.size());
+			Assert.assertEquals(0, FenixFramework.getDomainRoot().getBrokerSet().size());
 		}
 	}
 
 	@Test
 	public void blankName() {
 		try {
-			new Broker(CODE, "    ", NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
+			new Broker(BROKER_CODE, "    ", BROKER_NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
 			Assert.fail();
 		} catch (BrokerException be) {
-			Assert.assertEquals(0, Broker.brokers.size());
+			Assert.assertEquals(0, FenixFramework.getDomainRoot().getBrokerSet().size());
 		}
 	}
 
 	@Test
 	public void nullSellerNIF() {
 		try {
-			new Broker(CODE, NAME, null, NIF_AS_BUYER, BROKER_IBAN);
+			new Broker(BROKER_CODE, BROKER_NAME, null, NIF_AS_BUYER, BROKER_IBAN);
 			Assert.fail();
 		} catch (BrokerException be) {
-			Assert.assertEquals(0, Broker.brokers.size());
+			Assert.assertEquals(0, FenixFramework.getDomainRoot().getBrokerSet().size());
 		}
 	}
 
@@ -110,100 +110,95 @@ public class BrokerConstructorMethodTest extends BaseTest {
 
 	public void emptySellerNIF() {
 		try {
-			new Broker(CODE, NAME, "    ", NIF_AS_BUYER, BROKER_IBAN);
+			new Broker(BROKER_CODE, BROKER_NAME, "    ", NIF_AS_BUYER, BROKER_IBAN);
 			Assert.fail();
 		} catch (BrokerException be) {
-			Assert.assertEquals(0, Broker.brokers.size());
+			Assert.assertEquals(0, FenixFramework.getDomainRoot().getBrokerSet().size());
 		}
 	}
 
 	@Test
 
 	public void uniqueSellerNIF() {
-		new Broker(CODE, NAME, NIF_AS_SELLER, "123456789", BROKER_IBAN);
+		new Broker(BROKER_CODE, BROKER_NAME, BROKER_NIF_AS_SELLER, "123456789", BROKER_IBAN);
 		try {
-			new Broker(CODE, NAME, NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
+			new Broker(BROKER_CODE, BROKER_NAME, BROKER_NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
 			Assert.fail();
 		} catch (BrokerException be) {
-			Assert.assertEquals(1, Broker.brokers.size());
+			Assert.assertEquals(1, FenixFramework.getDomainRoot().getBrokerSet().size());
 		}
 	}
 
 	@Test
 	public void nullBuyerNIF() {
 		try {
-			new Broker(CODE, NAME, NIF_AS_SELLER, null, BROKER_IBAN);
+			new Broker(BROKER_CODE, BROKER_NAME, BROKER_NIF_AS_SELLER, null, BROKER_IBAN);
 			Assert.fail();
 		} catch (BrokerException be) {
-			Assert.assertEquals(0, Broker.brokers.size());
+			Assert.assertEquals(0, FenixFramework.getDomainRoot().getBrokerSet().size());
 		}
 	}
 
 	@Test
 	public void emptyBuyerNIF() {
 		try {
-			new Broker(CODE, NAME, NIF_AS_SELLER, "   ", BROKER_IBAN);
+			new Broker(BROKER_CODE, BROKER_NAME, BROKER_NIF_AS_SELLER, "   ", BROKER_IBAN);
 			Assert.fail();
 		} catch (BrokerException be) {
-			Assert.assertEquals(0, Broker.brokers.size());
+			Assert.assertEquals(0, FenixFramework.getDomainRoot().getBrokerSet().size());
 		}
 	}
 
 	@Test
 	public void uniqueBuyerNIFOne() {
-		new Broker(CODE, NAME, NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
+		new Broker(BROKER_CODE, BROKER_NAME, BROKER_NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
 		try {
-			new Broker(CODE, NAME, "123456789", NIF_AS_BUYER, BROKER_IBAN);
+			new Broker(BROKER_CODE, BROKER_NAME, "123456789", NIF_AS_BUYER, BROKER_IBAN);
 			Assert.fail();
 		} catch (BrokerException be) {
-			Assert.assertEquals(1, Broker.brokers.size());
+			Assert.assertEquals(1, FenixFramework.getDomainRoot().getBrokerSet().size());
 		}
 	}
 
 	@Test
 	public void uniqueBuyerSellerNIFTwo() {
-		new Broker(CODE, NAME, NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
+		new Broker(BROKER_CODE, BROKER_NAME, BROKER_NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
 		try {
-			new Broker(CODE, NAME, NIF_AS_BUYER, "123456789", BROKER_IBAN);
+			new Broker(BROKER_CODE, BROKER_NAME, NIF_AS_BUYER, "123456789", BROKER_IBAN);
 			Assert.fail();
 		} catch (BrokerException be) {
-			Assert.assertEquals(1, Broker.brokers.size());
+			Assert.assertEquals(1, FenixFramework.getDomainRoot().getBrokerSet().size());
 		}
 	}
 
 	@Test
 	public void nullIBAN() {
 		try {
-			new Broker(CODE, NAME, NIF_AS_SELLER, NIF_AS_BUYER, null);
+			new Broker(BROKER_CODE, BROKER_NAME, BROKER_NIF_AS_SELLER, NIF_AS_BUYER, null);
 			Assert.fail();
 		} catch (BrokerException be) {
-			Assert.assertEquals(0, Broker.brokers.size());
+			Assert.assertEquals(0, FenixFramework.getDomainRoot().getBrokerSet().size());
 		}
 	}
 
 	@Test
 	public void emptyIBAN() {
 		try {
-			new Broker(CODE, NAME, NIF_AS_SELLER, NIF_AS_BUYER, "    ");
+			new Broker(BROKER_CODE, BROKER_NAME, BROKER_NIF_AS_SELLER, NIF_AS_BUYER, "    ");
 			Assert.fail();
 		} catch (BrokerException be) {
-			Assert.assertEquals(0, Broker.brokers.size());
+			Assert.assertEquals(0, FenixFramework.getDomainRoot().getBrokerSet().size());
 		}
 	}
 
 	@Test
 	public void sellerNIFDifferentBuyerNIF() {
 		try {
-			new Broker(CODE, NAME, NIF_AS_SELLER, NIF_AS_SELLER, BROKER_IBAN);
+			new Broker(BROKER_CODE, BROKER_NAME, BROKER_NIF_AS_SELLER, BROKER_NIF_AS_SELLER, BROKER_IBAN);
 			Assert.fail();
 		} catch (BrokerException be) {
-			Assert.assertEquals(0, Broker.brokers.size());
+			Assert.assertEquals(0, FenixFramework.getDomainRoot().getBrokerSet().size());
 		}
-	}
-
-	@After
-	public void tearDown() {
-		Broker.brokers.clear();
 	}
 
 }

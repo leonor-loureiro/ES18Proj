@@ -1,12 +1,12 @@
 package pt.ulisboa.tecnico.softeng.hotel.domain;
 
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 
+import pt.ist.fenixframework.FenixFramework;
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 
-public class HotelConstructorTest {
+public class HotelConstructorTest extends RollbackTestAbstractClass {
 	private static final String IBAN = "IBAN";
 	private static final String NIF = "NIF";
 
@@ -16,15 +16,19 @@ public class HotelConstructorTest {
 	private static final double PRICE_SINGLE = 20.0;
 	private static final double PRICE_DOUBLE = 30.0;
 
+	@Override
+	public void populate4Test() {
+	}
+
 	@Test
 	public void success() {
 
-		Hotel hotel = new Hotel(HOTEL_CODE, HOTEL_NAME, NIF, IBAN,PRICE_SINGLE, PRICE_DOUBLE);
+		Hotel hotel = new Hotel(HOTEL_CODE, HOTEL_NAME, NIF, IBAN, PRICE_SINGLE, PRICE_DOUBLE);
 
 		Assert.assertEquals(HOTEL_NAME, hotel.getName());
 		Assert.assertTrue(hotel.getCode().length() == Hotel.CODE_SIZE);
-		Assert.assertEquals(0, hotel.getNumberOfRooms());
-		Assert.assertEquals(1, Hotel.hotels.size());
+		Assert.assertEquals(0, hotel.getRoomSet().size());
+		Assert.assertEquals(1, FenixFramework.getDomainRoot().getHotelSet().size());
 		Assert.assertEquals(PRICE_SINGLE, hotel.getPrice(Room.Type.SINGLE), 0.0d);
 		Assert.assertEquals(PRICE_DOUBLE, hotel.getPrice(Room.Type.DOUBLE), 0.0d);
 	}
@@ -89,11 +93,6 @@ public class HotelConstructorTest {
 	@Test(expected = HotelException.class)
 	public void negativePriceDouble() {
 		new Hotel(HOTEL_CODE, HOTEL_NAME, NIF, IBAN, PRICE_SINGLE, -1.0);
-	}
-
-	@After
-	public void tearDown() {
-		Hotel.hotels.clear();
 	}
 
 }

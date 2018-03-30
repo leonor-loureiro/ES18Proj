@@ -13,63 +13,63 @@ import pt.ulisboa.tecnico.softeng.car.exception.CarException;
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 
-public class UndoState extends AdventureState {
+public class UndoState extends UndoState_Base {
 
 	@Override
-	public State getState() {
+	public State getValue() {
 		return State.UNDO;
 	}
 
 	@Override
-	public void process(Adventure adventure) {
-		if (adventure.shouldCancelPayment()) {
+	public void process() {
+		if (getAdventure().shouldCancelPayment()) {
 			try {
-				adventure.setPaymentCancellation(BankInterface.cancelPayment(adventure.getPaymentConfirmation()));
+				getAdventure()
+						.setPaymentCancellation(BankInterface.cancelPayment(getAdventure().getPaymentConfirmation()));
 			} catch (BankException | RemoteAccessException ex) {
 				// does not change state
 			}
 		}
 
-		if (adventure.shouldCancelActivity()) {
+		if (getAdventure().shouldCancelActivity()) {
 			try {
-				adventure.setActivityCancellation(
-						ActivityInterface.cancelReservation(adventure.getActivityConfirmation()));
+				getAdventure().setActivityCancellation(
+						ActivityInterface.cancelReservation(getAdventure().getActivityConfirmation()));
 			} catch (ActivityException | RemoteAccessException ex) {
 				// does not change state
 			}
 		}
 
-		if (adventure.shouldCancelRoom()) {
+		if (getAdventure().shouldCancelRoom()) {
 			try {
-				adventure.setRoomCancellation(HotelInterface.cancelBooking(adventure.getRoomConfirmation()));
+				getAdventure().setRoomCancellation(HotelInterface.cancelBooking(getAdventure().getRoomConfirmation()));
 			} catch (HotelException | RemoteAccessException ex) {
 				// does not change state
 			}
 		}
 
-		if (adventure.shouldCancelVehicleRenting()) {
+		if (getAdventure().shouldCancelVehicleRenting()) {
 			try {
-				adventure.setRentingCancellation(CarInterface.cancelRenting(adventure.getRentingConfirmation()));
+				getAdventure()
+						.setRentingCancellation(CarInterface.cancelRenting(getAdventure().getRentingConfirmation()));
 			} catch (CarException | RemoteAccessException ex) {
 				// does not change state
 			}
 		}
-		
-		if (adventure.shouldCancelInvoice()) {
+
+		if (getAdventure().shouldCancelInvoice()) {
 			try {
-				TaxInterface.cancelInvoice(adventure.getInvoiceReference());
-				adventure.setInvoiceCancelled(true);
+				TaxInterface.cancelInvoice(getAdventure().getInvoiceReference());
+				getAdventure().setInvoiceCancelled(true);
 			} catch (TaxException | RemoteAccessException ex) {
 				// does not change state
 			}
 		}
 
-		if (adventure.roomIsCancelled()
-				&& adventure.activityIsCancelled()
-				&& adventure.paymentIsCancelled()
-				&& adventure.rentingIsCancelled()
-				&& adventure.invoiceIsCancelled()) {
-			adventure.setState(State.CANCELLED);
+		if (getAdventure().roomIsCancelled() && getAdventure().activityIsCancelled()
+				&& getAdventure().paymentIsCancelled() && getAdventure().rentingIsCancelled()
+				&& getAdventure().invoiceIsCancelled()) {
+			getAdventure().setState(State.CANCELLED);
 		}
 	}
 

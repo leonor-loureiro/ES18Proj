@@ -3,7 +3,6 @@ package pt.ulisboa.tecnico.softeng.broker.domain;
 import static org.junit.Assert.assertEquals;
 
 import org.joda.time.LocalDate;
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,7 +29,7 @@ import pt.ulisboa.tecnico.softeng.tax.dataobjects.InvoiceData;
 import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 
 @RunWith(JMockit.class)
-public class AdventureSequenceTest extends BaseTest {
+public class AdventureSequenceTest extends RollbackTestAbstractClass {
 
 	@Mocked
 	private ActivityReservationData activityReservationData;
@@ -40,6 +39,12 @@ public class AdventureSequenceTest extends BaseTest {
 
 	@Mocked
 	private RoomBookingData roomBookingData;
+
+	@Override
+	public void populate4Test() {
+		this.broker = new Broker("BR01", "eXtremeADVENTURE", BROKER_NIF_AS_SELLER, BROKER_NIF_AS_BUYER, BROKER_IBAN);
+		this.client = new Client(this.broker, CLIENT_IBAN, CLIENT_NIF, DRIVING_LICENSE, AGE);
+	}
 
 	@Test
 	public void successSequence(@Mocked final TaxInterface taxInterface, @Mocked final BankInterface bankInterface,
@@ -52,14 +57,14 @@ public class AdventureSequenceTest extends BaseTest {
 				ActivityInterface.reserveActivity(arrival, departure, AGE, this.anyString, this.anyString);
 				this.result = ACTIVITY_CONFIRMATION;
 
-				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure, NIF_AS_BUYER, BROKER_IBAN);
+				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure, BROKER_NIF_AS_BUYER, BROKER_IBAN);
 				this.result = ROOM_CONFIRMATION;
 
 				CarInterface.rentCar((Class<? extends Vehicle>) this.any, this.anyString, this.anyString,
 						this.anyString, (LocalDate) this.any, (LocalDate) this.any);
 				this.result = RENTING_CONFIRMATION;
 
-				BankInterface.processPayment(IBAN, this.anyDouble);
+				BankInterface.processPayment(CLIENT_IBAN, this.anyDouble);
 				this.result = PAYMENT_CONFIRMATION;
 
 				TaxInterface.submitInvoice((InvoiceData) this.any);
@@ -85,7 +90,7 @@ public class AdventureSequenceTest extends BaseTest {
 			}
 		};
 
-		final Adventure adventure = new Adventure(this.broker, arrival, departure, this.client, MARGIN, true);
+		Adventure adventure = new Adventure(this.broker, arrival, departure, this.client, MARGIN, true);
 
 		adventure.process();
 		adventure.process();
@@ -94,7 +99,7 @@ public class AdventureSequenceTest extends BaseTest {
 		adventure.process();
 		adventure.process();
 
-		assertEquals(State.CONFIRMED, adventure.getState());
+		assertEquals(State.CONFIRMED, adventure.getState().getValue());
 	}
 
 	@Test
@@ -108,10 +113,10 @@ public class AdventureSequenceTest extends BaseTest {
 				ActivityInterface.reserveActivity(arrival, departure, AGE, this.anyString, this.anyString);
 				this.result = ACTIVITY_CONFIRMATION;
 
-				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure, NIF_AS_BUYER, BROKER_IBAN);
+				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure, BROKER_NIF_AS_BUYER, BROKER_IBAN);
 				this.result = ROOM_CONFIRMATION;
 
-				BankInterface.processPayment(IBAN, this.anyDouble);
+				BankInterface.processPayment(CLIENT_IBAN, this.anyDouble);
 				this.result = PAYMENT_CONFIRMATION;
 
 				TaxInterface.submitInvoice((InvoiceData) this.any);
@@ -131,7 +136,7 @@ public class AdventureSequenceTest extends BaseTest {
 			}
 		};
 
-		final Adventure adventure = new Adventure(this.broker, arrival, departure, this.client, MARGIN);
+		Adventure adventure = new Adventure(this.broker, arrival, departure, this.client, MARGIN);
 
 		adventure.process();
 		adventure.process();
@@ -139,7 +144,7 @@ public class AdventureSequenceTest extends BaseTest {
 		adventure.process();
 		adventure.process();
 
-		Assert.assertEquals(State.CONFIRMED, adventure.getState());
+		Assert.assertEquals(State.CONFIRMED, adventure.getState().getValue());
 	}
 
 	@Test
@@ -157,7 +162,7 @@ public class AdventureSequenceTest extends BaseTest {
 						this.anyString, (LocalDate) this.any, (LocalDate) this.any);
 				this.result = RENTING_CONFIRMATION;
 
-				BankInterface.processPayment(IBAN, this.anyDouble);
+				BankInterface.processPayment(CLIENT_IBAN, this.anyDouble);
 				this.result = PAYMENT_CONFIRMATION;
 
 				TaxInterface.submitInvoice((InvoiceData) this.any);
@@ -177,7 +182,7 @@ public class AdventureSequenceTest extends BaseTest {
 			}
 		};
 
-		final Adventure adventure = new Adventure(this.broker, arrival, arrival, this.client, MARGIN, true);
+		Adventure adventure = new Adventure(this.broker, arrival, arrival, this.client, MARGIN, true);
 
 		adventure.process();
 		adventure.process();
@@ -185,7 +190,7 @@ public class AdventureSequenceTest extends BaseTest {
 		adventure.process();
 		adventure.process();
 
-		Assert.assertEquals(State.CONFIRMED, adventure.getState());
+		Assert.assertEquals(State.CONFIRMED, adventure.getState().getValue());
 	}
 
 	@Test
@@ -198,7 +203,7 @@ public class AdventureSequenceTest extends BaseTest {
 				ActivityInterface.reserveActivity(arrival, arrival, AGE, this.anyString, this.anyString);
 				this.result = ACTIVITY_CONFIRMATION;
 
-				BankInterface.processPayment(IBAN, this.anyDouble);
+				BankInterface.processPayment(CLIENT_IBAN, this.anyDouble);
 				this.result = PAYMENT_CONFIRMATION;
 
 				TaxInterface.submitInvoice((InvoiceData) this.any);
@@ -212,14 +217,14 @@ public class AdventureSequenceTest extends BaseTest {
 			}
 		};
 
-		final Adventure adventure = new Adventure(this.broker, arrival, arrival, this.client, MARGIN);
+		Adventure adventure = new Adventure(this.broker, arrival, arrival, this.client, MARGIN);
 
 		adventure.process();
 		adventure.process();
 		adventure.process();
 		adventure.process();
 
-		Assert.assertEquals(State.CONFIRMED, adventure.getState());
+		Assert.assertEquals(State.CONFIRMED, adventure.getState().getValue());
 	}
 
 	@Test
@@ -234,12 +239,12 @@ public class AdventureSequenceTest extends BaseTest {
 			}
 		};
 
-		final Adventure adventure = new Adventure(this.broker, arrival, departure, this.client, MARGIN);
+		Adventure adventure = new Adventure(this.broker, arrival, departure, this.client, MARGIN);
 
 		adventure.process();
 		adventure.process();
 
-		Assert.assertEquals(State.CANCELLED, adventure.getState());
+		Assert.assertEquals(State.CANCELLED, adventure.getState().getValue());
 	}
 
 	@Test
@@ -251,7 +256,7 @@ public class AdventureSequenceTest extends BaseTest {
 				ActivityInterface.reserveActivity(arrival, departure, this.anyInt, this.anyString, this.anyString);
 				this.result = ACTIVITY_CONFIRMATION;
 
-				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure, NIF_AS_BUYER, BROKER_IBAN);
+				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure, BROKER_NIF_AS_BUYER, BROKER_IBAN);
 				this.result = new HotelException();
 
 				ActivityInterface.cancelReservation(ACTIVITY_CONFIRMATION);
@@ -259,14 +264,14 @@ public class AdventureSequenceTest extends BaseTest {
 			}
 		};
 
-		final Adventure adventure = new Adventure(this.broker, arrival, departure, this.client, MARGIN);
+		Adventure adventure = new Adventure(this.broker, arrival, departure, this.client, MARGIN);
 
 		adventure.process();
 		adventure.process();
 		adventure.process();
 		adventure.process();
 
-		Assert.assertEquals(State.CANCELLED, adventure.getState());
+		Assert.assertEquals(State.CANCELLED, adventure.getState().getValue());
 	}
 
 	@Test
@@ -288,14 +293,14 @@ public class AdventureSequenceTest extends BaseTest {
 			}
 		};
 
-		final Adventure adventure = new Adventure(this.broker, arrival, arrival, this.client, MARGIN, true);
+		Adventure adventure = new Adventure(this.broker, arrival, arrival, this.client, MARGIN, true);
 
 		adventure.process();
 		adventure.process();
 		adventure.process();
 		adventure.process();
 
-		Assert.assertEquals(State.CANCELLED, adventure.getState());
+		Assert.assertEquals(State.CANCELLED, adventure.getState().getValue());
 	}
 
 	@Test
@@ -309,14 +314,14 @@ public class AdventureSequenceTest extends BaseTest {
 				ActivityInterface.reserveActivity(arrival, departure, AGE, this.anyString, this.anyString);
 				this.result = ACTIVITY_CONFIRMATION;
 
-				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure, NIF_AS_BUYER, BROKER_IBAN);
+				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure, BROKER_NIF_AS_BUYER, BROKER_IBAN);
 				this.result = ROOM_CONFIRMATION;
 
 				CarInterface.rentCar((Class<? extends Vehicle>) this.any, this.anyString, this.anyString,
 						this.anyString, (LocalDate) this.any, (LocalDate) this.any);
 				this.result = RENTING_CONFIRMATION;
 
-				BankInterface.processPayment(IBAN, this.anyDouble);
+				BankInterface.processPayment(CLIENT_IBAN, this.anyDouble);
 				this.result = new BankException();
 
 				ActivityInterface.cancelReservation(ACTIVITY_CONFIRMATION);
@@ -330,7 +335,7 @@ public class AdventureSequenceTest extends BaseTest {
 			}
 		};
 
-		final Adventure adventure = new Adventure(this.broker, arrival, departure, this.client, MARGIN, true);
+		Adventure adventure = new Adventure(this.broker, arrival, departure, this.client, MARGIN, true);
 
 		adventure.process();
 		adventure.process();
@@ -339,7 +344,7 @@ public class AdventureSequenceTest extends BaseTest {
 		adventure.process();
 		adventure.process();
 
-		Assert.assertEquals(State.CANCELLED, adventure.getState());
+		Assert.assertEquals(State.CANCELLED, adventure.getState().getValue());
 	}
 
 	@Test
@@ -353,14 +358,14 @@ public class AdventureSequenceTest extends BaseTest {
 				ActivityInterface.reserveActivity(arrival, departure, AGE, this.anyString, this.anyString);
 				this.result = ACTIVITY_CONFIRMATION;
 
-				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure, NIF_AS_BUYER, BROKER_IBAN);
+				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure, BROKER_NIF_AS_BUYER, BROKER_IBAN);
 				this.result = ROOM_CONFIRMATION;
 
 				CarInterface.rentCar((Class<? extends Vehicle>) this.any, this.anyString, this.anyString,
 						this.anyString, (LocalDate) this.any, (LocalDate) this.any);
 				this.result = RENTING_CONFIRMATION;
 
-				BankInterface.processPayment(IBAN, this.anyDouble);
+				BankInterface.processPayment(CLIENT_IBAN, this.anyDouble);
 				this.result = PAYMENT_CONFIRMATION;
 
 				TaxInterface.submitInvoice((InvoiceData) this.any);
@@ -380,7 +385,7 @@ public class AdventureSequenceTest extends BaseTest {
 			}
 		};
 
-		final Adventure adventure = new Adventure(this.broker, arrival, departure, this.client, MARGIN, true);
+		Adventure adventure = new Adventure(this.broker, arrival, departure, this.client, MARGIN, true);
 
 		adventure.process();
 		adventure.process();
@@ -389,11 +394,7 @@ public class AdventureSequenceTest extends BaseTest {
 		adventure.process();
 		adventure.process();
 
-		Assert.assertEquals(State.CANCELLED, adventure.getState());
+		Assert.assertEquals(State.CANCELLED, adventure.getState().getValue());
 	}
 
-	@After
-	public void tearDown() {
-		Broker.brokers.clear();
-	}
 }

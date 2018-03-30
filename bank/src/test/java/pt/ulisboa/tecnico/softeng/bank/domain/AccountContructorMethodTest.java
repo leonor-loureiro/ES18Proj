@@ -1,18 +1,16 @@
 package pt.ulisboa.tecnico.softeng.bank.domain;
 
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
 
-public class AccountContructorMethodTest {
+public class AccountContructorMethodTest extends RollbackTestAbstractClass {
 	private Bank bank;
 	private Client client;
 
-	@Before
-	public void setUp() {
+	@Override
+	public void populate4Test() {
 		this.bank = new Bank("Money", "BK01");
 		this.client = new Client(this.bank, "António");
 	}
@@ -24,9 +22,9 @@ public class AccountContructorMethodTest {
 		Assert.assertEquals(this.bank, account.getBank());
 		Assert.assertTrue(account.getIBAN().startsWith(this.bank.getCode()));
 		Assert.assertEquals(this.client, account.getClient());
-		Assert.assertEquals(0, account.getBalance(), 0);
-		Assert.assertEquals(1, this.bank.getNumberOfAccounts());
-		Assert.assertTrue(this.bank.hasClient(this.client));
+		Assert.assertEquals(0, account.getBalance(), 0.0d);
+		Assert.assertEquals(1, this.bank.getAccountSet().size());
+		Assert.assertTrue(this.bank.getClientSet().contains(this.client));
 	}
 
 	@Test(expected = BankException.class)
@@ -44,11 +42,6 @@ public class AccountContructorMethodTest {
 		Client allien = new Client(new Bank("MoneyPlus", "BK02"), "António");
 
 		new Account(this.bank, allien);
-	}
-
-	@After
-	public void tearDown() {
-		Bank.banks.clear();
 	}
 
 }

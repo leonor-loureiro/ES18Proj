@@ -3,14 +3,12 @@ package pt.ulisboa.tecnico.softeng.activity.domain;
 import static org.junit.Assert.assertEquals;
 
 import org.joda.time.LocalDate;
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
 
-public class ActivityOfferConstructorMethodTest {
+public class ActivityOfferConstructorMethodTest extends RollbackTestAbstractClass {
 	private static final int CAPACITY = 25;
 	private static final int MAX_AGE = 50;
 	private static final int MIN_AGE = 25;
@@ -18,8 +16,8 @@ public class ActivityOfferConstructorMethodTest {
 	private final LocalDate end = new LocalDate(2016, 12, 21);
 	private Activity activity;
 
-	@Before
-	public void setUp() {
+	@Override
+	public void populate4Test() {
 		ActivityProvider provider = new ActivityProvider("XtremX", "ExtremeAdventure", "NIF", "IBAN");
 		this.activity = new Activity(provider, "Bush Walking", MIN_AGE, MAX_AGE, CAPACITY);
 	}
@@ -30,8 +28,8 @@ public class ActivityOfferConstructorMethodTest {
 
 		assertEquals(this.begin, offer.getBegin());
 		assertEquals(this.end, offer.getEnd());
-		assertEquals(1, this.activity.getNumberOfOffers());
-		assertEquals(0, offer.getNumberOfBookings());
+		assertEquals(1, this.activity.getActivityOfferSet().size());
+		assertEquals(0, offer.getNumberActiveOfBookings());
 		assertEquals(30, offer.getPrice());
 	}
 
@@ -56,8 +54,8 @@ public class ActivityOfferConstructorMethodTest {
 
 		Assert.assertEquals(this.begin, offer.getBegin());
 		Assert.assertEquals(this.begin, offer.getEnd());
-		Assert.assertEquals(1, this.activity.getNumberOfOffers());
-		Assert.assertEquals(0, offer.getNumberOfBookings());
+		Assert.assertEquals(1, this.activity.getActivityOfferSet().size());
+		Assert.assertEquals(0, offer.getNumberActiveOfBookings());
 	}
 
 	@Test(expected = ActivityException.class)
@@ -68,11 +66,6 @@ public class ActivityOfferConstructorMethodTest {
 	@Test(expected = ActivityException.class)
 	public void zeroAmount() {
 		new ActivityOffer(this.activity, this.begin, this.end, 0);
-	}
-
-	@After
-	public void tearDown() {
-		ActivityProvider.providers.clear();
 	}
 
 }

@@ -7,3 +7,4 @@ infer-out
 *.iml
 .idea
 .DS_Store
+fenix-framework.properties

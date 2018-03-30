@@ -5,16 +5,10 @@ import org.joda.time.LocalDate;
 
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 
-public class Booking {
+public class Booking extends Booking_Base {
 	private static int counter = 0;
 
-	private static final String type = "HOUSING";
-	private final Hotel hotel;
-	private final String reference;
-	private String cancel;
-	private LocalDate cancellationDate;
-	private final LocalDate arrival;
-	private final LocalDate departure;
+	private static final String HOUSING_TYPE = "HOUSING";
 	private final double price;
 	private final String nif;
 	private final String providerNif;
@@ -24,23 +18,29 @@ public class Booking {
 	private String cancelledPaymentReference = null;
 	private final String buyerIban;
 
-	public Booking(Hotel hotel, Room.Type type, LocalDate arrival, LocalDate departure, String buyerNIF,
-			String buyerIban) {
-		checkArguments(hotel, arrival, departure, buyerNIF, buyerIban);
+	public Booking(Room room, LocalDate arrival, LocalDate departure, String buyerNIF, String buyerIban) {
+		checkArguments(room, arrival, departure, buyerNIF, buyerIban);
 
-		this.reference = hotel.getCode() + Integer.toString(++Booking.counter);
-		this.hotel = hotel;
-		this.arrival = arrival;
-		this.departure = departure;
-		this.price = hotel.getPrice(type) * Days.daysBetween(arrival, departure).getDays();
+		setReference(room.getHotel().getCode() + Integer.toString(++Booking.counter));
+		setArrival(arrival);
+		setDeparture(departure);
+
+		this.price = room.getHotel().getPrice(room.getType()) * Days.daysBetween(arrival, departure).getDays();
 		this.nif = buyerNIF;
 		this.buyerIban = buyerIban;
-		this.providerNif = hotel.getNIF();
+		this.providerNif = room.getHotel().getNIF();
+
+		setRoom(room);
 	}
 
-	private void checkArguments(Hotel hotel, LocalDate arrival, LocalDate departure, String buyerNIF,
-			String buyerIban) {
-		if (hotel == null || arrival == null || departure == null || buyerNIF == null || buyerNIF.trim().length() == 0
+	public void delete() {
+		setRoom(null);
+
+		deleteDomainObject();
+	}
+
+	private void checkArguments(Room room, LocalDate arrival, LocalDate departure, String buyerNIF, String buyerIban) {
+		if (room == null || arrival == null || departure == null || buyerNIF == null || buyerNIF.trim().length() == 0
 				|| buyerIban == null || buyerIban.trim().length() == 0) {
 			throw new HotelException();
 		}
@@ -48,26 +48,6 @@ public class Booking {
 		if (departure.isBefore(arrival)) {
 			throw new HotelException();
 		}
-	}
-
-	public String getReference() {
-		return this.reference;
-	}
-
-	public String getCancellation() {
-		return this.cancel;
-	}
-
-	public LocalDate getArrival() {
-		return this.arrival;
-	}
-
-	public LocalDate getDeparture() {
-		return this.departure;
-	}
-
-	public LocalDate getCancellationDate() {
-		return this.cancellationDate;
 	}
 
 	public double getPrice() {
@@ -79,7 +59,7 @@ public class Booking {
 	}
 
 	public static String getType() {
-		return type;
+		return HOUSING_TYPE;
 	}
 
 	public String getProviderNif() {
@@ -99,16 +79,16 @@ public class Booking {
 			throw new HotelException();
 		}
 
-		if ((arrival.equals(this.arrival) || arrival.isAfter(this.arrival)) && arrival.isBefore(this.departure)) {
+		if ((arrival.equals(getArrival()) || arrival.isAfter(getArrival())) && arrival.isBefore(getDeparture())) {
 			return true;
 		}
 
-		if ((departure.equals(this.departure) || departure.isBefore(this.departure))
-				&& departure.isAfter(this.arrival)) {
+		if ((departure.equals(getDeparture()) || departure.isBefore(getDeparture()))
+				&& departure.isAfter(getArrival())) {
 			return true;
 		}
 
-		if (arrival.isBefore(this.arrival) && departure.isAfter(this.departure)) {
+		if (arrival.isBefore(getArrival()) && departure.isAfter(getDeparture())) {
 			return true;
 		}
 
@@ -132,16 +112,16 @@ public class Booking {
 	}
 
 	public String cancel() {
-		this.cancel = "CANCEL" + this.reference;
-		this.cancellationDate = new LocalDate();
+		setCancellation(getReference() + "CANCEL");
+		setCancellationDate(new LocalDate());
 
-		this.hotel.getProcessor().submitBooking(this);
+		getRoom().getHotel().getProcessor().submitBooking(this);
 
-		return this.cancel;
+		return getCancellation();
 	}
 
 	public boolean isCancelled() {
-		return this.cancel != null;
+		return getCancellation() != null;
 	}
 
 	public String getPaymentReference() {

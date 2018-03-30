@@ -1,6 +1,6 @@
 package pt.ulisboa.tecnico.softeng.bank.dataobjects;
 
-import org.joda.time.LocalDateTime;
+import org.joda.time.DateTime;
 
 import pt.ulisboa.tecnico.softeng.bank.domain.Operation;
 
@@ -9,7 +9,7 @@ public class BankOperationData {
 	private String type;
 	private String iban;
 	private double value;
-	private LocalDateTime time;
+	private DateTime time;
 
 	public BankOperationData() {
 	}
@@ -54,11 +54,11 @@ public class BankOperationData {
 		this.value = value;
 	}
 
-	public LocalDateTime getTime() {
+	public DateTime getTime() {
 		return this.time;
 	}
 
-	public void setTime(LocalDateTime time) {
+	public void setTime(DateTime time) {
 		this.time = time;
 	}
 }

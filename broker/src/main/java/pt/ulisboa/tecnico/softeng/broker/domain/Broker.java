@@ -7,31 +7,42 @@ import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import pt.ist.fenixframework.FenixFramework;
 import pt.ulisboa.tecnico.softeng.broker.exception.BrokerException;
 
-public class Broker {
+public class Broker extends Broker_Base {
 	private static Logger logger = LoggerFactory.getLogger(Broker.class);
 
-	public static Set<Broker> brokers = new HashSet<>();
-
-	private final String code;
-	private final String name;
 	private final String nifAsSeller;
 	private final String nifAsBuyer;
 	private final String iban;
 	private final Set<Client> clients = new HashSet<>();
-	private final Set<Adventure> adventures = new HashSet<>();
-	private final Set<BulkRoomBooking> bulkBookings = new HashSet<>();
 
 	public Broker(String code, String name, String nifAsSeller, String nifAsBuyer, String iban) {
 		checkArguments(code, name, nifAsSeller, nifAsBuyer, iban);
-		this.code = code;
-		this.name = name;
+
+		setCode(code);
+		setName(name);
+
 		this.nifAsSeller = nifAsSeller;
 		this.nifAsBuyer = nifAsBuyer;
 		this.iban = iban;
 
-		Broker.brokers.add(this);
+		FenixFramework.getDomainRoot().addBroker(this);
+	}
+
+	public void delete() {
+		setRoot(null);
+
+		for (Adventure adventure : getAdventureSet()) {
+			adventure.delete();
+		}
+
+		for (BulkRoomBooking bulkRoomBooking : getRoomBulkBookingSet()) {
+			bulkRoomBooking.delete();
+		}
+
+		deleteDomainObject();
 	}
 
 	private void checkArguments(String code, String name, String nifAsSeller, String nifAsBuyer, String iban) {
@@ -45,27 +56,19 @@ public class Broker {
 			throw new BrokerException();
 		}
 
-		for (Broker broker : Broker.brokers) {
+		for (Broker broker : FenixFramework.getDomainRoot().getBrokerSet()) {
 			if (broker.getCode().equals(code)) {
 				throw new BrokerException();
 			}
 		}
 
-		for (Broker broker : Broker.brokers) {
+		for (Broker broker : FenixFramework.getDomainRoot().getBrokerSet()) {
 			if (broker.getNifAsSeller().equals(nifAsSeller) || broker.getNifAsSeller().equals(nifAsBuyer)
 					|| broker.getNifAsBuyer().equals(nifAsSeller) || broker.getNifAsBuyer().equals(nifAsBuyer)) {
 				throw new BrokerException();
 			}
 		}
 
-	}
-
-	String getCode() {
-		return this.code;
-	}
-
-	String getName() {
-		return this.name;
 	}
 
 	public String getNifAsSeller() {
@@ -78,14 +81,6 @@ public class Broker {
 
 	public String getIBAN() {
 		return this.iban;
-	}
-
-	public int getNumberOfAdventures() {
-		return this.adventures.size();
-	}
-
-	public void addAdventure(Adventure adventure) {
-		this.adventures.add(adventure);
 	}
 
 	public Client getClientByNIF(String NIF) {
@@ -105,13 +100,8 @@ public class Broker {
 		this.clients.add(client);
 	}
 
-	public boolean hasAdventure(Adventure adventure) {
-		return this.adventures.contains(adventure);
-	}
-
 	public void bulkBooking(int number, LocalDate arrival, LocalDate departure) {
-		BulkRoomBooking bulkBooking = new BulkRoomBooking(number, arrival, departure, this.nifAsBuyer, this.iban);
-		this.bulkBookings.add(bulkBooking);
+		BulkRoomBooking bulkBooking = new BulkRoomBooking(this, number, arrival, departure, this.nifAsBuyer, this.iban);
 		bulkBooking.processBooking();
 	}
 }

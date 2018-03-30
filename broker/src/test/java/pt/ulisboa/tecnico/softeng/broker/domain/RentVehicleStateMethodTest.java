@@ -1,8 +1,6 @@
 package pt.ulisboa.tecnico.softeng.broker.domain;
 
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -18,13 +16,16 @@ import pt.ulisboa.tecnico.softeng.car.domain.Car;
 import pt.ulisboa.tecnico.softeng.car.exception.CarException;
 
 @RunWith(JMockit.class)
-public class RentVehicleStateMethodTest extends BaseTest {
+public class RentVehicleStateMethodTest extends RollbackTestAbstractClass {
 	@Mocked
 	private TaxInterface taxInterface;
 
-	@Before
-	public void setUp() {
-		super.setUp();
+	@Override
+	public void populate4Test() {
+		this.broker = new Broker("BR01", "eXtremeADVENTURE", BROKER_NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
+		this.client = new Client(this.broker, CLIENT_IBAN, CLIENT_NIF, DRIVING_LICENSE, AGE);
+		this.adventure = new Adventure(this.broker, this.begin, this.end, this.client, MARGIN);
+
 		this.adventure.setState(State.RENT_VEHICLE);
 	}
 
@@ -32,7 +33,8 @@ public class RentVehicleStateMethodTest extends BaseTest {
 	public void successRentVehicle(@Mocked final CarInterface carInterface) {
 		new Expectations() {
 			{
-				CarInterface.rentCar(Car.class, DRIVING_LICENSE, BROKER_NIF_AS_BUYER, BROKER_IBAN, begin, end);
+				CarInterface.rentCar(Car.class, DRIVING_LICENSE, BROKER_NIF_AS_BUYER, BROKER_IBAN,
+						RentVehicleStateMethodTest.this.begin, RentVehicleStateMethodTest.this.end);
 				this.result = RENTING_CONFIRMATION;
 				this.times = 1;
 			}
@@ -40,14 +42,15 @@ public class RentVehicleStateMethodTest extends BaseTest {
 
 		this.adventure.process();
 
-		Assert.assertEquals(State.PROCESS_PAYMENT, this.adventure.getState());
+		Assert.assertEquals(State.PROCESS_PAYMENT, this.adventure.getState().getValue());
 	}
 
 	@Test
 	public void carException(@Mocked final CarInterface carInterface) {
 		new Expectations() {
 			{
-				CarInterface.rentCar(Car.class, DRIVING_LICENSE, BROKER_NIF_AS_BUYER, BROKER_IBAN, begin, end);
+				CarInterface.rentCar(Car.class, DRIVING_LICENSE, BROKER_NIF_AS_BUYER, BROKER_IBAN,
+						RentVehicleStateMethodTest.this.begin, RentVehicleStateMethodTest.this.end);
 				this.result = new CarException();
 				this.times = 1;
 			}
@@ -55,14 +58,15 @@ public class RentVehicleStateMethodTest extends BaseTest {
 
 		this.adventure.process();
 
-		Assert.assertEquals(State.UNDO, this.adventure.getState());
+		Assert.assertEquals(State.UNDO, this.adventure.getState().getValue());
 	}
 
 	@Test
 	public void singleRemoteAccessException(@Mocked final CarInterface carInterface) {
 		new Expectations() {
 			{
-				CarInterface.rentCar(Car.class, DRIVING_LICENSE, BROKER_NIF_AS_BUYER, BROKER_IBAN, begin, end);
+				CarInterface.rentCar(Car.class, DRIVING_LICENSE, BROKER_NIF_AS_BUYER, BROKER_IBAN,
+						RentVehicleStateMethodTest.this.begin, RentVehicleStateMethodTest.this.end);
 				this.result = new RemoteAccessException();
 				this.times = 1;
 			}
@@ -70,14 +74,15 @@ public class RentVehicleStateMethodTest extends BaseTest {
 
 		this.adventure.process();
 
-		Assert.assertEquals(State.RENT_VEHICLE, this.adventure.getState());
+		Assert.assertEquals(State.RENT_VEHICLE, this.adventure.getState().getValue());
 	}
 
 	@Test
 	public void maxRemoteAccessException(@Mocked final CarInterface carInterface) {
 		new Expectations() {
 			{
-				CarInterface.rentCar(Car.class, DRIVING_LICENSE, BROKER_NIF_AS_BUYER, BROKER_IBAN, begin, end);
+				CarInterface.rentCar(Car.class, DRIVING_LICENSE, BROKER_NIF_AS_BUYER, BROKER_IBAN,
+						RentVehicleStateMethodTest.this.begin, RentVehicleStateMethodTest.this.end);
 				this.result = new RemoteAccessException();
 				this.times = RentVehicleState.MAX_REMOTE_ERRORS;
 			}
@@ -87,14 +92,15 @@ public class RentVehicleStateMethodTest extends BaseTest {
 			this.adventure.process();
 		}
 
-		Assert.assertEquals(State.UNDO, this.adventure.getState());
+		Assert.assertEquals(State.UNDO, this.adventure.getState().getValue());
 	}
 
 	@Test
 	public void maxMinusOneRemoteAccessException(@Mocked final CarInterface carInterface) {
 		new Expectations() {
 			{
-				CarInterface.rentCar(Car.class, DRIVING_LICENSE, BROKER_NIF_AS_BUYER, BROKER_IBAN, begin, end);
+				CarInterface.rentCar(Car.class, DRIVING_LICENSE, BROKER_NIF_AS_BUYER, BROKER_IBAN,
+						RentVehicleStateMethodTest.this.begin, RentVehicleStateMethodTest.this.end);
 				this.result = new RemoteAccessException();
 				this.times = RentVehicleState.MAX_REMOTE_ERRORS - 1;
 			}
@@ -104,14 +110,15 @@ public class RentVehicleStateMethodTest extends BaseTest {
 			this.adventure.process();
 		}
 
-		Assert.assertEquals(State.RENT_VEHICLE, this.adventure.getState());
+		Assert.assertEquals(State.RENT_VEHICLE, this.adventure.getState().getValue());
 	}
 
 	@Test
 	public void twoRemoteAccessExceptionOneSuccess(@Mocked final CarInterface carInterface) {
 		new Expectations() {
 			{
-				CarInterface.rentCar(Car.class, DRIVING_LICENSE, BROKER_NIF_AS_BUYER, BROKER_IBAN, begin, end);
+				CarInterface.rentCar(Car.class, DRIVING_LICENSE, BROKER_NIF_AS_BUYER, BROKER_IBAN,
+						RentVehicleStateMethodTest.this.begin, RentVehicleStateMethodTest.this.end);
 				this.result = new Delegate() {
 					int i = 0;
 
@@ -132,14 +139,15 @@ public class RentVehicleStateMethodTest extends BaseTest {
 		this.adventure.process();
 		this.adventure.process();
 
-		Assert.assertEquals(State.PROCESS_PAYMENT, this.adventure.getState());
+		Assert.assertEquals(State.PROCESS_PAYMENT, this.adventure.getState().getValue());
 	}
 
 	@Test
 	public void oneRemoteAccessExceptionOneCarException(@Mocked final CarInterface carInterface) {
 		new Expectations() {
 			{
-				CarInterface.rentCar(Car.class, DRIVING_LICENSE, BROKER_NIF_AS_BUYER, BROKER_IBAN, begin, end);
+				CarInterface.rentCar(Car.class, DRIVING_LICENSE, BROKER_NIF_AS_BUYER, BROKER_IBAN,
+						RentVehicleStateMethodTest.this.begin, RentVehicleStateMethodTest.this.end);
 				this.result = new Delegate() {
 					int i = 0;
 
@@ -159,11 +167,7 @@ public class RentVehicleStateMethodTest extends BaseTest {
 		this.adventure.process();
 		this.adventure.process();
 
-		Assert.assertEquals(State.UNDO, this.adventure.getState());
+		Assert.assertEquals(State.UNDO, this.adventure.getState().getValue());
 	}
 
-	@After
-	public void tearDown() {
-		Broker.brokers.clear();
-	}
 }

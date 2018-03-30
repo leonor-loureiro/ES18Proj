@@ -4,22 +4,20 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 import org.joda.time.LocalDate;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import mockit.integration.junit4.JMockit;
 
 @RunWith(JMockit.class)
-public class ActivityOfferGetBookingMethodTest {
+public class ActivityOfferGetBookingMethodTest extends RollbackTestAbstractClass {
 	private static final String IBAN = "IBAN";
 	private static final String NIF = "123456789";
 	private ActivityProvider provider;
 	private ActivityOffer offer;
 
-	@Before
-	public void setUp() {
+	@Override
+	public void populate4Test() {
 		this.provider = new ActivityProvider("XtremX", "ExtremeAdventure", "NIF", IBAN);
 		Activity activity = new Activity(this.provider, "Bush Walking", 18, 80, 3);
 
@@ -41,7 +39,7 @@ public class ActivityOfferGetBookingMethodTest {
 		Booking booking = new Booking(this.provider, this.offer, NIF, IBAN);
 		booking.cancel();
 
-		assertEquals(booking, this.offer.getBooking(booking.getCancellation()));
+		assertEquals(booking, this.offer.getBooking(booking.getCancel()));
 	}
 
 	@Test
@@ -49,11 +47,6 @@ public class ActivityOfferGetBookingMethodTest {
 		new Booking(this.provider, this.offer, NIF, IBAN);
 
 		assertNull(this.offer.getBooking("XPTO"));
-	}
-
-	@After
-	public void tearDown() {
-		ActivityProvider.providers.clear();
 	}
 
 }

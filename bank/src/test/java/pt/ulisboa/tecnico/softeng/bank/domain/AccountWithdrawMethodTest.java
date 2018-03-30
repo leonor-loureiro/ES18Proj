@@ -1,18 +1,16 @@
 package pt.ulisboa.tecnico.softeng.bank.domain;
 
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
 
-public class AccountWithdrawMethodTest {
+public class AccountWithdrawMethodTest extends RollbackTestAbstractClass {
 	private Bank bank;
 	private Account account;
 
-	@Before
-	public void setUp() {
+	@Override
+	public void populate4Test() {
 		this.bank = new Bank("Money", "BK01");
 		Client client = new Client(this.bank, "António");
 		this.account = new Account(this.bank, client);
@@ -61,11 +59,6 @@ public class AccountWithdrawMethodTest {
 	@Test(expected = BankException.class)
 	public void moreThanBalance() {
 		this.account.withdraw(150);
-	}
-
-	@After
-	public void tearDown() {
-		Bank.banks.clear();
 	}
 
 }

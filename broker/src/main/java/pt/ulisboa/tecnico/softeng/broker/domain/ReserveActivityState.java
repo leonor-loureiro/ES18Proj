@@ -5,42 +5,43 @@ import pt.ulisboa.tecnico.softeng.broker.domain.Adventure.State;
 import pt.ulisboa.tecnico.softeng.broker.exception.RemoteAccessException;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.ActivityInterface;
 
-public class ReserveActivityState extends AdventureState {
+public class ReserveActivityState extends ReserveActivityState_Base {
 	public static final int MAX_REMOTE_ERRORS = 5;
 
 	@Override
-	public State getState() {
+	public State getValue() {
 		return State.RESERVE_ACTIVITY;
 	}
 
 	@Override
-	public void process(Adventure adventure) {
+	public void process() {
 		try {
-			String reference = ActivityInterface.reserveActivity(adventure.getBegin(), adventure.getEnd(),
-					adventure.getAge(), adventure.getBroker().getNifAsBuyer(), adventure.getBroker().getIBAN());
+			String reference = ActivityInterface.reserveActivity(getAdventure().getBegin(), getAdventure().getEnd(),
+					getAdventure().getAge(), getAdventure().getBroker().getNifAsBuyer(),
+					getAdventure().getBroker().getIBAN());
 
-			adventure.setActivityConfirmation(reference);
+			getAdventure().setActivityConfirmation(reference);
 
-			adventure.incAmountToPay(ActivityInterface.getActivityReservationData(reference).getPrice());
+			getAdventure().incAmountToPay(ActivityInterface.getActivityReservationData(reference).getPrice());
 		} catch (ActivityException ae) {
-			adventure.setState(State.UNDO);
+			getAdventure().setState(State.UNDO);
 			return;
 		} catch (RemoteAccessException rae) {
 			incNumOfRemoteErrors();
 			if (getNumOfRemoteErrors() == MAX_REMOTE_ERRORS) {
-				adventure.setState(State.UNDO);
+				getAdventure().setState(State.UNDO);
 			}
 			return;
 		}
 
-		if (adventure.getBegin().equals(adventure.getEnd())) {
-			if (adventure.shouldRentVehicle()) {
-				adventure.setState(State.RENT_VEHICLE);
+		if (getAdventure().getBegin().equals(getAdventure().getEnd())) {
+			if (getAdventure().shouldRentVehicle()) {
+				getAdventure().setState(State.RENT_VEHICLE);
 			} else {
-				adventure.setState(State.PROCESS_PAYMENT);
+				getAdventure().setState(State.PROCESS_PAYMENT);
 			}
 		} else {
-			adventure.setState(State.BOOK_ROOM);
+			getAdventure().setState(State.BOOK_ROOM);
 		}
 	}
 

@@ -1,22 +1,21 @@
 package pt.ulisboa.tecnico.softeng.activity.domain;
 
 import org.joda.time.LocalDate;
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import mockit.Expectations;
 import mockit.Mocked;
 import mockit.integration.junit4.JMockit;
+import pt.ist.fenixframework.FenixFramework;
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
 import pt.ulisboa.tecnico.softeng.activity.interfaces.BankInterface;
 import pt.ulisboa.tecnico.softeng.activity.interfaces.TaxInterface;
 import pt.ulisboa.tecnico.softeng.tax.dataobjects.InvoiceData;
 
 @RunWith(JMockit.class)
-public class ActivityProviderReserveActivityMethodTest {
+public class ActivityProviderReserveActivityMethodTest extends RollbackTestAbstractClass {
 	private static final String IBAN = "IBAN";
 	private static final String NIF = "123456789";
 	private static final int MIN_AGE = 18;
@@ -26,21 +25,21 @@ public class ActivityProviderReserveActivityMethodTest {
 	private static ActivityProvider provider1;
 	private static ActivityProvider provider2;
 
-	@Before
-	public void setup() {
+	@Override
+	public void populate4Test() {
 		provider1 = new ActivityProvider("XtremX", "Adventure++", "NIF", IBAN);
 		provider2 = new ActivityProvider("Walker", "Sky", "NIF2", IBAN);
 	}
 
 	@Test
 	public void numberOfProviders() {
-		Assert.assertTrue(ActivityProvider.providers.size() == 2);
+		Assert.assertTrue(FenixFramework.getDomainRoot().getActivityProviderSet().size() == 2);
 	}
 
 	@Test
 	public void nameOfProviders() {
-		Assert.assertTrue(ActivityProvider.providers.contains(provider1));
-		Assert.assertTrue(ActivityProvider.providers.contains(provider2));
+		Assert.assertTrue(FenixFramework.getDomainRoot().getActivityProviderSet().contains(provider1));
+		Assert.assertTrue(FenixFramework.getDomainRoot().getActivityProviderSet().contains(provider2));
 	}
 
 	@Test(expected = ActivityException.class)
@@ -67,11 +66,6 @@ public class ActivityProviderReserveActivityMethodTest {
 
 		Assert.assertTrue(act != null);
 		Assert.assertTrue(act.startsWith("XtremX"));
-	}
-
-	@After
-	public void tearDown() {
-		ActivityProvider.providers.clear();
 	}
 
 }

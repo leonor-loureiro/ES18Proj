@@ -5,31 +5,31 @@ import pt.ulisboa.tecnico.softeng.broker.domain.Adventure.State;
 import pt.ulisboa.tecnico.softeng.broker.exception.RemoteAccessException;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.BankInterface;
 
-
-public class ProcessPaymentState extends AdventureState {
+public class ProcessPaymentState extends ProcessPaymentState_Base {
 	public static final int MAX_REMOTE_ERRORS = 3;
 
 	@Override
-	public State getState() {
+	public State getValue() {
 		return State.PROCESS_PAYMENT;
 	}
 
 	@Override
-	public void process(Adventure adventure) {
+	public void process() {
 		try {
-			adventure.setPaymentConfirmation(BankInterface.processPayment(adventure.getIBAN(), adventure.getAmount()));
+			getAdventure().setPaymentConfirmation(
+					BankInterface.processPayment(getAdventure().getIBAN(), getAdventure().getAmount()));
 		} catch (BankException be) {
-			adventure.setState(State.UNDO);
+			getAdventure().setState(State.UNDO);
 			return;
 		} catch (RemoteAccessException rae) {
 			incNumOfRemoteErrors();
 			if (getNumOfRemoteErrors() == MAX_REMOTE_ERRORS) {
-				adventure.setState(State.UNDO);
+				getAdventure().setState(State.UNDO);
 			}
 			return;
 		}
 
-		adventure.setState(State.TAX_PAYMENT);
+		getAdventure().setState(State.TAX_PAYMENT);
 	}
 
 }

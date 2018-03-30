@@ -2,22 +2,23 @@ package pt.ulisboa.tecnico.softeng.broker.domain;
 
 import pt.ulisboa.tecnico.softeng.broker.domain.Adventure.State;
 
-abstract class AdventureState {
-	int numOfRemoteErrors = 0;
-
-	int getNumOfRemoteErrors() {
-		return this.numOfRemoteErrors;
-	}
+public abstract class AdventureState extends AdventureState_Base {
 
 	void incNumOfRemoteErrors() {
-		this.numOfRemoteErrors++;
+		setNumOfRemoteErrors(getNumOfRemoteErrors() + 1);
 	}
 
 	void resetNumOfRemoteErrors() {
-		this.numOfRemoteErrors = 0;
+		setNumOfRemoteErrors(0);
 	}
 
-	public abstract State getState();
+	public abstract State getValue();
 
-	public abstract void process(Adventure adventure);
+	public abstract void process();
+
+	public void delete() {
+		setAdventure(null);
+
+		deleteDomainObject();
+	}
 }

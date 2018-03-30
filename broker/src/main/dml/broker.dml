@@ -1,0 +1,89 @@
+package pt.ulisboa.tecnico.softeng.broker.domain;
+
+class Broker {
+	String code;
+	String name;
+}
+
+relation DomainRootHasBrokerApplication {
+	.pt.ist.fenixframework.DomainRoot playsRole root {
+		multiplicity 1..1;
+	}
+	Broker playsRole broker {
+		multiplicity 0..*;
+	}
+}
+
+class Adventure {
+	String ID;
+	LocalDate begin;
+	LocalDate end;
+	String paymentConfirmation;
+	String paymentCancellation;
+	String roomConfirmation;
+	String roomCancellation;
+	String activityConfirmation;
+	String activityCancellation;
+}
+
+relation BrokerHasAdventures {
+	Broker playsRole broker {
+		multiplicity 1..1;
+	}
+	Adventure playsRole adventure {
+		multiplicity 0..*;
+	}
+}
+
+class AdventureState {
+	int numOfRemoteErrors;
+}
+
+class ProcessPaymentState extends AdventureState;
+class ReserveActivityState extends AdventureState;
+class BookRoomState extends AdventureState;
+class RentVehicleState extends AdventureState;
+class ConfirmedState extends AdventureState;
+class TaxPaymentState extends AdventureState;
+class UndoState extends AdventureState;
+class CancelledState extends AdventureState;
+
+relation AdventureHasState {
+	Adventure playsRole adventure {
+		multiplicity 0..1;
+	}
+	AdventureState playsRole state {
+		multiplicity 1..1;
+	}
+}
+
+class BulkRoomBooking {
+	int number;
+	LocalDate arrival;
+	LocalDate departure;
+	boolean cancelled;
+	int numberOfHotelExceptions;
+	int numberOfRemoteErrors;
+}
+
+relation BrokerHasBulkRoomBookings {
+	Broker playsRole broker {
+		multiplicity 1..1;
+	}
+	BulkRoomBooking playsRole roomBulkBooking {
+		multiplicity 0..*;
+	}
+}
+
+class Reference {
+	String value;
+}
+
+relation BulkRoomBookingHasReferences {
+	BulkRoomBooking playsRole bulkRoomBooking {
+		multiplicity 1..1;
+	}
+	Reference playsRole reference {
+		multiplicity 0..*;
+	}
+}

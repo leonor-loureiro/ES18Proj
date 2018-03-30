@@ -6,37 +6,38 @@ import pt.ulisboa.tecnico.softeng.broker.interfaces.CarInterface;
 import pt.ulisboa.tecnico.softeng.car.domain.Car;
 import pt.ulisboa.tecnico.softeng.car.exception.CarException;
 
-public class RentVehicleState extends AdventureState {
+public class RentVehicleState extends RentVehicleState_Base {
 	public static final int MAX_REMOTE_ERRORS = 5;
 
 	@Override
-	public Adventure.State getState() {
+	public State getValue() {
 		return State.RENT_VEHICLE;
 	}
 
 	@Override
-	public void process(Adventure adventure) {
+	public void process() {
 		try {
 			// For now we will only reserve cars
-			String reference = CarInterface.rentCar(Car.class, adventure.getClient().getDrivingLicense(),
-					adventure.getBroker().getNifAsBuyer(), adventure.getBroker().getIBAN(), adventure.getBegin(),
-					adventure.getEnd());
+			String reference = CarInterface.rentCar(Car.class, getAdventure().getClient().getDrivingLicense(),
+					getAdventure().getBroker().getNifAsBuyer(), getAdventure().getBroker().getIBAN(),
+					getAdventure().getBegin(), getAdventure().getEnd());
 
-			adventure.incAmountToPay(CarInterface.getRentingData(reference).getPrice());
+			getAdventure().incAmountToPay(CarInterface.getRentingData(reference).getPrice());
 
-			adventure.setRentingConfirmation(reference);
+			getAdventure().setRentingConfirmation(reference);
 
 		} catch (CarException ce) {
-			adventure.setState(State.UNDO);
+			getAdventure().setState(State.UNDO);
 			return;
 		} catch (RemoteAccessException rae) {
 			incNumOfRemoteErrors();
 			if (getNumOfRemoteErrors() == MAX_REMOTE_ERRORS) {
-				adventure.setState(State.UNDO);
+				getAdventure().setState(State.UNDO);
 			}
 			return;
 		}
 
-		adventure.setState(State.PROCESS_PAYMENT);
+		getAdventure().setState(State.PROCESS_PAYMENT);
 	}
+
 }

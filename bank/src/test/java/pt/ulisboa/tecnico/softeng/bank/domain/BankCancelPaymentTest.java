@@ -2,19 +2,17 @@ package pt.ulisboa.tecnico.softeng.bank.domain;
 
 import static org.junit.Assert.assertNotNull;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
 
-public class BankCancelPaymentTest {
+public class BankCancelPaymentTest extends RollbackTestAbstractClass {
 	private Bank bank;
 	private Account account;
 	private String reference;
 
-	@Before
-	public void setUp() {
+	@Override
+	public void populate4Test() {
 		this.bank = new Bank("Money", "BK01");
 		Client client = new Client(this.bank, "António");
 		this.account = new Account(this.bank, client);
@@ -41,11 +39,6 @@ public class BankCancelPaymentTest {
 	@Test(expected = BankException.class)
 	public void notExistsReference() {
 		Bank.cancelPayment("XPTO");
-	}
-
-	@After
-	public void tearDown() {
-		Bank.banks.clear();
 	}
 
 }

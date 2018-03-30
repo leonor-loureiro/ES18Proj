@@ -2,19 +2,17 @@ package pt.ulisboa.tecnico.softeng.bank.domain;
 
 import static org.junit.Assert.assertNull;
 
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
 
-public class BankGetAccountMethodTest {
+public class BankGetAccountMethodTest extends RollbackTestAbstractClass {
 	Bank bank;
 	Client client;
 
-	@Before
-	public void setUp() {
+	@Override
+	public void populate4Test() {
 		this.bank = new Bank("Money", "BK01");
 		this.client = new Client(this.bank, "António");
 	}
@@ -43,20 +41,18 @@ public class BankGetAccountMethodTest {
 		this.bank.getAccount("    ");
 	}
 
+	@Test
 	public void emptySetOfAccounts() {
 		assertNull(this.bank.getAccount("XPTO"));
 	}
 
+	@Test
 	public void severalAccountsDoNoMatch() {
 		new Account(this.bank, this.client);
 		new Account(this.bank, this.client);
 
 		assertNull(this.bank.getAccount("XPTO"));
-	}
 
-	@After
-	public void tearDown() {
-		Bank.banks.clear();
 	}
 
 }

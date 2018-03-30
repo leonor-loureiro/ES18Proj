@@ -3,8 +3,6 @@ package pt.ulisboa.tecnico.softeng.broker.integration;
 import static org.junit.Assert.assertEquals;
 
 import org.joda.time.LocalDate;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 import pt.ulisboa.tecnico.softeng.activity.domain.Activity;
@@ -15,6 +13,7 @@ import pt.ulisboa.tecnico.softeng.bank.domain.Bank;
 import pt.ulisboa.tecnico.softeng.broker.domain.Adventure;
 import pt.ulisboa.tecnico.softeng.broker.domain.Broker;
 import pt.ulisboa.tecnico.softeng.broker.domain.Client;
+import pt.ulisboa.tecnico.softeng.broker.domain.RollbackTestAbstractClass;
 import pt.ulisboa.tecnico.softeng.car.domain.Car;
 import pt.ulisboa.tecnico.softeng.car.domain.RentACar;
 import pt.ulisboa.tecnico.softeng.hotel.domain.Hotel;
@@ -47,7 +46,7 @@ import pt.ulisboa.tecnico.softeng.tax.domain.Seller;
 		implemented. This implementation, is, however, left for a future
 		development iteration.
  */
-public class CompleteProcessOfAnAdentureTest {
+public class CompleteProcessOfAnAdventureTest extends RollbackTestAbstractClass {
 	// Broker
 	private static final String CODE = "BR01";
 	private static final String NAME_OF_BROKER = "WeExplore";
@@ -100,8 +99,8 @@ public class CompleteProcessOfAnAdentureTest {
 	Account hotelAccount;
 	Account rentACarAccount;
 
-	@Before
-	public void setUp() {
+	@Override
+	public void populate4Test() {
 		// tax
 		new ItemType(IRS.getIRS(), "SPORT", 10);
 		new ItemType(IRS.getIRS(), "HOUSING", 10);
@@ -164,7 +163,7 @@ public class CompleteProcessOfAnAdentureTest {
 	public void successEndToEnd() {
 		int numberOfDays = this.end.getDayOfYear() - this.begin.getDayOfYear();
 
-		assertEquals(Adventure.State.RESERVE_ACTIVITY, this.adventure.getState());
+		assertEquals(Adventure.State.RESERVE_ACTIVITY, this.adventure.getState().getValue());
 
 		this.brokerAccount.deposit(ACTIVITY_COST);
 		this.adventure.process();
@@ -173,7 +172,7 @@ public class CompleteProcessOfAnAdentureTest {
 		// TODO: assertEquals(ACTIVITY_COST, this.providerAccount.getBalance(), 0.0f);
 		assertEquals(0.15, this.brokerAsBuyer.taxReturn(this.begin.getYear()), 0.0f);
 		assertEquals(3.0, this.providerAsSeller.toPay(this.begin.getYear()), 0.0f);
-		assertEquals(Adventure.State.BOOK_ROOM, this.adventure.getState());
+		assertEquals(Adventure.State.BOOK_ROOM, this.adventure.getState().getValue());
 
 		this.brokerAccount.deposit(PRICE_SINGLE * numberOfDays);
 		this.adventure.process();
@@ -183,7 +182,7 @@ public class CompleteProcessOfAnAdentureTest {
 		// this.hotelAccount.getBalance(), 0.0f);
 		assertEquals(0.35, this.brokerAsBuyer.taxReturn(this.begin.getYear()), 0.0f);
 		assertEquals(4.0, this.hotelAsSeller.toPay(this.begin.getYear()), 0.0f);
-		assertEquals(Adventure.State.RENT_VEHICLE, this.adventure.getState());
+		assertEquals(Adventure.State.RENT_VEHICLE, this.adventure.getState().getValue());
 
 		this.brokerAccount.deposit(PRICE_OF_CAR * numberOfDays);
 		this.adventure.process();
@@ -193,7 +192,7 @@ public class CompleteProcessOfAnAdentureTest {
 		// this.rentACarAccount.getBalance(), 0.0f);
 		assertEquals(0.45, this.brokerAsBuyer.taxReturn(this.begin.getYear()), 0.001);
 		assertEquals(2.0, this.rentACarAsSeller.toPay(this.begin.getYear()), 0.0f);
-		assertEquals(Adventure.State.PROCESS_PAYMENT, this.adventure.getState());
+		assertEquals(Adventure.State.PROCESS_PAYMENT, this.adventure.getState().getValue());
 
 		this.clientAccount
 				.deposit((ACTIVITY_COST + PRICE_SINGLE * numberOfDays + PRICE_OF_CAR * numberOfDays) * (1 + MARGIN));
@@ -202,13 +201,13 @@ public class CompleteProcessOfAnAdentureTest {
 
 		assertEquals(0, this.clientAccount.getBalance(), 0.0f);
 		// TODO: assertEquals(78, this.brokerAccount.getBalance(), 0.0f);
-		assertEquals(Adventure.State.TAX_PAYMENT, this.adventure.getState());
+		assertEquals(Adventure.State.TAX_PAYMENT, this.adventure.getState().getValue());
 
 		this.adventure.process();
 
 		assertEquals(0.585, this.clientAsBuyer.taxReturn(this.begin.getYear()), 0.0f);
 		assertEquals(11.7, this.brokerAsSeller.toPay(this.begin.getYear()), 0.0f);
-		assertEquals(Adventure.State.CONFIRMED, this.adventure.getState());
+		assertEquals(Adventure.State.CONFIRMED, this.adventure.getState().getValue());
 
 		this.adventure.process();
 
@@ -223,17 +222,7 @@ public class CompleteProcessOfAnAdentureTest {
 		assertEquals(3.0, this.providerAsSeller.toPay(this.begin.getYear()), 0.0f);
 		assertEquals(4.0, this.hotelAsSeller.toPay(this.begin.getYear()), 0.0f);
 		assertEquals(2.0, this.rentACarAsSeller.toPay(this.begin.getYear()), 0.0f);
-		assertEquals(Adventure.State.CONFIRMED, this.adventure.getState());
-	}
-
-	@After
-	public void tearDown() {
-		Broker.brokers.clear();
-		ActivityProvider.providers.clear();
-		Hotel.hotels.clear();
-		RentACar.rentACars.clear();
-		Bank.banks.clear();
-		IRS.getIRS().clearAll();
+		assertEquals(Adventure.State.CONFIRMED, this.adventure.getState().getValue());
 	}
 
 }

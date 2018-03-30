@@ -1,8 +1,6 @@
 package pt.ulisboa.tecnico.softeng.broker.domain;
 
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -14,18 +12,23 @@ import pt.ulisboa.tecnico.softeng.bank.dataobjects.BankOperationData;
 import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
 import pt.ulisboa.tecnico.softeng.broker.domain.Adventure.State;
 import pt.ulisboa.tecnico.softeng.broker.exception.RemoteAccessException;
-import pt.ulisboa.tecnico.softeng.broker.interfaces.*;
+import pt.ulisboa.tecnico.softeng.broker.interfaces.ActivityInterface;
+import pt.ulisboa.tecnico.softeng.broker.interfaces.BankInterface;
+import pt.ulisboa.tecnico.softeng.broker.interfaces.CarInterface;
+import pt.ulisboa.tecnico.softeng.broker.interfaces.HotelInterface;
+import pt.ulisboa.tecnico.softeng.broker.interfaces.TaxInterface;
 
 @RunWith(JMockit.class)
-public class CancelledStateProcessMethodTest extends BaseTest {
-	@Mocked private TaxInterface taxInterface;
+public class CancelledStateProcessMethodTest extends RollbackTestAbstractClass {
+	@Mocked
+	private TaxInterface taxInterface;
 
-	@Before
-	public void setUp() {
-		this.broker = new Broker("Br013", "HappyWeek", NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
-		this.client = new Client(this.broker, IBAN, NIF, DRIVING_LICENSE, AGE);
+	@Override
+	public void populate4Test() {
+		this.broker = new Broker("BR01", "eXtremeADVENTURE", BROKER_NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
+		this.client = new Client(this.broker, CLIENT_IBAN, CLIENT_NIF, DRIVING_LICENSE, AGE);
+		this.adventure = new Adventure(this.broker, this.begin, this.end, this.client, MARGIN);
 
-		this.adventure = new Adventure(this.broker, arrival, departure, this.client, MARGIN);
 		this.adventure.setState(State.CANCELLED);
 	}
 
@@ -35,7 +38,7 @@ public class CancelledStateProcessMethodTest extends BaseTest {
 
 		this.adventure.process();
 
-		Assert.assertEquals(Adventure.State.CANCELLED, this.adventure.getState());
+		Assert.assertEquals(Adventure.State.CANCELLED, this.adventure.getState().getValue());
 
 		new Verifications() {
 			{
@@ -65,7 +68,7 @@ public class CancelledStateProcessMethodTest extends BaseTest {
 
 		this.adventure.process();
 
-		Assert.assertEquals(Adventure.State.CANCELLED, this.adventure.getState());
+		Assert.assertEquals(Adventure.State.CANCELLED, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -82,7 +85,7 @@ public class CancelledStateProcessMethodTest extends BaseTest {
 
 		this.adventure.process();
 
-		Assert.assertEquals(Adventure.State.CANCELLED, this.adventure.getState());
+		Assert.assertEquals(Adventure.State.CANCELLED, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -100,7 +103,7 @@ public class CancelledStateProcessMethodTest extends BaseTest {
 
 		this.adventure.process();
 
-		Assert.assertEquals(Adventure.State.CANCELLED, this.adventure.getState());
+		Assert.assertEquals(Adventure.State.CANCELLED, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -118,7 +121,7 @@ public class CancelledStateProcessMethodTest extends BaseTest {
 
 		this.adventure.process();
 
-		Assert.assertEquals(Adventure.State.CANCELLED, this.adventure.getState());
+		Assert.assertEquals(Adventure.State.CANCELLED, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -136,7 +139,7 @@ public class CancelledStateProcessMethodTest extends BaseTest {
 
 		this.adventure.process();
 
-		Assert.assertEquals(Adventure.State.CANCELLED, this.adventure.getState());
+		Assert.assertEquals(Adventure.State.CANCELLED, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -159,7 +162,7 @@ public class CancelledStateProcessMethodTest extends BaseTest {
 
 		this.adventure.process();
 
-		Assert.assertEquals(Adventure.State.CANCELLED, this.adventure.getState());
+		Assert.assertEquals(Adventure.State.CANCELLED, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -186,13 +189,12 @@ public class CancelledStateProcessMethodTest extends BaseTest {
 
 		this.adventure.process();
 
-		Assert.assertEquals(Adventure.State.CANCELLED, this.adventure.getState());
+		Assert.assertEquals(Adventure.State.CANCELLED, this.adventure.getState().getValue());
 	}
 
 	@Test
 	public void cancelledRenting(@Mocked final BankInterface bankInterface,
-								 @Mocked final ActivityInterface activityInterface,
-								 @Mocked final CarInterface carInterface) {
+			@Mocked final ActivityInterface activityInterface, @Mocked final CarInterface carInterface) {
 		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
 		this.adventure.setPaymentCancellation(PAYMENT_CANCELLATION);
 		this.adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION);
@@ -211,22 +213,21 @@ public class CancelledStateProcessMethodTest extends BaseTest {
 
 		this.adventure.process();
 
-		Assert.assertEquals(Adventure.State.CANCELLED, this.adventure.getState());
+		Assert.assertEquals(Adventure.State.CANCELLED, this.adventure.getState().getValue());
 	}
 
 	@Test
 	public void cancelledBookAndRenting(@Mocked final BankInterface bankInterface,
-										@Mocked final ActivityInterface activityInterface,
-										@Mocked final HotelInterface hotelInterface,
-										@Mocked final CarInterface carInterface) {
+			@Mocked final ActivityInterface activityInterface, @Mocked final HotelInterface hotelInterface,
+			@Mocked final CarInterface carInterface) {
 		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
 		this.adventure.setPaymentCancellation(PAYMENT_CANCELLATION);
 		this.adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION);
 		this.adventure.setActivityCancellation(ACTIVITY_CANCELLATION);
 		this.adventure.setRoomConfirmation(ROOM_CONFIRMATION);
 		this.adventure.setRoomCancellation(ROOM_CANCELLATION);
-        this.adventure.setRentingConfirmation(RENTING_CONFIRMATION);
-        this.adventure.setRentingCancellation(RENTING_CANCELLATION);
+		this.adventure.setRentingConfirmation(RENTING_CONFIRMATION);
+		this.adventure.setRentingCancellation(RENTING_CANCELLATION);
 
 		new Expectations() {
 			{
@@ -240,12 +241,7 @@ public class CancelledStateProcessMethodTest extends BaseTest {
 
 		this.adventure.process();
 
-		Assert.assertEquals(Adventure.State.CANCELLED, this.adventure.getState());
+		Assert.assertEquals(Adventure.State.CANCELLED, this.adventure.getState().getValue());
 	}
 
-
-	@After
-	public void tearDown() {
-		Broker.brokers.clear();
-	}
 }

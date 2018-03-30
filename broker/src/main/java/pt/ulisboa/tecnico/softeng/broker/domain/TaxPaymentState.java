@@ -6,32 +6,33 @@ import pt.ulisboa.tecnico.softeng.broker.interfaces.TaxInterface;
 import pt.ulisboa.tecnico.softeng.tax.dataobjects.InvoiceData;
 import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 
-public class TaxPaymentState extends AdventureState {
+public class TaxPaymentState extends TaxPaymentState_Base {
 	public static final int MAX_REMOTE_ERRORS = 3;
 
 	@Override
-	public State getState() {
+	public State getValue() {
 		return State.TAX_PAYMENT;
 	}
 
 	@Override
-	public void process(Adventure adventure) {
+	public void process() {
 		try {
-			InvoiceData invoiceData = new InvoiceData(adventure.getBroker().getNifAsSeller(),
-					adventure.getClient().getNIF(), "ADVENTURE", adventure.getAmount(), adventure.getBegin());
-			adventure.setInvoiceReference(TaxInterface.submitInvoice(invoiceData));
+			InvoiceData invoiceData = new InvoiceData(getAdventure().getBroker().getNifAsSeller(),
+					getAdventure().getClient().getNIF(), "ADVENTURE", getAdventure().getAmount(),
+					getAdventure().getBegin());
+			getAdventure().setInvoiceReference(TaxInterface.submitInvoice(invoiceData));
 		} catch (TaxException be) {
-			adventure.setState(State.UNDO);
+			getAdventure().setState(State.UNDO);
 			return;
 		} catch (RemoteAccessException rae) {
 			incNumOfRemoteErrors();
 			if (getNumOfRemoteErrors() == MAX_REMOTE_ERRORS) {
-				adventure.setState(State.UNDO);
+				getAdventure().setState(State.UNDO);
 			}
 			return;
 		}
 
-		adventure.setState(State.CONFIRMED);
+		getAdventure().setState(State.CONFIRMED);
 	}
 
 }

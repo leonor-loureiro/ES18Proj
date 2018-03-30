@@ -1,16 +1,19 @@
 package pt.ulisboa.tecnico.softeng.broker.domain;
 
-import mockit.integration.junit4.JMockit;
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
-
 import org.junit.runner.RunWith;
+
+import mockit.integration.junit4.JMockit;
 import pt.ulisboa.tecnico.softeng.broker.exception.BrokerException;
 
 @RunWith(JMockit.class)
-public class AdventureConstructorMethodTest extends BaseTest {
-
+public class AdventureConstructorMethodTest extends RollbackTestAbstractClass {
+	@Override
+	public void populate4Test() {
+		this.broker = new Broker("BR01", "eXtremeADVENTURE", BROKER_NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
+		this.client = new Client(this.broker, CLIENT_IBAN, CLIENT_NIF, DRIVING_LICENSE, AGE);
+	}
 
 	@Test
 	public void success() {
@@ -20,8 +23,8 @@ public class AdventureConstructorMethodTest extends BaseTest {
 		Assert.assertEquals(this.begin, adventure.getBegin());
 		Assert.assertEquals(this.end, adventure.getEnd());
 		Assert.assertEquals(this.client, adventure.getClient());
-		Assert.assertEquals(0.3, adventure.getMargin(), 0);
-		Assert.assertTrue(this.broker.hasAdventure(adventure));
+		Assert.assertEquals(MARGIN, adventure.getMargin(), 0.0d);
+		Assert.assertTrue(this.broker.getAdventureSet().contains(adventure));
 
 		Assert.assertNull(adventure.getPaymentConfirmation());
 		Assert.assertNull(adventure.getActivityConfirmation());
@@ -46,15 +49,15 @@ public class AdventureConstructorMethodTest extends BaseTest {
 	@Test
 	public void successEqual18() {
 		Adventure adventure = new Adventure(this.broker, this.begin, this.end,
-				new Client(this.broker, IBAN, OTHER_NIF, DRIVING_LICENSE + "1",18), MARGIN);
+				new Client(this.broker, CLIENT_IBAN, OTHER_NIF, DRIVING_LICENSE + "1", 18), MARGIN);
 
 		Assert.assertEquals(this.broker, adventure.getBroker());
 		Assert.assertEquals(this.begin, adventure.getBegin());
 		Assert.assertEquals(this.end, adventure.getEnd());
 		Assert.assertEquals(18, adventure.getAge());
-		Assert.assertEquals(IBAN, adventure.getIBAN());
-		Assert.assertEquals(0.3, adventure.getMargin(), 0);
-		Assert.assertTrue(this.broker.hasAdventure(adventure));
+		Assert.assertEquals(CLIENT_IBAN, adventure.getIBAN());
+		Assert.assertEquals(MARGIN, adventure.getMargin(), 0);
+		Assert.assertTrue(this.broker.getAdventureSet().contains(adventure));
 
 		Assert.assertNull(adventure.getPaymentConfirmation());
 		Assert.assertNull(adventure.getActivityConfirmation());
@@ -63,22 +66,22 @@ public class AdventureConstructorMethodTest extends BaseTest {
 
 	@Test(expected = BrokerException.class)
 	public void negativeAge() {
-		Client c = new Client(this.broker, IBAN, OTHER_NIF, DRIVING_LICENSE, 17);
+		Client c = new Client(this.broker, CLIENT_IBAN, OTHER_NIF, DRIVING_LICENSE, 17);
 		new Adventure(this.broker, this.begin, this.end, c, MARGIN);
 	}
 
 	@Test
 	public void successEqual100() {
-        Client c = new Client(this.broker, IBAN, OTHER_NIF, DRIVING_LICENSE + "1", 100);
+		Client c = new Client(this.broker, CLIENT_IBAN, OTHER_NIF, DRIVING_LICENSE + "1", 100);
 		Adventure adventure = new Adventure(this.broker, this.begin, this.end, c, MARGIN);
 
 		Assert.assertEquals(this.broker, adventure.getBroker());
 		Assert.assertEquals(this.begin, adventure.getBegin());
 		Assert.assertEquals(this.end, adventure.getEnd());
 		Assert.assertEquals(100, adventure.getAge());
-		Assert.assertEquals(IBAN, adventure.getIBAN());
-		Assert.assertEquals(0.3, adventure.getMargin(), 0);
-		Assert.assertTrue(this.broker.hasAdventure(adventure));
+		Assert.assertEquals(CLIENT_IBAN, adventure.getIBAN());
+		Assert.assertEquals(MARGIN, adventure.getMargin(), 0);
+		Assert.assertTrue(this.broker.getAdventureSet().contains(adventure));
 
 		Assert.assertNull(adventure.getPaymentConfirmation());
 		Assert.assertNull(adventure.getActivityConfirmation());
@@ -87,7 +90,7 @@ public class AdventureConstructorMethodTest extends BaseTest {
 
 	@Test(expected = BrokerException.class)
 	public void over100() {
-		Client c = new Client(this.broker, IBAN, OTHER_NIF, DRIVING_LICENSE, 101);
+		Client c = new Client(this.broker, CLIENT_IBAN, OTHER_NIF, DRIVING_LICENSE, 101);
 		new Adventure(this.broker, this.begin, this.end, c, MARGIN);
 	}
 
@@ -104,9 +107,9 @@ public class AdventureConstructorMethodTest extends BaseTest {
 		Assert.assertEquals(this.begin, adventure.getBegin());
 		Assert.assertEquals(this.end, adventure.getEnd());
 		Assert.assertEquals(20, adventure.getAge());
-		Assert.assertEquals(IBAN, adventure.getIBAN());
+		Assert.assertEquals(CLIENT_IBAN, adventure.getIBAN());
 		Assert.assertEquals(1, adventure.getMargin(), 0);
-		Assert.assertTrue(this.broker.hasAdventure(adventure));
+		Assert.assertTrue(this.broker.getAdventureSet().contains(adventure));
 
 		Assert.assertNull(adventure.getPaymentConfirmation());
 		Assert.assertNull(adventure.getActivityConfirmation());
@@ -126,9 +129,9 @@ public class AdventureConstructorMethodTest extends BaseTest {
 		Assert.assertEquals(this.begin, adventure.getBegin());
 		Assert.assertEquals(this.begin, adventure.getEnd());
 		Assert.assertEquals(20, adventure.getAge());
-		Assert.assertEquals(IBAN, adventure.getIBAN());
-		Assert.assertEquals(0.3, adventure.getMargin(), 0);
-		Assert.assertTrue(this.broker.hasAdventure(adventure));
+		Assert.assertEquals(CLIENT_IBAN, adventure.getIBAN());
+		Assert.assertEquals(MARGIN, adventure.getMargin(), 0);
+		Assert.assertTrue(this.broker.getAdventureSet().contains(adventure));
 
 		Assert.assertNull(adventure.getPaymentConfirmation());
 		Assert.assertNull(adventure.getActivityConfirmation());
@@ -138,11 +141,6 @@ public class AdventureConstructorMethodTest extends BaseTest {
 	@Test(expected = BrokerException.class)
 	public void inconsistentDates() {
 		new Adventure(this.broker, this.begin, this.begin.minusDays(1), this.client, MARGIN);
-	}
-
-	@After
-	public void tearDown() {
-		Broker.brokers.clear();
 	}
 
 }

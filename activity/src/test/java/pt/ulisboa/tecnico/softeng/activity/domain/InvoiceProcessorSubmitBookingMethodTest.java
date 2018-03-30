@@ -1,8 +1,6 @@
 package pt.ulisboa.tecnico.softeng.activity.domain;
 
 import org.joda.time.LocalDate;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -19,7 +17,7 @@ import pt.ulisboa.tecnico.softeng.tax.dataobjects.InvoiceData;
 import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 
 @RunWith(JMockit.class)
-public class InvoiceProcessorSubmitBookingMethodTest {
+public class InvoiceProcessorSubmitBookingMethodTest extends RollbackTestAbstractClass {
 	private static final String CANCEL_PAYMENT_REFERENCE = "CancelPaymentReference";
 	private static final String INVOICE_REFERENCE = "InvoiceReference";
 	private static final String PAYMENT_REFERENCE = "PaymentReference";
@@ -30,8 +28,8 @@ public class InvoiceProcessorSubmitBookingMethodTest {
 	private ActivityOffer offer;
 	private Booking booking;
 
-	@Before
-	public void setUp() {
+	@Override
+	public void populate4Test() {
 		this.provider = new ActivityProvider("XtremX", "ExtremeAdventure", "NIF", IBAN);
 		Activity activity = new Activity(this.provider, "Bush Walking", 18, 80, 10);
 
@@ -298,11 +296,6 @@ public class InvoiceProcessorSubmitBookingMethodTest {
 				this.times = 2;
 			}
 		};
-	}
-
-	@After
-	public void tearDown() {
-		ActivityProvider.providers.clear();
 	}
 
 }

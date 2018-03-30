@@ -5,10 +5,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import pt.ulisboa.tecnico.softeng.broker.exception.BrokerException;
-import pt.ulisboa.tecnico.softeng.broker.interfaces.TaxInterface;
-import pt.ulisboa.tecnico.softeng.tax.dataobjects.InvoiceData;
 
-public class Adventure {
+public class Adventure extends Adventure_Base {
 	private static Logger logger = LoggerFactory.getLogger(Adventure.class);
 
 	public enum State {
@@ -17,40 +15,28 @@ public class Adventure {
 
 	private static int counter = 0;
 
-	private final String ID;
-	private final Broker broker;
-	private final LocalDate begin;
-	private final LocalDate end;
 	private final Client client;
 	private final double margin;
 	private final boolean rentVehicle;
-	private String paymentConfirmation;
-	private String paymentCancellation;
-	private String roomConfirmation;
-	private String roomCancellation;
+	private double currentAmount;
 	private String rentingConfirmation;
 	private String rentingCancellation;
-	private String activityConfirmation;
-	private String activityCancellation;
-    private String invoiceReference;
-    private boolean invoiceCancelled = false;
+	private String invoiceReference;
+	private boolean invoiceCancelled;
 
-    private double currentAmount;
+	private AdventureState state;
 
-
-    private AdventureState state;
-
-    public Adventure(Broker broker, LocalDate begin, LocalDate end, Client client, double margin) {
-    	this(broker, begin, end, client, margin, false);
+	public Adventure(Broker broker, LocalDate begin, LocalDate end, Client client, double margin) {
+		this(broker, begin, end, client, margin, false);
 	}
 
 	public Adventure(Broker broker, LocalDate begin, LocalDate end, Client client, double margin, boolean rentVehicle) {
 		checkArguments(broker, begin, end, client, margin);
 
-		this.ID = broker.getCode() + Integer.toString(++counter);
-		this.broker = broker;
-		this.begin = begin;
-		this.end = end;
+		setID(broker.getCode() + Integer.toString(++counter));
+		setBegin(begin);
+		setEnd(end);
+
 		this.client = client;
 		this.margin = margin;
 		this.rentVehicle = rentVehicle;
@@ -58,7 +44,17 @@ public class Adventure {
 
 		broker.addAdventure(this);
 
+		setBroker(broker);
+
 		setState(State.RESERVE_ACTIVITY);
+	}
+
+	public void delete() {
+		setBroker(null);
+
+		getState().delete();
+
+		deleteDomainObject();
 	}
 
 	private void checkArguments(Broker broker, LocalDate begin, LocalDate end, Client client, double margin) {
@@ -79,22 +75,6 @@ public class Adventure {
 		}
 	}
 
-	public String getID() {
-		return this.ID;
-	}
-
-	public Broker getBroker() {
-		return this.broker;
-	}
-
-	public LocalDate getBegin() {
-		return this.begin;
-	}
-
-	public LocalDate getEnd() {
-		return this.end;
-	}
-
 	public int getAge() {
 		return this.client.getAge();
 	}
@@ -107,70 +87,24 @@ public class Adventure {
 		return this.client;
 	}
 
-	public double getMargin() { return this.margin; }
+	public double getMargin() {
+		return this.margin;
+	}
 
 	public void incAmountToPay(double toPay) {
-        this.currentAmount += toPay;
-    }
+		this.currentAmount += toPay;
+	}
 
 	public double getAmount() {
 		return this.currentAmount * (1 + this.margin);
 	}
 
 	public boolean shouldRentVehicle() {
-		return rentVehicle;
-	}
-
-	public String getPaymentConfirmation() {
-		return this.paymentConfirmation;
-	}
-
-	public void setPaymentConfirmation(String paymentConfirmation) {
-		this.paymentConfirmation = paymentConfirmation;
-	}
-
-	public String getPaymentCancellation() {
-		return this.paymentCancellation;
-	}
-
-	public void setPaymentCancellation(String paymentCancellation) {
-		this.paymentCancellation = paymentCancellation;
-	}
-
-	public String getActivityConfirmation() {
-		return this.activityConfirmation;
-	}
-
-	public void setActivityConfirmation(String activityConfirmation) {
-		this.activityConfirmation = activityConfirmation;
-	}
-
-	public String getActivityCancellation() {
-		return this.activityCancellation;
-	}
-
-	public void setActivityCancellation(String activityCancellation) {
-		this.activityCancellation = activityCancellation;
-	}
-
-	public String getRoomConfirmation() {
-		return this.roomConfirmation;
-	}
-
-	public void setRoomConfirmation(String roomConfirmation) {
-		this.roomConfirmation = roomConfirmation;
-	}
-
-	public String getRoomCancellation() {
-		return this.roomCancellation;
-	}
-
-	public void setRoomCancellation(String roomCancellation) {
-		this.roomCancellation = roomCancellation;
+		return this.rentVehicle;
 	}
 
 	public String getRentingConfirmation() {
-		return rentingConfirmation;
+		return this.rentingConfirmation;
 	}
 
 	public void setRentingConfirmation(String rentingConfirmation) {
@@ -178,7 +112,7 @@ public class Adventure {
 	}
 
 	public String getRentingCancellation() {
-		return rentingCancellation;
+		return this.rentingCancellation;
 	}
 
 	public void setRentingCancellation(String rentingCancellation) {
@@ -186,46 +120,46 @@ public class Adventure {
 	}
 
 	public String getInvoiceReference() {
-		return invoiceReference;
+		return this.invoiceReference;
 	}
 
-    public void setInvoiceReference(String invoiceReference) {
-        this.invoiceReference = invoiceReference;
-    }
+	public void setInvoiceReference(String invoiceReference) {
+		this.invoiceReference = invoiceReference;
+	}
 
-    public void setInvoiceCancelled(boolean value) {
-        this.invoiceCancelled = value;
-    }
-
-	public State getState() {
-		return this.state.getState();
+	public void setInvoiceCancelled(boolean value) {
+		this.invoiceCancelled = value;
 	}
 
 	public void setState(State state) {
+		if (getState() != null) {
+			getState().delete();
+		}
+
 		switch (state) {
 		case RESERVE_ACTIVITY:
-			this.state = new ReserveActivityState();
+			setState(new ReserveActivityState());
 			break;
 		case BOOK_ROOM:
-			this.state = new BookRoomState();
+			setState(new BookRoomState());
 			break;
 		case RENT_VEHICLE:
-			this.state = new RentVehicleState();
+			setState(new RentVehicleState());
 			break;
 		case PROCESS_PAYMENT:
-			this.state = new ProcessPaymentState();
+			setState(new ProcessPaymentState());
 			break;
 		case TAX_PAYMENT:
-			this.state = new TaxPaymentState();
+			setState(new TaxPaymentState());
 			break;
 		case UNDO:
-			this.state = new UndoState();
+			setState(new UndoState());
 			break;
 		case CONFIRMED:
-			this.state = new ConfirmedState();
+			setState(new ConfirmedState());
 			break;
 		case CANCELLED:
-			this.state = new CancelledState();
+			setState(new CancelledState());
 			break;
 		default:
 			new BrokerException();
@@ -235,7 +169,7 @@ public class Adventure {
 
 	public void process() {
 		// logger.debug("process ID:{}, state:{} ", this.ID, getState().name());
-		this.state.process(this);
+		getState().process();
 	}
 
 	public boolean shouldCancelRoom() {
@@ -245,6 +179,7 @@ public class Adventure {
 	public boolean roomIsCancelled() {
 		return !shouldCancelRoom();
 	}
+
 	public boolean shouldCancelActivity() {
 		return getActivityConfirmation() != null && getActivityCancellation() == null;
 	}
@@ -262,17 +197,17 @@ public class Adventure {
 	}
 
 	public boolean shouldCancelVehicleRenting() {
-    	return getRentingConfirmation() != null && getRentingCancellation() == null;
+		return getRentingConfirmation() != null && getRentingCancellation() == null;
 	}
 
 	public boolean rentingIsCancelled() {
-    	return !shouldCancelVehicleRenting();
+		return !shouldCancelVehicleRenting();
 	}
 
 	public boolean shouldCancelInvoice() {
-		return getInvoiceReference()!= null && !invoiceCancelled;
+		return getInvoiceReference() != null && !this.invoiceCancelled;
 	}
-	
+
 	public boolean invoiceIsCancelled() {
 		return !shouldCancelInvoice();
 	}

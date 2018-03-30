@@ -3,9 +3,6 @@ package pt.ulisboa.tecnico.softeng.broker.domain;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-import java.util.Arrays;
-
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -19,14 +16,15 @@ import pt.ulisboa.tecnico.softeng.hotel.dataobjects.RoomBookingData;
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 
 @RunWith(JMockit.class)
-public class BulkRoomBookingGetReferenceMethodTest extends BaseTest {
-
+public class BulkRoomBookingGetReferenceMethodTest extends RollbackTestAbstractClass {
 	private BulkRoomBooking bulk;
 
-	@Before
-	public void setUp() {
-		this.bulk = new BulkRoomBooking(NUMBER, begin, end, NIF_AS_BUYER, IBAN);
-		this.bulk.getReferences().addAll(Arrays.asList(REF_1, REF_2));
+	@Override
+	public void populate4Test() {
+		this.broker = new Broker("BR01", "eXtremeADVENTURE", BROKER_NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
+		this.bulk = new BulkRoomBooking(this.broker, NUMBER_OF_BULK, this.begin, this.end, NIF_AS_BUYER, CLIENT_IBAN);
+		new Reference(this.bulk, REF_ONE);
+		new Reference(this.bulk, REF_TWO);
 	}
 
 	@Test
@@ -34,11 +32,7 @@ public class BulkRoomBookingGetReferenceMethodTest extends BaseTest {
 		new Expectations() {
 			{
 				HotelInterface.getRoomBookingData(this.anyString);
-				this.result = new Delegate() {
-					RoomBookingData delegate() {
-						return new RoomBookingData(SINGLE);
-					}
-				};
+				this.result = new RoomBookingData(SINGLE);
 			}
 		};
 
@@ -52,11 +46,7 @@ public class BulkRoomBookingGetReferenceMethodTest extends BaseTest {
 		new Expectations() {
 			{
 				HotelInterface.getRoomBookingData(this.anyString);
-				this.result = new Delegate() {
-					RoomBookingData delegate() {
-						return new RoomBookingData(DOUBLE);
-					}
-				};
+				this.result = new RoomBookingData(DOUBLE);
 			}
 		};
 

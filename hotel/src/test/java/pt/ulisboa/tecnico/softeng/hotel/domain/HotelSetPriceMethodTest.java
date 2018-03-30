@@ -2,18 +2,16 @@ package pt.ulisboa.tecnico.softeng.hotel.domain;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 
-public class HotelSetPriceMethodTest {
+public class HotelSetPriceMethodTest extends RollbackTestAbstractClass {
 	private Hotel hotel;
 	private final double price = 25.0;
 
-	@Before
-	public void setUp() {
+	@Override
+	public void populate4Test() {
 		this.hotel = new Hotel("XPTO123", "Lisboa", "NIF", "IBAN", this.price + 5.0, this.price + 10.0);
 	}
 
@@ -39,8 +37,4 @@ public class HotelSetPriceMethodTest {
 		this.hotel.setPrice(Room.Type.DOUBLE, -1.0);
 	}
 
-	@After
-	public void tearDown() {
-		Hotel.hotels.clear();
-	}
 }

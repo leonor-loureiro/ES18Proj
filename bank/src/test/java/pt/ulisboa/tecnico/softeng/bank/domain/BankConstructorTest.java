@@ -1,14 +1,18 @@
 package pt.ulisboa.tecnico.softeng.bank.domain;
 
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 
+import pt.ist.fenixframework.FenixFramework;
 import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
 
-public class BankConstructorTest {
+public class BankConstructorTest extends RollbackTestAbstractClass {
 	private static final String BANK_CODE = "BK01";
 	private static final String BANK_NAME = "Money";
+
+	@Override
+	public void populate4Test() {
+	}
 
 	@Test
 	public void success() {
@@ -16,9 +20,9 @@ public class BankConstructorTest {
 
 		Assert.assertEquals(BANK_NAME, bank.getName());
 		Assert.assertEquals(BANK_CODE, bank.getCode());
-		Assert.assertEquals(1, Bank.banks.size());
-		Assert.assertEquals(0, bank.getNumberOfAccounts());
-		Assert.assertEquals(0, bank.getNumberOfClients());
+		Assert.assertEquals(1, FenixFramework.getDomainRoot().getBankSet().size());
+		Assert.assertEquals(0, bank.getAccountSet().size());
+		Assert.assertEquals(0, bank.getClientSet().size());
 	}
 
 	@Test(expected = BankException.class)
@@ -58,12 +62,8 @@ public class BankConstructorTest {
 			new Bank(BANK_NAME, BANK_CODE);
 			Assert.fail();
 		} catch (BankException be) {
-			Assert.assertEquals(1, Bank.banks.size());
+			Assert.assertEquals(1, FenixFramework.getDomainRoot().getBankSet().size());
 		}
 	}
 
-	@After
-	public void tearDown() {
-		Bank.banks.clear();
-	}
 }

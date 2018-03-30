@@ -3,9 +3,7 @@ package pt.ulisboa.tecnico.softeng.activity.domain;
 import java.util.List;
 
 import org.joda.time.LocalDate;
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -13,7 +11,7 @@ import mockit.integration.junit4.JMockit;
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
 
 @RunWith(JMockit.class)
-public class ActivityProviderFindOfferMethodTest {
+public class ActivityProviderFindOfferMethodTest extends RollbackTestAbstractClass {
 	private static final int MIN_AGE = 25;
 	private static final int MAX_AGE = 80;
 	private static final int CAPACITY = 25;
@@ -25,8 +23,8 @@ public class ActivityProviderFindOfferMethodTest {
 	private Activity activity;
 	private ActivityOffer offer;
 
-	@Before
-	public void setUp() {
+	@Override
+	public void populate4Test() {
 		this.provider = new ActivityProvider("XtremX", "ExtremeAdventure", "NIF", "IBAN");
 		this.activity = new Activity(this.provider, "Bush Walking", MIN_AGE, MAX_AGE, CAPACITY);
 
@@ -123,17 +121,13 @@ public class ActivityProviderFindOfferMethodTest {
 	@Test
 	public void oneMatchActivityOfferAndOtherNoCapacity() {
 		Activity otherActivity = new Activity(this.provider, "Bush Walking", MIN_AGE, MAX_AGE, 1);
+
 		ActivityOffer otherActivityOffer = new ActivityOffer(otherActivity, this.begin, this.end, 30);
 		new Booking(this.provider, otherActivityOffer, "123456789", "IBAN");
 
 		List<ActivityOffer> offers = this.provider.findOffer(this.begin, this.end, AGE);
 
 		Assert.assertEquals(1, offers.size());
-	}
-
-	@After
-	public void tearDown() {
-		ActivityProvider.providers.clear();
 	}
 
 }

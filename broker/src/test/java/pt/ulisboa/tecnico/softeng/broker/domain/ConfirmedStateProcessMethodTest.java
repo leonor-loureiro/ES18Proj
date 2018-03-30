@@ -1,8 +1,6 @@
 package pt.ulisboa.tecnico.softeng.broker.domain;
 
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -25,8 +23,7 @@ import pt.ulisboa.tecnico.softeng.hotel.dataobjects.RoomBookingData;
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 
 @RunWith(JMockit.class)
-public class ConfirmedStateProcessMethodTest extends BaseTest {
-
+public class ConfirmedStateProcessMethodTest extends RollbackTestAbstractClass {
 	@Mocked
 	private ActivityReservationData activityReservationData;
 	@Mocked
@@ -44,9 +41,12 @@ public class ConfirmedStateProcessMethodTest extends BaseTest {
 	@Mocked
 	private TaxInterface taxInterface;
 
-	@Before
-	public void setUp() {
-		super.setUp();
+	@Override
+	public void populate4Test() {
+		this.broker = new Broker("BR01", "eXtremeADVENTURE", BROKER_NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
+		this.client = new Client(this.broker, CLIENT_IBAN, CLIENT_NIF, DRIVING_LICENSE, AGE);
+		this.adventure = new Adventure(this.broker, this.begin, this.end, this.client, MARGIN);
+
 		this.adventure.setState(State.CONFIRMED);
 	}
 
@@ -88,7 +88,7 @@ public class ConfirmedStateProcessMethodTest extends BaseTest {
 
 		this.adventure.process();
 
-		Assert.assertEquals(State.CONFIRMED, this.adventure.getState());
+		Assert.assertEquals(State.CONFIRMED, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -120,7 +120,7 @@ public class ConfirmedStateProcessMethodTest extends BaseTest {
 
 		this.adventure.process();
 
-		Assert.assertEquals(State.CONFIRMED, this.adventure.getState());
+		Assert.assertEquals(State.CONFIRMED, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -152,7 +152,7 @@ public class ConfirmedStateProcessMethodTest extends BaseTest {
 
 		this.adventure.process();
 
-		Assert.assertEquals(State.CONFIRMED, this.adventure.getState());
+		Assert.assertEquals(State.CONFIRMED, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -175,7 +175,7 @@ public class ConfirmedStateProcessMethodTest extends BaseTest {
 
 		this.adventure.process();
 
-		Assert.assertEquals(State.CONFIRMED, this.adventure.getState());
+		Assert.assertEquals(State.CONFIRMED, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -191,7 +191,7 @@ public class ConfirmedStateProcessMethodTest extends BaseTest {
 
 		this.adventure.process();
 
-		Assert.assertEquals(State.CONFIRMED, this.adventure.getState());
+		Assert.assertEquals(State.CONFIRMED, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -209,7 +209,7 @@ public class ConfirmedStateProcessMethodTest extends BaseTest {
 			this.adventure.process();
 		}
 
-		Assert.assertEquals(State.UNDO, this.adventure.getState());
+		Assert.assertEquals(State.UNDO, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -227,7 +227,7 @@ public class ConfirmedStateProcessMethodTest extends BaseTest {
 			this.adventure.process();
 		}
 
-		Assert.assertEquals(State.CONFIRMED, this.adventure.getState());
+		Assert.assertEquals(State.CONFIRMED, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -243,7 +243,7 @@ public class ConfirmedStateProcessMethodTest extends BaseTest {
 
 		this.adventure.process();
 
-		Assert.assertEquals(State.CONFIRMED, this.adventure.getState());
+		Assert.assertEquals(State.CONFIRMED, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -261,7 +261,7 @@ public class ConfirmedStateProcessMethodTest extends BaseTest {
 
 		this.adventure.process();
 
-		Assert.assertEquals(State.UNDO, this.adventure.getState());
+		Assert.assertEquals(State.UNDO, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -279,7 +279,7 @@ public class ConfirmedStateProcessMethodTest extends BaseTest {
 
 		this.adventure.process();
 
-		Assert.assertEquals(State.CONFIRMED, this.adventure.getState());
+		Assert.assertEquals(State.CONFIRMED, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -299,7 +299,7 @@ public class ConfirmedStateProcessMethodTest extends BaseTest {
 
 		this.adventure.process();
 
-		Assert.assertEquals(State.UNDO, this.adventure.getState());
+		Assert.assertEquals(State.UNDO, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -322,7 +322,7 @@ public class ConfirmedStateProcessMethodTest extends BaseTest {
 
 		this.adventure.process();
 
-		Assert.assertEquals(State.UNDO, this.adventure.getState());
+		Assert.assertEquals(State.UNDO, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -349,7 +349,7 @@ public class ConfirmedStateProcessMethodTest extends BaseTest {
 
 		this.adventure.process();
 
-		Assert.assertEquals(State.UNDO, this.adventure.getState());
+		Assert.assertEquals(State.UNDO, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -376,7 +376,7 @@ public class ConfirmedStateProcessMethodTest extends BaseTest {
 
 		this.adventure.process();
 
-		Assert.assertEquals(State.CONFIRMED, this.adventure.getState());
+		Assert.assertEquals(State.CONFIRMED, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -405,7 +405,7 @@ public class ConfirmedStateProcessMethodTest extends BaseTest {
 
 		this.adventure.process();
 
-		Assert.assertEquals(State.UNDO, this.adventure.getState());
+		Assert.assertEquals(State.UNDO, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -437,7 +437,7 @@ public class ConfirmedStateProcessMethodTest extends BaseTest {
 
 		this.adventure.process();
 
-		Assert.assertEquals(State.UNDO, this.adventure.getState());
+		Assert.assertEquals(State.UNDO, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -464,7 +464,7 @@ public class ConfirmedStateProcessMethodTest extends BaseTest {
 
 		this.adventure.process();
 
-		Assert.assertEquals(State.UNDO, this.adventure.getState());
+		Assert.assertEquals(State.UNDO, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -491,7 +491,7 @@ public class ConfirmedStateProcessMethodTest extends BaseTest {
 
 		this.adventure.process();
 
-		Assert.assertEquals(State.CONFIRMED, this.adventure.getState());
+		Assert.assertEquals(State.CONFIRMED, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -520,7 +520,7 @@ public class ConfirmedStateProcessMethodTest extends BaseTest {
 
 		this.adventure.process();
 
-		Assert.assertEquals(State.UNDO, this.adventure.getState());
+		Assert.assertEquals(State.UNDO, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -552,11 +552,7 @@ public class ConfirmedStateProcessMethodTest extends BaseTest {
 
 		this.adventure.process();
 
-		Assert.assertEquals(State.UNDO, this.adventure.getState());
+		Assert.assertEquals(State.UNDO, this.adventure.getState().getValue());
 	}
 
-	@After
-	public void tearDown() {
-		Broker.brokers.clear();
-	}
 }

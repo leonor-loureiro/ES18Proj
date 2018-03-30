@@ -5,17 +5,12 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import org.joda.time.LocalDate;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import mockit.integration.junit4.JMockit;
 import pt.ulisboa.tecnico.softeng.activity.dataobjects.ActivityReservationData;
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
 
-@RunWith(JMockit.class)
-public class ActivityProviderActivityReservationDataMethodTest {
+public class ActivityProviderActivityReservationDataMethodTest extends RollbackTestAbstractClass {
 	private static final String NAME = "ExtremeAdventure";
 	private static final String CODE = "XtremX";
 	private final LocalDate begin = new LocalDate(2016, 12, 19);
@@ -24,8 +19,8 @@ public class ActivityProviderActivityReservationDataMethodTest {
 	private ActivityOffer offer;
 	private Booking booking;
 
-	@Before
-	public void setUp() {
+	@Override
+	public void populate4Test() {
 		this.provider = new ActivityProvider(CODE, NAME, "NIF", "IBAN");
 		Activity activity = new Activity(this.provider, "Bush Walking", 18, 80, 3);
 
@@ -52,10 +47,10 @@ public class ActivityProviderActivityReservationDataMethodTest {
 		this.booking = new Booking(this.provider, this.offer, "123456789", "IBAN");
 		this.provider.getProcessor().submitBooking(this.booking);
 		this.booking.cancel();
-		ActivityReservationData data = ActivityProvider.getActivityReservationData(this.booking.getCancellation());
+		ActivityReservationData data = ActivityProvider.getActivityReservationData(this.booking.getCancel());
 
 		assertEquals(this.booking.getReference(), data.getReference());
-		assertEquals(this.booking.getCancellation(), data.getCancellation());
+		assertEquals(this.booking.getCancel(), data.getCancellation());
 		assertEquals(NAME, data.getName());
 		assertEquals(CODE, data.getCode());
 		assertEquals(this.begin, data.getBegin());
@@ -76,11 +71,6 @@ public class ActivityProviderActivityReservationDataMethodTest {
 	@Test(expected = ActivityException.class)
 	public void notExistsReference() {
 		ActivityProvider.getActivityReservationData("XPTO");
-	}
-
-	@After
-	public void tearDown() {
-		ActivityProvider.providers.clear();
 	}
 
 }

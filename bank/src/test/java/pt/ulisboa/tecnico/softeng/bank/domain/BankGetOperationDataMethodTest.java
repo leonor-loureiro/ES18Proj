@@ -3,22 +3,20 @@ package pt.ulisboa.tecnico.softeng.bank.domain;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 import pt.ulisboa.tecnico.softeng.bank.dataobjects.BankOperationData;
 import pt.ulisboa.tecnico.softeng.bank.domain.Operation.Type;
 import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
 
-public class BankGetOperationDataMethodTest {
+public class BankGetOperationDataMethodTest extends RollbackTestAbstractClass {
 	private static int AMOUNT = 100;
 	private Bank bank;
 	private Account account;
 	private String reference;
 
-	@Before
-	public void setUp() {
+	@Override
+	public void populate4Test() {
 		this.bank = new Bank("Money", "BK01");
 		Client client = new Client(this.bank, "António");
 		this.account = new Account(this.bank, client);
@@ -49,11 +47,6 @@ public class BankGetOperationDataMethodTest {
 	@Test(expected = BankException.class)
 	public void referenceNotExists() {
 		Bank.getOperationData("XPTO");
-	}
-	
-	@After
-	public void tearDown() {
-		Bank.banks.clear();
 	}
 
 }
