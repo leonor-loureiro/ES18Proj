@@ -16,24 +16,38 @@ public class Hotel {
 	private final String code;
 	private final String name;
 	private final Set<Room> rooms = new HashSet<>();
+	
+	private final String NIF;
+	private final String IBAN;
 
-	public Hotel(String code, String name) {
-		checkArguments(code, name);
+	public Hotel(String code, String name, String NIF, String IBAN) {
+		checkArguments(code, name, NIF, IBAN);
 
 		this.code = code;
 		this.name = name;
+		this.NIF = NIF;
+		this.IBAN = IBAN;
+		
 		Hotel.hotels.add(this);
 	}
 
-	private void checkArguments(String code, String name) {
+	private void checkArguments(String code, String name, String NIF, String IBAN) {
 		if (code == null || name == null || code.trim().length() == 0 || name.trim().length() == 0) {
 			throw new HotelException();
 		}
 
 		if (code.length() != Hotel.CODE_SIZE) {
+			throw new HotelException();	
+		}
+
+		if (NIF == null || NIF.length() != 9) {
 			throw new HotelException();
 		}
 
+		if (IBAN == null || IBAN.length() < 5) {
+			throw new HotelException();
+		}
+		
 		for (Hotel hotel : hotels) {
 			if (hotel.getCode().equals(code)) {
 				throw new HotelException();
@@ -60,6 +74,14 @@ public class Hotel {
 
 	public String getName() {
 		return this.name;
+	}
+	
+	public String getNIF() {
+		return this.NIF;
+	}
+	
+	public String getIBAN() {
+		return this.IBAN;
 	}
 
 	void addRoom(Room room) {
