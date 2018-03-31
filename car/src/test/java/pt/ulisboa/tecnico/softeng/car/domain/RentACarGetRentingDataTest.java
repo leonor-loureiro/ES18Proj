@@ -21,7 +21,7 @@ public class RentACarGetRentingDataTest {
 
 	private static final String NIF1 = "123456789"; // novo
 	private static final String IBAN1 = "ES061"; // novo
-	private static final int PRICE = 10; // novo
+	private static final int PRICE = 50; 
 	
 	@Before
 	public void setUp() {

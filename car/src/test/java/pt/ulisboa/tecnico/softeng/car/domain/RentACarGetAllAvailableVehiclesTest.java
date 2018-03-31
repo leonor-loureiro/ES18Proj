@@ -28,7 +28,7 @@ public class RentACarGetAllAvailableVehiclesTest {
 	private static final String NIF2 = "987654321"; // not sure
 	private static final String IBAN1 = "ES061"; // not sure
 	private static final String IBAN2 = "ESo62"; // not sure
-	private static final int PRICE = 10; // novo
+	private static final int PRICE = 50; 
 	
 	@Before
 	public void setUp() {
