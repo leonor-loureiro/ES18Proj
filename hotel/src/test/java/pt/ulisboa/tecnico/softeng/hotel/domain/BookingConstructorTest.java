@@ -13,9 +13,12 @@ public class BookingConstructorTest {
 	private final LocalDate departure = new LocalDate(2016, 12, 21);
 	private Hotel hotel;
 
+	private static final String NIF = "123456789"; // novo
+	private static final String IBAN = "ES061"; // novo
+	
 	@Before
 	public void setUp() {
-		this.hotel = new Hotel("XPTO123", "Londres");
+		this.hotel = new Hotel("XPTO123", "Londres", NIF, IBAN); // novo
 	}
 
 	@Test

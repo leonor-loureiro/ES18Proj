@@ -17,16 +17,21 @@ public class HotelBulkBookingMethodTest {
 	private final LocalDate arrival = new LocalDate(2016, 12, 19);
 	private final LocalDate departure = new LocalDate(2016, 12, 21);
 	private Hotel hotel;
-
+	
+	private static final String NIF1 = "123456789"; // novo
+	private static final String IBAN1 = "ES061"; // novo
+	private static final String NIF2 = "987654321"; // novo
+	private static final String IBAN2 = "ES062"; // novo
+	
 	@Before
 	public void setUp() {
-		this.hotel = new Hotel("XPTO123", "Paris");
+		this.hotel = new Hotel("XPTO123", "Paris", NIF1, IBAN1); // novo
 		new Room(this.hotel, "01", Type.DOUBLE);
 		new Room(this.hotel, "02", Type.SINGLE);
 		new Room(this.hotel, "03", Type.DOUBLE);
 		new Room(this.hotel, "04", Type.SINGLE);
 
-		this.hotel = new Hotel("XPTO124", "Paris");
+		this.hotel = new Hotel("XPTO124", "Paris", NIF2, IBAN2); // novo
 		new Room(this.hotel, "01", Type.DOUBLE);
 		new Room(this.hotel, "02", Type.SINGLE);
 		new Room(this.hotel, "03", Type.DOUBLE);
@@ -48,7 +53,7 @@ public class HotelBulkBookingMethodTest {
 	@Test(expected = HotelException.class)
 	public void noRooms() {
 		Hotel.hotels.clear();
-		this.hotel = new Hotel("XPTO124", "Paris");
+		this.hotel = new Hotel("XPTO124", "Paris", NIF2, IBAN2); // novo
 
 		Hotel.bulkBooking(3, this.arrival, this.departure);
 	}
