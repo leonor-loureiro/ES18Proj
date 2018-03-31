@@ -19,11 +19,12 @@ public class RentingConstructorTest {
 
 	private static final String NIF1 = "123456789"; // novo
 	private static final String IBAN1 = "ES061"; // novo
+	private static final int PRICE = 50; // novo
 	
 	@Before
 	public void setUp() {
 		RentACar rentACar1 = new RentACar(RENT_A_CAR_NAME, NIF1, IBAN1); // novo
-		this.car = new Car(PLATE_CAR, 10, rentACar1);
+		this.car = new Car(PLATE_CAR, 10, PRICE, rentACar1); // novo
 	}
 
 	@Test
