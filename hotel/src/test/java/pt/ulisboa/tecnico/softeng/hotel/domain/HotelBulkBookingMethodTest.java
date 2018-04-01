@@ -22,6 +22,8 @@ public class HotelBulkBookingMethodTest {
 	private static final String IBAN1 = "ES061"; // novo
 	private static final String NIF2 = "987654321"; // novo
 	private static final String IBAN2 = "ES062"; // novo
+	private static final String clientNIF = "135792468"; // novo
+	private static final String clientIBAN = "ES063"; // novo
 	
 	@Before
 	public void setUp() {
@@ -40,14 +42,14 @@ public class HotelBulkBookingMethodTest {
 
 	@Test
 	public void success() {
-		Set<String> references = Hotel.bulkBooking(2, this.arrival, this.departure);
+		Set<String> references = Hotel.bulkBooking(2, this.arrival, this.departure, clientNIF, clientIBAN); // novo
 
 		assertEquals(2, references.size());
 	}
 
 	@Test(expected = HotelException.class)
 	public void zeroNumber() {
-		Hotel.bulkBooking(0, this.arrival, this.departure);
+		Hotel.bulkBooking(0, this.arrival, this.departure, clientNIF, clientIBAN); // novo
 	}
 
 	@Test(expected = HotelException.class)
@@ -55,29 +57,29 @@ public class HotelBulkBookingMethodTest {
 		Hotel.hotels.clear();
 		this.hotel = new Hotel("XPTO124", "Paris", NIF2, IBAN2); // novo
 
-		Hotel.bulkBooking(3, this.arrival, this.departure);
+		Hotel.bulkBooking(3, this.arrival, this.departure, clientNIF, clientIBAN); // novo
 	}
 
 	@Test
 	public void OneNumber() {
-		Set<String> references = Hotel.bulkBooking(1, this.arrival, this.departure);
+		Set<String> references = Hotel.bulkBooking(1, this.arrival, this.departure, clientNIF, clientIBAN); // novo
 
 		assertEquals(1, references.size());
 	}
 
 	@Test(expected = HotelException.class)
 	public void nullArrival() {
-		Hotel.bulkBooking(2, null, this.departure);
+		Hotel.bulkBooking(2, null, this.departure, clientNIF, clientIBAN); // novo
 	}
 
 	@Test(expected = HotelException.class)
 	public void nullDeparture() {
-		Hotel.bulkBooking(2, this.arrival, null);
+		Hotel.bulkBooking(2, this.arrival, null, clientNIF, clientIBAN); // novo
 	}
 
 	@Test
 	public void reserveAll() {
-		Set<String> references = Hotel.bulkBooking(8, this.arrival, this.departure);
+		Set<String> references = Hotel.bulkBooking(8, this.arrival, this.departure, clientNIF, clientIBAN); // novo
 
 		assertEquals(8, references.size());
 	}
@@ -85,7 +87,7 @@ public class HotelBulkBookingMethodTest {
 	@Test
 	public void reserveAllPlusOne() {
 		try {
-			Hotel.bulkBooking(9, this.arrival, this.departure);
+			Hotel.bulkBooking(9, this.arrival, this.departure, clientNIF, clientIBAN); // novo
 			fail();
 		} catch (HotelException he) {
 			assertEquals(8, Hotel.getAvailableRooms(8, this.arrival, this.departure).size());

@@ -16,6 +16,8 @@ public class HotelReserveRoomMethodTest {
 
 	private static final String NIF = "123456789"; // novo
 	private static final String IBAN = "ES061"; // novo
+	private static final String clientNIF = "135792468"; // novo
+	private static final String clientIBAN = "ES063"; // novo
     
     @Before
     public void setUp() {
@@ -25,27 +27,27 @@ public class HotelReserveRoomMethodTest {
 
     @Test
     public void success() {
-        String ref = Hotel.reserveRoom(Room.Type.SINGLE, arrival, departure);
+        String ref = Hotel.reserveRoom(Room.Type.SINGLE, arrival, departure, clientNIF, clientIBAN); // novo
         assertTrue(ref.startsWith("XPTO12"));
     }
 
     @Test(expected = HotelException.class)
     public void noHotels() {
         Hotel.hotels.clear();
-        Hotel.reserveRoom(Room.Type.SINGLE, arrival, departure);
+        Hotel.reserveRoom(Room.Type.SINGLE, arrival, departure, clientNIF, clientIBAN); // novo
     }
 
     @Test(expected = HotelException.class)
     public void noVacancy() {
         hotel.removeRooms();
-        String ref = Hotel.reserveRoom(Room.Type.SINGLE, arrival, new LocalDate(2016, 12, 25));
+        String ref = Hotel.reserveRoom(Room.Type.SINGLE, arrival, new LocalDate(2016, 12, 25), clientNIF, clientIBAN); // novo
         System.out.println(ref);
     }
 
     @Test(expected = HotelException.class)
     public void noRooms() {
         hotel.removeRooms();
-        Hotel.reserveRoom(Room.Type.SINGLE, arrival, new LocalDate(2016, 12, 25));
+        Hotel.reserveRoom(Room.Type.SINGLE, arrival, new LocalDate(2016, 12, 25), clientNIF, clientIBAN); // novo
     }
 
     @After

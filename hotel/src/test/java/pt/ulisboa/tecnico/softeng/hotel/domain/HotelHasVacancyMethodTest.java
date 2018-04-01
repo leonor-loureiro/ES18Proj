@@ -21,6 +21,8 @@ public class HotelHasVacancyMethodTest {
 	private static final String IBAN1 = "ES061"; // novo
 	private static final String NIF2 = "987654321"; // novo
 	private static final String IBAN2 = "ES062"; // novo
+	private static final String clientNIF = "135792468"; // novo
+	private static final String clientIBAN = "ES063"; // novo
 	
 	@Before
 	public void setUp() {
@@ -38,7 +40,7 @@ public class HotelHasVacancyMethodTest {
 
 	@Test
 	public void noVacancy() {
-		this.room.reserve(Type.DOUBLE, this.arrival, this.departure);
+		this.room.reserve(Type.DOUBLE, this.arrival, this.departure, clientNIF, clientIBAN); // novo
 
 		assertNull(this.hotel.hasVacancy(Type.DOUBLE, this.arrival, this.departure));
 	}

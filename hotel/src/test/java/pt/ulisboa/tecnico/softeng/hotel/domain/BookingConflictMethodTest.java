@@ -15,12 +15,15 @@ public class BookingConflictMethodTest {
 	
 	private static final String NIF = "123456789"; // novo
 	private static final String IBAN = "ES061"; // novo
+	private static final String clientNIF = "135792468"; // novo
+	private static final String clientIBAN = "ES063"; // novo
+	
 	
 	@Before
 	public void setUp() {
 		Hotel hotel = new Hotel("XPTO123", "Londres", NIF, IBAN); // novo
 
-		this.booking = new Booking(hotel, this.arrival, this.departure);
+		this.booking = new Booking(hotel, this.arrival, this.departure, clientNIF, clientIBAN); // novo
 	}
 
 	@Test
