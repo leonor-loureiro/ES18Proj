@@ -23,6 +23,8 @@ public class RentingConflictTest {
 	private static final String NIF1 = "123456789"; // novo
 	private static final String IBAN1 = "ES061"; // novo
 	private static final int PRICE = 50;
+	private static final String clientNIF = "135792468"; // novo
+	private static final String clientIBAN = "ES063"; // novo
 	
 	@Before
 	public void setUp() {
@@ -32,37 +34,37 @@ public class RentingConflictTest {
 
 	@Test()
 	public void retingIsBeforeDates() {
-		Renting renting = new Renting(DRIVING_LICENSE, date1, date2, car);
+		Renting renting = new Renting(DRIVING_LICENSE, date1, date2, car, clientNIF, clientIBAN); // novo
 		assertFalse(renting.conflict(date3, date4));
 	}
 
 	@Test()
 	public void retingIsBeforeDatesSameDayInterval() {
-		Renting renting = new Renting(DRIVING_LICENSE, date1, date2, car);
+		Renting renting = new Renting(DRIVING_LICENSE, date1, date2, car, clientNIF, clientIBAN); // novo
 		assertFalse(renting.conflict(date3, date3));
 	}
 
 	@Test()
 	public void rentingEndsOnStartDate() {
-		Renting renting = new Renting(DRIVING_LICENSE, date1, date2, car);
+		Renting renting = new Renting(DRIVING_LICENSE, date1, date2, car, clientNIF, clientIBAN); // novo
 		assertTrue(renting.conflict(date2, date3));
 	}
 
 	@Test()
 	public void rentingStartsOnEndDate() {
-		Renting renting = new Renting(DRIVING_LICENSE, date1, date2, car);
+		Renting renting = new Renting(DRIVING_LICENSE, date1, date2, car, clientNIF, clientIBAN); // novo
 		assertTrue(renting.conflict(date1, date1));
 	}
 
 	@Test()
 	public void rentingStartsDuringInterval() {
-		Renting renting = new Renting(DRIVING_LICENSE, date1, date2, car);
+		Renting renting = new Renting(DRIVING_LICENSE, date1, date2, car, clientNIF, clientIBAN); // novo
 		assertTrue(renting.conflict(date0, date3));
 	}
 
 	@Test(expected = CarException.class)
 	public void endBeforeBegin() {
-		Renting renting = new Renting(DRIVING_LICENSE, date1, date2, car);
+		Renting renting = new Renting(DRIVING_LICENSE, date1, date2, car, clientNIF, clientIBAN); // novo
 		renting.conflict(date2, date1);
 	}
 

@@ -21,6 +21,8 @@ public class RentACarGetRentingDataTest {
 
 	private static final String NIF1 = "123456789"; // novo
 	private static final String IBAN1 = "ES061"; // novo
+	private static final String clientNIF = "135792468"; // novo
+	private static final String clientIBAN = "ES063"; // novo
 	private static final int PRICE = 50; 
 	
 	@Before
@@ -31,7 +33,7 @@ public class RentACarGetRentingDataTest {
 
 	@Test
 	public void success() {
-		Renting renting = car.rent(DRIVING_LICENSE, date1, date2);
+		Renting renting = car.rent(DRIVING_LICENSE, date1, date2, clientNIF, clientIBAN); // novo
 		RentingData rentingData = RentACar.getRentingData(renting.getReference());
 		assertEquals(renting.getReference(), rentingData.getReference());
 		assertEquals(DRIVING_LICENSE, rentingData.getDrivingLicense());

@@ -24,10 +24,12 @@ public class RentACarGetAllAvailableVehiclesTest {
 	private RentACar rentACar1;
 	private RentACar rentACar2;
 
-	private static final String NIF1 = "123456789"; // not sure
-	private static final String NIF2 = "987654321"; // not sure
-	private static final String IBAN1 = "ES061"; // not sure
-	private static final String IBAN2 = "ESo62"; // not sure
+	private static final String NIF1 = "123456789"; // novo
+	private static final String NIF2 = "987654321"; // novo
+	private static final String IBAN1 = "ES061"; // novo
+	private static final String IBAN2 = "ES062"; // novo
+	private static final String clientNIF = "135792468"; // novo
+	private static final String clientIBAN = "ES063"; // novo
 	private static final int PRICE = 50; 
 	
 	@Before
@@ -39,7 +41,7 @@ public class RentACarGetAllAvailableVehiclesTest {
 	@Test
 	public void onlyCars() {
 		Vehicle car1 = new Car(PLATE_CAR1, 10, PRICE, rentACar1);
-		car1.rent(DRIVING_LICENSE, date1, date2);
+		car1.rent(DRIVING_LICENSE, date1, date2, clientNIF, clientIBAN); // novo
 		Vehicle car2 = new Car(PLATE_CAR2, 10, PRICE, rentACar2);
 		Vehicle motorcycle = new Motorcycle(PLATE_MOTORCYCLE, 10, PRICE, rentACar1);
 
@@ -54,7 +56,7 @@ public class RentACarGetAllAvailableVehiclesTest {
 		Vehicle car1 = new Car(PLATE_CAR1, 10, PRICE, rentACar1);
 		Vehicle car2 = new Car(PLATE_CAR2, 10, PRICE, rentACar2);
 
-		car1.rent(DRIVING_LICENSE, date1, date2);
+		car1.rent(DRIVING_LICENSE, date1, date2, clientNIF, clientIBAN); // novo
 		Set<Vehicle> cars = RentACar.getAllAvailableCars(date1, date2);
 
 		assertFalse(cars.contains(car1));
