@@ -14,8 +14,20 @@ public class Renting {
 	private final LocalDate end;
 	private int kilometers = -1;
 	private final Vehicle vehicle;
+
+	private String cancellation;
+	private LocalDate cancellationDate;
+	private String paymentReference;
+	private String invoiceReference;
+	private boolean cancelledInvoice = false;
+	private String cancelledPaymentReference = null;
+
 	private final String clientNIF;
 	private final String clientIBAN;
+	private final RentACar rentACar;
+	private final String rentACarNif;
+	private final double amount;
+	private static final String type = "VEHICLE";
 
 	public Renting(String drivingLicense, LocalDate begin, LocalDate end, Vehicle vehicle, String clientNIF, String clientIBAN) {
 		checkArguments(drivingLicense, begin, end, vehicle, clientNIF, clientIBAN);
@@ -23,9 +35,13 @@ public class Renting {
 		this.drivingLicense = drivingLicense;
 		this.begin = begin;
 		this.end = end;
+
 		this.vehicle = vehicle;
 		this.clientNIF = clientNIF;
 		this.clientIBAN = clientIBAN;
+		this.rentACar = vehicle.getRentACar();
+		this.rentACarNif = vehicle.getRentACar().getNIF();
+		this.amount = vehicle.getPrice();
 	}
 
 	private void checkArguments(String drivingLicense, LocalDate begin, LocalDate end, Vehicle vehicle, String NIF, String IBAN) {
@@ -115,6 +131,64 @@ public class Renting {
 	public void checkout(int kilometers) {
 		this.kilometers = kilometers;
 		this.vehicle.addKilometers(this.kilometers);
+	}
+
+	public String cancel() {
+		this.cancellation = this.reference + "CANCEL";
+		this.cancellationDate = new LocalDate();
+		
+		this.rentACar.getProcessor().submitRenting(this);
+		
+		return this.cancellation;
+	}
+
+	public boolean isCancelled() {
+		return this.cancellation != null;
+	}
+
+	public double getAmount() {
+		return this.amount;
+	}
+	
+	public String getPaymentReference() {
+		return this.paymentReference;
+	}
+	
+	public void setPaymentReference(String paymentReference) {
+		this.paymentReference = paymentReference;
+	}
+	
+	public String getInvoiceReference() {
+		return this.invoiceReference;
+	}
+	
+	public void setInvoiceReference(String invoiceReference) {
+		this.invoiceReference = invoiceReference;
+	}
+	
+	public String getRentACarNif() {
+		return this.rentACarNif;
+	}
+
+	
+	public String getType() {
+		return this.type;
+	}
+	
+	public String getCancelledPaymentReference() {
+		return this.cancelledPaymentReference;
+	}
+
+	public void setCancelledPaymentReference(String cancelledPaymentReference) {
+		this.cancelledPaymentReference = cancelledPaymentReference;
+	}
+	
+	public boolean isCancelledInvoice() {
+		return this.cancelledInvoice;
+	}
+
+	public void setCancelledInvoice(boolean cancelledInvoice) {
+		this.cancelledInvoice = cancelledInvoice;
 	}
 
 }

@@ -34,7 +34,7 @@ public class InvoiceProcessorSubmitRentingMethodTest {
 	@Before
 	public void setUp() {
 		this.rentACar = new RentACar("Oasis", "123456789", "123456");
-		this.vehicle = new Car("AA-00-00", 50, this.rentACar);
+		this.vehicle = new Car("22-33-HZ", 50, 50, this.rentACar);
 		this.renting = new Renting("br112233", begin, end, this.vehicle, "987654321", "654321");		
 	}
 
@@ -303,6 +303,7 @@ public class InvoiceProcessorSubmitRentingMethodTest {
 	@After
 	public void tearDown() {
 		RentACar.rentACars.clear();
+		Vehicle.plates.clear();
 	}
 
 }

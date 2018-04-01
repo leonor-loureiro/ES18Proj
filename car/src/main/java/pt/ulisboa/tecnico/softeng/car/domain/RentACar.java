@@ -9,6 +9,7 @@ import org.joda.time.LocalDate;
 
 import pt.ulisboa.tecnico.softeng.car.dataobjects.RentingData;
 import pt.ulisboa.tecnico.softeng.car.exception.CarException;
+import pt.ulisboa.tecnico.softeng.car.domain.Processor;
 
 public class RentACar {
 	public static final Set<RentACar> rentACars = new HashSet<>();
@@ -20,6 +21,8 @@ public class RentACar {
 	private final String NIF;
 	private final String IBAN;
 	private final Map<String, Vehicle> vehicles = new HashMap<>();
+	
+	private final Processor processor = new Processor();
 
 	public RentACar(String name, String NIF, String IBAN) {
 		checkArguments(name, NIF, IBAN);
@@ -43,6 +46,10 @@ public class RentACar {
 		if (IBAN == null || IBAN.length() < 5) {
 			throw new CarException();
 		}
+	}
+	
+	public Processor getProcessor() {
+		return this.processor;
 	}
 
 	/**
