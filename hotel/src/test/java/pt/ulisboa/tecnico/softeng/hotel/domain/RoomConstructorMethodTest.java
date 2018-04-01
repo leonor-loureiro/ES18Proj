@@ -13,12 +13,14 @@ import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 public class RoomConstructorMethodTest {
 	private Hotel hotel;
 
-	private static final String NIF = "123456789"; // novo
-	private static final String IBAN = "ES061"; // novo
+	private static final String NIF = "123456789"; 
+	private static final String IBAN = "ES061"; 
+	private static final int singlePRICE = 10;
+	private static final int doublePRICE = 10;
 	
 	@Before
 	public void setUp() {
-		this.hotel = new Hotel("XPTO123", "Lisboa", NIF, IBAN); // novo
+		this.hotel = new Hotel("XPTO123", "Lisboa", NIF, IBAN, singlePRICE, doublePRICE); 
 	}
 
 	@Test
