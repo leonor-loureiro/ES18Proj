@@ -18,6 +18,8 @@ public class HotelConstructorTest {
 	private static final String HOTEL_CODE = "XPTO123";
 	private static final String NIF = "123456789";
 	private static final String IBAN = "ES061";
+	private static final int singlePRICE = 10;
+	private static final int doublePRICE = 10;
 	
 	@Test
 	public void success(@Mocked final Account hotelAccount, @Mocked final Seller hotelAsSeller) {
@@ -29,7 +31,7 @@ public class HotelConstructorTest {
 			result = IBAN;
 		}};
 		
-		Hotel hotel = new Hotel(HOTEL_CODE, HOTEL_NAME, hotelAsSeller.getNIF(), hotelAccount.getIBAN());
+		Hotel hotel = new Hotel(HOTEL_CODE, HOTEL_NAME, hotelAsSeller.getNIF(), hotelAccount.getIBAN(), singlePRICE, doublePRICE);
 
 		Assert.assertEquals(HOTEL_NAME, hotel.getName());
 		Assert.assertTrue(hotel.getCode().length() == Hotel.CODE_SIZE);
@@ -37,6 +39,8 @@ public class HotelConstructorTest {
 		Assert.assertEquals(1, Hotel.hotels.size());
 		Assert.assertEquals(NIF, hotel.getNIF());
 		Assert.assertEquals(IBAN, hotel.getIBAN());
+		Assert.assertEquals(singlePRICE, hotel.getSinglePrice());
+		Assert.assertEquals(doublePRICE, hotel.getDoublePrice());
 	}
 
 	@Test(expected = HotelException.class)
@@ -49,7 +53,7 @@ public class HotelConstructorTest {
 			result = IBAN;
 		}};
 		
-		new Hotel(null, HOTEL_NAME, hotelAsSeller.getNIF(), hotelAccount.getIBAN());
+		new Hotel(null, HOTEL_NAME, hotelAsSeller.getNIF(), hotelAccount.getIBAN(), singlePRICE, doublePRICE);
 	}
 
 	@Test(expected = HotelException.class)
@@ -62,7 +66,7 @@ public class HotelConstructorTest {
 			result = IBAN;
 		}};
 		
-		new Hotel("      ", HOTEL_NAME, hotelAsSeller.getNIF(), hotelAccount.getIBAN());
+		new Hotel("      ", HOTEL_NAME, hotelAsSeller.getNIF(), hotelAccount.getIBAN(), singlePRICE, doublePRICE);
 	}
 
 	@Test(expected = HotelException.class)
@@ -75,7 +79,7 @@ public class HotelConstructorTest {
 			result = IBAN;
 		}};
 		
-		new Hotel(HOTEL_CODE + "4", HOTEL_NAME, hotelAsSeller.getNIF(), hotelAccount.getIBAN());
+		new Hotel(HOTEL_CODE + "4", HOTEL_NAME, hotelAsSeller.getNIF(), hotelAccount.getIBAN(), singlePRICE, doublePRICE);
 	}
 	
 	@Test(expected = HotelException.class)
@@ -88,7 +92,7 @@ public class HotelConstructorTest {
 			result = IBAN;
 		}};
 		
-		new Hotel("XPTO12", HOTEL_NAME, hotelAsSeller.getNIF(), hotelAccount.getIBAN());
+		new Hotel("XPTO12", HOTEL_NAME, hotelAsSeller.getNIF(), hotelAccount.getIBAN(), singlePRICE, doublePRICE);
 	}
 
 	@Test(expected = HotelException.class)
@@ -101,7 +105,7 @@ public class HotelConstructorTest {
 			result = IBAN;
 		}};
 		
-		new Hotel(HOTEL_CODE, null, hotelAsSeller.getNIF(), hotelAccount.getIBAN());
+		new Hotel(HOTEL_CODE, null, hotelAsSeller.getNIF(), hotelAccount.getIBAN(), singlePRICE, doublePRICE);
 	}
 
 	@Test(expected = HotelException.class)
@@ -114,7 +118,7 @@ public class HotelConstructorTest {
 			result = IBAN;
 		}};
 		
-		new Hotel(HOTEL_CODE, "  ", hotelAsSeller.getNIF(), hotelAccount.getIBAN());
+		new Hotel(HOTEL_CODE, "  ", hotelAsSeller.getNIF(), hotelAccount.getIBAN(), singlePRICE, doublePRICE);
 	}
 
 	@Test(expected = HotelException.class)
@@ -127,7 +131,7 @@ public class HotelConstructorTest {
 			result = IBAN;
 		}};
 		
-		new Hotel(HOTEL_CODE, "", hotelAsSeller.getNIF(), hotelAccount.getIBAN());
+		new Hotel(HOTEL_CODE, "", hotelAsSeller.getNIF(), hotelAccount.getIBAN(), singlePRICE, doublePRICE);
 	}
 
 	@Test(expected = HotelException.class)
@@ -140,8 +144,8 @@ public class HotelConstructorTest {
 			result = IBAN;
 		}};
 		
-		new Hotel(HOTEL_CODE, HOTEL_NAME, hotelAsSeller.getNIF(), hotelAccount.getIBAN());
-		new Hotel(HOTEL_CODE, HOTEL_NAME + " City", hotelAsSeller.getNIF(), hotelAccount.getIBAN());
+		new Hotel(HOTEL_CODE, HOTEL_NAME, hotelAsSeller.getNIF(), hotelAccount.getIBAN(), singlePRICE, doublePRICE);
+		new Hotel(HOTEL_CODE, HOTEL_NAME + " City", hotelAsSeller.getNIF(), hotelAccount.getIBAN(), singlePRICE, doublePRICE);
 	}
 	
 	@Test(expected = HotelException.class)
@@ -154,7 +158,7 @@ public class HotelConstructorTest {
 			result = IBAN;
 		}};
 		
-		new Hotel(HOTEL_CODE, HOTEL_NAME, hotelAsSeller.getNIF(), hotelAccount.getIBAN());
+		new Hotel(HOTEL_CODE, HOTEL_NAME, hotelAsSeller.getNIF(), hotelAccount.getIBAN(), singlePRICE, doublePRICE);
 	}
 	
 	@Test(expected = HotelException.class)
@@ -167,7 +171,7 @@ public class HotelConstructorTest {
 			result = IBAN;
 		}};
 		
-		new Hotel(HOTEL_CODE, HOTEL_NAME, hotelAsSeller.getNIF(), hotelAccount.getIBAN());
+		new Hotel(HOTEL_CODE, HOTEL_NAME, hotelAsSeller.getNIF(), hotelAccount.getIBAN(), singlePRICE, doublePRICE);
 	}
 
 	@Test(expected = HotelException.class)
@@ -180,7 +184,7 @@ public class HotelConstructorTest {
 			result = IBAN;
 		}};
 		
-		new Hotel(HOTEL_CODE, HOTEL_NAME, hotelAsSeller.getNIF(), hotelAccount.getIBAN());
+		new Hotel(HOTEL_CODE, HOTEL_NAME, hotelAsSeller.getNIF(), hotelAccount.getIBAN(), singlePRICE, doublePRICE);
 	}
 	
 	@Test(expected = HotelException.class)
@@ -193,7 +197,7 @@ public class HotelConstructorTest {
 			result = null;
 		}};
 		
-		new Hotel(HOTEL_CODE, HOTEL_NAME, hotelAsSeller.getNIF(), hotelAccount.getIBAN());
+		new Hotel(HOTEL_CODE, HOTEL_NAME, hotelAsSeller.getNIF(), hotelAccount.getIBAN(), singlePRICE, doublePRICE);
 	}
 
 	@Test(expected = HotelException.class)
@@ -206,7 +210,59 @@ public class HotelConstructorTest {
 			result = "ES06";
 		}};
 		
-		new Hotel(HOTEL_CODE, HOTEL_NAME, hotelAsSeller.getNIF(), hotelAccount.getIBAN());
+		new Hotel(HOTEL_CODE, HOTEL_NAME, hotelAsSeller.getNIF(), hotelAccount.getIBAN(), singlePRICE, doublePRICE);
+	}
+	
+	@Test(expected = HotelException.class)
+	public void freeSinglePrice(@Mocked final Account hotelAccount, @Mocked final Seller hotelAsSeller) {
+		new Expectations() {{
+			hotelAsSeller.getNIF();
+			result = NIF;
+			
+			hotelAccount.getIBAN();
+			result = IBAN;
+		}};
+		
+		new Hotel(HOTEL_CODE, HOTEL_NAME, hotelAsSeller.getNIF(), hotelAccount.getIBAN(), 0, doublePRICE);
+	}
+	
+	@Test(expected = HotelException.class)
+	public void freeDoublePrice(@Mocked final Account hotelAccount, @Mocked final Seller hotelAsSeller) {
+		new Expectations() {{
+			hotelAsSeller.getNIF();
+			result = NIF;
+			
+			hotelAccount.getIBAN();
+			result = IBAN;
+		}};
+		
+		new Hotel(HOTEL_CODE, HOTEL_NAME, hotelAsSeller.getNIF(), hotelAccount.getIBAN(), singlePRICE, 0);
+	}
+	
+	@Test(expected = HotelException.class)
+	public void negativeSinglePrice(@Mocked final Account hotelAccount, @Mocked final Seller hotelAsSeller) {
+		new Expectations() {{
+			hotelAsSeller.getNIF();
+			result = NIF;
+			
+			hotelAccount.getIBAN();
+			result = IBAN;
+		}};
+		
+		new Hotel(HOTEL_CODE, HOTEL_NAME, hotelAsSeller.getNIF(), hotelAccount.getIBAN(), -singlePRICE, doublePRICE);
+	}
+	
+	@Test(expected = HotelException.class)
+	public void negativeDoublePrice(@Mocked final Account hotelAccount, @Mocked final Seller hotelAsSeller) {
+		new Expectations() {{
+			hotelAsSeller.getNIF();
+			result = NIF;
+			
+			hotelAccount.getIBAN();
+			result = IBAN;
+		}};
+		
+		new Hotel(HOTEL_CODE, HOTEL_NAME, hotelAsSeller.getNIF(), hotelAccount.getIBAN(), singlePRICE, -doublePRICE);
 	}
 	
 	@After

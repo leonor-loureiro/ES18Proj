@@ -14,40 +14,42 @@ public class HotelReserveRoomMethodTest {
     private Room room;
     private Hotel hotel;
 
-	private static final String NIF = "123456789"; // novo
-	private static final String IBAN = "ES061"; // novo
-	private static final String clientNIF = "135792468"; // novo
-	private static final String clientIBAN = "ES063"; // novo
+	private static final String NIF = "123456789"; 
+	private static final String IBAN = "ES061"; 
+	private static final String clientNIF = "135792468"; 
+	private static final String clientIBAN = "ES063"; 
+	private static final int singlePRICE = 10;
+	private static final int doublePRICE = 10;
     
     @Before
     public void setUp() {
-        hotel = new Hotel("XPTO123", "Lisboa", NIF, IBAN); // novo
+        hotel = new Hotel("XPTO123", "Lisboa", NIF, IBAN, singlePRICE, doublePRICE); 
         this.room = new Room(hotel, "01", Room.Type.SINGLE);
     }
 
     @Test
     public void success() {
-        String ref = Hotel.reserveRoom(Room.Type.SINGLE, arrival, departure, clientNIF, clientIBAN); // novo
+        String ref = Hotel.reserveRoom(Room.Type.SINGLE, arrival, departure, clientNIF, clientIBAN); 
         assertTrue(ref.startsWith("XPTO12"));
     }
 
     @Test(expected = HotelException.class)
     public void noHotels() {
         Hotel.hotels.clear();
-        Hotel.reserveRoom(Room.Type.SINGLE, arrival, departure, clientNIF, clientIBAN); // novo
+        Hotel.reserveRoom(Room.Type.SINGLE, arrival, departure, clientNIF, clientIBAN); 
     }
 
     @Test(expected = HotelException.class)
     public void noVacancy() {
         hotel.removeRooms();
-        String ref = Hotel.reserveRoom(Room.Type.SINGLE, arrival, new LocalDate(2016, 12, 25), clientNIF, clientIBAN); // novo
+        String ref = Hotel.reserveRoom(Room.Type.SINGLE, arrival, new LocalDate(2016, 12, 25), clientNIF, clientIBAN); 
         System.out.println(ref);
     }
 
     @Test(expected = HotelException.class)
     public void noRooms() {
         hotel.removeRooms();
-        Hotel.reserveRoom(Room.Type.SINGLE, arrival, new LocalDate(2016, 12, 25), clientNIF, clientIBAN); // novo
+        Hotel.reserveRoom(Room.Type.SINGLE, arrival, new LocalDate(2016, 12, 25), clientNIF, clientIBAN); 
     }
 
     @After

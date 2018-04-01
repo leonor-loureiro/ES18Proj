@@ -29,10 +29,13 @@ public class InvoiceProcessorSubmitBookingMethodTest {
 	private static final LocalDate departure = new LocalDate(2018, 7, 1);
 	private Hotel hotel;
 	private Booking booking;
-
+	
+	private static final int singlePRICE = 10;
+	private static final int doublePRICE = 10;
+	
 	@Before
 	public void setUp() {
-		this.hotel = new Hotel("1234567", "Caravela", "123456789", "123456");
+		this.hotel = new Hotel("1234567", "Caravela", "123456789", "123456", singlePRICE, doublePRICE);
 		this.booking = new Booking(this.hotel, arrival, departure, "987654321", "654321");		
 	}
 

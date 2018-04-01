@@ -17,16 +17,18 @@ public class RoomGetBookingMethodTest {
 	private Room room;
 	private Booking booking;
 
-	private static final String NIF = "123456789"; // novo
-	private static final String IBAN = "ES061"; // novo
-	private static final String clientNIF = "135792468"; // novo
-	private static final String clientIBAN = "ES063"; // novo
+	private static final String NIF = "123456789"; 
+	private static final String IBAN = "ES061"; 
+	private static final String clientNIF = "135792468"; 
+	private static final String clientIBAN = "ES063"; 
+	private static final int singlePRICE = 10;
+	private static final int doublePRICE = 10;
 	
 	@Before
 	public void setUp() {
-		this.hotel = new Hotel("XPTO123", "Lisboa", NIF, IBAN); // novo
+		this.hotel = new Hotel("XPTO123", "Lisboa", NIF, IBAN, singlePRICE, doublePRICE); 
 		this.room = new Room(this.hotel, "01", Type.SINGLE);
-		this.booking = this.room.reserve(Type.SINGLE, this.arrival, this.departure, clientNIF, clientIBAN); // novo
+		this.booking = this.room.reserve(Type.SINGLE, this.arrival, this.departure, clientNIF, clientIBAN); 
 	}
 
 	@Test
