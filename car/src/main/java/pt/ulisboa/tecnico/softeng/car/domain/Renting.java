@@ -14,20 +14,32 @@ public class Renting {
 	private final LocalDate end;
 	private int kilometers = -1;
 	private final Vehicle vehicle;
+	private final String clientNIF;
+	private final String clientIBAN;
 
-	public Renting(String drivingLicense, LocalDate begin, LocalDate end, Vehicle vehicle) {
-		checkArguments(drivingLicense, begin, end, vehicle);
+	public Renting(String drivingLicense, LocalDate begin, LocalDate end, Vehicle vehicle, String clientNIF, String clientIBAN) {
+		checkArguments(drivingLicense, begin, end, vehicle, clientNIF, clientIBAN);
 		this.reference = Integer.toString(++Renting.counter);
 		this.drivingLicense = drivingLicense;
 		this.begin = begin;
 		this.end = end;
 		this.vehicle = vehicle;
+		this.clientNIF = clientNIF;
+		this.clientIBAN = clientIBAN;
 	}
 
-	private void checkArguments(String drivingLicense, LocalDate begin, LocalDate end, Vehicle vehicle) {
+	private void checkArguments(String drivingLicense, LocalDate begin, LocalDate end, Vehicle vehicle, String NIF, String IBAN) {
 		if (drivingLicense == null || !drivingLicense.matches(drivingLicenseFormat) || begin == null || end == null || vehicle == null
 				|| end.isBefore(begin))
 			throw new CarException();
+		
+		if (NIF == null || NIF.length() != 9) {
+			throw new CarException();
+		}
+
+		if (IBAN == null || IBAN.length() < 5) {
+			throw new CarException();
+		}
 	}
 
 	/**
@@ -64,6 +76,14 @@ public class Renting {
 	public Vehicle getVehicle() {
 		return vehicle;
 	}
+	
+	public String getClientNIF() {
+		return this.clientNIF;
+	}
+	
+	public String getClientIBAN() {
+		return this.clientIBAN;
+	}	
 
 	/**
 	 * @param begin
