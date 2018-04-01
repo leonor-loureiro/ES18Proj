@@ -6,16 +6,13 @@ import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
 
 public class ActivityOffer extends ActivityOffer_Base {
 
-	private final int amount;
-
-	public ActivityOffer(Activity activity, LocalDate begin, LocalDate end, int amount) {
+	public ActivityOffer(Activity activity, LocalDate begin, LocalDate end, double amount) {
 		checkArguments(activity, begin, end, amount);
 
 		setBegin(begin);
 		setEnd(end);
 		setCapacity(activity.getCapacity());
-
-		this.amount = amount;
+		setAmount(amount);
 
 		setActivity(activity);
 	}
@@ -30,7 +27,7 @@ public class ActivityOffer extends ActivityOffer_Base {
 		deleteDomainObject();
 	}
 
-	private void checkArguments(Activity activity, LocalDate begin, LocalDate end, int amount) {
+	private void checkArguments(Activity activity, LocalDate begin, LocalDate end, double amount) {
 		if (activity == null || begin == null || end == null) {
 			throw new ActivityException();
 		}
@@ -54,8 +51,8 @@ public class ActivityOffer extends ActivityOffer_Base {
 		return count;
 	}
 
-	public int getPrice() {
-		return this.amount;
+	public double getPrice() {
+		return getAmount();
 	}
 
 	boolean available(LocalDate begin, LocalDate end) {
