@@ -27,7 +27,7 @@ public class Processor {
 				if (booking.getPaymentReference() == null) {
 					try {
 						booking.setPaymentReference(
-								BankInterface.processPayment(booking.getNif(), booking.getAmount()));
+								BankInterface.processPayment(booking.getIban(), booking.getAmount()));
 					} catch (BankException | RemoteAccessException ex) {
 						failedToProcess.add(booking);
 						continue;

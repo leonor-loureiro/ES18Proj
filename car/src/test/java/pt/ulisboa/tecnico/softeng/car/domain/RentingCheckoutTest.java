@@ -19,7 +19,8 @@ public class RentingCheckoutTest {
 
 	private static final String NIF1 = "123456789"; // novo
 	private static final String IBAN1 = "ES061"; // novo
-
+	private static final String clientNIF = "135792468"; // novo
+	private static final String clientIBAN = "ES063"; // novo
 	private static final int PRICE = 50;
 	
 	@Before
@@ -30,14 +31,14 @@ public class RentingCheckoutTest {
 
 	@Test
 	public void checkout() {
-		Renting renting = car.rent(DRIVING_LICENSE, date1, date2);
+		Renting renting = car.rent(DRIVING_LICENSE, date1, date2, clientNIF, clientIBAN); // novo
 		renting.checkout(100);
 		assertEquals(110, car.getKilometers());
 	}
 
 	@Test(expected = CarException.class)
 	public void failCheckout() {
-		Renting renting = car.rent(DRIVING_LICENSE, date1, date2);
+		Renting renting = car.rent(DRIVING_LICENSE, date1, date2, clientNIF, clientIBAN); // novo
 		renting.checkout(-10);
 	}
 

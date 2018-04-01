@@ -20,6 +20,8 @@ public class RentingConstructorTest {
 	private static final String NIF1 = "123456789"; // novo
 	private static final String IBAN1 = "ES061"; // novo
 	private static final int PRICE = 50; 
+	private static final String clientNIF = "135792468";
+	private static final String clientIBAN = "ES063";
 	
 	@Before
 	public void setUp() {
@@ -29,45 +31,70 @@ public class RentingConstructorTest {
 
 	@Test
 	public void success() {
-		Renting renting = new Renting(DRIVING_LICENSE, date1, date2, car);
+		Renting renting = new Renting(DRIVING_LICENSE, date1, date2, car, clientNIF, clientIBAN);
 		assertEquals(DRIVING_LICENSE, renting.getDrivingLicense());
 	}
 
 	@Test(expected = CarException.class)
 	public void nullDrivingLicense() {
-		new Renting(null, date1, date2, car);
+		new Renting(null, date1, date2, car, clientNIF, clientIBAN);
 	}
 
 	@Test(expected = CarException.class)
 	public void emptyDrivingLicense() {
-		new Renting("", date1, date2, car);
+		new Renting("", date1, date2, car, clientNIF, clientIBAN);
 	}
 
 	@Test(expected = CarException.class)
 	public void invalidDrivingLicense() {
-		new Renting("12", date1, date2, car);
+		new Renting("12", date1, date2, car, clientNIF, clientIBAN);
 	}
 
 	@Test(expected = CarException.class)
 	public void nullBegin() {
-		new Renting(DRIVING_LICENSE, null, date2, car);
+		new Renting(DRIVING_LICENSE, null, date2, car, clientNIF, clientIBAN);
 	}
 
 	@Test(expected = CarException.class)
 	public void nullEnd() {
-		new Renting(DRIVING_LICENSE, date1, null, car);
+		new Renting(DRIVING_LICENSE, date1, null, car, clientNIF, clientIBAN);
 	}
 	
 	@Test(expected = CarException.class)
 	public void endBeforeBegin() {
-		new Renting(DRIVING_LICENSE, date2, date1, car);
+		new Renting(DRIVING_LICENSE, date2, date1, car, clientNIF, clientIBAN);
 	}
 
 	@Test(expected = CarException.class)
 	public void nullCar() {
-		new Renting(DRIVING_LICENSE, date1, date2, null);
+		new Renting(DRIVING_LICENSE, date1, date2, null, clientNIF, clientIBAN);
+	}
+	
+	@Test(expected = CarException.class)
+	public void nullClientNIF() {
+		new Renting(DRIVING_LICENSE, date1, date2, car, null, clientIBAN);
 	}
 
+	@Test(expected = CarException.class)
+	public void biggerClientNIF() {
+		new Renting(DRIVING_LICENSE, date1, date2, car, "1357924680", clientIBAN);
+	}
+	
+	@Test(expected = CarException.class)
+	public void smallerClientNIF() {
+		new Renting(DRIVING_LICENSE, date1, date2, car, "13579246", clientIBAN);
+	}
+	
+	@Test(expected = CarException.class)
+	public void nullClientIBAN() {
+		new Renting(DRIVING_LICENSE, date1, date2, car, clientNIF, null);
+	}
+	
+	@Test(expected = CarException.class)
+	public void smallerClientIBAN() {
+		new Renting(DRIVING_LICENSE, date1, date2, car, clientNIF, "ES06");
+	}
+	
 	@After
 	public void tearDown() {
 		RentACar.rentACars.clear();

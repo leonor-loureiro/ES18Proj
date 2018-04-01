@@ -20,7 +20,9 @@ public class VehicleIsFreeTest {
 
 	private static final String NIF1 = "123456789"; // novo
 	private static final String IBAN1 = "ES061"; // novo
-	private static final int PRICE = 50; 
+	private static final String clientNIF = "135792468"; // novo
+	private static final String clientIBAN = "ES063"; // novo
+	private static final int PRICE = 50;
 	
 	@Before
 	public void setUp() {
@@ -38,8 +40,8 @@ public class VehicleIsFreeTest {
 
 	@Test
 	public void bookingsWereMade() {
-		car.rent(DRIVING_LICENSE, date2, date2);
-		car.rent(DRIVING_LICENSE, date3, date4);
+		car.rent(DRIVING_LICENSE, date2, date2, clientNIF, clientIBAN); // novo
+		car.rent(DRIVING_LICENSE, date3, date4, clientNIF, clientIBAN); // novo
 
 		assertFalse(car.isFree(date1, date2));
 		assertFalse(car.isFree(date1, date3));

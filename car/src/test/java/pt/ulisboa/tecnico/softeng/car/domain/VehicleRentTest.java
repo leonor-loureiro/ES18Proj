@@ -17,6 +17,8 @@ public class VehicleRentTest {
 
 	private static final String NIF1 = "123456789"; // novo
 	private static final String IBAN1 = "ES061"; // novo
+	private static final String clientNIF = "135792468"; // novo
+	private static final String clientIBAN = "ES063"; // novo
 	private static final int PRICE = 10; 
 	
 	@Before
@@ -27,22 +29,22 @@ public class VehicleRentTest {
 
 	@Test(expected = CarException.class)
 	public void doubleRent() {
-		car.rent(DRIVING_LICENSE, date1, date2);
-		car.rent(DRIVING_LICENSE, date1, date2);
+		car.rent(DRIVING_LICENSE, date1, date2, clientNIF, clientIBAN); // novo
+		car.rent(DRIVING_LICENSE, date1, date2, clientNIF, clientIBAN); // novo
 	}
 
 	@Test(expected = CarException.class)
 	public void beginIsNull() {
 		RentACar rentACar = new RentACar(RENT_A_CAR_NAME, NIF1, IBAN1); // novo
 		Vehicle car = new Car(PLATE_CAR, 10, PRICE, rentACar);
-		car.rent(DRIVING_LICENSE, null, date2);
+		car.rent(DRIVING_LICENSE, null, date2, clientNIF, clientIBAN); // novo
 	}
 
 	@Test(expected = CarException.class)
 	public void endIsNull() {
 		RentACar rentACar = new RentACar(RENT_A_CAR_NAME, NIF1, IBAN1); // novo
 		Vehicle car = new Car(PLATE_CAR, 10, PRICE, rentACar);
-		car.rent(DRIVING_LICENSE, date1, null);
+		car.rent(DRIVING_LICENSE, date1, null, clientNIF, clientIBAN); // novo
 	}
 
 	@After
