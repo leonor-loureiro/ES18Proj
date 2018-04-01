@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.joda.time.LocalDate;
 
+import pt.ulisboa.tecnico.softeng.hotel.domain.Processor;
 import pt.ulisboa.tecnico.softeng.hotel.dataobjects.RoomBookingData;
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 
@@ -19,14 +20,21 @@ public class Hotel {
 	
 	private final String NIF;
 	private final String IBAN;
+	private final double singlePrice;
+	private final double doublePrice;
+	
+	private final Processor processor = new Processor();
 
-	public Hotel(String code, String name, String NIF, String IBAN) {
+	public Hotel(String code, String name, String NIF, String IBAN, double singlePrice, double doublePrice) {
 		checkArguments(code, name, NIF, IBAN);
 
 		this.code = code;
 		this.name = name;
 		this.NIF = NIF;
 		this.IBAN = IBAN;
+		
+		this.singlePrice = singlePrice;
+		this.doublePrice = doublePrice;
 		
 		Hotel.hotels.add(this);
 	}
@@ -54,7 +62,19 @@ public class Hotel {
 			}
 		}
 	}
-
+	
+	public double getSinglePrice() {
+		return this.singlePrice;
+	}
+	
+	public double getDoublePrice() {
+		return this.doublePrice;
+	}
+	
+	public Processor getProcessor() {
+		return this.processor;
+	}
+	
 	public Room hasVacancy(Room.Type type, LocalDate arrival, LocalDate departure) {
 		if (type == null || arrival == null || departure == null) {
 			throw new HotelException();
