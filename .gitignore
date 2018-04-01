@@ -8,3 +8,4 @@ infer-out
 .idea
 .DS_Store
 fenix-framework.properties
+local.dev.yml
