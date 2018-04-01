@@ -17,16 +17,18 @@ public class HotelHasVacancyMethodTest {
 	private Hotel hotel;
 	private Room room;
 
-	private static final String NIF1 = "123456789"; // novo
-	private static final String IBAN1 = "ES061"; // novo
-	private static final String NIF2 = "987654321"; // novo
-	private static final String IBAN2 = "ES062"; // novo
-	private static final String clientNIF = "135792468"; // novo
-	private static final String clientIBAN = "ES063"; // novo
+	private static final String NIF1 = "123456789"; 
+	private static final String IBAN1 = "ES061"; 
+	private static final String NIF2 = "987654321"; 
+	private static final String IBAN2 = "ES062"; 
+	private static final String clientNIF = "135792468"; 
+	private static final String clientIBAN = "ES063"; 
+	private static final int singlePRICE = 10;
+	private static final int doublePRICE = 10;
 	
 	@Before
 	public void setUp() {
-		this.hotel = new Hotel("XPTO123", "Paris", NIF1, IBAN1); // novo
+		this.hotel = new Hotel("XPTO123", "Paris", NIF1, IBAN1, singlePRICE, doublePRICE); 
 		this.room = new Room(this.hotel, "01", Type.DOUBLE);
 	}
 
@@ -40,14 +42,14 @@ public class HotelHasVacancyMethodTest {
 
 	@Test
 	public void noVacancy() {
-		this.room.reserve(Type.DOUBLE, this.arrival, this.departure, clientNIF, clientIBAN); // novo
+		this.room.reserve(Type.DOUBLE, this.arrival, this.departure, clientNIF, clientIBAN); 
 
 		assertNull(this.hotel.hasVacancy(Type.DOUBLE, this.arrival, this.departure));
 	}
 
 	@Test
 	public void noVacancyEmptyRoomSet() {
-		Hotel otherHotel = new Hotel("XPTO124", "Paris Germain", NIF2, IBAN2); // novo
+		Hotel otherHotel = new Hotel("XPTO124", "Paris Germain", NIF2, IBAN2, singlePRICE, doublePRICE); 
 
 		assertNull(otherHotel.hasVacancy(Type.DOUBLE, this.arrival, this.departure));
 	}
