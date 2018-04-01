@@ -68,14 +68,7 @@ public class Hotel {
 			}
 		}
 	}
-	
-	public double getSinglePrice() {
-		return this.singlePrice;
-	}
-	
-	public double getDoublePrice() {
-		return this.doublePrice;
-	}
+
 	
 	public Processor getProcessor() {
 		return this.processor;
