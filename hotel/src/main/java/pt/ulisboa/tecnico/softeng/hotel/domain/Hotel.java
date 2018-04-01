@@ -19,19 +19,24 @@ public class Hotel {
 	
 	private final String NIF;
 	private final String IBAN;
+	
+	private final int singlePrice;
+	private final int doublePrice;
 
-	public Hotel(String code, String name, String NIF, String IBAN) {
-		checkArguments(code, name, NIF, IBAN);
+	public Hotel(String code, String name, String NIF, String IBAN, int singlePrice, int doublePrice) {
+		checkArguments(code, name, NIF, IBAN, singlePrice, doublePrice);
 
 		this.code = code;
 		this.name = name;
 		this.NIF = NIF;
 		this.IBAN = IBAN;
+		this.singlePrice = singlePrice;
+		this.doublePrice = doublePrice;
 		
 		Hotel.hotels.add(this);
 	}
 
-	private void checkArguments(String code, String name, String NIF, String IBAN) {
+	private void checkArguments(String code, String name, String NIF, String IBAN, int singlePrice, int doublePrice) {
 		if (code == null || name == null || code.trim().length() == 0 || name.trim().length() == 0) {
 			throw new HotelException();
 		}
@@ -45,6 +50,10 @@ public class Hotel {
 		}
 
 		if (IBAN == null || IBAN.length() < 5) {
+			throw new HotelException();
+		}
+		
+		if (singlePrice <= 0 || doublePrice <= 0) {
 			throw new HotelException();
 		}
 		
@@ -83,7 +92,15 @@ public class Hotel {
 	public String getIBAN() {
 		return this.IBAN;
 	}
+	
+	public int getSinglePrice() {
+		return this.singlePrice;
+	}
 
+	public int getDoublePrice() {
+		return this.doublePrice;
+	}
+	
 	void addRoom(Room room) {
 		if (hasRoom(room.getNumber())) {
 			throw new HotelException();
