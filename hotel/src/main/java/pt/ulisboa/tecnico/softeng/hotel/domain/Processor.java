@@ -25,38 +25,26 @@ public class Processor {
 		for (Booking booking : this.bookingToProcess) {
 			if (!booking.isCancelled()) {
 				if (booking.getPaymentReference() == null) {
-					try {
-						booking.setPaymentReference(
-								BankInterface.processPayment(booking.getClientIBAN(), booking.getAmount()));
-					} catch (BankException | RemoteAccessException ex) {
-						failedToProcess.add(booking);
-						continue;
-					}
+					booking.setPaymentReference(
+							BankInterface.processPayment(booking.getClientIBAN(), booking.getAmount()));
 				}
 				InvoiceData invoiceData = new InvoiceData(booking.getHotelNif(), booking.getClientNIF(), booking.getType(),
 						booking.getAmount(), booking.getArrival());
-				try {
-					booking.setInvoiceReference(TaxInterface.submitInvoice(invoiceData));
-				} catch (TaxException | RemoteAccessException ex) {
-					failedToProcess.add(booking);
-				}
+				
+				booking.setInvoiceReference(TaxInterface.submitInvoice(invoiceData));
+				
 			} else {
-				try {
-					if (booking.getCancelledPaymentReference() == null) {
-						booking.setCancelledPaymentReference(
-								BankInterface.cancelPayment(booking.getPaymentReference()));
-					}
-					TaxInterface.cancelInvoice(booking.getInvoiceReference());
-					booking.setCancelledInvoice(true);
-				} catch (BankException | TaxException | RemoteAccessException ex) {
-					failedToProcess.add(booking);
+				if (booking.getCancelledPaymentReference() == null) {
+					booking.setCancelledPaymentReference(
+							BankInterface.cancelPayment(booking.getPaymentReference()));
 				}
+				TaxInterface.cancelInvoice(booking.getInvoiceReference());
+				booking.setCancelledInvoice(true);
 
 			}
 		}
 
 		this.bookingToProcess.clear();
-		this.bookingToProcess.addAll(failedToProcess);
 
 	}
 
