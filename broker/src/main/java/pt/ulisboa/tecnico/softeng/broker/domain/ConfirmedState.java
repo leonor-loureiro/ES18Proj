@@ -85,10 +85,6 @@ public class ConfirmedState extends ConfirmedState_Base {
 				return;
 			}
 		}
-
-		// TODO: prints the complete Adventure file, the info in operation,
-		// reservation and booking
-
 	}
 
 }

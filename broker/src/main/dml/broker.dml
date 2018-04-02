@@ -3,6 +3,9 @@ package pt.ulisboa.tecnico.softeng.broker.domain;
 class Broker {
 	String code;
 	String name;
+	String nifAsSeller;
+	String nifAsBuyer;
+	String iban;
 }
 
 relation DomainRootHasBrokerApplication {
@@ -24,6 +27,13 @@ class Adventure {
 	String roomCancellation;
 	String activityConfirmation;
 	String activityCancellation;
+	String rentingConfirmation;
+	String rentingCancellation;
+	String invoiceReference;
+	boolean invoiceCancelled;
+	boolean rentVehicle;
+	double margin;
+    double currentAmount;
 }
 
 relation BrokerHasAdventures {
@@ -57,6 +67,22 @@ relation AdventureHasState {
 	}
 }
 
+class Client {
+    String iban;
+    String nif;
+    String drivingLicense;
+    int age;
+}
+
+relation AdventureHasClient {
+	Adventure playsRole adventure {
+		multiplicity 0..1;
+	}
+	Client playsRole client {
+		multiplicity 1..1;
+	}
+}
+
 class BulkRoomBooking {
 	int number;
 	LocalDate arrival;
@@ -64,6 +90,8 @@ class BulkRoomBooking {
 	boolean cancelled;
 	int numberOfHotelExceptions;
 	int numberOfRemoteErrors;
+	String buyerNif;
+	String buyerIban;
 }
 
 relation BrokerHasBulkRoomBookings {

@@ -1,5 +1,7 @@
 package pt.ulisboa.tecnico.softeng.broker.domain;
 
+import static junit.framework.TestCase.assertNull;
+import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -25,7 +27,7 @@ public class BrokerPersistenceTest extends BaseTest {
 	public void atomicProcess() {
 		Broker broker = new Broker(BROKER_CODE, BROKER_NAME, BROKER_NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
 		Client client = new Client(broker, CLIENT_IBAN, CLIENT_NIF, DRIVING_LICENSE, AGE);
-		new Adventure(broker, this.begin, this.end, client, MARGIN);
+		new Adventure(broker, this.begin, this.end, client, MARGIN, true);
 
 		BulkRoomBooking bulk = new BulkRoomBooking(broker, NUMBER_OF_BULK, this.begin, this.end, NIF_AS_BUYER, CLIENT_IBAN);
 
@@ -43,6 +45,9 @@ public class BrokerPersistenceTest extends BaseTest {
 		assertEquals(BROKER_NAME, broker.getName());
 		assertEquals(1, broker.getAdventureSet().size());
 		assertEquals(1, broker.getRoomBulkBookingSet().size());
+		assertEquals(NIF_AS_BUYER, broker.getNifAsBuyer());
+		assertEquals(BROKER_NIF_AS_SELLER, broker.getNifAsSeller());
+		assertEquals(BROKER_IBAN, broker.getIBAN());
 
 		List<Adventure> adventures = new ArrayList<>(broker.getAdventureSet());
 		Adventure adventure = adventures.get(0);
@@ -53,6 +58,19 @@ public class BrokerPersistenceTest extends BaseTest {
 		assertEquals(this.end, adventure.getEnd());
 		assertEquals(AGE, adventure.getAge());
 		assertEquals(CLIENT_IBAN, adventure.getIBAN());
+		assertNull(adventure.getPaymentConfirmation());
+        assertNull(adventure.getPaymentCancellation());
+        assertNull(adventure.getRentingConfirmation());
+        assertNull(adventure.getRentingCancellation());
+        assertNull(adventure.getActivityConfirmation());
+        assertNull(adventure.getActivityCancellation());
+        assertNull(adventure.getRentingConfirmation());
+        assertNull(adventure.getRentingCancellation());
+        assertNull(adventure.getInvoiceReference());
+        assertFalse(adventure.getInvoiceCancelled());
+        assertTrue(adventure.getRentVehicle());
+        assertEquals(MARGIN, adventure.getMargin(), 0);
+        assertEquals(0.0, adventure.getCurrentAmount(), 0);
 
 		assertEquals(Adventure.State.RESERVE_ACTIVITY, adventure.getState().getValue());
 		assertEquals(0, adventure.getState().getNumOfRemoteErrors());
@@ -68,11 +86,18 @@ public class BrokerPersistenceTest extends BaseTest {
 		assertEquals(0, bulk.getNumberOfHotelExceptions());
 		assertEquals(0, bulk.getNumberOfRemoteErrors());
 		assertEquals(1, bulk.getReferenceSet().size());
+		assertEquals(CLIENT_IBAN, bulk.getBuyerIban());
+		assertEquals(NIF_AS_BUYER, bulk.getBuyerNif());
 
 		List<Reference> references = new ArrayList<>(bulk.getReferenceSet());
 		Reference reference = references.get(0);
-
 		assertEquals(REF_ONE, reference.getValue());
+
+        Client client = adventure.getClient();
+        assertEquals(CLIENT_IBAN, client.getIBAN());
+        assertEquals(CLIENT_NIF, client.getNIF());
+        assertEquals(AGE, client.getAge());
+        assertEquals(DRIVING_LICENSE, client.getDrivingLicense());
 	}
 
 	@After

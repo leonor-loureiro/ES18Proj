@@ -13,9 +13,6 @@ import pt.ulisboa.tecnico.softeng.broker.exception.BrokerException;
 public class Broker extends Broker_Base {
 	private static Logger logger = LoggerFactory.getLogger(Broker.class);
 
-	private final String nifAsSeller;
-	private final String nifAsBuyer;
-	private final String iban;
 	private final Set<Client> clients = new HashSet<>();
 
 	public Broker(String code, String name, String nifAsSeller, String nifAsBuyer, String iban) {
@@ -23,10 +20,9 @@ public class Broker extends Broker_Base {
 
 		setCode(code);
 		setName(name);
-
-		this.nifAsSeller = nifAsSeller;
-		this.nifAsBuyer = nifAsBuyer;
-		this.iban = iban;
+		setNifAsSeller(nifAsSeller);
+        setNifAsBuyer(nifAsBuyer);
+        setIban(iban);
 
 		FenixFramework.getDomainRoot().addBroker(this);
 	}
@@ -71,16 +67,8 @@ public class Broker extends Broker_Base {
 
 	}
 
-	public String getNifAsSeller() {
-		return this.nifAsSeller;
-	}
-
-	public String getNifAsBuyer() {
-		return this.nifAsBuyer;
-	}
-
 	public String getIBAN() {
-		return this.iban;
+		return getIban();
 	}
 
 	public Client getClientByNIF(String NIF) {
@@ -101,7 +89,8 @@ public class Broker extends Broker_Base {
 	}
 
 	public void bulkBooking(int number, LocalDate arrival, LocalDate departure) {
-		BulkRoomBooking bulkBooking = new BulkRoomBooking(this, number, arrival, departure, this.nifAsBuyer, this.iban);
+		BulkRoomBooking bulkBooking = new BulkRoomBooking(this, number, arrival, departure,
+                getNifAsBuyer(), getIBAN());
 		bulkBooking.processBooking();
 	}
 }

@@ -15,17 +15,6 @@ public class Adventure extends Adventure_Base {
 
 	private static int counter = 0;
 
-	private final Client client;
-	private final double margin;
-	private final boolean rentVehicle;
-	private double currentAmount;
-	private String rentingConfirmation;
-	private String rentingCancellation;
-	private String invoiceReference;
-	private boolean invoiceCancelled;
-
-	private AdventureState state;
-
 	public Adventure(Broker broker, LocalDate begin, LocalDate end, Client client, double margin) {
 		this(broker, begin, end, client, margin, false);
 	}
@@ -36,23 +25,22 @@ public class Adventure extends Adventure_Base {
 		setID(broker.getCode() + Integer.toString(++counter));
 		setBegin(begin);
 		setEnd(end);
-
-		this.client = client;
-		this.margin = margin;
-		this.rentVehicle = rentVehicle;
-		this.currentAmount = 0.0;
+		setMargin(margin);
+		setRentVehicle(rentVehicle);
+		setClient(client);
 
 		broker.addAdventure(this);
-
 		setBroker(broker);
 
-		setState(State.RESERVE_ACTIVITY);
+        setCurrentAmount(0.0);
+        setState(State.RESERVE_ACTIVITY);
 	}
 
 	public void delete() {
 		setBroker(null);
 
 		getState().delete();
+		getClient().delete();
 
 		deleteDomainObject();
 	}
@@ -76,59 +64,23 @@ public class Adventure extends Adventure_Base {
 	}
 
 	public int getAge() {
-		return this.client.getAge();
+		return getClient().getAge();
 	}
 
 	public String getIBAN() {
-		return this.client.getIBAN();
-	}
-
-	public Client getClient() {
-		return this.client;
-	}
-
-	public double getMargin() {
-		return this.margin;
+		return getClient().getIBAN();
 	}
 
 	public void incAmountToPay(double toPay) {
-		this.currentAmount += toPay;
+		setCurrentAmount(getCurrentAmount() + toPay);
 	}
 
 	public double getAmount() {
-		return this.currentAmount * (1 + this.margin);
+		return getCurrentAmount() * (1 + getMargin());
 	}
 
 	public boolean shouldRentVehicle() {
-		return this.rentVehicle;
-	}
-
-	public String getRentingConfirmation() {
-		return this.rentingConfirmation;
-	}
-
-	public void setRentingConfirmation(String rentingConfirmation) {
-		this.rentingConfirmation = rentingConfirmation;
-	}
-
-	public String getRentingCancellation() {
-		return this.rentingCancellation;
-	}
-
-	public void setRentingCancellation(String rentingCancellation) {
-		this.rentingCancellation = rentingCancellation;
-	}
-
-	public String getInvoiceReference() {
-		return this.invoiceReference;
-	}
-
-	public void setInvoiceReference(String invoiceReference) {
-		this.invoiceReference = invoiceReference;
-	}
-
-	public void setInvoiceCancelled(boolean value) {
-		this.invoiceCancelled = value;
+		return getRentVehicle();
 	}
 
 	public void setState(State state) {
@@ -205,7 +157,7 @@ public class Adventure extends Adventure_Base {
 	}
 
 	public boolean shouldCancelInvoice() {
-		return getInvoiceReference() != null && !this.invoiceCancelled;
+		return getInvoiceReference() != null && !getInvoiceCancelled();
 	}
 
 	public boolean invoiceIsCancelled() {
