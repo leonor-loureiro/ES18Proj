@@ -24,39 +24,26 @@ public class Processor {
 		Set<Renting> failedToProcess = new HashSet<>();
 		for (Renting renting : this.rentingToProcess) {
 			if (!renting.isCancelled()) {
-				if (renting.getPaymentReference() == null) {
-					try {
-						renting.setPaymentReference(
-								BankInterface.processPayment(renting.getClientIBAN(), renting.getAmount()));
-					} catch (BankException | RemoteAccessException ex) {
-						failedToProcess.add(renting);
-						continue;
-					}
-				}
+				
 				InvoiceData invoiceData = new InvoiceData(renting.getRentACarNif(), renting.getClientNIF(), renting.getType(),
 						renting.getAmount(), renting.getEnd());
-				try {
-					renting.setInvoiceReference(TaxInterface.submitInvoice(invoiceData));
-				} catch (TaxException | RemoteAccessException ex) {
-					failedToProcess.add(renting);
-				}
+				
+				renting.setInvoiceReference(TaxInterface.submitInvoice(invoiceData));
+				
 			} else {
-				try {
-					if (renting.getCancelledPaymentReference() == null) {
-						renting.setCancelledPaymentReference(
-								BankInterface.cancelPayment(renting.getPaymentReference()));
-					}
-					TaxInterface.cancelInvoice(renting.getInvoiceReference());
-					renting.setCancelledInvoice(true);
-				} catch (BankException | TaxException | RemoteAccessException ex) {
-					failedToProcess.add(renting);
+				
+				if (renting.getCancelledPaymentReference() == null) {
+					renting.setCancelledPaymentReference(
+						BankInterface.cancelPayment(renting.getPaymentReference()));
 				}
+				TaxInterface.cancelInvoice(renting.getInvoiceReference());
+				renting.setCancelledInvoice(true);
+				
 
 			}
 		}
 
 		this.rentingToProcess.clear();
-		this.rentingToProcess.addAll(failedToProcess);
 
 	}
 
