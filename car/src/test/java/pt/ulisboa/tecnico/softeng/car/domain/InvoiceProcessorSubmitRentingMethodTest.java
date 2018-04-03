@@ -18,7 +18,7 @@ import pt.ulisboa.tecnico.softeng.tax.dataobjects.InvoiceData;
 import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 
 @RunWith(JMockit.class)
-public class InvoiceProcessorSubmitRentingMethodTest {
+public class InvoiceProcessorSubmitRentingMethodTest extends RollbackTestAbstractClass {
 	private static final String CANCEL_PAYMENT_REFERENCE = "CancelPaymentReference";
     private static final String INVOICE_REFERENCE = "InvoiceReference";
     private static final String PAYMENT_REFERENCE = "PaymentReference";
@@ -41,8 +41,8 @@ public class InvoiceProcessorSubmitRentingMethodTest {
 
 	private  RentACar rentACar;
 
-	@Before
-	public void setUp() {
+	@Override
+	public void populate4Test() {
 	    rentACar = new RentACar(RENT_A_CAR_NAME, NIF, IBAN);
         this.car = new Car(PLATE_CAR, 10, 10, rentACar);
 	}
@@ -307,12 +307,6 @@ public class InvoiceProcessorSubmitRentingMethodTest {
 				this.times = 2;
 			}
 		};
-	}
-
-	@After
-	public void tearDown() {
-		 RentACar.rentACars.clear();
-		 Vehicle.plates.clear();
 	}
 
 }

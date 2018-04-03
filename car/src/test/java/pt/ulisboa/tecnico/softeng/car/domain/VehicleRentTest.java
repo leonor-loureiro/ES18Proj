@@ -13,7 +13,7 @@ import pt.ulisboa.tecnico.softeng.car.interfaces.BankInterface;
 import pt.ulisboa.tecnico.softeng.car.interfaces.TaxInterface;
 
 @RunWith(JMockit.class)
-public class VehicleRentTest {
+public class VehicleRentTest extends RollbackTestAbstractClass {
 	private static final String PLATE_CAR = "22-33-HZ";
 	private static final String RENT_A_CAR_NAME = "Eartz";
 	private static final String DRIVING_LICENSE = "lx1423";
@@ -29,8 +29,8 @@ public class VehicleRentTest {
 	@Mocked
 	private TaxInterface taxInterface;
 
-	@Before
-	public void setUp() {
+    @Override
+    public void populate4Test() {
 		RentACar rentACar = new RentACar(RENT_A_CAR_NAME, NIF, IBAN);
 		this.car = new Car(PLATE_CAR, 10, 10, rentACar);
 	}
@@ -53,11 +53,5 @@ public class VehicleRentTest {
 		RentACar rentACar = new RentACar(RENT_A_CAR_NAME, NIF, IBAN);
 		Vehicle car = new Car(PLATE_CAR, 10, 10, rentACar);
 		car.rent(DRIVING_LICENSE, date1, null, NIF, IBAN_BUYER);
-	}
-
-	@After
-	public void tearDown() {
-		RentACar.rentACars.clear();
-		Vehicle.plates.clear();
 	}
 }
