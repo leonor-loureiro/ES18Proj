@@ -5,8 +5,6 @@ import static org.junit.Assert.*;
 import mockit.Mocked;
 import mockit.integration.junit4.JMockit;
 import org.joda.time.LocalDate;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 import org.junit.runner.RunWith;
