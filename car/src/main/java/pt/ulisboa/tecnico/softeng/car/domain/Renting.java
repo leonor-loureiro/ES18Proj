@@ -4,41 +4,35 @@ import org.joda.time.LocalDate;
 
 import pt.ulisboa.tecnico.softeng.car.exception.CarException;
 
-public class Renting {
+public class Renting extends Renting_Base {
 	private static String drivingLicenseFormat = "^[a-zA-Z]+\\d+$";
 	private static int counter;
 
 	private static final String type = "RENTAL";
-	private final String reference;
-	private String cancellationReference;
-	private final String drivingLicense;
-	private final LocalDate begin;
-	private final LocalDate end;
-	private int kilometers = -1;
-	private final Vehicle vehicle;
-	private final String clientNIF;
-	private final String clientIBAN;
-	private final double price;
-
-	private String paymentReference;
-	private String invoiceReference;
-	private String cancel;
-	private LocalDate cancellationDate;
-	private boolean cancelledInvoice = false;
-	private String cancelledPaymentReference = null;
 
 	public Renting(String drivingLicense, LocalDate begin, LocalDate end, Vehicle vehicle, String buyerNIF,
 			String buyerIBAN) {
 		checkArguments(drivingLicense, begin, end, vehicle);
-		this.reference = Integer.toString(++Renting.counter);
-		this.drivingLicense = drivingLicense;
-		this.begin = begin;
-		this.end = end;
-		this.vehicle = vehicle;
-		this.clientNIF = buyerNIF;
-		this.clientIBAN = buyerIBAN;
-		this.price = vehicle.getPrice() * (end.getDayOfYear() - begin.getDayOfYear());
+
+        setType(type);
+        setKilometers(-1);
+        setCancelledInvoice(false);
+
+        setReference(Integer.toString(++Renting.counter));
+        setDrivingLicense(drivingLicense);
+        setBegin(begin);
+        setEnd(end);
+        setClientNIF(buyerNIF);
+        setClientIBAN(buyerIBAN);
+        setPrice(vehicle.getPrice() * (end.getDayOfYear() - begin.getDayOfYear()));
+
+        setVehicle(vehicle);
 	}
+
+    public void delete() {
+	    setVehicle(null);
+        deleteDomainObject();
+    }
 
 	private void checkArguments(String drivingLicense, LocalDate begin, LocalDate end, Vehicle vehicle) {
 		if (drivingLicense == null || !drivingLicense.matches(drivingLicenseFormat) || begin == null || end == null
@@ -47,51 +41,8 @@ public class Renting {
 		}
 	}
 
-	/**
-	 * @return the reference
-	 */
-	public String getReference() {
-		return this.reference;
-	}
-
-	public String getCancellationReference() {
-		return this.cancellationReference;
-	}
-
-	/**
-	 * @return the drivingLicense
-	 */
-	public String getDrivingLicense() {
-		return this.drivingLicense;
-	}
-
-	/**
-	 * @return the begin
-	 */
-	public LocalDate getBegin() {
-		return this.begin;
-	}
-
-	/**
-	 * @return the end
-	 */
-	public LocalDate getEnd() {
-		return this.end;
-	}
-
-	public LocalDate getCancellationDate() {
-		return this.cancellationDate;
-	}
-
-	/**
-	 * @return the vehicle
-	 */
-	public Vehicle getVehicle() {
-		return this.vehicle;
-	}
-
 	public boolean isCancelled() {
-		return this.cancellationReference != null && this.cancellationDate != null;
+		return getCancellationReference() != null && getCancellationDate() != null;
 	}
 
 	/**
@@ -122,73 +73,29 @@ public class Renting {
 	 * @param kilometers
 	 */
 	public void checkout(int kilometers) {
-		this.kilometers = kilometers;
-		this.vehicle.addKilometers(this.kilometers);
+		setKilometers(kilometers);
+		getVehicle().addKilometers(kilometers);
 	}
 
 	public String cancel() {
-		this.cancellationReference = this.reference + "CANCEL";
-		this.cancellationDate = LocalDate.now();
+		setCancellationReference(getReference() + "CANCEL");
+		setCancellationDate(LocalDate.now());
 
 		this.getVehicle().getRentACar().getProcessor().submitRenting(this);
 
-		return this.cancellationReference;
-	}
-
-	public String getPaymentReference() {
-		return this.paymentReference;
-	}
-
-	public void setPaymentReference(String paymentReference) {
-		this.paymentReference = paymentReference;
-	}
-
-	public String getInvoiceReference() {
-		return this.invoiceReference;
-	}
-
-	public String getClientNIF() {
-		return this.clientNIF;
+		return getCancellationReference();
 	}
 
 	public String getType() {
 		return this.type;
 	}
 
-	public void setCancellationReference(String cancellationReference) {
-		this.cancellationReference = cancellationReference;
-	}
-
-	public void setInvoiceReference(String invoiceReference) {
-		this.invoiceReference = invoiceReference;
-	}
-
-	public void setCancelledInvoice(boolean cancelledInvoice) {
-		this.cancelledInvoice = cancelledInvoice;
-	}
-
-	public String getCancelledPaymentReference() {
-		return this.cancelledPaymentReference;
-	}
-
 	public boolean isCancelledInvoice() {
-		return this.cancelledInvoice;
+		return getCancelledInvoice();
 	}
 
-	public String getCancellation() {
-		return this.cancel;
-	}
 
-	public void setCancelledPaymentReference(String cancelledPaymentReference) {
-		this.cancelledPaymentReference = cancelledPaymentReference;
-	}
 
-	public String getClientIBAN() {
-		return this.clientIBAN;
-	}
 
-	public double getPrice() {
-		return price;
-	}
 
 }
