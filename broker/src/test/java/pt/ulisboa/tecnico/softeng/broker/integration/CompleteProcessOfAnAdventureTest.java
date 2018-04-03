@@ -136,25 +136,25 @@ public class CompleteProcessOfAnAdventureTest extends RollbackTestAbstractClass 
 		this.rentACarAccount = new Account(bank, rentACarClient);
 
 		// broker
-		Broker broker = new Broker(CODE, NAME_OF_BROKER, this.brokerAsSeller.getNIF(), this.brokerAsBuyer.getNIF(),
+		Broker broker = new Broker(CODE, NAME_OF_BROKER, this.brokerAsSeller.getNif(), this.brokerAsBuyer.getNif(),
 				this.brokerAccount.getIBAN());
 		this.adventure = new Adventure(broker, this.begin, this.end,
-				new Client(broker, this.clientAccount.getIBAN(), this.clientAsBuyer.getNIF(), DRIVING_LICENSE, AGE),
+				new Client(broker, this.clientAccount.getIBAN(), this.clientAsBuyer.getNif(), DRIVING_LICENSE, AGE),
 				MARGIN, true);
 
 		// activity
-		ActivityProvider provider = new ActivityProvider("XtremX", NAME_OF_PROVIDER, this.providerAsSeller.getNIF(),
+		ActivityProvider provider = new ActivityProvider("XtremX", NAME_OF_PROVIDER, this.providerAsSeller.getNif(),
 				this.providerAccount.getIBAN());
 		Activity activity = new Activity(provider, "Bush Walking", MIN_AGE, MAX_AGE, CAPACITY);
 		new ActivityOffer(activity, this.begin, this.end, ACTIVITY_COST);
 
 		// hotel
-		Hotel hotel = new Hotel("XPTO123", NAME_OF_HOTEL, this.hotelAsSeller.getNIF(), this.hotelAccount.getIBAN(),
+		Hotel hotel = new Hotel("XPTO123", NAME_OF_HOTEL, this.hotelAsSeller.getNif(), this.hotelAccount.getIBAN(),
 				PRICE_SINGLE, PRICE_DOUBLE);
 		new Room(hotel, "01", Room.Type.SINGLE);
 
 		// car
-		RentACar rentACar = new RentACar(NAME_OF_RENT_A_CAR, this.rentACarAsSeller.getNIF(),
+		RentACar rentACar = new RentACar(NAME_OF_RENT_A_CAR, this.rentACarAsSeller.getNif(),
 				this.rentACarAccount.getIBAN());
 		new Car(PLATE_OF_CAR, 10, PRICE_OF_CAR, rentACar);
 	}
