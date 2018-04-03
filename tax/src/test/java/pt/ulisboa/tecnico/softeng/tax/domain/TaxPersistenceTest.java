@@ -2,7 +2,6 @@ package pt.ulisboa.tecnico.softeng.tax.domain;
 
 import org.joda.time.LocalDate;
 import org.junit.After;
-import org.junit.Ignore;
 import org.junit.Test;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.FenixFramework;
