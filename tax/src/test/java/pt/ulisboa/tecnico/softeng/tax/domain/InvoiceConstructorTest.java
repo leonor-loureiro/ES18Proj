@@ -11,7 +11,7 @@ import org.junit.Test;
 
 import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 
-public class InvoiceConstructorTest {
+public class InvoiceConstructorTest extends RollbackTestAbstractClass {
 	private static final String SELLER_NIF = "123456789";
 	private static final String BUYER_NIF = "987654321";
 	private static final String FOOD = "FOOD";
@@ -23,8 +23,8 @@ public class InvoiceConstructorTest {
 	private Buyer buyer;
 	private ItemType itemType;
 
-	@Before
-	public void setUp() {
+	@Override
+	public void populate4Test() {
 		IRS irs = IRS.getIRS();
 		this.seller = new Seller(irs, SELLER_NIF, "José Vendido", "Somewhere");
 		this.buyer = new Buyer(irs, BUYER_NIF, "Manuel Comprado", "Anywhere");
@@ -86,10 +86,4 @@ public class InvoiceConstructorTest {
 	public void equal1970() {
 		new Invoice(VALUE, new LocalDate(1970, 01, 01), this.itemType, this.seller, this.buyer);
 	}
-
-	@After
-	public void tearDown() {
-		IRS.getIRS().clearAll();
-	}
-
 }

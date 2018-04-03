@@ -9,15 +9,15 @@ import org.junit.Test;
 
 import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 
-public class SellerConstructorTest {
+public class SellerConstructorTest extends RollbackTestAbstractClass {
 	private static final String ADDRESS = "Somewhere";
 	private static final String NAME = "José Vendido";
 	private static final String NIF = "123456789";
 
 	IRS irs;
 
-	@Before
-	public void setUp() {
+	@Override
+	public void populate4Test() {
 		this.irs = IRS.getIRS();
 	}
 
@@ -25,7 +25,7 @@ public class SellerConstructorTest {
 	public void success() {
 		Seller seller = new Seller(this.irs, NIF, NAME, ADDRESS);
 
-		assertEquals(NIF, seller.getNIF());
+		assertEquals(NIF, seller.getNif());
 		assertEquals(NAME, seller.getName());
 		assertEquals(ADDRESS, seller.getAddress());
 
@@ -72,11 +72,6 @@ public class SellerConstructorTest {
 	@Test(expected = TaxException.class)
 	public void emptyAddress() {
 		new Seller(this.irs, NIF, NAME, "");
-	}
-
-	@After
-	public void tearDown() {
-		IRS.getIRS().clearAll();
 	}
 
 }

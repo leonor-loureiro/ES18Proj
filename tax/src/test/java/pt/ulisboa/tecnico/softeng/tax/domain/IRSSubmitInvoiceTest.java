@@ -10,7 +10,7 @@ import org.junit.Test;
 import pt.ulisboa.tecnico.softeng.tax.dataobjects.InvoiceData;
 import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 
-public class IRSSubmitInvoiceTest {
+public class IRSSubmitInvoiceTest extends RollbackTestAbstractClass {
 	private static final String SELLER_NIF = "123456789";
 	private static final String BUYER_NIF = "987654321";
 	private static final String FOOD = "FOOD";
@@ -19,8 +19,8 @@ public class IRSSubmitInvoiceTest {
 
 	private IRS irs;
 
-	@Before
-	public void setUp() {
+	@Override
+	public void populate4Test() {
 		this.irs = IRS.getIRS();
 		new Seller(this.irs, SELLER_NIF, "José Vendido", "Somewhere");
 		new Buyer(this.irs, BUYER_NIF, "Manuel Comprado", "Anywhere");
@@ -35,8 +35,8 @@ public class IRSSubmitInvoiceTest {
 		Invoice invoice = this.irs.getTaxPayerByNIF(SELLER_NIF).getInvoiceByReference(invoiceReference);
 
 		assertEquals(invoiceReference, invoice.getReference());
-		assertEquals(SELLER_NIF, invoice.getSeller().getNIF());
-		assertEquals(BUYER_NIF, invoice.getBuyer().getNIF());
+		assertEquals(SELLER_NIF, invoice.getSeller().getNif());
+		assertEquals(BUYER_NIF, invoice.getBuyer().getNif());
 		assertEquals(FOOD, invoice.getItemType().getName());
 		assertEquals(VALUE, invoice.getValue(), 0.0000);
 		assertEquals(this.date, invoice.getDate());
@@ -108,8 +108,4 @@ public class IRSSubmitInvoiceTest {
 		IRS.submitInvoice(invoiceData);
 	}
 
-	@After
-	public void tearDown() {
-		this.irs.clearAll();
-	}
 }
