@@ -6,8 +6,6 @@ import org.joda.time.LocalDate;
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 
 public class Booking extends Booking_Base {
-	private static int counter = 0;
-
 	private static final String HOUSING_TYPE = "HOUSING";
 	private final double price;
 	private final String nif;
@@ -21,7 +19,7 @@ public class Booking extends Booking_Base {
 	public Booking(Room room, LocalDate arrival, LocalDate departure, String buyerNIF, String buyerIban) {
 		checkArguments(room, arrival, departure, buyerNIF, buyerIban);
 
-		setReference(room.getHotel().getCode() + Integer.toString(++Booking.counter));
+		setReference(room.getHotel().getCode() + Integer.toString(room.getHotel().getCounter()));
 		setArrival(arrival);
 		setDeparture(departure);
 

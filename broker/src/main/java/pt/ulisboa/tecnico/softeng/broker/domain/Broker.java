@@ -18,6 +18,13 @@ public class Broker extends Broker_Base {
 	private final String iban;
 	private final Set<Client> clients = new HashSet<>();
 
+	@Override
+	public int getCounter() {
+		int counter = super.getCounter() + 1;
+		setCounter(counter);
+		return counter;
+	}
+
 	public Broker(String code, String name, String nifAsSeller, String nifAsBuyer, String iban) {
 		checkArguments(code, name, nifAsSeller, nifAsBuyer, iban);
 

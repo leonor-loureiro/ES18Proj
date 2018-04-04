@@ -13,8 +13,6 @@ public class Adventure extends Adventure_Base {
 		PROCESS_PAYMENT, RESERVE_ACTIVITY, BOOK_ROOM, RENT_VEHICLE, UNDO, CONFIRMED, CANCELLED, TAX_PAYMENT
 	}
 
-	private static int counter = 0;
-
 	private final Client client;
 	private final double margin;
 	private final boolean rentVehicle;
@@ -33,7 +31,7 @@ public class Adventure extends Adventure_Base {
 	public Adventure(Broker broker, LocalDate begin, LocalDate end, Client client, double margin, boolean rentVehicle) {
 		checkArguments(broker, begin, end, client, margin);
 
-		setID(broker.getCode() + Integer.toString(++counter));
+		setID(broker.getCode() + Integer.toString(broker.getCounter()));
 		setBegin(begin);
 		setEnd(end);
 

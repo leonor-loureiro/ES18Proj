@@ -11,12 +11,10 @@ public class Activity extends Activity_Base {
 	private static final int MIN_AGE = 18;
 	private static final int MAX_AGE = 100;
 
-	private static int counter = 0;
-
 	public Activity(ActivityProvider provider, String name, int minAge, int maxAge, int capacity) {
 		checkArguments(provider, name, minAge, maxAge, capacity);
 
-		setCode(provider.getCode() + Integer.toString(++Activity.counter));
+		setCode(provider.getCode() + Integer.toString(provider.getCounter()));
 		setName(name);
 		setMinAge(minAge);
 		setMaxAge(maxAge);

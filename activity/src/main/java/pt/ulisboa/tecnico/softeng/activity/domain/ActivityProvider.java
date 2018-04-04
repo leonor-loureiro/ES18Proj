@@ -17,6 +17,13 @@ public class ActivityProvider extends ActivityProvider_Base {
 
 	private final Processor processor = new Processor();
 
+	@Override
+	public int getCounter() {
+		int counter = super.getCounter() + 1;
+		setCounter(counter);
+		return counter;
+	}
+
 	public ActivityProvider(String code, String name, String nif, String iban) {
 		checkArguments(code, name, nif, iban);
 

@@ -3,6 +3,7 @@ package pt.ulisboa.tecnico.softeng.broker.domain;
 class Broker {
 	String code;
 	String name;
+	int counter;
 }
 
 relation DomainRootHasBrokerApplication {
