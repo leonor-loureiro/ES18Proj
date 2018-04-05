@@ -9,6 +9,8 @@ import java.util.List;
 import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
@@ -16,6 +18,8 @@ import pt.ist.fenixframework.FenixFramework;
 import pt.ulisboa.tecnico.softeng.hotel.domain.Room.Type;
 
 public class HotelPersistenceTest {
+	private static Logger logger = LoggerFactory.getLogger(HotelPersistenceTest.class);
+
 	private static final String HOTEL_NIF = "123456789";
 	private static final String HOTEL_IBAN = "IBAN";
 	private static final String HOTEL_NAME = "Berlin Plaza";
@@ -37,10 +41,9 @@ public class HotelPersistenceTest {
 	public void atomicProcess() {
 		Hotel hotel = new Hotel(HOTEL_CODE, HOTEL_NAME, HOTEL_NIF, HOTEL_IBAN, 10.0, 20.0);
 
-		Room room = new Room(hotel, ROOM_NUMBER, Type.DOUBLE);
+		new Room(hotel, ROOM_NUMBER, Type.DOUBLE);
 
-		room.reserve(Type.DOUBLE, this.arrival, this.departure, CLIENT_NIF, CLIENT_IBAN);
-
+		Hotel.reserveRoom(Type.DOUBLE, this.arrival, this.departure, CLIENT_NIF, CLIENT_IBAN);
 	}
 
 	@Atomic(mode = TxMode.READ)
@@ -54,6 +57,9 @@ public class HotelPersistenceTest {
 		assertEquals(10.0, hotel.getPriceSingle(), 0.0d);
 		assertEquals(20.0, hotel.getPriceDouble(), 0.0d);
 		assertEquals(1, hotel.getRoomSet().size());
+		Processor processor = hotel.getProcessor();
+		assertNotNull(processor);
+		assertEquals(1, processor.getBookingSet().size());
 
 		List<Room> hotels = new ArrayList<>(hotel.getRoomSet());
 		Room room = hotels.get(0);
@@ -73,6 +79,7 @@ public class HotelPersistenceTest {
 		assertEquals(HOTEL_NIF, booking.getProviderNif());
 		assertEquals(80.0, booking.getPrice(), 0.0d);
 		assertEquals(room, booking.getRoom());
+		assertEquals(processor, booking.getProcessor());
 	}
 
 	@After

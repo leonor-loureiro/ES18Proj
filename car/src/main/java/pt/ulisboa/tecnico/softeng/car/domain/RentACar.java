@@ -21,18 +21,18 @@ public class RentACar extends RentACar_Base {
 		setNif(nif);
 		setIban(iban);
 
-        FenixFramework.getDomainRoot().addRentACar(this);
-    }
+		FenixFramework.getDomainRoot().addRentACar(this);
+	}
 
-    public void delete() {
-        setRoot(null);
+	public void delete() {
+		setRoot(null);
 
-        for(Vehicle vehicle: getVehicleSet()) {
-            vehicle.delete();
-        }
+		for (Vehicle vehicle : getVehicleSet()) {
+			vehicle.delete();
+		}
 
-        deleteDomainObject();
-    }
+		deleteDomainObject();
+	}
 
 	private void checkArguments(String name, String nif, String iban) {
 		if (name == null || name.isEmpty() || nif == null || nif.isEmpty() || iban == null || iban.isEmpty()) {
@@ -47,9 +47,8 @@ public class RentACar extends RentACar_Base {
 		}
 	}
 
-
 	public boolean hasVehicle(String plate) {
-	    return getVehicleSet().stream().anyMatch(v -> v.getPlate().equals(plate));
+		return getVehicleSet().stream().anyMatch(v -> v.getPlate().equals(plate));
 	}
 
 	public Set<Vehicle> getAvailableVehicles(Class<?> cls, LocalDate begin, LocalDate end) {
@@ -131,7 +130,6 @@ public class RentACar extends RentACar_Base {
 	public Processor getProcessor() {
 		return this.processor;
 	}
-
 
 	@Override
 	public int getCounter() {
