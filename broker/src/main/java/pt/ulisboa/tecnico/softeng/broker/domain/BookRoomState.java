@@ -19,7 +19,7 @@ public class BookRoomState extends BookRoomState_Base {
 		try {
 			getAdventure().setRoomConfirmation(
 					HotelInterface.reserveRoom(Room.Type.SINGLE, getAdventure().getBegin(), getAdventure().getEnd(),
-							getAdventure().getBroker().getNifAsBuyer(), getAdventure().getBroker().getIBAN()));
+							getAdventure().getBroker().getNifAsBuyer(), getAdventure().getBroker().getIban()));
 			getAdventure()
 					.incAmountToPay(HotelInterface.getRoomBookingData(getAdventure().getRoomConfirmation()).getPrice());
 		} catch (HotelException he) {

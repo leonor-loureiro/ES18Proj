@@ -47,7 +47,7 @@ public class BrokerPersistenceTest extends BaseTest {
 		assertEquals(1, broker.getRoomBulkBookingSet().size());
 		assertEquals(NIF_AS_BUYER, broker.getNifAsBuyer());
 		assertEquals(BROKER_NIF_AS_SELLER, broker.getNifAsSeller());
-		assertEquals(BROKER_IBAN, broker.getIBAN());
+		assertEquals(BROKER_IBAN, broker.getIban());
 
 		List<Adventure> adventures = new ArrayList<>(broker.getAdventureSet());
 		Adventure adventure = adventures.get(0);
@@ -71,6 +71,7 @@ public class BrokerPersistenceTest extends BaseTest {
         assertTrue(adventure.getRentVehicle());
         assertEquals(MARGIN, adventure.getMargin(), 0);
         assertEquals(0.0, adventure.getCurrentAmount(), 0);
+        assertEquals(1, adventure.getClient().getAdventureSet().size());
 
 		assertEquals(Adventure.State.RESERVE_ACTIVITY, adventure.getState().getValue());
 		assertEquals(0, adventure.getState().getNumOfRemoteErrors());
