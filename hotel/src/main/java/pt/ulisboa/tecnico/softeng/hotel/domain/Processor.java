@@ -21,13 +21,9 @@ public class Processor {
 	}
 
 	private void processInvoices() {
-		Set<Booking> failedToProcess = new HashSet<>();
 		for (Booking booking : this.bookingToProcess) {
 			if (!booking.isCancelled()) {
-				if (booking.getPaymentReference() == null) {
-					booking.setPaymentReference(
-							BankInterface.processPayment(booking.getClientIBAN(), booking.getAmount()));
-				}
+				
 				InvoiceData invoiceData = new InvoiceData(booking.getHotelNif(), booking.getClientNIF(), booking.getType(),
 						booking.getAmount(), booking.getArrival());
 				

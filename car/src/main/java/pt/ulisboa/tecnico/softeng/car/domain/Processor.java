@@ -21,7 +21,6 @@ public class Processor {
 	}
 
 	private void processInvoices() {
-		Set<Renting> failedToProcess = new HashSet<>();
 		for (Renting renting : this.rentingToProcess) {
 			if (!renting.isCancelled()) {
 				
