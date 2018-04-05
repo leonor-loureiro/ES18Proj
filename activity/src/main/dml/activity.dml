@@ -5,6 +5,7 @@ class ActivityProvider {
 	String code;
 	String nif;
 	String iban;
+	int counter;
 } 
 
 relation DomainRootHasActivityProviders {

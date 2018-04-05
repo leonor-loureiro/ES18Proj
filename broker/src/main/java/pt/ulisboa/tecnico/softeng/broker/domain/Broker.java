@@ -84,4 +84,11 @@ public class Broker extends Broker_Base {
                 getNifAsBuyer(), getIban());
 		bulkBooking.processBooking();
 	}
+
+    @Override
+    public int getCounter() {
+        int counter = super.getCounter() + 1;
+        setCounter(counter);
+        return counter;
+    }
 }

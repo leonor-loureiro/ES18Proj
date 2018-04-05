@@ -5,6 +5,7 @@ class RentACar {
     String name;
     String nif;
     String iban;
+    int counter;
 }
 
 relation DomainRootHasRentACarApplication {

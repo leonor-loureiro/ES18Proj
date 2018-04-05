@@ -21,7 +21,7 @@ public class Booking extends Booking_Base {
 	public Booking(Room room, LocalDate arrival, LocalDate departure, String buyerNIF, String buyerIban) {
 		checkArguments(room, arrival, departure, buyerNIF, buyerIban);
 
-		setReference(room.getHotel().getCode() + Integer.toString(++Booking.counter));
+		setReference(room.getHotel().getCode() + Integer.toString(room.getHotel().getCounter()));
 		setArrival(arrival);
 		setDeparture(departure);
 

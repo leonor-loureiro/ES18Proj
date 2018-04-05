@@ -240,4 +240,10 @@ public class Hotel extends Hotel_Base {
 		return null;
 	}
 
+    @Override
+    public int getCounter() {
+        int counter = super.getCounter() + 1;
+        setCounter(counter);
+        return counter;
+    }
 }

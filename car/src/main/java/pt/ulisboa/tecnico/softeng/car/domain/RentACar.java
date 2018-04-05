@@ -16,7 +16,7 @@ public class RentACar extends RentACar_Base {
 
 	public RentACar(String name, String nif, String iban) {
 		checkArguments(name, nif, iban);
-		setCode(Integer.toString(++RentACar.counter));
+		setCode(nif + Integer.toString(getCounter()));
 		setName(name);
 		setNif(nif);
 		setIban(iban);
@@ -131,4 +131,13 @@ public class RentACar extends RentACar_Base {
 	public Processor getProcessor() {
 		return this.processor;
 	}
+
+
+	@Override
+	public int getCounter() {
+		int counter = super.getCounter() + 1;
+		setCounter(counter);
+		return counter;
+	}
+
 }
