@@ -42,7 +42,7 @@ public class RentACarGetRentingTest extends RollbackTestAbstractClass {
 
 	@Test
 	public void getRenting() {
-		assertEquals(this.renting, RentACar.getRenting(this.renting.getReference()));
+		assertEquals(this.renting.getReference(), RentACar.getRenting(this.renting.getReference()).getReference());
 	}
 
 	public void nonExistent() {

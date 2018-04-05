@@ -6,7 +6,6 @@ import pt.ulisboa.tecnico.softeng.car.exception.CarException;
 
 public class Renting extends Renting_Base {
 	private static String drivingLicenseFormat = "^[a-zA-Z]+\\d+$";
-	private static int counter;
 
 	private static final String type = "RENTAL";
 
@@ -18,7 +17,7 @@ public class Renting extends Renting_Base {
         setKilometers(-1);
         setCancelledInvoice(false);
 
-        setReference(Integer.toString(++Renting.counter));
+        setReference(Integer.toString(vehicle.getRentACar().getCounter()));
         setDrivingLicense(drivingLicense);
         setBegin(begin);
         setEnd(end);
@@ -93,9 +92,4 @@ public class Renting extends Renting_Base {
 	public boolean isCancelledInvoice() {
 		return getCancelledInvoice();
 	}
-
-
-
-
-
 }
