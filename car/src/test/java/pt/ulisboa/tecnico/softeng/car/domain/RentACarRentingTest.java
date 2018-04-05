@@ -7,6 +7,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import pt.ulisboa.tecnico.softeng.car.exception.CarException;
+
 public class RentACarRentingTest {
 	private static final String NAME1 = "eartz";
 	private static final String PLATE_CAR1 = "aa-00-11";
@@ -31,40 +33,39 @@ public class RentACarRentingTest {
 	
 	private static final int PRICE = 50; 
 	
-	private RentACar rentACar1;
 	private Vehicle car1;
 	private Vehicle motorcycle1;
 	
 	@Before
 	public void setUp() {
-		rentACar1 = new RentACar(NAME1, NIF1, IBAN1); 
-		Vehicle car1 = new Car(PLATE_CAR1, 10, PRICE, rentACar1);
+		RentACar rentACar1 = new RentACar(NAME1, NIF1, IBAN1); 
+		car1 = new Car(PLATE_CAR1, 10, PRICE, rentACar1);
 		car1.rent(DRIVING_LICENSE1, date1, date2, clientNIF1, clientIBAN1);
-		Vehicle motorcycle1 = new Motorcycle(PLATE_MOTORCYCLE1, 20, PRICE, rentACar1);
+		motorcycle1 = new Motorcycle(PLATE_MOTORCYCLE1, 20, PRICE, rentACar1);
 		motorcycle1.rent(DRIVING_LICENSE1, date1, date2, clientNIF1, clientIBAN1);
 	}
 
 	@Test
 	public void sucessRentCar() {
-		renting = rentACar1.rentVehicle(Car.class,DRIVING_LICENSE2, date3, date4, clientNIF2, clientIBAN2);
+		renting = RentACar.rentVehicle(Car.class,DRIVING_LICENSE2, date3, date4, clientNIF2, clientIBAN2);
 		assertNotNull(renting);
 	}
 
 	@Test
 	public void sucessRentMotorcycle() {
-		renting = rentACar1.rentVehicle(Motorcycle.class,DRIVING_LICENSE2, date3, date4, clientNIF2, clientIBAN2);
+		renting = RentACar.rentVehicle(Motorcycle.class,DRIVING_LICENSE2, date3, date4, clientNIF2, clientIBAN2);
 		assertNotNull(renting);
 	}
 	
-	@Test
+	@Test(expected = CarException.class) 
 	public void failureRentCar() {
-		renting = rentACar1.rentVehicle(Car.class,DRIVING_LICENSE2, date1, date1, clientNIF2, clientIBAN2);
+		renting = RentACar.rentVehicle(Car.class,DRIVING_LICENSE2, date1, date1, clientNIF2, clientIBAN2);
 		assertNotNull(renting);
 	}
 
-	@Test
+	@Test(expected = CarException.class)
 	public void failureRentMotorcycle() {
-		renting = rentACar1.rentVehicle(Motorcycle.class,DRIVING_LICENSE2, date1, date2, clientNIF2, clientIBAN2);
+		renting = RentACar.rentVehicle(Motorcycle.class,DRIVING_LICENSE2, date1, date2, clientNIF2, clientIBAN2);
 		assertNotNull(renting);
 	}
 
