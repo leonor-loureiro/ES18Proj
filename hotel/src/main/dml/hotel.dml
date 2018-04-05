@@ -6,6 +6,10 @@ class Hotel {
 	String code;
 	String name;
 	int counter;
+	String nif;
+	String iban;
+	double priceSingle;
+	double priceDouble;
 }
 
 relation DomainRootHasHotels {
@@ -37,6 +41,14 @@ class Booking {
 	LocalDate cancellationDate;
 	LocalDate arrival;
 	LocalDate departure;
+	double price;
+	String nif;
+	String providerNif;
+	String paymentReference;
+	String invoiceReference;
+	boolean cancelledInvoice;
+	String cancelledPaymentReference;
+	String buyerIban;
 }
 
 relation RoomHasBookings {

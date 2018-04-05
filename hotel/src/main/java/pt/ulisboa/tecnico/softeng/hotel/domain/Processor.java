@@ -24,7 +24,8 @@ public class Processor {
 			if (!booking.isCancelled()) {
 				if (booking.getPaymentReference() == null) {
 					try {
-						booking.setPaymentReference(BankInterface.processPayment(booking.getIban(), booking.getPrice()));
+						booking.setPaymentReference(
+								BankInterface.processPayment(booking.getBuyerIban(), booking.getPrice()));
 					} catch (BankException | RemoteAccessException ex) {
 						failedToProcess.add(booking);
 						continue;
@@ -43,7 +44,7 @@ public class Processor {
 						booking.setCancelledPaymentReference(
 								BankInterface.cancelPayment(booking.getPaymentReference()));
 					}
-					if (!booking.isCancelledInvoice()) {
+					if (!booking.getCancelledInvoice()) {
 						TaxInterface.cancelInvoice(booking.getInvoiceReference());
 						booking.setCancelledInvoice(true);
 					}

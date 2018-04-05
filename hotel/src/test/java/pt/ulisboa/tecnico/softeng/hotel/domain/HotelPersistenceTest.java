@@ -16,9 +16,13 @@ import pt.ist.fenixframework.FenixFramework;
 import pt.ulisboa.tecnico.softeng.hotel.domain.Room.Type;
 
 public class HotelPersistenceTest {
+	private static final String HOTEL_NIF = "123456789";
+	private static final String HOTEL_IBAN = "IBAN";
 	private static final String HOTEL_NAME = "Berlin Plaza";
 	private final static String HOTEL_CODE = "H123456";
 	private static final String ROOM_NUMBER = "01";
+	private static final String CLIENT_NIF = "123458789";
+	private static final String CLIENT_IBAN = "IBANC";
 
 	private final LocalDate arrival = new LocalDate(2017, 12, 15);
 	private final LocalDate departure = new LocalDate(2017, 12, 19);
@@ -31,11 +35,11 @@ public class HotelPersistenceTest {
 
 	@Atomic(mode = TxMode.WRITE)
 	public void atomicProcess() {
-		Hotel hotel = new Hotel(HOTEL_CODE, HOTEL_NAME, "123456789", "IBAN", 10.0, 20.0);
+		Hotel hotel = new Hotel(HOTEL_CODE, HOTEL_NAME, HOTEL_NIF, HOTEL_IBAN, 10.0, 20.0);
 
 		Room room = new Room(hotel, ROOM_NUMBER, Type.DOUBLE);
 
-		room.reserve(Type.DOUBLE, this.arrival, this.departure, "123456789", "IBAN");
+		room.reserve(Type.DOUBLE, this.arrival, this.departure, CLIENT_NIF, CLIENT_IBAN);
 
 	}
 
@@ -45,6 +49,10 @@ public class HotelPersistenceTest {
 
 		assertEquals(HOTEL_NAME, hotel.getName());
 		assertEquals(HOTEL_CODE, hotel.getCode());
+		assertEquals(HOTEL_IBAN, hotel.getIban());
+		assertEquals(HOTEL_NIF, hotel.getNif());
+		assertEquals(10.0, hotel.getPriceSingle(), 0.0d);
+		assertEquals(20.0, hotel.getPriceDouble(), 0.0d);
 		assertEquals(1, hotel.getRoomSet().size());
 
 		List<Room> hotels = new ArrayList<>(hotel.getRoomSet());
@@ -57,9 +65,14 @@ public class HotelPersistenceTest {
 		List<Booking> bookings = new ArrayList<>(room.getBookingSet());
 		Booking booking = bookings.get(0);
 
+		assertNotNull(booking.getReference());
 		assertEquals(this.arrival, booking.getArrival());
 		assertEquals(this.departure, booking.getDeparture());
-		assertNotNull(booking.getReference());
+		assertEquals(CLIENT_IBAN, booking.getBuyerIban());
+		assertEquals(CLIENT_NIF, booking.getNif());
+		assertEquals(HOTEL_NIF, booking.getProviderNif());
+		assertEquals(80.0, booking.getPrice(), 0.0d);
+		assertEquals(room, booking.getRoom());
 	}
 
 	@After
