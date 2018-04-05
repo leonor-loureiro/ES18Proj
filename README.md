@@ -16,6 +16,8 @@ To see the coverage reports, go to module_name/target/site/jacoco/index.html.
 
 
 Team 1: Broker
+        Implement method for car interface
+
 Team 2: Hotel, Car & Tax
 
 
