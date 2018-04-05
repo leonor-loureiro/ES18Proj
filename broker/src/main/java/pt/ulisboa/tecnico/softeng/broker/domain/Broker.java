@@ -1,8 +1,5 @@
 package pt.ulisboa.tecnico.softeng.broker.domain;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,8 +9,6 @@ import pt.ulisboa.tecnico.softeng.broker.exception.BrokerException;
 
 public class Broker extends Broker_Base {
 	private static Logger logger = LoggerFactory.getLogger(Broker.class);
-
-	private final Set<Client> clients = new HashSet<>();
 
 	public Broker(String code, String name, String nifAsSeller, String nifAsBuyer, String iban) {
 		checkArguments(code, name, nifAsSeller, nifAsBuyer, iban);
@@ -37,6 +32,10 @@ public class Broker extends Broker_Base {
 		for (BulkRoomBooking bulkRoomBooking : getRoomBulkBookingSet()) {
 			bulkRoomBooking.delete();
 		}
+
+		for (Client client: getClientSet()) {
+		    client.delete();
+        }
 
 		deleteDomainObject();
 	}
@@ -67,12 +66,8 @@ public class Broker extends Broker_Base {
 
 	}
 
-	public String getIBAN() {
-		return getIban();
-	}
-
 	public Client getClientByNIF(String NIF) {
-		for (Client client : this.clients) {
+		for (Client client : getClientSet()) {
 			if (client.getNIF().equals(NIF)) {
 				return client;
 			}
@@ -81,16 +76,12 @@ public class Broker extends Broker_Base {
 	}
 
 	public boolean drivingLicenseIsRegistered(String drivingLicense) {
-		return this.clients.stream().anyMatch(client -> client.getDrivingLicense().equals(drivingLicense));
-	}
-
-	public void addClient(Client client) {
-		this.clients.add(client);
+		return getClientSet().stream().anyMatch(client -> client.getDrivingLicense().equals(drivingLicense));
 	}
 
 	public void bulkBooking(int number, LocalDate arrival, LocalDate departure) {
 		BulkRoomBooking bulkBooking = new BulkRoomBooking(this, number, arrival, departure,
-                getNifAsBuyer(), getIBAN());
+                getNifAsBuyer(), getIban());
 		bulkBooking.processBooking();
 	}
 }

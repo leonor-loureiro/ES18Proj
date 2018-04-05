@@ -18,7 +18,7 @@ public class ReserveActivityState extends ReserveActivityState_Base {
 		try {
 			String reference = ActivityInterface.reserveActivity(getAdventure().getBegin(), getAdventure().getEnd(),
 					getAdventure().getAge(), getAdventure().getBroker().getNifAsBuyer(),
-					getAdventure().getBroker().getIBAN());
+					getAdventure().getBroker().getIban());
 
 			getAdventure().setActivityConfirmation(reference);
 

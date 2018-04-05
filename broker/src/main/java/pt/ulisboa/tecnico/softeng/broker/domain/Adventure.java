@@ -38,9 +38,9 @@ public class Adventure extends Adventure_Base {
 
 	public void delete() {
 		setBroker(null);
+		setClient(null);
 
 		getState().delete();
-		getClient().delete();
 
 		deleteDomainObject();
 	}

@@ -74,9 +74,18 @@ class Client {
     int age;
 }
 
+relation BrokerHasClients {
+    Broker playsRole broker {
+        multiplicity 1..1;
+    }
+    Client playsRole client {
+        multiplicity 0..*;
+    }
+}
+
 relation AdventureHasClient {
 	Adventure playsRole adventure {
-		multiplicity 0..1;
+		multiplicity 0..*;
 	}
 	Client playsRole client {
 		multiplicity 1..1;
