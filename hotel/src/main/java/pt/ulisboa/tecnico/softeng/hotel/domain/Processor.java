@@ -3,12 +3,9 @@ package pt.ulisboa.tecnico.softeng.hotel.domain;
 import java.util.HashSet;
 import java.util.Set;
 
-import pt.ulisboa.tecnico.softeng.hotel.exception.RemoteAccessException;
 import pt.ulisboa.tecnico.softeng.hotel.interfaces.BankInterface;
 import pt.ulisboa.tecnico.softeng.hotel.interfaces.TaxInterface;
-import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
 import pt.ulisboa.tecnico.softeng.tax.dataobjects.InvoiceData;
-import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 
 public class Processor {
 	// important to use a set to avoid double submission of the same booking when it
@@ -23,12 +20,13 @@ public class Processor {
 	private void processInvoices() {
 		for (Booking booking : this.bookingToProcess) {
 			if (!booking.isCancelled()) {
-				
+				if (booking.getPaymentReference() == null) {
+					booking.setPaymentReference(BankInterface.processPayment(booking.getClientIBAN(), booking.getAmount()));
+				}
 				InvoiceData invoiceData = new InvoiceData(booking.getHotelNif(), booking.getClientNIF(), booking.getType(),
 						booking.getAmount(), booking.getArrival());
 				
 				booking.setInvoiceReference(TaxInterface.submitInvoice(invoiceData));
-				
 			} else {
 				if (booking.getCancelledPaymentReference() == null) {
 					booking.setCancelledPaymentReference(
