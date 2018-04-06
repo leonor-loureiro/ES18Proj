@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import junit.framework.Assert;
 import mockit.Delegate;
 import mockit.Expectations;
 import mockit.FullVerifications;
@@ -42,6 +43,7 @@ public class InvoiceProcessorSubmitBookingMethodTest {
 	public void success(@Mocked final TaxInterface taxInterface, @Mocked final BankInterface bankInterface) {
 		new Expectations() {
 			{
+				BankInterface.processPayment(this.anyString, this.anyDouble);
 				TaxInterface.submitInvoice((InvoiceData) this.any);
 			}
 		};
@@ -53,8 +55,6 @@ public class InvoiceProcessorSubmitBookingMethodTest {
 			}
 		};
 	}
-
-	
 	
 	@Test
 	public void successCancel(@Mocked final TaxInterface taxInterface, @Mocked final BankInterface bankInterface) {
