@@ -10,23 +10,30 @@ import pt.ulisboa.tecnico.softeng.car.interfaces.TaxInterface;
 import pt.ulisboa.tecnico.softeng.tax.dataobjects.InvoiceData;
 import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 
-public class Processor {
+public class Processor extends Processor_Base {
+	public void delete() {
+		setRentACar(null);
 
-	private final Set<Renting> rentingToProcess = new HashSet<>();
+		for (Renting renting : getRentingSet()) {
+			renting.delete();
+		}
+
+		deleteDomainObject();
+	}
 
 	public void submitRenting(Renting renting) {
-		this.rentingToProcess.add(renting);
+		addRenting(renting);
 		processInvoices();
 	}
 
 	private void processInvoices() {
 		Set<Renting> failedToProcess = new HashSet<>();
-		for (Renting renting : this.rentingToProcess) {
+		for (Renting renting : getRentingSet()) {
 			if (!renting.isCancelled()) {
 				if (renting.getPaymentReference() == null) {
 					try {
 						renting.setPaymentReference(
-								BankInterface.processPayment(renting.getClientIBAN(), renting.getPrice()));
+								BankInterface.processPayment(renting.getClientIban(), renting.getPrice()));
 					} catch (BankException | RemoteAccessException ex) {
 						failedToProcess.add(renting);
 						continue;
@@ -34,7 +41,7 @@ public class Processor {
 				}
 
 				InvoiceData invoiceData = new InvoiceData(renting.getVehicle().getRentACar().getNif(),
-						renting.getClientNIF(), renting.getType(), renting.getPrice(), renting.getBegin());
+						renting.getClientNif(), renting.getType(), renting.getPrice(), renting.getBegin());
 				try {
 					renting.setInvoiceReference(TaxInterface.submitInvoice(invoiceData));
 				} catch (TaxException | RemoteAccessException ex) {
@@ -55,13 +62,13 @@ public class Processor {
 			}
 		}
 
-		this.rentingToProcess.clear();
-		this.rentingToProcess.addAll(failedToProcess);
+		for (Renting renting : getRentingSet()) {
+			removeRenting(renting);
+		}
 
-	}
-
-	public void clean() {
-		this.rentingToProcess.clear();
+		for (Renting renting : failedToProcess) {
+			addRenting(renting);
+		}
 	}
 
 }
