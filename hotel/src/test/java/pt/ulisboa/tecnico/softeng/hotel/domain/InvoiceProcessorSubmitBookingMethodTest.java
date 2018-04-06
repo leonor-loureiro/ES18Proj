@@ -53,7 +53,8 @@ public class InvoiceProcessorSubmitBookingMethodTest {
 		new Expectations() {
 			{
 				TaxInterface.submitInvoice((InvoiceData) this.any);
-
+				BankInterface.processPayment(this.anyString, this.anyDouble);
+				
 				TaxInterface.cancelInvoice(this.anyString);
 				BankInterface.cancelPayment(this.anyString);
 			}
