@@ -6,25 +6,17 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import junit.framework.Assert;
-import mockit.Delegate;
 import mockit.Expectations;
 import mockit.FullVerifications;
 import mockit.Mocked;
 import mockit.integration.junit4.JMockit;
-import pt.ulisboa.tecnico.softeng.hotel.exception.RemoteAccessException;
-import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
 import pt.ulisboa.tecnico.softeng.tax.dataobjects.InvoiceData;
-import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 import pt.ulisboa.tecnico.softeng.hotel.interfaces.BankInterface;
 import pt.ulisboa.tecnico.softeng.hotel.interfaces.TaxInterface;
 
 
 @RunWith(JMockit.class)
 public class InvoiceProcessorSubmitBookingMethodTest {
-	private static final String CANCEL_PAYMENT_REFERENCE = "CancelPaymentReference";
-	private static final String INVOICE_REFERENCE = "InvoiceReference";
-	
 	private static final LocalDate arrival = new LocalDate(2018, 6, 1);
 	private static final LocalDate departure = new LocalDate(2018, 7, 1);
 	private Hotel hotel;
