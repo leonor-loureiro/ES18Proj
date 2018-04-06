@@ -49,7 +49,7 @@ public class ReserveActivityStateProcessMethodTest {
 
 		sameDayAdventure.process();
 
-		Assert.assertEquals(State.CONFIRMED, sameDayAdventure.getState());
+		Assert.assertEquals(State.PROCESS_PAYMENT, sameDayAdventure.getState());
 	}
 
 	@Test
@@ -77,7 +77,7 @@ public class ReserveActivityStateProcessMethodTest {
 
 		this.adventure.process();
 
-		Assert.assertEquals(State.UNDO, this.adventure.getState());
+		Assert.assertEquals(State.CANCELLED, this.adventure.getState());
 	}
 
 	@Test
@@ -109,7 +109,7 @@ public class ReserveActivityStateProcessMethodTest {
 		this.adventure.process();
 		this.adventure.process();
 
-		Assert.assertEquals(State.UNDO, this.adventure.getState());
+		Assert.assertEquals(State.CANCELLED, this.adventure.getState());
 	}
 
 	@Test
@@ -182,6 +182,6 @@ public class ReserveActivityStateProcessMethodTest {
 		this.adventure.process();
 		this.adventure.process();
 
-		Assert.assertEquals(State.UNDO, this.adventure.getState());
+		Assert.assertEquals(State.CANCELLED, this.adventure.getState());
 	}
 }
