@@ -19,8 +19,6 @@ public class CarPersistenceTest {
 	private static final String DRIVING_LICENSE = "br123";
 	private static final LocalDate date1 = LocalDate.parse("2018-01-06");
 	private static final LocalDate date2 = LocalDate.parse("2018-01-07");
-	private static final LocalDate date3 = LocalDate.parse("2018-01-08");
-	private static final LocalDate date4 = LocalDate.parse("2018-01-09");
 	private static final String NIF = "NIF";
 	private static final String IBAN = "IBAN";
 	private static final String IBAN_BUYER = "IBAN";
