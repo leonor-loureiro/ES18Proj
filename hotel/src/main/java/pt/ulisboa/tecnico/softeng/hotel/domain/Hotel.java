@@ -14,8 +14,6 @@ import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 public class Hotel extends Hotel_Base {
 	static final int CODE_SIZE = 7;
 
-	private final Processor processor = new Processor();
-
 	public Hotel(String code, String name, String nif, String iban, double priceSingle, double priceDouble) {
 		checkArguments(code, name, nif, iban, priceSingle, priceDouble);
 
@@ -26,11 +24,15 @@ public class Hotel extends Hotel_Base {
 		setPriceSingle(priceSingle);
 		setPriceDouble(priceDouble);
 
+		setProcessor(new Processor());
+
 		FenixFramework.getDomainRoot().addHotel(this);
 	}
 
 	public void delete() {
 		setRoot(null);
+
+		getProcessor().delete();
 
 		for (Room room : getRoomSet()) {
 			room.delete();
@@ -85,10 +87,6 @@ public class Hotel extends Hotel_Base {
 			}
 		}
 		return availableRooms;
-	}
-
-	public Processor getProcessor() {
-		return this.processor;
 	}
 
 	public double getPrice(Room.Type type) {
