@@ -3,9 +3,12 @@ package pt.ulisboa.tecnico.softeng.hotel.domain;
 import java.util.HashSet;
 import java.util.Set;
 
+import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
+import pt.ulisboa.tecnico.softeng.hotel.exception.RemoteAccessException;
 import pt.ulisboa.tecnico.softeng.hotel.interfaces.BankInterface;
 import pt.ulisboa.tecnico.softeng.hotel.interfaces.TaxInterface;
 import pt.ulisboa.tecnico.softeng.tax.dataobjects.InvoiceData;
+import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 
 public class Processor {
 	// important to use a set to avoid double submission of the same booking when it
@@ -18,15 +21,24 @@ public class Processor {
 	}
 
 	private void processInvoices() {
+		Set<Booking> failedToProcess = new HashSet<>();
 		for (Booking booking : this.bookingToProcess) {
 			if (!booking.isCancelled()) {
 				if (booking.getPaymentReference() == null) {
-					booking.setPaymentReference(BankInterface.processPayment(booking.getClientIBAN(), booking.getAmount()));
+					try {
+						booking.setPaymentReference(BankInterface.processPayment(booking.getClientIBAN(), booking.getAmount()));
+					} catch(BankException | RemoteAccessException ex) {
+						failedToProcess.add(booking);
+						continue;
+					}
 				}
 				InvoiceData invoiceData = new InvoiceData(booking.getHotelNif(), booking.getClientNIF(), booking.getType(),
 						booking.getAmount(), booking.getArrival());
-				
-				booking.setInvoiceReference(TaxInterface.submitInvoice(invoiceData));
+				try {
+					booking.setInvoiceReference(TaxInterface.submitInvoice(invoiceData));
+				} catch(TaxException | RemoteAccessException ex) {
+					failedToProcess.add(booking);
+				}
 			} else {
 				if (booking.getCancelledPaymentReference() == null) {
 					booking.setCancelledPaymentReference(
@@ -39,7 +51,7 @@ public class Processor {
 		}
 
 		this.bookingToProcess.clear();
-
+		this.bookingToProcess.addAll(failedToProcess);
 	}
 
 	public void clean() {
