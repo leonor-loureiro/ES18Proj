@@ -13,25 +13,26 @@ public class Renting extends Renting_Base {
 			String buyerIBAN) {
 		checkArguments(drivingLicense, begin, end, vehicle);
 
-        setType(type);
-        setKilometers(-1);
-        setCancelledInvoice(false);
+		setType(type);
+		setKilometers(-1);
+		setCancelledInvoice(false);
 
-        setReference(Integer.toString(vehicle.getRentACar().getCounter()));
-        setDrivingLicense(drivingLicense);
-        setBegin(begin);
-        setEnd(end);
-        setClientNIF(buyerNIF);
-        setClientIBAN(buyerIBAN);
-        setPrice(vehicle.getPrice() * (end.getDayOfYear() - begin.getDayOfYear()));
+		setReference(Integer.toString(vehicle.getRentACar().getCounter()));
+		setDrivingLicense(drivingLicense);
+		setBegin(begin);
+		setEnd(end);
+		setClientNif(buyerNIF);
+		setClientIban(buyerIBAN);
+		setPrice(vehicle.getPrice() * (end.getDayOfYear() - begin.getDayOfYear()));
 
-        setVehicle(vehicle);
+		setVehicle(vehicle);
 	}
 
-    public void delete() {
-	    setVehicle(null);
-        deleteDomainObject();
-    }
+	public void delete() {
+		setVehicle(null);
+		setProcessor(null);
+		deleteDomainObject();
+	}
 
 	private void checkArguments(String drivingLicense, LocalDate begin, LocalDate end, Vehicle vehicle) {
 		if (drivingLicense == null || !drivingLicense.matches(drivingLicenseFormat) || begin == null || end == null
@@ -85,6 +86,7 @@ public class Renting extends Renting_Base {
 		return getCancellationReference();
 	}
 
+	@Override
 	public String getType() {
 		return this.type;
 	}

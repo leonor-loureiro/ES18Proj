@@ -10,10 +10,6 @@ import pt.ulisboa.tecnico.softeng.car.dataobjects.RentingData;
 import pt.ulisboa.tecnico.softeng.car.exception.CarException;
 
 public class RentACar extends RentACar_Base {
-	private static int counter;
-
-	private final Processor processor = new Processor();
-
 	public RentACar(String name, String nif, String iban) {
 		checkArguments(name, nif, iban);
 		setCode(nif + Integer.toString(getCounter()));
@@ -21,11 +17,15 @@ public class RentACar extends RentACar_Base {
 		setNif(nif);
 		setIban(iban);
 
+		setProcessor(new Processor());
+
 		FenixFramework.getDomainRoot().addRentACar(this);
 	}
 
 	public void delete() {
 		setRoot(null);
+
+		getProcessor().delete();
 
 		for (Vehicle vehicle : getVehicleSet()) {
 			vehicle.delete();
@@ -125,10 +125,6 @@ public class RentACar extends RentACar_Base {
 			throw new CarException();
 		}
 		return new RentingData(renting);
-	}
-
-	public Processor getProcessor() {
-		return this.processor;
 	}
 
 	@Override

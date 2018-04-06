@@ -43,8 +43,8 @@ class Renting {
 	LocalDate begin;
 	LocalDate end;
 	int kilometers;
-	String clientNIF;
-	String clientIBAN;
+	String clientNif;
+	String clientIban;
 	double price;
 	String paymentReference;
 	String invoiceReference;
@@ -57,6 +57,26 @@ class Renting {
 relation VehicleHasRentings{
 	Vehicle playsRole vehicle {
 		multiplicity 1..1;
+	}
+	Renting playsRole renting {
+		multiplicity 0..*;
+	}
+}
+
+class Processor;
+
+relation RentACarHasProcessor {
+	RentACar playsRole rentACar {
+		multiplicity 1..1;
+	}
+	Processor playsRole processor {
+		multiplicity 1..1;
+	}
+}
+
+relation ProcessorManagesRentings {
+	Processor playsRole processor {
+		multiplicity 0..1;
 	}
 	Renting playsRole renting {
 		multiplicity 0..*;
