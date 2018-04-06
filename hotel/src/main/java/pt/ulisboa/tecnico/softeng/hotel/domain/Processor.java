@@ -40,17 +40,21 @@ public class Processor {
 					failedToProcess.add(booking);
 				}
 			} else {
-				if (booking.getCancelledPaymentReference() == null) {
-					booking.setCancelledPaymentReference(
-							BankInterface.cancelPayment(booking.getPaymentReference()));
+				try {
+					if (booking.getCancelledPaymentReference() == null) {
+						booking.setCancelledPaymentReference(
+								BankInterface.cancelPayment(booking.getPaymentReference()));
+					}
+					TaxInterface.cancelInvoice(booking.getInvoiceReference());
+					booking.setCancelledInvoice(true);
+				} catch (BankException | TaxException e) {
+					failedToProcess.add(booking);
 				}
-				TaxInterface.cancelInvoice(booking.getInvoiceReference());
-				booking.setCancelledInvoice(true);
 
 			}
 		}
 
-		this.bookingToProcess.clear();
+		clean();
 		this.bookingToProcess.addAll(failedToProcess);
 	}
 

@@ -41,13 +41,16 @@ public class Processor {
 				}
 
 			} else {
-				
-				if (renting.getCancelledPaymentReference() == null) {
-					renting.setCancelledPaymentReference(
-						BankInterface.cancelPayment(renting.getPaymentReference()));
+				try {	
+					if (renting.getCancelledPaymentReference() == null) {
+						renting.setCancelledPaymentReference(
+							BankInterface.cancelPayment(renting.getPaymentReference()));
+					}
+					TaxInterface.cancelInvoice(renting.getInvoiceReference());
+					renting.setCancelledInvoice(true);
+				} catch (BankException | TaxException e) {
+					failedToProcess.add(renting);
 				}
-				TaxInterface.cancelInvoice(renting.getInvoiceReference());
-				renting.setCancelledInvoice(true);
 			}
 		}
 
