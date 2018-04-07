@@ -5,6 +5,10 @@ import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 public abstract class TaxPayer extends TaxPayer_Base {
 	protected TaxPayer() {
 		// this is a FenixFramework artifact; if not present, compilation fails.
+		// the empty constructor is used by the base class to materialize objects from
+		// the database, and in this case the classes Seller_Base and Buyer_Base, which
+		// extend this class, have the empty constructor, which need to be present in
+		// their superclass
 		super();
 	}
 
