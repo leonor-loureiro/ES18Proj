@@ -62,22 +62,6 @@ public class AdventureProcessMethodTest {
 		RentACar rentACar = new RentACar("eartz","123456789","ES061");
 		new Car("aa-00-11", 10, 50, rentACar);
 		
-		
-		RentACar rentACar = new RentACar("eartz","123456789","ES061");
-		new Car("aa-00-11", 10, 50, rentACar);
-		
-		
-		RentACar rentACar = new RentACar("eartz","123456789","ES061");
-		new Car("aa-00-11", 10, 50, rentACar);
-		
-		
-		RentACar rentACar = new RentACar("eartz","123456789","ES061");
-		new Car("aa-00-11", 10, 50, rentACar);
-		
-		
-		RentACar rentACar = new RentACar("eartz","123456789","ES061");
-		new Car("aa-00-11", 10, 50, rentACar);
-		
 		Adventure adventure = new Adventure(this.broker, this.begin, this.end, this.adClient, MARGIN, RENTV_F);
 
 		adventure.process(); //reserveActivity

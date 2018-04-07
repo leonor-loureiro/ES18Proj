@@ -279,7 +279,7 @@ public class AdventureSequenceTest {
 							}
 		};
 
-		Adventure adventure = new Adventure(this.broker, arrival, departure, AGE, IBAN, AMOUNT);
+		Adventure adventure = new Adventure(this.broker, arrival, departure, this.client, MARGIN, RENTV_F);
 
 		adventure.process(); //reserveActivity
 		adventure.process(); //reserveRoom

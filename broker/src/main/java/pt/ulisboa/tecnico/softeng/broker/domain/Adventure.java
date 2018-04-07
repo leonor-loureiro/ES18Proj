@@ -32,28 +32,6 @@ public class Adventure {
 	private String rentingCancellation;
 	
 	private AdventureState state;
-	private String rentingConfirmation;
-	private String rentingCancellation;
-	
-	
-	private String rentingConfirmation;
-	private String rentingCancellation;
-	
-	
-	private String rentingConfirmation;
-	private String rentingCancellation;
-	
-	
-	private String rentingConfirmation;
-	private String rentingCancellation;
-	
-	
-	private String rentingConfirmation;
-	private String rentingCancellation;
-	
-	
-
-	
 
 	public Adventure(Broker broker, LocalDate begin, LocalDate end, Client client, int margin, boolean rentCar) {
 		checkArguments(broker, begin, end, client, margin);

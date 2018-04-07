@@ -20,19 +20,24 @@ import pt.ulisboa.tecnico.softeng.car.exception.CarException;
 @RunWith(JMockit.class)
 public class RentVehicleStateMethodTest {
 	private static final String IBAN = "BK01987654321";
-	private static final int AMOUNT = 300;
+	private static final int MARGIN = 300;
 	private static final int AGE = 20;
 	private static final String RENT_CONFIRMATION = "RentConfirmation";
 	private static final LocalDate arrival = new LocalDate(2016, 12, 19);
 	private static final LocalDate departure = new LocalDate(2016, 12, 21);
+	private static final String NIF = "444444444";
+	private static final String DR_L = "A1";
+	private static final boolean RENTV_F = false;
 	private Adventure adventure;
+	private Client client;
 
 	@Injectable
 	private Broker broker;
 
 	@Before
 	public void setUp() {
-		this.adventure = new Adventure(this.broker, arrival, departure, AGE, IBAN, AMOUNT);
+		this.client = new Client(this.broker, IBAN, NIF, DR_L, AGE);
+		this.adventure = new Adventure(this.broker, arrival, departure, this.client, MARGIN, RENTV_F);
 		this.adventure.setState(State.RENT_VEHICLE);
 	}
 
