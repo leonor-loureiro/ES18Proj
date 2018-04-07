@@ -6,13 +6,6 @@ import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 
 public class IRS extends IRS_Base {
 
-	@Override
-	public int getCounter() {
-		int counter = super.getCounter() + 1;
-		setCounter(counter);
-		return counter;
-	}
-
 	public static IRS getIRSInstance() {
 		if (FenixFramework.getDomainRoot().getIrs() == null) {
 			return new IRS();
@@ -97,6 +90,13 @@ public class IRS extends IRS_Base {
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public int getCounter() {
+		int counter = super.getCounter() + 1;
+		setCounter(counter);
+		return counter;
 	}
 
 }
