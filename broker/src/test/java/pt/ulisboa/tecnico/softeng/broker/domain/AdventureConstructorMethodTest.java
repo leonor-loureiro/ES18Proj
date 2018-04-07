@@ -9,13 +9,20 @@ import org.junit.Test;
 import pt.ulisboa.tecnico.softeng.broker.exception.BrokerException;
 
 public class AdventureConstructorMethodTest {
+	
+	private static final String CODE = "BR01";
+	private static final String NAME = "eXtremeADVENTURE";
+	private static final String NIF_AS_BUYER  = "111111111";
+	private static final String NIF_AS_SELLER = "222222222";
+	private static final String NIF_OF_CLIENT = "333333333";
+	private static final String IBAN_BROKER = "BK011234567";
+	private static final String IBAN_CLIENT = "CL011234567";
+	
 	private static final int GOOD_AGE = 20;
-	private static final String IBAN = "BK011234567";
 	private static final int MARGIN = 50;
-	private static final String NIF = "444444444";
 	private static final String DR_L = "A1";
 	private static final boolean RENTV_F = false;
-	
+		
 	private Client client;
 	private Broker broker;
 	private final LocalDate begin = new LocalDate(2016, 12, 19);
@@ -23,21 +30,20 @@ public class AdventureConstructorMethodTest {
 
 	@Before
 	public void setUp() {
-		this.broker = new Broker("BR01", "eXtremeADVENTURE");
-		this.client = new Client(this.broker, IBAN, NIF, DR_L, GOOD_AGE);
+		this.broker = new Broker(CODE, NAME, NIF_AS_SELLER, NIF_AS_BUYER, IBAN_BROKER);
+		this.client = new Client(this.broker, IBAN_CLIENT, NIF_OF_CLIENT, DR_L, GOOD_AGE);
 	}
 
 	@Test
 	public void success() {
-		//public Adventure(Broker broker, LocalDate begin, LocalDate end, Client client, int margin, boolean rentCar) {
 		Adventure adventure = new Adventure(this.broker, this.begin, this.end, this.client, MARGIN, RENTV_F);
 
 		Assert.assertEquals(this.broker, adventure.getBroker());
 		Assert.assertEquals(this.begin, adventure.getBegin());
 		Assert.assertEquals(this.end, adventure.getEnd());
 		Assert.assertEquals(20, adventure.getAge());
-		Assert.assertEquals(IBAN, adventure.getIBAN());
-		Assert.assertEquals(300, adventure.getAmount());
+		Assert.assertEquals(IBAN_CLIENT, adventure.getIBAN());
+		Assert.assertEquals(MARGIN, adventure.getAmount());
 		Assert.assertTrue(this.broker.hasAdventure(adventure));
 
 		Assert.assertNull(adventure.getPaymentConfirmation());
@@ -64,46 +70,12 @@ public class AdventureConstructorMethodTest {
 	public void nullClient() {
 		new Adventure(this.broker, this.begin, this.end, null, MARGIN, RENTV_F);
 	}
-/*
-	@Test(expected = BrokerException.class)
-	public void nullIBAN() {
-		new Adventure(this.broker, this.begin, this.end, AGE, null, AMOUNT);
-	}
-
-	@Test(expected = BrokerException.class)
-	public void emptyIBAN() {
-		new Adventure(this.broker, this.begin, this.end, AGE, "     ", AMOUNT);
-	}
-	 */
+	
 	@Test(expected = BrokerException.class)
 	public void negativeMargin() {
 		new Adventure(this.broker, this.begin, this.end, this.client, -100, RENTV_F);
 	}
 
-	/*
-	 * Amount testing in adventure
-	@Test
-	public void success1Amount() {
-		Adventure adventure = new Adventure(this.broker, this.begin, this.end, AGE, IBAN, 1);
-
-		Assert.assertEquals(this.broker, adventure.getBroker());
-		Assert.assertEquals(this.begin, adventure.getBegin());
-		Assert.assertEquals(this.end, adventure.getEnd());
-		Assert.assertEquals(20, adventure.getAge());
-		Assert.assertEquals(IBAN, adventure.getIBAN());
-		Assert.assertEquals(1, adventure.getAmount());
-		Assert.assertTrue(this.broker.hasAdventure(adventure));
-
-		Assert.assertNull(adventure.getPaymentConfirmation());
-		Assert.assertNull(adventure.getActivityConfirmation());
-		Assert.assertNull(adventure.getRoomConfirmation());
-	}
-
-	@Test(expected = BrokerException.class)
-	public void zeroAmount() {
-		new Adventure(this.broker, this.begin, this.end, AGE, IBAN, 0);
-	}
-	 */
 	@Test
 	public void successEqualDates() {
 		Adventure adventure = new Adventure(this.broker, this.begin, this.begin, this.client, MARGIN, RENTV_F);
@@ -112,8 +84,8 @@ public class AdventureConstructorMethodTest {
 		Assert.assertEquals(this.begin, adventure.getBegin());
 		Assert.assertEquals(this.begin, adventure.getEnd());
 		Assert.assertEquals(20, adventure.getAge());
-		Assert.assertEquals(IBAN, adventure.getIBAN());
-		Assert.assertEquals(300, adventure.getAmount());
+		Assert.assertEquals(IBAN_CLIENT, adventure.getIBAN());
+		Assert.assertEquals(MARGIN, adventure.getAmount());
 		Assert.assertTrue(this.broker.hasAdventure(adventure));
 
 		Assert.assertNull(adventure.getPaymentConfirmation());

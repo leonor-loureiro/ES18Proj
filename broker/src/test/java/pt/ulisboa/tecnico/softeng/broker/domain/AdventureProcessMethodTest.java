@@ -22,10 +22,16 @@ import pt.ulisboa.tecnico.softeng.hotel.domain.Room;
 import pt.ulisboa.tecnico.softeng.hotel.domain.Room.Type;
 
 public class AdventureProcessMethodTest {
+	private static final String CODE = "BR01";
+	private static final String NAME_BROKER = "eXtremeADVENTURE";
+	private static final String NIF_AS_BUYER  = "111111111";
+	private static final String NIF_AS_SELLER = "222222222";
+	private static final String IBAN_BROKER = "BK011234567";
+	
 	private final LocalDate begin = new LocalDate(2016, 12, 19);
 	private final LocalDate end = new LocalDate(2016, 12, 21);
-	private final String NIF = "444444444";
 	private final String DR_L = "A1";
+	private static final String NIF_OF_CLIENT = "333333333";
 	
 	private final boolean RENTV_F = false;
 	private final int MARGIN   = 300;
@@ -33,17 +39,17 @@ public class AdventureProcessMethodTest {
 	
 	private pt.ulisboa.tecnico.softeng.broker.domain.Client adClient;
 	private Broker broker;
-	private String IBAN;
+	private String IBAN_CLIENT;
 
 	@Before
 	public void setUp() {
-		this.broker = new Broker("BR01", "eXtremeADVENTURE");
+		this.broker = new Broker(CODE, NAME_BROKER, NIF_AS_SELLER, NIF_AS_BUYER, IBAN_BROKER);
 
 		Bank bank = new Bank("Money", "BK01");
 		Client client = new Client(bank, "António");
 		Account account = new Account(bank, client);
-		this.IBAN = account.getIBAN();
-		this.adClient = new pt.ulisboa.tecnico.softeng.broker.domain.Client(this.broker,this.IBAN, NIF, DR_L, GOOD_AGE);
+		this.IBAN_CLIENT = account.getIBAN();
+		this.adClient = new pt.ulisboa.tecnico.softeng.broker.domain.Client(this.broker,this.IBAN_CLIENT, NIF_OF_CLIENT, DR_L, GOOD_AGE);
 		account.deposit(1000);
 
 		Hotel hotel = new Hotel("XPTO123", "Paris", "123456789", "ES061", 10, 10);
@@ -80,6 +86,7 @@ public class AdventureProcessMethodTest {
 		Adventure adventure = new Adventure(this.broker, this.begin, this.end, this.adClient, MARGIN, RENTV_F);
 
 		adventure.process(); //reserveActivity
+		adventure.process(); //rent vehicle
 		adventure.process(); //payment
 
 		assertEquals(Adventure.State.CONFIRMED, adventure.getState());

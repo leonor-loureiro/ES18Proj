@@ -17,7 +17,11 @@ public class Application {
 		Account account = new Account(bank, new Client(bank, "José dos Anzóis"));
 		account.deposit(1000);
 
-		Broker broker = new Broker("BR01", "Fun");
+		String NIF1 = "111111111";
+		String NIF2 = "222222222";
+		String IBAN = "BK011234567";
+		
+		Broker broker = new Broker("BR01", "Fun", NIF1, NIF2, IBAN);
 		pt.ulisboa.tecnico.softeng.broker.domain.Client client;
 		client = new pt.ulisboa.tecnico.softeng.broker.domain.Client(
 				broker, account.getIBAN(), "NIF234", "A1", 50

@@ -18,12 +18,23 @@ public class Broker {
 	private final String name;
 	private final Set<Adventure> adventures = new HashSet<>();
 	private final Set<BulkRoomBooking> bulkBookings = new HashSet<>();
-
-	public Broker(String code, String name) {
+	
+	private final String nifSeller;
+	private final String nifBuyer;
+	private final String iban;
+	
+	public Broker(String code, String name, String nifSeller, String nifBuyer, String iban) {
 		checkCode(code);
 		this.code = code;
-
-		checkName(name);
+		
+		checkStringValue(name);
+		checkStringValue(nifSeller);
+		checkStringValue(nifBuyer);
+		checkStringValue(iban);
+		
+		this.nifSeller = nifSeller;
+		this.nifBuyer  = nifBuyer;
+		this.iban      = iban;
 		this.name = name;
 
 		Broker.brokers.add(this);
@@ -41,7 +52,7 @@ public class Broker {
 		}
 	}
 
-	private void checkName(String name) {
+	private void checkStringValue(String name) {
 		if (name == null || name.trim().length() == 0) {
 			throw new BrokerException();
 		}
@@ -53,6 +64,18 @@ public class Broker {
 
 	String getName() {
 		return this.name;
+	}
+
+	public String getNIFSeller() {
+		return nifSeller;
+	}
+
+	public String getNIFBuyer() {
+		return nifBuyer;
+	}
+
+	public String getIBAN() {
+		return iban;
 	}
 
 	public int getNumberOfAdventures() {
