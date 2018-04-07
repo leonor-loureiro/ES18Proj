@@ -83,14 +83,13 @@ public class AdventureProcessMethodTest {
 
 	@Test
 	public void successNoHotelBooking() {
-		Adventure adventure = new Adventure(this.broker, this.begin, this.end, this.adClient, MARGIN, RENTV_F);
+		Adventure adventure = new Adventure(this.broker, this.begin, this.begin, this.adClient, MARGIN, RENTV_F);
 
 		adventure.process(); //reserveActivity
-		adventure.process(); //rent vehicle
 		adventure.process(); //payment
 
 		assertEquals(Adventure.State.CONFIRMED, adventure.getState());
-		assertNotNull(adventure.getPaymentConfirmation());
+		assertNotNull(adventure.getPaymentConfirmation());	
 		assertNotNull(adventure.getActivityConfirmation());
 	}
 
