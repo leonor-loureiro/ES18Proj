@@ -6,8 +6,8 @@ import pt.ulisboa.tecnico.softeng.car.exception.CarException;
 
 public class Renting {
 	private static String drivingLicenseFormat = "^[a-zA-Z]+\\d+$";
-
 	private static final String type = "RENTAL";
+
 	private final String reference;
 	private String cancellationReference;
 	private final String drivingLicense;
