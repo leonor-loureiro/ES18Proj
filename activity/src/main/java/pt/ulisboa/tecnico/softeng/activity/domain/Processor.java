@@ -11,9 +11,6 @@ import pt.ulisboa.tecnico.softeng.tax.dataobjects.InvoiceData;
 import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 
 public class Processor extends Processor_Base {
-	// important to use a set to avoid double submission of the same booking when it
-	// is cancelled while trying to pay or send invoice
-
 	public void delete() {
 		setActivityProvider(null);
 
