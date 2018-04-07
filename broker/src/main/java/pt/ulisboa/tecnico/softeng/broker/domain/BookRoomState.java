@@ -30,7 +30,7 @@ public class BookRoomState extends AdventureState {
 			return;
 		}
 
-		adventure.setState(State.PROCESS_PAYMENT);
+		adventure.setState(State.RENT_VEHICLE);
 	}
 
 }
