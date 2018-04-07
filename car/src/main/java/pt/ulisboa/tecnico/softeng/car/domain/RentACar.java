@@ -15,6 +15,10 @@ public class RentACar {
 
 	private static int counter;
 
+	public int getNextCounter() {
+		return ++counter;
+	}
+
 	private final String name;
 	private final String code;
 	private final String nif;
@@ -28,7 +32,7 @@ public class RentACar {
 		this.name = name;
 		this.nif = nif;
 		this.iban = iban;
-		this.code = Integer.toString(++RentACar.counter);
+		this.code = nif + Integer.toString(getNextCounter());
 
 		rentACars.add(this);
 	}
@@ -155,4 +159,5 @@ public class RentACar {
 	public Processor getProcessor() {
 		return this.processor;
 	}
+
 }

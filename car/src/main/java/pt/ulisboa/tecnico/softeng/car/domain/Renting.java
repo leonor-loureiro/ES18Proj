@@ -6,7 +6,6 @@ import pt.ulisboa.tecnico.softeng.car.exception.CarException;
 
 public class Renting {
 	private static String drivingLicenseFormat = "^[a-zA-Z]+\\d+$";
-	private static int counter;
 
 	private static final String type = "RENTAL";
 	private final String reference;
@@ -30,7 +29,7 @@ public class Renting {
 	public Renting(String drivingLicense, LocalDate begin, LocalDate end, Vehicle vehicle, String buyerNIF,
 			String buyerIBAN) {
 		checkArguments(drivingLicense, begin, end, vehicle);
-		this.reference = Integer.toString(++Renting.counter);
+		this.reference = Integer.toString(vehicle.getRentACar().getNextCounter());
 		this.drivingLicense = drivingLicense;
 		this.begin = begin;
 		this.end = end;
@@ -188,7 +187,7 @@ public class Renting {
 	}
 
 	public double getPrice() {
-		return price;
+		return this.price;
 	}
 
 }
