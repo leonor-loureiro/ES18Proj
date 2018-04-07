@@ -1,18 +1,21 @@
 package pt.ulisboa.tecnico.softeng.activity.domain;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import org.joda.time.LocalDate;
 import org.junit.After;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
-
-import static org.junit.Assert.*;
 
 public class ActivityPersistenceTest {
 	private static final String ACTIVITY_NAME = "Activity_Name";
@@ -40,9 +43,9 @@ public class ActivityPersistenceTest {
 
 		Activity activity = new Activity(activityProvider, ACTIVITY_NAME, 18, 65, CAPACITY);
 
-		ActivityOffer activityOffer = new ActivityOffer(activity, this.begin, this.end, AMOUNT);
+		new ActivityOffer(activity, this.begin, this.end, AMOUNT);
 
-		new Booking(activityProvider, activityOffer, BUYER_NIF, BUYER_IBAN);
+		ActivityProvider.reserveActivity(this.begin, this.end, 54, BUYER_NIF, BUYER_IBAN);
 	}
 
 	@Atomic(mode = TxMode.READ)
@@ -55,8 +58,11 @@ public class ActivityPersistenceTest {
 		assertEquals(PROVIDER_CODE, provider.getCode());
 		assertEquals(PROVIDER_NAME, provider.getName());
 		assertEquals(1, provider.getActivitySet().size());
-		assertEquals(NIF , provider.getNif());
+		assertEquals(NIF, provider.getNif());
 		assertEquals(IBAN, provider.getIban());
+		Processor processor = provider.getProcessor();
+		assertNotNull(processor);
+		assertEquals(1, processor.getBookingSet().size());
 
 		List<Activity> activities = new ArrayList<>(provider.getActivitySet());
 		Activity activity = activities.get(0);
@@ -91,7 +97,8 @@ public class ActivityPersistenceTest {
 		assertEquals(BUYER_NIF, booking.getBuyerNif());
 		assertEquals(BUYER_IBAN, booking.getIban());
 		assertEquals(NIF, booking.getProviderNif());
-    }
+		assertEquals(processor, booking.getProcessor());
+	}
 
 	@After
 	@Atomic(mode = TxMode.WRITE)
