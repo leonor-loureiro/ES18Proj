@@ -13,16 +13,16 @@ import mockit.Mocked;
 import mockit.integration.junit4.JMockit;
 import pt.ulisboa.tecnico.softeng.broker.domain.Adventure.State;
 import pt.ulisboa.tecnico.softeng.broker.exception.RemoteAccessException;
-import pt.ulisboa.tecnico.softeng.broker.interfaces.HotelInterface;
-import pt.ulisboa.tecnico.softeng.hotel.domain.Room.Type;
-import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
+import pt.ulisboa.tecnico.softeng.broker.interfaces.CarInterface;
+import pt.ulisboa.tecnico.softeng.car.domain.Car;
+import pt.ulisboa.tecnico.softeng.car.exception.CarException;
 
 @RunWith(JMockit.class)
-public class BookRoomStateMethodTest {
+public class RentVehicleStateMethodTest {
 	private static final String IBAN = "BK01987654321";
 	private static final int AMOUNT = 300;
 	private static final int AGE = 20;
-	private static final String ROOM_CONFIRMATION = "RoomConfirmation";
+	private static final String RENT_CONFIRMATION = "RentConfirmation";
 	private static final LocalDate arrival = new LocalDate(2016, 12, 19);
 	private static final LocalDate departure = new LocalDate(2016, 12, 21);
 	private Adventure adventure;
@@ -33,15 +33,44 @@ public class BookRoomStateMethodTest {
 	@Before
 	public void setUp() {
 		this.adventure = new Adventure(this.broker, arrival, departure, AGE, IBAN, AMOUNT);
-		this.adventure.setState(State.BOOK_ROOM);
+		this.adventure.setState(State.RENT_VEHICLE);
 	}
 
 	@Test
-	public void successBookRoom(@Mocked final HotelInterface hotelInterface) {
+	public void successRentVehicle(@Mocked final CarInterface carInterface) {
 		new Expectations() {
 			{
-				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure);
-				this.result = ROOM_CONFIRMATION;
+				CarInterface.rentVehicle(Car.class, anyString, arrival, departure, anyString, anyString);
+				this.result = RENT_CONFIRMATION;
+			}
+		};
+
+		this.adventure.process();
+
+		Assert.assertEquals(State.PROCESS_PAYMENT, this.adventure.getState());
+	}
+
+	@Test
+	public void carException(@Mocked final CarInterface carInterface) {
+		new Expectations() {
+			{
+				CarInterface.rentVehicle(Car.class, anyString, arrival, departure, anyString, anyString);
+				this.result = new CarException();
+			}
+		};
+
+		this.adventure.process(); 
+	
+
+		Assert.assertEquals(State.UNDO, this.adventure.getState());
+	}
+
+	@Test
+	public void singleRemoteAccessException(@Mocked final CarInterface carInterface) {
+		new Expectations() {
+			{
+				CarInterface.rentVehicle(Car.class, anyString, arrival, departure, anyString, anyString);
+				this.result = new RemoteAccessException();
 			}
 		};
 
@@ -51,44 +80,16 @@ public class BookRoomStateMethodTest {
 	}
 
 	@Test
-	public void hotelException(@Mocked final HotelInterface hotelInterface) {
+	public void maxRemoteAccessException(@Mocked final CarInterface carInterface) {
 		new Expectations() {
 			{
-				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure);
-				this.result = new HotelException();
-			}
-		};
-
-		this.adventure.process();
-
-		Assert.assertEquals(State.UNDO, this.adventure.getState());
-	}
-
-	@Test
-	public void singleRemoteAccessException(@Mocked final HotelInterface hotelInterface) {
-		new Expectations() {
-			{
-				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure);
+				CarInterface.rentVehicle(Car.class, anyString, arrival, departure, anyString, anyString);
 				this.result = new RemoteAccessException();
+				this.times = RentVehicleState.MAX_REMOTE_ERRORS;
 			}
 		};
 
-		this.adventure.process();
-
-		Assert.assertEquals(State.BOOK_ROOM, this.adventure.getState());
-	}
-
-	@Test
-	public void maxRemoteAccessException(@Mocked final HotelInterface hotelInterface) {
-		new Expectations() {
-			{
-				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure);
-				this.result = new RemoteAccessException();
-				this.times = BookRoomState.MAX_REMOTE_ERRORS;
-			}
-		};
-
-		for (int i = 0; i < BookRoomState.MAX_REMOTE_ERRORS; i++) {
+		for (int i = 0; i < RentVehicleState.MAX_REMOTE_ERRORS; i++) {
 			this.adventure.process();
 		}
 
@@ -96,40 +97,40 @@ public class BookRoomStateMethodTest {
 	}
 
 	@Test
-	public void maxMinusOneRemoteAccessException(@Mocked final HotelInterface hotelInterface) {
+	public void maxMinusOneRemoteAccessException(@Mocked final CarInterface carInterface) {
 		new Expectations() {
 			{
-				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure);
+				CarInterface.rentVehicle(Car.class, anyString, arrival, departure, anyString, anyString);
 				this.result = new RemoteAccessException();
-				this.times = BookRoomState.MAX_REMOTE_ERRORS - 1;
+				this.times = RentVehicleState.MAX_REMOTE_ERRORS - 1;
 			}
 		};
-
-		for (int i = 0; i < BookRoomState.MAX_REMOTE_ERRORS - 1; i++) {
+		
+		for (int i = 0; i < RentVehicleState.MAX_REMOTE_ERRORS - 1; i++) {
 			this.adventure.process();
 		}
 
-		Assert.assertEquals(State.BOOK_ROOM, this.adventure.getState());
+		Assert.assertEquals(State.RENT_VEHICLE, this.adventure.getState());
 	}
 
 	@Test
-	public void fiveRemoteAccessExceptionOneSuccess(@Mocked final HotelInterface hotelInterface) {
+	public void threeRemoteAccessExceptionOneSuccess(@Mocked final CarInterface carInterface) {
 		new Expectations() {
 			{
-				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure);
+				CarInterface.rentVehicle(Car.class, anyString, arrival, departure, anyString, anyString);
 				this.result = new Delegate() {
 					int i = 0;
 
 					public String delegate() {
-						if (this.i < 5) {
+						if (this.i < 3) {
 							this.i++;
 							throw new RemoteAccessException();
 						} else {
-							return ROOM_CONFIRMATION;
+							return RENT_CONFIRMATION;
 						}
 					}
 				};
-				this.times = 6;
+				this.times = 4;
 			}
 		};
 
@@ -137,17 +138,16 @@ public class BookRoomStateMethodTest {
 		this.adventure.process();
 		this.adventure.process();
 		this.adventure.process();
-		this.adventure.process();
-		this.adventure.process();
 
-		Assert.assertEquals(State.RENT_VEHICLE, this.adventure.getState());
+
+		Assert.assertEquals(State.PROCESS_PAYMENT, this.adventure.getState());
 	}
 
 	@Test
-	public void oneRemoteAccessExceptionOneActivityException(@Mocked final HotelInterface hotelInterface) {
+	public void oneRemoteAccessExceptionOneCarException(@Mocked final CarInterface carInterface) {
 		new Expectations() {
 			{
-				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure);
+				CarInterface.rentVehicle(Car.class, anyString, arrival, departure, anyString, anyString);
 				this.result = new Delegate() {
 					int i = 0;
 
@@ -156,7 +156,7 @@ public class BookRoomStateMethodTest {
 							this.i++;
 							throw new RemoteAccessException();
 						} else {
-							throw new HotelException();
+							throw new CarException();
 						}
 					}
 				};
