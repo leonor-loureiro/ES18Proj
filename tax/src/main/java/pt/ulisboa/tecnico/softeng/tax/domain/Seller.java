@@ -4,34 +4,23 @@ import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 
 public class Seller extends Seller_Base {
 
+	public Seller(IRS irs, String NIF, String name, String address) {
+		checkArguments(irs, NIF, name, address);
 
-    public Seller(IRS irs, String NIF, String name, String address) {
-        checkArguments(irs, NIF, name, address);
+		setNif(NIF);
+		setName(name);
+		setAddress(address);
 
-        setIrs(irs);
-        setNif(NIF);
-        setName(name);
-        setAddress(address);
-    }
+		irs.addTaxPayer(this);
+	}
 
-    private void checkArguments(IRS irs, String NIF, String name, String address) {
-        if (NIF == null || NIF.length() != 9) {
-            throw new TaxException();
-        }
+	public void delete() {
+		for (Invoice invoice : getInvoiceSet()) {
+			invoice.delete();
+		}
 
-        if (name == null || name.length() == 0) {
-            throw new TaxException();
-        }
-
-        if (address == null || address.length() == 0) {
-            throw new TaxException();
-        }
-
-        if (irs.getTaxPayerByNIF(NIF) != null) {
-            throw new TaxException();
-        }
-
-    }
+		super.delete();
+	}
 
 	public double toPay(int year) {
 		if (year < 1970) {
@@ -47,16 +36,16 @@ public class Seller extends Seller_Base {
 		return result;
 	}
 
-    public Invoice getInvoiceByReference(String invoiceReference) {
-        if (invoiceReference == null || invoiceReference.isEmpty()) {
-            throw new TaxException();
-        }
+	public Invoice getInvoiceByReference(String invoiceReference) {
+		if (invoiceReference == null || invoiceReference.isEmpty()) {
+			throw new TaxException();
+		}
 
-        for (Invoice invoice : getInvoiceSet() ) {
-            if (invoice.getReference().equals(invoiceReference)) {
-                return invoice;
-            }
-        }
-        return null;
-    }
+		for (Invoice invoice : getInvoiceSet()) {
+			if (invoice.getReference().equals(invoiceReference)) {
+				return invoice;
+			}
+		}
+		return null;
+	}
 }

@@ -12,11 +12,15 @@ public class ItemType extends ItemType_Base {
 		irs.addItemType(this);
 	}
 
-    public void delete() {
-        setIrs(null);
+	public void delete() {
+		setIrs(null);
 
-        deleteDomainObject();
-    }
+		for (Invoice invoice : getInvoiceSet()) {
+			invoice.delete();
+		}
+
+		deleteDomainObject();
+	}
 
 	private void checkArguments(IRS irs, String name, int tax) {
 		if (name == null || name.isEmpty()) {

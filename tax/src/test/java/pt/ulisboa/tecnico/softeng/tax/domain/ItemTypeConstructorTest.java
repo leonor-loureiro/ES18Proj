@@ -18,18 +18,18 @@ public class ItemTypeConstructorTest extends RollbackTestAbstractClass {
 
 	@Override
 	public void populate4Test() {
-		this.irs = IRS.getIRS();
+		this.irs = IRS.getIRSInstance();
 	}
 
 	@Test
 	public void success() {
-		IRS irs = IRS.getIRS();
+		IRS irs = IRS.getIRSInstance();
 
 		ItemType itemType = new ItemType(irs, CAR, TAX);
 
 		assertEquals(CAR, itemType.getName());
 		assertEquals(TAX, itemType.getTax());
-		assertNotNull(IRS.getIRS().getItemTypeByName(CAR));
+		assertNotNull(IRS.getIRSInstance().getItemTypeByName(CAR));
 
 		assertEquals(itemType, irs.getItemTypeByName(CAR));
 	}
@@ -42,7 +42,7 @@ public class ItemTypeConstructorTest extends RollbackTestAbstractClass {
 			new ItemType(this.irs, CAR, TAX);
 			fail();
 		} catch (TaxException te) {
-			assertEquals(itemType, IRS.getIRS().getItemTypeByName(CAR));
+			assertEquals(itemType, IRS.getIRSInstance().getItemTypeByName(CAR));
 		}
 	}
 

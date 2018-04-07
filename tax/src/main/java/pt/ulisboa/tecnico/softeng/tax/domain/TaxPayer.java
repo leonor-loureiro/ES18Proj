@@ -4,9 +4,9 @@ import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 
 public abstract class TaxPayer extends TaxPayer_Base {
 	protected TaxPayer() {
-	    //this is a FenixFramework artifact; if not present, compilation fails.
-        super();
-    }
+		// this is a FenixFramework artifact; if not present, compilation fails.
+		super();
+	}
 
 	public TaxPayer(IRS irs, String NIF, String name, String address) {
 		checkArguments(irs, NIF, name, address);
@@ -18,12 +18,13 @@ public abstract class TaxPayer extends TaxPayer_Base {
 		irs.addTaxPayer(this);
 	}
 
-    public void delete() {
-        setIrs(null);
-        deleteDomainObject();
-    }
+	public void delete() {
+		setIrs(null);
 
-	private void checkArguments(IRS irs, String NIF, String name, String address) {
+		deleteDomainObject();
+	}
+
+	protected void checkArguments(IRS irs, String NIF, String name, String address) {
 		if (NIF == null || NIF.length() != 9) {
 			throw new TaxException();
 		}
@@ -42,5 +43,5 @@ public abstract class TaxPayer extends TaxPayer_Base {
 
 	}
 
-    public abstract Invoice getInvoiceByReference(String invoiceReference);
+	public abstract Invoice getInvoiceByReference(String invoiceReference);
 }
