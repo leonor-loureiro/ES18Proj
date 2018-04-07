@@ -126,10 +126,10 @@ public class RentACar {
 		return null;
 	}
 	
-	public static Renting rentVehicle(Class<?> cls, String driving_licence, LocalDate begin, LocalDate end, String clientNIF, String clientIBAN) {
+	public static String rentVehicle(Class<?> cls, String driving_licence, LocalDate begin, LocalDate end, String clientNIF, String clientIBAN) {
 		Set<Vehicle> available = getAllAvailableVehicles(cls, begin, end);
 		if(available.size() > 0) {
-			return available.iterator().next().rent(driving_licence, begin, end, clientNIF, clientIBAN);
+			return available.iterator().next().rent(driving_licence, begin, end, clientNIF, clientIBAN).getReference();	
 		}
 		throw new CarException();
 	}

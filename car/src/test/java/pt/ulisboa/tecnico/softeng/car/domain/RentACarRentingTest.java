@@ -18,7 +18,7 @@ public class RentACarRentingTest {
 	private static final LocalDate date2 = LocalDate.parse("2018-01-07");
 	private static final LocalDate date3 = LocalDate.parse("2018-01-08");
 	private static final LocalDate date4 = LocalDate.parse("2018-01-09");
-	private Renting renting;
+	private String renting;
 
 	private static final String NIF1 = "123456789"; 
 	private static final String IBAN1 = "ES061"; 
