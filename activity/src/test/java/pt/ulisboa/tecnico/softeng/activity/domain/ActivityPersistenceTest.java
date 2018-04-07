@@ -97,6 +97,8 @@ public class ActivityPersistenceTest {
 		assertEquals(BUYER_NIF, booking.getBuyerNif());
 		assertEquals(BUYER_IBAN, booking.getIban());
 		assertEquals(NIF, booking.getProviderNif());
+		assertEquals(AMOUNT, booking.getAmount(), 0.0d);
+		assertEquals(this.begin, booking.getDate());
 		assertEquals(processor, booking.getProcessor());
 	}
 

@@ -38,7 +38,7 @@ public class BookingContructorMethodTest extends RollbackTestAbstractClass {
 		assertTrue(booking.getReference().startsWith(this.provider.getCode()));
 		assertTrue(booking.getReference().length() > ActivityProvider.CODE_SIZE);
 		assertEquals(1, this.offer.getNumberActiveOfBookings());
-		assertEquals(NIF, booking.getNif());
+		assertEquals(NIF, booking.getBuyerNif());
 		assertEquals(IBAN, booking.getIban());
 		assertEquals(AMOUNT, booking.getAmount(), 0);
 	}

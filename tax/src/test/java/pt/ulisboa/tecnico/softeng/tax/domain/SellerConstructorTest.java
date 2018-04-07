@@ -18,7 +18,7 @@ public class SellerConstructorTest extends RollbackTestAbstractClass {
 
 	@Override
 	public void populate4Test() {
-		this.irs = IRS.getIRS();
+		this.irs = IRS.getIRSInstance();
 	}
 
 	@Test
@@ -29,7 +29,7 @@ public class SellerConstructorTest extends RollbackTestAbstractClass {
 		assertEquals(NAME, seller.getName());
 		assertEquals(ADDRESS, seller.getAddress());
 
-		assertEquals(seller, IRS.getIRS().getTaxPayerByNIF(NIF));
+		assertEquals(seller, IRS.getIRSInstance().getTaxPayerByNIF(NIF));
 	}
 
 	@Test
@@ -40,7 +40,7 @@ public class SellerConstructorTest extends RollbackTestAbstractClass {
 			new Seller(this.irs, NIF, NAME, ADDRESS);
 			fail();
 		} catch (TaxException ie) {
-			assertEquals(seller, IRS.getIRS().getTaxPayerByNIF(NIF));
+			assertEquals(seller, IRS.getIRSInstance().getTaxPayerByNIF(NIF));
 		}
 	}
 

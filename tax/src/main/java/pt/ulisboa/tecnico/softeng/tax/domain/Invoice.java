@@ -5,12 +5,11 @@ import org.joda.time.LocalDate;
 import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 
 public class Invoice extends Invoice_Base {
-	private static int counter = 0;
 
 	Invoice(double value, LocalDate date, ItemType itemType, Seller seller, Buyer buyer) {
 		checkArguments(value, date, itemType, seller, buyer);
 
-		setReference(Integer.toString(++Invoice.counter));
+		setReference(Integer.toString(seller.getIrs().getCounter()));
 		setValue(value);
 		setDate(date);
 		setCancelled(false);
@@ -23,16 +22,16 @@ public class Invoice extends Invoice_Base {
 		getSeller().addInvoice(this);
 		getBuyer().addInvoice(this);
 
-		setIrs(IRS.getIRS());
+		setIrs(getSeller().getIrs());
 	}
 
-    public void delete() {
-	    setIrs(null);
-	    setSeller(null);
-	    setBuyer(null);
-	    setItemType(null);
-        deleteDomainObject();
-    }
+	public void delete() {
+		setIrs(null);
+		setSeller(null);
+		setBuyer(null);
+		setItemType(null);
+		deleteDomainObject();
+	}
 
 	private void checkArguments(double value, LocalDate date, ItemType itemType, Seller seller, Buyer buyer) {
 		if (value <= 0.0f) {

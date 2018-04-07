@@ -5,24 +5,18 @@ import org.joda.time.LocalDate;
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
 
 public class Booking extends Booking_Base {
-	private static int counter = 0;
-
 	private static final String SPORT_TYPE = "SPORT";
-	private final double amount;
-	private final LocalDate date;
 
 	public Booking(ActivityProvider provider, ActivityOffer offer, String buyerNif, String buyerIban) {
 		checkArguments(provider, offer, buyerNif, buyerIban);
 
-		setReference(offer.getActivity().getActivityProvider().getCode() + Integer.toString(++Booking.counter));
+		setReference(offer.getActivity().getActivityProvider().getCode() + Integer.toString(provider.getCounter()));
 		setActivityOffer(offer);
 		setProviderNif(provider.getNif());
-
-		this.amount = offer.getPrice();
-		this.date = offer.getBegin();
-
 		setBuyerNif(buyerNif);
 		setIban(buyerIban);
+		setAmount(offer.getPrice());
+		setDate(offer.getBegin());
 		setType(SPORT_TYPE);
 		setCancelledInvoice(false);
 
@@ -46,18 +40,6 @@ public class Booking extends Booking_Base {
 		setProcessor(null);
 
 		deleteDomainObject();
-	}
-
-	public String getNif() {
-		return getBuyerNif();
-	}
-
-	public double getAmount() {
-		return this.amount;
-	}
-
-	public LocalDate getDate() {
-		return this.date;
 	}
 
 	public String cancel() {

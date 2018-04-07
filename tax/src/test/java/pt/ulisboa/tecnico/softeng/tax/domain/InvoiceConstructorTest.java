@@ -25,7 +25,7 @@ public class InvoiceConstructorTest extends RollbackTestAbstractClass {
 
 	@Override
 	public void populate4Test() {
-		IRS irs = IRS.getIRS();
+		IRS irs = IRS.getIRSInstance();
 		this.seller = new Seller(irs, SELLER_NIF, "José Vendido", "Somewhere");
 		this.buyer = new Buyer(irs, BUYER_NIF, "Manuel Comprado", "Anywhere");
 		this.itemType = new ItemType(irs, FOOD, TAX);

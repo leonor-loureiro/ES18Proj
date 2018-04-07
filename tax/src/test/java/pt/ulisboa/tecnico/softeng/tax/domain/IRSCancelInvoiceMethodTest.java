@@ -22,7 +22,7 @@ public class IRSCancelInvoiceMethodTest extends RollbackTestAbstractClass {
 
 	@Override
 	public void populate4Test() {
-		this.irs = IRS.getIRS();
+		this.irs = IRS.getIRSInstance();
 		Seller seller = new Seller(this.irs, SELLER_NIF, "José Vendido", "Somewhere");
 		Buyer buyer = new Buyer(this.irs, BUYER_NIF, "Manuel Comprado", "Anywhere");
 		ItemType itemType = new ItemType(this.irs, FOOD, VALUE);

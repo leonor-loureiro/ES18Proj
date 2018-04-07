@@ -1,7 +1,8 @@
 package pt.ulisboa.tecnico.softeng.tax.domain;
 
-
-class IRS;
+class IRS {
+	int counter;
+}
 
 relation DomainRootHasIRSApplication {
 	.pt.ist.fenixframework.DomainRoot playsRole root {
@@ -23,9 +24,11 @@ class Seller extends TaxPayer;
 
 
 relation IRSHasTaxPayers {
-	IRS playsRole irs;
+	IRS playsRole irs {
+		multiplicity 1..1;
+	}
 	TaxPayer playsRole taxPayer {
-		multiplicity *;
+		multiplicity 0..*;
 	}
 }
 
@@ -35,9 +38,11 @@ class ItemType {
 }
 
 relation IRSHasItemTypes {
-	IRS playsRole irs;
+	IRS playsRole irs {
+		multiplicity 1..1;
+	}
 	ItemType playsRole itemType {
-		multiplicity *;
+		multiplicity 0..*;
 	}
 }
 
@@ -50,28 +55,36 @@ class Invoice {
 }
 
 relation IRSHasInvoices {
-	IRS playsRole irs;
+	IRS playsRole irs {
+		multiplicity 1..1;
+	}
 	Invoice playsRole invoice {
-		multiplicity *;
+		multiplicity 0..*;
 	}
 }
 
-relation InvoiceHasItemType {
-	Invoice playsRole invoice;
+relation ItemTypeHasInvoices {
 	ItemType playsRole itemType {
-		multiplicity 1;
+		multiplicity 1..1;
+	}
+	Invoice playsRole invoice {
+		multiplicity 0..*;
 	}
 }
 
 relation SellerHasInvoices {
-    Seller playsRole seller;
+    Seller playsRole seller {
+		multiplicity 1..1;
+	}
     Invoice playsRole invoice {
         multiplicity 1..*;
     }
 }
 
 relation BuyerHasInvoices {
-    Buyer playsRole buyer;
+    Buyer playsRole buyer {
+		multiplicity 1..1;
+	}
     Invoice playsRole invoice {
         multiplicity 1..*;
     }

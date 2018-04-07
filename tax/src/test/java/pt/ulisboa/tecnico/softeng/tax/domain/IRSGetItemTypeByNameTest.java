@@ -16,7 +16,7 @@ public class IRSGetItemTypeByNameTest extends RollbackTestAbstractClass {
 
 	@Override
 	public void populate4Test() {
-		this.irs = IRS.getIRS();
+		this.irs = IRS.getIRSInstance();
 		new ItemType(this.irs, FOOD, VALUE);
 	}
 

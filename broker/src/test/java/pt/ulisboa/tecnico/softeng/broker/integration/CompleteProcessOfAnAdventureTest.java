@@ -102,16 +102,16 @@ public class CompleteProcessOfAnAdventureTest extends RollbackTestAbstractClass 
 	@Override
 	public void populate4Test() {
 		// tax
-		new ItemType(IRS.getIRS(), "SPORT", 10);
-		new ItemType(IRS.getIRS(), "HOUSING", 10);
-		new ItemType(IRS.getIRS(), "RENTAL", 10);
-		new ItemType(IRS.getIRS(), "ADVENTURE", 10);
-		this.brokerAsSeller = new Seller(IRS.getIRS(), NIF_AS_SELLER, NAME_OF_BROKER, ADDRESS_OF_BROKER);
-		this.brokerAsBuyer = new Buyer(IRS.getIRS(), NIF_AS_BUYER, NAME_OF_BROKER, ADDRESS_OF_BROKER);
-		this.clientAsBuyer = new Buyer(IRS.getIRS(), NIF_OF_CLIENT, NAME_OF_CLIENT, ADDRESS_OF_CLIENT);
-		this.providerAsSeller = new Seller(IRS.getIRS(), NIF_OF_PROVIDER, NAME_OF_PROVIDER, "AddressOfProvider");
-		this.hotelAsSeller = new Seller(IRS.getIRS(), NIF_OF_HOTEL, NAME_OF_HOTEL, "AddressOfHotel");
-		this.rentACarAsSeller = new Seller(IRS.getIRS(), NIF_OF_RENT_A_CAR, NAME_OF_RENT_A_CAR, "AddressOfRentACar");
+		new ItemType(IRS.getIRSInstance(), "SPORT", 10);
+		new ItemType(IRS.getIRSInstance(), "HOUSING", 10);
+		new ItemType(IRS.getIRSInstance(), "RENTAL", 10);
+		new ItemType(IRS.getIRSInstance(), "ADVENTURE", 10);
+		this.brokerAsSeller = new Seller(IRS.getIRSInstance(), NIF_AS_SELLER, NAME_OF_BROKER, ADDRESS_OF_BROKER);
+		this.brokerAsBuyer = new Buyer(IRS.getIRSInstance(), NIF_AS_BUYER, NAME_OF_BROKER, ADDRESS_OF_BROKER);
+		this.clientAsBuyer = new Buyer(IRS.getIRSInstance(), NIF_OF_CLIENT, NAME_OF_CLIENT, ADDRESS_OF_CLIENT);
+		this.providerAsSeller = new Seller(IRS.getIRSInstance(), NIF_OF_PROVIDER, NAME_OF_PROVIDER, "AddressOfProvider");
+		this.hotelAsSeller = new Seller(IRS.getIRSInstance(), NIF_OF_HOTEL, NAME_OF_HOTEL, "AddressOfHotel");
+		this.rentACarAsSeller = new Seller(IRS.getIRSInstance(), NIF_OF_RENT_A_CAR, NAME_OF_RENT_A_CAR, "AddressOfRentACar");
 
 		// bank
 		Bank bank = new Bank("Money", "BK01");

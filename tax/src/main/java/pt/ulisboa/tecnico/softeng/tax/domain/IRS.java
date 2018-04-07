@@ -6,7 +6,7 @@ import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 
 public class IRS extends IRS_Base {
 
-	public static IRS getIRS() {
+	public static IRS getIRSInstance() {
 		if (FenixFramework.getDomainRoot().getIrs() == null) {
 			return new IRS();
 		}
@@ -20,9 +20,9 @@ public class IRS extends IRS_Base {
 	public void delete() {
 		setRoot(null);
 
-        clearAll();
+		clearAll();
 
-        deleteDomainObject();
+		deleteDomainObject();
 	}
 
 	public TaxPayer getTaxPayerByNIF(String NIF) {
@@ -44,7 +44,7 @@ public class IRS extends IRS_Base {
 	}
 
 	public static String submitInvoice(InvoiceData invoiceData) {
-		IRS irs = IRS.getIRS();
+		IRS irs = IRS.getIRSInstance();
 		Seller seller = (Seller) irs.getTaxPayerByNIF(invoiceData.getSellerNIF());
 		Buyer buyer = (Buyer) irs.getTaxPayerByNIF(invoiceData.getBuyerNIF());
 		ItemType itemType = irs.getItemTypeByName(invoiceData.getItemType());
@@ -53,25 +53,19 @@ public class IRS extends IRS_Base {
 		return invoice.getReference();
 	}
 
-	public void removeItemTypes() {
+	private void clearAll() {
 		for (ItemType itemType : getItemTypeSet()) {
 			itemType.delete();
 		}
-	}
 
-	public void removeTaxPayers() {
 		for (TaxPayer taxPayer : getTaxPayerSet()) {
 			taxPayer.delete();
 		}
-	}
 
-	public void clearAll() {
-        for (Invoice invoice : getInvoiceSet()) {
-            invoice.delete();
-        }
-        
-		removeItemTypes();
-		removeTaxPayers();
+		for (Invoice invoice : getInvoiceSet()) {
+			invoice.delete();
+		}
+
 	}
 
 	public static void cancelInvoice(String reference) {
@@ -79,7 +73,7 @@ public class IRS extends IRS_Base {
 			throw new TaxException();
 		}
 
-		Invoice invoice = IRS.getIRS().getInvoiceByReference(reference);
+		Invoice invoice = IRS.getIRSInstance().getInvoiceByReference(reference);
 
 		if (invoice == null) {
 			throw new TaxException();
@@ -96,6 +90,13 @@ public class IRS extends IRS_Base {
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public int getCounter() {
+		int counter = super.getCounter() + 1;
+		setCounter(counter);
+		return counter;
 	}
 
 }

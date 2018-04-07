@@ -3,12 +3,10 @@ package pt.ulisboa.tecnico.softeng.bank.domain;
 import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
 
 public class Client extends Client_Base {
-	private static int counter = 0;
-
 	public Client(Bank bank, String name) {
 		checkArguments(bank, name);
 
-		setID(Integer.toString(++Client.counter));
+		setID(Integer.toString(bank.getCounter()));
 		setName(name);
 
 		setBank(bank);
