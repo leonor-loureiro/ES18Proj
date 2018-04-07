@@ -55,7 +55,7 @@ public class BookRoomStateMethodTest {
 
 		this.adventure.process();
 
-		Assert.assertEquals(State.PROCESS_PAYMENT, this.adventure.getState());
+		Assert.assertEquals(State.RENT_VEHICLE, this.adventure.getState());
 	}
 
 	@Test
@@ -148,7 +148,7 @@ public class BookRoomStateMethodTest {
 		this.adventure.process();
 		this.adventure.process();
 
-		Assert.assertEquals(State.PROCESS_PAYMENT, this.adventure.getState());
+		Assert.assertEquals(State.RENT_VEHICLE, this.adventure.getState());
 	}
 
 	@Test

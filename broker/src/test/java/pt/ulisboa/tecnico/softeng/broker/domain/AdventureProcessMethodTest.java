@@ -14,6 +14,9 @@ import pt.ulisboa.tecnico.softeng.activity.domain.ActivityProvider;
 import pt.ulisboa.tecnico.softeng.bank.domain.Account;
 import pt.ulisboa.tecnico.softeng.bank.domain.Bank;
 import pt.ulisboa.tecnico.softeng.bank.domain.Client;
+import pt.ulisboa.tecnico.softeng.car.domain.Car;
+import pt.ulisboa.tecnico.softeng.car.domain.RentACar;
+import pt.ulisboa.tecnico.softeng.car.domain.Vehicle;
 import pt.ulisboa.tecnico.softeng.hotel.domain.Hotel;
 import pt.ulisboa.tecnico.softeng.hotel.domain.Room;
 import pt.ulisboa.tecnico.softeng.hotel.domain.Room.Type;
@@ -35,7 +38,7 @@ public class AdventureProcessMethodTest {
 	@Before
 	public void setUp() {
 		this.broker = new Broker("BR01", "eXtremeADVENTURE");
-		
+
 		Bank bank = new Bank("Money", "BK01");
 		Client client = new Client(bank, "António");
 		Account account = new Account(bank, client);
@@ -45,7 +48,8 @@ public class AdventureProcessMethodTest {
 
 		Hotel hotel = new Hotel("XPTO123", "Paris", "123456789", "ES061", 10, 10);
 		new Room(hotel, "01", Type.SINGLE);
-
+		
+		
 		ActivityProvider provider = new ActivityProvider("XtremX", "ExtremeAdventure", "NIF", "IBAN");
 		Activity activity = new Activity(provider, "Bush Walking", 18, 80, 10);
 		new ActivityOffer(activity, this.begin, this.end, 30);
@@ -54,11 +58,32 @@ public class AdventureProcessMethodTest {
 
 	@Test
 	public void success() {
+		
+		RentACar rentACar = new RentACar("eartz","123456789","ES061");
+		new Car("aa-00-11", 10, 50, rentACar);
+		
+		
+		RentACar rentACar = new RentACar("eartz","123456789","ES061");
+		new Car("aa-00-11", 10, 50, rentACar);
+		
+		
+		RentACar rentACar = new RentACar("eartz","123456789","ES061");
+		new Car("aa-00-11", 10, 50, rentACar);
+		
+		
+		RentACar rentACar = new RentACar("eartz","123456789","ES061");
+		new Car("aa-00-11", 10, 50, rentACar);
+		
+		
+		RentACar rentACar = new RentACar("eartz","123456789","ES061");
+		new Car("aa-00-11", 10, 50, rentACar);
+		
 		Adventure adventure = new Adventure(this.broker, this.begin, this.end, this.adClient, MARGIN, RENTV_F);
 
-		adventure.process();
-		adventure.process();
-		adventure.process();
+		adventure.process(); //reserveActivity
+		adventure.process(); //reserveHotel
+		adventure.process(); //reserveCar
+		adventure.process(); //payment
 
 		assertEquals(Adventure.State.CONFIRMED, adventure.getState());
 		assertNotNull(adventure.getPaymentConfirmation());
@@ -70,8 +95,8 @@ public class AdventureProcessMethodTest {
 	public void successNoHotelBooking() {
 		Adventure adventure = new Adventure(this.broker, this.begin, this.end, this.adClient, MARGIN, RENTV_F);
 
-		adventure.process();
-		adventure.process();
+		adventure.process(); //reserveActivity
+		adventure.process(); //payment
 
 		assertEquals(Adventure.State.CONFIRMED, adventure.getState());
 		assertNotNull(adventure.getPaymentConfirmation());
@@ -84,5 +109,7 @@ public class AdventureProcessMethodTest {
 		Hotel.hotels.clear();
 		ActivityProvider.providers.clear();
 		Broker.brokers.clear();
+		RentACar.rentACars.clear();
+		
 	}
 }

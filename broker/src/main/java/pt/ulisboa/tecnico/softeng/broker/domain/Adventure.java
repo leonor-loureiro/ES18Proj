@@ -28,8 +28,32 @@ public class Adventure {
 	private String roomCancellation;
 	private String activityConfirmation;
 	private String activityCancellation;
-
+	private String rentingConfirmation;
+	private String rentingCancellation;
+	
 	private AdventureState state;
+	private String rentingConfirmation;
+	private String rentingCancellation;
+	
+	
+	private String rentingConfirmation;
+	private String rentingCancellation;
+	
+	
+	private String rentingConfirmation;
+	private String rentingCancellation;
+	
+	
+	private String rentingConfirmation;
+	private String rentingCancellation;
+	
+	
+	private String rentingConfirmation;
+	private String rentingCancellation;
+	
+	
+
+	
 
 	public Adventure(Broker broker, LocalDate begin, LocalDate end, Client client, int margin, boolean rentCar) {
 		checkArguments(broker, begin, end, client, margin);
@@ -144,6 +168,22 @@ public class Adventure {
 	public void setRoomCancellation(String roomCancellation) {
 		this.roomCancellation = roomCancellation;
 	}
+	
+	public String getRentingConfirmation() {
+		return this.rentingConfirmation;
+	}
+	
+	public void setRentingConfirmation(String rentingConfirmation) {
+		this.rentingConfirmation = rentingConfirmation;
+	}
+	
+	public String getRentingCancellation() {
+		return this.rentingCancellation;
+	}
+	
+	public void setRentingCancellation(String rentingCancellation) {
+		this.rentingCancellation = rentingCancellation;
+	}
 
 	public State getState() {
 		return this.state.getState();
@@ -159,6 +199,9 @@ public class Adventure {
 			break;
 		case BOOK_ROOM:
 			this.state = new BookRoomState();
+			break;
+		case RENT_VEHICLE:
+			this.state = new RentVehicleState();
 			break;
 		case UNDO:
 			this.state = new UndoState();
@@ -189,6 +232,10 @@ public class Adventure {
 
 	public boolean cancelPayment() {
 		return getPaymentConfirmation() != null && getPaymentCancellation() == null;
+	}
+	
+	public boolean cancelRenting() {
+		return getRentingConfirmation() != null && getRentingCancellation() == null;
 	}
 
 }

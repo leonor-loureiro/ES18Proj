@@ -15,7 +15,10 @@ import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
 import pt.ulisboa.tecnico.softeng.broker.domain.Adventure.State;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.ActivityInterface;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.BankInterface;
+import pt.ulisboa.tecnico.softeng.broker.interfaces.CarInterface;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.HotelInterface;
+import pt.ulisboa.tecnico.softeng.car.domain.Car;
+import pt.ulisboa.tecnico.softeng.car.exception.CarException;
 import pt.ulisboa.tecnico.softeng.hotel.domain.Room.Type;
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 
@@ -36,7 +39,8 @@ public class AdventureSequenceTest {
 	private static final String NIF = "444444444";
 	private static final String DR_L = "A1";
 	private Client client;
-
+	private static final String RENT_CONFIRMATION = "RentConfirmation";
+	private static final String RENT_CANCELLATION = "RentCancellation";
 	@Injectable
 	private Broker broker;
 
@@ -47,7 +51,7 @@ public class AdventureSequenceTest {
 	
 	@Test
 	public void successSequenceOne(@Mocked final BankInterface bankInterface,
-			@Mocked final ActivityInterface activityInterface, @Mocked final HotelInterface roomInterface) {
+			@Mocked final ActivityInterface activityInterface, @Mocked final HotelInterface roomInterface, @Mocked final CarInterface carInterface) {
 		new Expectations() {
 			{
 				BankInterface.processPayment(IBAN, MARGIN);
@@ -58,6 +62,9 @@ public class AdventureSequenceTest {
 
 				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure);
 				this.result = ROOM_CONFIRMATION;
+				
+				CarInterface.rentVehicle(Car.class, anyString, arrival, departure, anyString, anyString);
+				this.result = RENT_CONFIRMATION;
 
 				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
 
@@ -71,6 +78,7 @@ public class AdventureSequenceTest {
 
 		adventure.process();  //reserveActivity
 		adventure.process();  //reserveHotel
+		adventure.process();  //rentVehicle
 		adventure.process();  //payment
 		adventure.process();  //confirm
 
@@ -106,7 +114,7 @@ public class AdventureSequenceTest {
 	//falha banco
 	@Test
 	public void unsuccessSequenceOne(@Mocked final BankInterface bankInterface,
-			@Mocked final ActivityInterface activityInterface, @Mocked final HotelInterface roomInterface) {
+			@Mocked final ActivityInterface activityInterface, @Mocked final HotelInterface roomInterface, @Mocked final CarInterface carInterface) {
 		new Expectations() {
 			{
 
@@ -115,6 +123,9 @@ public class AdventureSequenceTest {
 
 				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure);
 				this.result = ROOM_CONFIRMATION;
+				
+				CarInterface.rentVehicle(Car.class, anyString, arrival, departure, anyString, anyString);
+				this.result = RENT_CONFIRMATION;
 				
 				BankInterface.processPayment(IBAN, MARGIN);
 				this.result = new BankException();
@@ -125,6 +136,9 @@ public class AdventureSequenceTest {
 				HotelInterface.cancelBooking(ROOM_CONFIRMATION);
 				this.result = ROOM_CANCELLATION;
 				
+				CarInterface.cancelRenting(RENT_CONFIRMATION);
+				this.result = RENT_CANCELLATION;
+				
 			}
 		};
 
@@ -132,6 +146,7 @@ public class AdventureSequenceTest {
 
 		adventure.process(); //reserveActivity
 		adventure.process(); //reserveHotel
+		adventure.process();  //rentVehicle
 		adventure.process(); //payment
 		adventure.process(); //undo
 		adventure.process(); //cancel
@@ -192,7 +207,7 @@ public class AdventureSequenceTest {
 
 	@Test
 	public void unsuccessSequenceFour(@Mocked final BankInterface bankInterface,
-			@Mocked final ActivityInterface activityInterface, @Mocked final HotelInterface roomInterface) {
+			@Mocked final ActivityInterface activityInterface, @Mocked final HotelInterface roomInterface,  @Mocked final CarInterface carInterface) {
 		new Expectations() {
 			{
 				BankInterface.processPayment(IBAN, MARGIN);
@@ -203,6 +218,9 @@ public class AdventureSequenceTest {
 
 				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure);
 				this.result = ROOM_CONFIRMATION;
+				
+				CarInterface.rentVehicle(Car.class, anyString, arrival, departure, anyString, anyString);
+				this.result = RENT_CONFIRMATION;
 
 				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
 				this.result = new BankException();
@@ -216,6 +234,9 @@ public class AdventureSequenceTest {
 
 				HotelInterface.cancelBooking(ROOM_CONFIRMATION);
 				this.result = ROOM_CANCELLATION;
+				
+				CarInterface.cancelRenting(RENT_CONFIRMATION);
+				this.result = RENT_CANCELLATION;
 			}
 		};
 
@@ -223,10 +244,47 @@ public class AdventureSequenceTest {
 
 		adventure.process(); //reserveActivity
 		adventure.process(); //reserveRoom
+		adventure.process(); //rentVehicle
 		adventure.process(); //payment
 		for (int i = 0; i < ConfirmedState.MAX_BANK_EXCEPTIONS; i++) {
 			adventure.process(); //confirm
 		}
+		adventure.process(); //cancel
+
+		Assert.assertEquals(State.CANCELLED, adventure.getState());
+	}
+
+	//falha renting
+	@Test
+	public void unsuccessSequenceFive(@Mocked final ActivityInterface activityInterface,
+			@Mocked final HotelInterface roomInterface,  @Mocked final CarInterface carInterface) {
+		new Expectations() {
+			{
+				
+
+				ActivityInterface.reserveActivity(arrival, departure, AGE);
+				this.result = ACTIVITY_CONFIRMATION;
+
+				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure);
+				this.result = ROOM_CONFIRMATION;
+				
+				CarInterface.rentVehicle(Car.class, anyString, arrival, departure, anyString, anyString);
+				this.result = new CarException();
+
+				ActivityInterface.cancelReservation(ACTIVITY_CONFIRMATION);
+				this.result = ACTIVITY_CANCELLATION;
+
+				HotelInterface.cancelBooking(ROOM_CONFIRMATION);
+				this.result = ROOM_CANCELLATION;
+							}
+		};
+
+		Adventure adventure = new Adventure(this.broker, arrival, departure, AGE, IBAN, AMOUNT);
+
+		adventure.process(); //reserveActivity
+		adventure.process(); //reserveRoom
+		adventure.process(); //rentVehicle
+		adventure.process(); //undo
 		adventure.process(); //cancel
 
 		Assert.assertEquals(State.CANCELLED, adventure.getState());

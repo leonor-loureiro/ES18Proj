@@ -6,7 +6,9 @@ import pt.ulisboa.tecnico.softeng.broker.domain.Adventure.State;
 import pt.ulisboa.tecnico.softeng.broker.exception.RemoteAccessException;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.ActivityInterface;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.BankInterface;
+import pt.ulisboa.tecnico.softeng.broker.interfaces.CarInterface;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.HotelInterface;
+import pt.ulisboa.tecnico.softeng.car.exception.CarException;
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 
 public class UndoState extends AdventureState {
@@ -42,8 +44,16 @@ public class UndoState extends AdventureState {
 				// does not change state
 			}
 		}
+		
+		if (requiresCancelRenting(adventure)) {
+			try {
+				adventure.setRentingCancellation(CarInterface.cancelRenting(adventure.getRentingConfirmation()));
+			} catch (CarException | RemoteAccessException ex) {
+				// does not change state
+			}
+		}
 
-		if (!requiresCancelPayment(adventure) && !requiresCancelActivity(adventure) && !requiresCancelRoom(adventure)) {
+		if (!requiresCancelPayment(adventure) && !requiresCancelActivity(adventure) && !requiresCancelRoom(adventure) && !requiresCancelRenting(adventure)) {
 			adventure.setState(State.CANCELLED);
 		}
 	}
@@ -58,6 +68,10 @@ public class UndoState extends AdventureState {
 
 	public boolean requiresCancelPayment(Adventure adventure) {
 		return adventure.getPaymentConfirmation() != null && adventure.getPaymentCancellation() == null;
+	}
+
+	public boolean requiresCancelRenting(Adventure adventure) {
+		return adventure.getRentingConfirmation() != null && adventure.getRentingCancellation() == null;
 	}
 
 }
