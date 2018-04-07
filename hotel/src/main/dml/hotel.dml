@@ -71,7 +71,7 @@ relation HotelHasProcessor {
 	}
 }
 
-relation ProcessorManagesBookings {
+relation ProcessorManagesHotelBookings {
 	Processor playsRole processor {
 		multiplicity 0..1;
 	}

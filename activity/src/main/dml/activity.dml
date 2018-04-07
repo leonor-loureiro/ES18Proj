@@ -84,7 +84,7 @@ relation ActivityProviderHasProcessor {
 	}
 }
 
-relation ProcessorManagesBookings {
+relation ProcessorManagesActivityBookings {
 	Processor playsRole processor {
 		multiplicity 0..1;
 	}
