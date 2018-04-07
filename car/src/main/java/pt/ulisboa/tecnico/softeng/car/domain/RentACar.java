@@ -135,6 +135,16 @@ public class RentACar {
 		}
 		throw new CarException();
 	}
+	
+	
+	public static String cancelRenting(String reference) {
+		Renting renting = getRenting(reference);
+		if (renting != null) {
+			return renting.cancel();
+		}
+		throw new CarException();
+	}
+	
 
 	public static RentingData getRentingData(String reference) {
 		Renting renting = getRenting(reference);
