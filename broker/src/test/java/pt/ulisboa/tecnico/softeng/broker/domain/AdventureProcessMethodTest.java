@@ -7,26 +7,40 @@ import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
+import mockit.Expectations;
+import mockit.Injectable;
+import mockit.Mocked;
+import mockit.integration.junit4.JMockit;
 import pt.ulisboa.tecnico.softeng.activity.domain.Activity;
 import pt.ulisboa.tecnico.softeng.activity.domain.ActivityOffer;
 import pt.ulisboa.tecnico.softeng.activity.domain.ActivityProvider;
 import pt.ulisboa.tecnico.softeng.bank.domain.Account;
 import pt.ulisboa.tecnico.softeng.bank.domain.Bank;
 import pt.ulisboa.tecnico.softeng.bank.domain.Client;
+import pt.ulisboa.tecnico.softeng.broker.interfaces.ActivityInterface;
+import pt.ulisboa.tecnico.softeng.broker.interfaces.BankInterface;
+import pt.ulisboa.tecnico.softeng.broker.interfaces.CarInterface;
+import pt.ulisboa.tecnico.softeng.broker.interfaces.HotelInterface;
 import pt.ulisboa.tecnico.softeng.car.domain.Car;
 import pt.ulisboa.tecnico.softeng.car.domain.RentACar;
-import pt.ulisboa.tecnico.softeng.car.domain.Vehicle;
 import pt.ulisboa.tecnico.softeng.hotel.domain.Hotel;
 import pt.ulisboa.tecnico.softeng.hotel.domain.Room;
 import pt.ulisboa.tecnico.softeng.hotel.domain.Room.Type;
 
+@RunWith(JMockit.class)
 public class AdventureProcessMethodTest {
 	private static final String CODE = "BR01";
 	private static final String NAME_BROKER = "eXtremeADVENTURE";
 	private static final String NIF_AS_BUYER  = "111111111";
 	private static final String NIF_AS_SELLER = "222222222";
 	private static final String IBAN_BROKER = "BK011234567";
+	
+	private static final String PAYMENT_CONFIRMATION = "PaymentConfirmation";
+	private static final String ACTIVITY_CONFIRMATION = "ActivityConfirmation";
+	private static final String ROOM_CONFIRMATION = "RoomConfirmation";
+	private static final String RENT_CONFIRMATION = "RentConfirmation";
 	
 	private final LocalDate begin = new LocalDate(2016, 12, 19);
 	private final LocalDate end = new LocalDate(2016, 12, 21);
@@ -38,6 +52,7 @@ public class AdventureProcessMethodTest {
 	private final int GOOD_AGE = 20;
 	
 	private pt.ulisboa.tecnico.softeng.broker.domain.Client adClient;
+	@Injectable
 	private Broker broker;
 	private String IBAN_CLIENT;
 
@@ -63,10 +78,25 @@ public class AdventureProcessMethodTest {
 	}
 
 	@Test
-	public void success() {
+	public void success(@Mocked final BankInterface bankInterface,
+			@Mocked final ActivityInterface activityInterface, @Mocked final HotelInterface roomInterface, @Mocked final CarInterface carInterface) {
 		
-		RentACar rentACar = new RentACar("eartz","123456789","ES061");
-		new Car("aa-00-11", 10, 50, rentACar);
+		new Expectations() {
+			{
+				BankInterface.processPayment(anyString, MARGIN);
+				this.result = PAYMENT_CONFIRMATION;
+
+				ActivityInterface.reserveActivity(begin, end, anyInt);
+				this.result = ACTIVITY_CONFIRMATION;
+
+				HotelInterface.reserveRoom(Type.SINGLE, begin, end);
+				this.result = ROOM_CONFIRMATION;
+				
+				CarInterface.rentVehicle(Car.class, anyString, begin, end, anyString, anyString);
+				this.result = RENT_CONFIRMATION;
+			}
+		};
+	
 		
 		Adventure adventure = new Adventure(this.broker, this.begin, this.end, this.adClient, MARGIN, RENTV_F);
 
