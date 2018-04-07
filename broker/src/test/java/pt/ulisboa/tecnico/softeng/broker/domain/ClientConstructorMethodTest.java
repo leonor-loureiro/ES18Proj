@@ -1,5 +1,6 @@
 package pt.ulisboa.tecnico.softeng.broker.domain;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -8,11 +9,11 @@ import pt.ulisboa.tecnico.softeng.broker.exception.BrokerException;
 
 public class ClientConstructorMethodTest {
 	
-	private static final int OLD_AGE      = 101;
 	private static final int GOOD_AGE     = 20;
-	private static final int YOUNG_AGE    = 100;
+	private static final int YOUNG_AGE    = 17;
 	private static final int GOOD_AGE_BOT = 18;
 	private static final int GOOD_AGE_TOP = 100;
+	private static final int OLD_AGE      = 101;
 	
 	private static final String DR_L      = "A1";
 	private static final String IBAN      = "BK011234567";
@@ -77,12 +78,12 @@ public class ClientConstructorMethodTest {
 	}
 	
 	@Test(expected = BrokerException.class)
-	public void successLess18() {
+	public void failLess18() {
 		new Client(this.broker, IBAN, NIF, DR_L, YOUNG_AGE);
 	}
 	
 	@Test(expected = BrokerException.class)
-	public void successOver100() {
+	public void failOver100() {
 		new Client(this.broker, IBAN, NIF, DR_L, OLD_AGE);
 	}
 	
@@ -99,5 +100,11 @@ public class ClientConstructorMethodTest {
 	@Test(expected = BrokerException.class)
 	public void emptyDR_L() {
 		new Client(this.broker, IBAN, NIF, "      ", GOOD_AGE_BOT);
+	}
+	
+	
+	@After
+	public void tearDown() {
+		Broker.brokers.clear();
 	}
 }
