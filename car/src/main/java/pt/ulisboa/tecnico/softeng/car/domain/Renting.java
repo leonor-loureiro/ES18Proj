@@ -146,6 +146,15 @@ public class Renting {
 		return this.cancellation != null;
 	}
 
+	public String getCancellation() {
+		return this.cancellation;
+	}
+	
+	
+	public LocalDate getCancellationDate() {
+		return this.cancellationDate;
+	}
+	
 	public double getAmount() {
 		return this.amount;
 	}
