@@ -73,5 +73,24 @@ relation ActivityOfferHasBookings {
 	}
 }
 
+class Processor;
+
+relation ActivityProviderHasProcessor {
+	ActivityProvider playsRole activityProvider {
+		multiplicity 1..1;
+	}
+	Processor playsRole processor {
+		multiplicity 1..1;
+	}
+}
+
+relation ProcessorManagesBookings {
+	Processor playsRole processor {
+		multiplicity 0..1;
+	}
+	Booking playsRole booking {
+		multiplicity 0..*;
+	}
+}
 
 
