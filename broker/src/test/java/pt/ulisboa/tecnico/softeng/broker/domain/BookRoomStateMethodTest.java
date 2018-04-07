@@ -20,11 +20,16 @@ import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 @RunWith(JMockit.class)
 public class BookRoomStateMethodTest {
 	private static final String IBAN = "BK01987654321";
-	private static final int AMOUNT = 300;
+	private static final int MARGIN = 300;
 	private static final int AGE = 20;
+	private static final String NIF = "444444444";
+	private static final String DR_L = "A1";
+	private static final boolean RENTV_F = false;
 	private static final String ROOM_CONFIRMATION = "RoomConfirmation";
 	private static final LocalDate arrival = new LocalDate(2016, 12, 19);
 	private static final LocalDate departure = new LocalDate(2016, 12, 21);
+	
+	private Client client;
 	private Adventure adventure;
 
 	@Injectable
@@ -32,7 +37,10 @@ public class BookRoomStateMethodTest {
 
 	@Before
 	public void setUp() {
-		this.adventure = new Adventure(this.broker, arrival, departure, AGE, IBAN, AMOUNT);
+//		new Adventure(this.broker, this.begin, this.end, this.client, MARGIN, RENTV_F);
+//		public Client(Broker broker, String iban, String nif, String drivingLicense, int age) {
+		this.client = new Client(broker, IBAN, NIF, DR_L, AGE);
+		this.adventure = new Adventure(this.broker, arrival, departure, client, MARGIN, RENTV_F);
 		this.adventure.setState(State.BOOK_ROOM);
 	}
 

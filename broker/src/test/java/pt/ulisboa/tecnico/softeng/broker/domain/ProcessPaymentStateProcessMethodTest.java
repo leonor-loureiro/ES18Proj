@@ -19,18 +19,20 @@ import pt.ulisboa.tecnico.softeng.broker.interfaces.BankInterface;
 @RunWith(JMockit.class)
 public class ProcessPaymentStateProcessMethodTest {
 	private static final String IBAN = "BK01987654321";
-	private static final int AMOUNT = 300;
+	private static final int MARGIN = 300;
 	private static final String PAYMENT_CONFIRMATION = "PaymentConfirmation";
 	private final LocalDate begin = new LocalDate(2016, 12, 19);
 	private final LocalDate end = new LocalDate(2016, 12, 21);
 	private Adventure adventure;
+	private Client client;
 
 	@Injectable
 	private Broker broker;
 
 	@Before
 	public void setUp() {
-		this.adventure = new Adventure(this.broker, this.begin, this.end, 20, IBAN, AMOUNT);
+		this.client = new Client(broker, IBAN, "444444444", "A1", 20);
+		this.adventure = new Adventure(this.broker, this.begin, this.end, this.client, MARGIN, false);
 		this.adventure.setState(State.PROCESS_PAYMENT);
 	}
 
@@ -38,7 +40,7 @@ public class ProcessPaymentStateProcessMethodTest {
 	public void success(@Mocked final BankInterface bankInterface) {
 		new Expectations() {
 			{
-				BankInterface.processPayment(IBAN, AMOUNT);
+				BankInterface.processPayment(IBAN, MARGIN);
 				this.result = PAYMENT_CONFIRMATION;
 			}
 		};
@@ -52,7 +54,7 @@ public class ProcessPaymentStateProcessMethodTest {
 	public void bankException(@Mocked final BankInterface bankInterface) {
 		new Expectations() {
 			{
-				BankInterface.processPayment(IBAN, AMOUNT);
+				BankInterface.processPayment(IBAN, MARGIN);
 				this.result = new BankException();
 			}
 		};
@@ -66,7 +68,7 @@ public class ProcessPaymentStateProcessMethodTest {
 	public void singleRemoteAccessException(@Mocked final BankInterface bankInterface) {
 		new Expectations() {
 			{
-				BankInterface.processPayment(IBAN, AMOUNT);
+				BankInterface.processPayment(IBAN, MARGIN);
 				this.result = new RemoteAccessException();
 			}
 		};
@@ -80,7 +82,7 @@ public class ProcessPaymentStateProcessMethodTest {
 	public void maxRemoteAccessException(@Mocked final BankInterface bankInterface) {
 		new Expectations() {
 			{
-				BankInterface.processPayment(IBAN, AMOUNT);
+				BankInterface.processPayment(IBAN, MARGIN);
 				this.result = new RemoteAccessException();
 			}
 		};
@@ -96,7 +98,7 @@ public class ProcessPaymentStateProcessMethodTest {
 	public void maxMinusOneRemoteAccessException(@Mocked final BankInterface bankInterface) {
 		new Expectations() {
 			{
-				BankInterface.processPayment(IBAN, AMOUNT);
+				BankInterface.processPayment(IBAN, MARGIN);
 				this.result = new RemoteAccessException();
 			}
 		};
@@ -111,7 +113,7 @@ public class ProcessPaymentStateProcessMethodTest {
 	public void twoRemoteAccessExceptionOneSuccess(@Mocked final BankInterface bankInterface) {
 		new Expectations() {
 			{
-				BankInterface.processPayment(IBAN, AMOUNT);
+				BankInterface.processPayment(IBAN, MARGIN);
 				this.result = new Delegate() {
 					int i = 0;
 
@@ -140,7 +142,7 @@ public class ProcessPaymentStateProcessMethodTest {
 	public void oneRemoteAccessExceptionOneBankException(@Mocked final BankInterface bankInterface) {
 		new Expectations() {
 			{
-				BankInterface.processPayment(IBAN, AMOUNT);
+				BankInterface.processPayment(IBAN, MARGIN);
 
 				this.result = new Delegate() {
 					int i = 0;

@@ -19,9 +19,9 @@ public class Adventure {
 	private final Broker broker;
 	private final LocalDate begin;
 	private final LocalDate end;
-	private final int age;
-	private final String IBAN;
+	private final Client client;
 	private final int amount;
+	private final boolean rentVehicle;
 	private String paymentConfirmation;
 	private String paymentCancellation;
 	private String roomConfirmation;
@@ -31,24 +31,24 @@ public class Adventure {
 
 	private AdventureState state;
 
-	public Adventure(Broker broker, LocalDate begin, LocalDate end, int age, String IBAN, int amount) {
-		checkArguments(broker, begin, end, age, IBAN, amount);
-
+	public Adventure(Broker broker, LocalDate begin, LocalDate end, Client client, int margin, boolean rentCar) {
+		checkArguments(broker, begin, end, client, margin);
+		
 		this.ID = broker.getCode() + Integer.toString(++counter);
-		this.broker = broker;
-		this.begin = begin;
-		this.end = end;
-		this.age = age;
-		this.IBAN = IBAN;
-		this.amount = amount;
+		this.end     = end;
+		this.client  = client;
+		this.broker  = broker;
+		this.begin   = begin;
+		this.amount  = margin;
+		this.rentVehicle = rentCar;
 
 		broker.addAdventure(this);
 
 		setState(State.RESERVE_ACTIVITY);
 	}
 
-	private void checkArguments(Broker broker, LocalDate begin, LocalDate end, int age, String IBAN, int amount) {
-		if (broker == null || begin == null || end == null || IBAN == null || IBAN.trim().length() == 0) {
+	private void checkArguments(Broker broker, LocalDate begin, LocalDate end, Client client, int margin) {
+		if (broker == null || begin == null || end == null) {
 			throw new BrokerException();
 		}
 
@@ -56,11 +56,11 @@ public class Adventure {
 			throw new BrokerException();
 		}
 
-		if (age < 18 || age > 100) {
+		if ( client == null) {
 			throw new BrokerException();
 		}
 
-		if (amount < 1) {
+		if (margin < 1) {
 			throw new BrokerException();
 		}
 	}
@@ -82,15 +82,19 @@ public class Adventure {
 	}
 
 	public int getAge() {
-		return this.age;
+		return this.client.getAge();
 	}
 
 	public String getIBAN() {
-		return this.IBAN;
+		return this.client.getIban();
 	}
 
 	public int getAmount() {
 		return this.amount;
+	}
+	
+	public boolean getRentVehicle() {
+		return this.rentVehicle;
 	}
 
 	public String getPaymentConfirmation() {

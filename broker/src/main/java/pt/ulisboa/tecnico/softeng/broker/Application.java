@@ -18,7 +18,11 @@ public class Application {
 		account.deposit(1000);
 
 		Broker broker = new Broker("BR01", "Fun");
-		Adventure adventure = new Adventure(broker, new LocalDate(), new LocalDate(), 33, account.getIBAN(), 50);
+		pt.ulisboa.tecnico.softeng.broker.domain.Client client;
+		client = new pt.ulisboa.tecnico.softeng.broker.domain.Client(
+				broker, account.getIBAN(), "NIF234", "A1", 50
+				);
+		Adventure adventure = new Adventure(broker, new LocalDate(), new LocalDate(), client, 50, false);
 
 		adventure.process();
 

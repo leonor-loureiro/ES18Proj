@@ -23,7 +23,7 @@ import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 @RunWith(JMockit.class)
 public class ConfirmedStateProcessMethodTest {
 	private static final String IBAN = "BK01987654321";
-	private static final int AMOUNT = 300;
+	private static final int MARGIN = 300;
 	private static final int AGE = 20;
 	private static final String PAYMENT_CONFIRMATION = "PaymentConfirmation";
 	private static final String ACTIVITY_CONFIRMATION = "ActivityConfirmation";
@@ -31,13 +31,15 @@ public class ConfirmedStateProcessMethodTest {
 	private static final LocalDate arrival = new LocalDate(2016, 12, 19);
 	private static final LocalDate departure = new LocalDate(2016, 12, 21);
 	private Adventure adventure;
+	private Client client;
 
 	@Injectable
 	private Broker broker;
 
 	@Before
 	public void setUp() {
-		this.adventure = new Adventure(this.broker, arrival, departure, AGE, IBAN, AMOUNT);
+		this.client = new Client(broker, IBAN, "444444444", "A1", AGE);
+		this.adventure = new Adventure(this.broker, arrival, departure, this.client, MARGIN, false);
 		this.adventure.setState(State.CONFIRMED);
 	}
 

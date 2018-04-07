@@ -2,6 +2,7 @@ package pt.ulisboa.tecnico.softeng.broker.domain;
 
 import org.joda.time.LocalDate;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -21,8 +22,9 @@ import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 @RunWith(JMockit.class)
 public class AdventureSequenceTest {
 	private static final String IBAN = "BK01987654321";
-	private static final int AMOUNT = 300;
+	private static final int MARGIN = 300;
 	private static final int AGE = 20;
+	private static final boolean RENTV_F = false;
 	private static final String PAYMENT_CONFIRMATION = "PaymentConfirmation";
 	private static final String PAYMENT_CANCELLATION = "PaymentCancellation";
 	private static final String ACTIVITY_CONFIRMATION = "ActivityConfirmation";
@@ -31,16 +33,24 @@ public class AdventureSequenceTest {
 	private static final String ROOM_CANCELLATION = "RoomCancellation";
 	private static final LocalDate arrival = new LocalDate(2016, 12, 19);
 	private static final LocalDate departure = new LocalDate(2016, 12, 21);
+	private static final String NIF = "444444444";
+	private static final String DR_L = "A1";
+	private Client client;
 
 	@Injectable
 	private Broker broker;
 
+	@Before
+	public void setUp() {	
+		this.client = new Client(this.broker, IBAN, NIF, DR_L, AGE);
+	}
+	
 	@Test
 	public void successSequenceOne(@Mocked final BankInterface bankInterface,
 			@Mocked final ActivityInterface activityInterface, @Mocked final HotelInterface roomInterface) {
 		new Expectations() {
 			{
-				BankInterface.processPayment(IBAN, AMOUNT);
+				BankInterface.processPayment(IBAN, MARGIN);
 				this.result = PAYMENT_CONFIRMATION;
 
 				ActivityInterface.reserveActivity(arrival, departure, AGE);
@@ -57,7 +67,7 @@ public class AdventureSequenceTest {
 			}
 		};
 
-		Adventure adventure = new Adventure(this.broker, arrival, departure, AGE, IBAN, AMOUNT);
+		Adventure adventure = new Adventure(this.broker, arrival, departure, this.client, MARGIN, RENTV_F);
 
 		adventure.process();  //reserveActivity
 		adventure.process();  //reserveHotel
@@ -72,7 +82,7 @@ public class AdventureSequenceTest {
 			@Mocked final ActivityInterface activityInterface, @Mocked final HotelInterface roomInterface) {
 		new Expectations() {
 			{
-				BankInterface.processPayment(IBAN, AMOUNT);
+				BankInterface.processPayment(IBAN, MARGIN);
 				this.result = PAYMENT_CONFIRMATION;
 
 				ActivityInterface.reserveActivity(arrival, arrival, AGE);
@@ -84,7 +94,7 @@ public class AdventureSequenceTest {
 			}
 		};
 
-		Adventure adventure = new Adventure(this.broker, arrival, arrival, AGE, IBAN, AMOUNT);
+		Adventure adventure = new Adventure(this.broker, arrival, arrival, this.client, MARGIN, RENTV_F);
 
 		adventure.process(); //reserveActivity
 		adventure.process(); //payment
@@ -106,7 +116,7 @@ public class AdventureSequenceTest {
 				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure);
 				this.result = ROOM_CONFIRMATION;
 				
-				BankInterface.processPayment(IBAN, AMOUNT);
+				BankInterface.processPayment(IBAN, MARGIN);
 				this.result = new BankException();
 				
 				ActivityInterface.cancelReservation(ACTIVITY_CONFIRMATION);
@@ -118,7 +128,7 @@ public class AdventureSequenceTest {
 			}
 		};
 
-		Adventure adventure = new Adventure(this.broker, arrival, departure, AGE, IBAN, AMOUNT);
+		Adventure adventure = new Adventure(this.broker, arrival, departure, this.client, MARGIN, RENTV_F);
 
 		adventure.process(); //reserveActivity
 		adventure.process(); //reserveHotel
@@ -142,7 +152,7 @@ public class AdventureSequenceTest {
 			}
 		};
 
-		Adventure adventure = new Adventure(this.broker, arrival, departure, AGE, IBAN, AMOUNT);
+		Adventure adventure = new Adventure(this.broker, arrival, departure, this.client, MARGIN, RENTV_F);
 
 		adventure.process(); //reserveActivity
 		adventure.process(); //cancel
@@ -169,7 +179,7 @@ public class AdventureSequenceTest {
 			}
 		};
 
-		Adventure adventure = new Adventure(this.broker, arrival, departure, AGE, IBAN, AMOUNT);
+		Adventure adventure = new Adventure(this.broker, arrival, departure, this.client, MARGIN, RENTV_F);
 
 		adventure.process(); //reserveActivity
 		adventure.process(); //reserveHotel
@@ -185,7 +195,7 @@ public class AdventureSequenceTest {
 			@Mocked final ActivityInterface activityInterface, @Mocked final HotelInterface roomInterface) {
 		new Expectations() {
 			{
-				BankInterface.processPayment(IBAN, AMOUNT);
+				BankInterface.processPayment(IBAN, MARGIN);
 				this.result = PAYMENT_CONFIRMATION;
 
 				ActivityInterface.reserveActivity(arrival, departure, AGE);
@@ -209,7 +219,7 @@ public class AdventureSequenceTest {
 			}
 		};
 
-		Adventure adventure = new Adventure(this.broker, arrival, departure, AGE, IBAN, AMOUNT);
+		Adventure adventure = new Adventure(this.broker, arrival, departure, this.client, MARGIN, RENTV_F);
 
 		adventure.process(); //reserveActivity
 		adventure.process(); //reserveRoom
