@@ -3,12 +3,10 @@ package pt.ulisboa.tecnico.softeng.bank.domain;
 import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
 
 public class Account extends Account_Base {
-	private static int counter = 0;
-
 	public Account(Bank bank, Client client) {
 		checkArguments(bank, client);
 
-		setIBAN(bank.getCode() + Integer.toString(++Account.counter));
+		setIBAN(bank.getCode() + Integer.toString(bank.getCounter()));
 		setBalance(0);
 
 		setClient(client);

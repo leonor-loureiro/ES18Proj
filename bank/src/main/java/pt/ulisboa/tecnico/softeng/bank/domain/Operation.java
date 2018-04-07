@@ -9,12 +9,10 @@ public class Operation extends Operation_Base {
 		DEPOSIT, WITHDRAW
 	};
 
-	private static int counter = 0;
-
 	public Operation(Type type, Account account, double value) {
 		checkArguments(type, account, value);
 
-		setReference(account.getBank().getCode() + Integer.toString(++Operation.counter));
+		setReference(account.getBank().getCode() + Integer.toString(account.getBank().getCounter()));
 		setType(type);
 		setValue(value);
 		setTime(DateTime.now());
