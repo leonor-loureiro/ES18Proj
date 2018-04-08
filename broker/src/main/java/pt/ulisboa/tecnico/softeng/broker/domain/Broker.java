@@ -16,8 +16,8 @@ public class Broker extends Broker_Base {
 		setCode(code);
 		setName(name);
 		setNifAsSeller(nifAsSeller);
-        setNifAsBuyer(nifAsBuyer);
-        setIban(iban);
+		setNifAsBuyer(nifAsBuyer);
+		setIban(iban);
 
 		FenixFramework.getDomainRoot().addBroker(this);
 	}
@@ -33,9 +33,9 @@ public class Broker extends Broker_Base {
 			bulkRoomBooking.delete();
 		}
 
-		for (Client client: getClientSet()) {
-		    client.delete();
-        }
+		for (Client client : getClientSet()) {
+			client.delete();
+		}
 
 		deleteDomainObject();
 	}
@@ -80,15 +80,14 @@ public class Broker extends Broker_Base {
 	}
 
 	public void bulkBooking(int number, LocalDate arrival, LocalDate departure) {
-		BulkRoomBooking bulkBooking = new BulkRoomBooking(this, number, arrival, departure,
-                getNifAsBuyer(), getIban());
+		BulkRoomBooking bulkBooking = new BulkRoomBooking(this, number, arrival, departure, getNifAsBuyer(), getIban());
 		bulkBooking.processBooking();
 	}
 
-    @Override
-    public int getCounter() {
-        int counter = super.getCounter() + 1;
-        setCounter(counter);
-        return counter;
-    }
+	@Override
+	public int getCounter() {
+		int counter = super.getCounter() + 1;
+		setCounter(counter);
+		return counter;
+	}
 }

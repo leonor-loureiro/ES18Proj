@@ -6,14 +6,12 @@ import pt.ulisboa.tecnico.softeng.car.exception.CarException;
 
 public class Renting extends Renting_Base {
 	private static String drivingLicenseFormat = "^[a-zA-Z]+\\d+$";
-
 	private static final String type = "RENTAL";
 
 	public Renting(String drivingLicense, LocalDate begin, LocalDate end, Vehicle vehicle, String buyerNIF,
 			String buyerIBAN) {
 		checkArguments(drivingLicense, begin, end, vehicle);
 
-		setType(type);
 		setKilometers(-1);
 		setCancelledInvoice(false);
 
@@ -86,7 +84,6 @@ public class Renting extends Renting_Base {
 		return getCancellationReference();
 	}
 
-	@Override
 	public String getType() {
 		return this.type;
 	}
@@ -94,4 +91,5 @@ public class Renting extends Renting_Base {
 	public boolean isCancelledInvoice() {
 		return getCancelledInvoice();
 	}
+
 }

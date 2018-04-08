@@ -36,7 +36,6 @@ relation RentACarHasVehicles {
 }
 
 class Renting {
-	String type;
 	String reference;
 	String cancellationReference;
 	String drivingLicense;

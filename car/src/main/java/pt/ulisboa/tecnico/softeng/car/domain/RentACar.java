@@ -12,6 +12,7 @@ import pt.ulisboa.tecnico.softeng.car.exception.CarException;
 public class RentACar extends RentACar_Base {
 	public RentACar(String name, String nif, String iban) {
 		checkArguments(name, nif, iban);
+
 		setCode(nif + Integer.toString(getCounter()));
 		setName(name);
 		setNif(nif);

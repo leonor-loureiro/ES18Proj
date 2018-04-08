@@ -15,7 +15,7 @@ public class Booking extends Booking_Base {
 		setArrival(arrival);
 		setDeparture(departure);
 		setPrice(room.getHotel().getPrice(room.getType()) * Days.daysBetween(arrival, departure).getDays());
-		setNif(buyerNif);
+		setBuyerNif(buyerNif);
 		setBuyerIban(buyerIban);
 		setProviderNif(room.getHotel().getNif());
 
