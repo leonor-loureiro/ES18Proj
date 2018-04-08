@@ -104,9 +104,8 @@ public class AdventureProcessMethodTest {
 		adventure.process(); //reserveActivity
 		adventure.process(); //reserveHotel
 		adventure.process(); //reserveCar
-		adventure.process(); //process payment
-		adventure.process(); //tax payment
-		
+		adventure.process(); //payment
+
 		assertEquals(Adventure.State.CONFIRMED, adventure.getState());
 		assertNotNull(adventure.getPaymentConfirmation());
 		assertNotNull(adventure.getRoomConfirmation());
@@ -119,8 +118,7 @@ public class AdventureProcessMethodTest {
 		Adventure adventure = new Adventure(this.broker, this.begin, this.begin, this.adClient, MARGIN, RENTV_T);
 
 		adventure.process(); //reserveActivity
-		adventure.process(); //process payment
-		adventure.process(); //tax payment
+		adventure.process(); //payment
 
 		assertEquals(Adventure.State.CONFIRMED, adventure.getState());
 		assertNotNull(adventure.getPaymentConfirmation());	
@@ -150,9 +148,8 @@ public class AdventureProcessMethodTest {
 		
 		adventure.process(); //reserveActivity
 		adventure.process(); //reserveHotel
-		adventure.process(); //process payment
-		adventure.process(); //tax payment
-		
+		adventure.process(); //payment
+
 		assertEquals(Adventure.State.CONFIRMED, adventure.getState());
 		assertNotNull(adventure.getPaymentConfirmation());	
 		assertNotNull(adventure.getActivityConfirmation());
