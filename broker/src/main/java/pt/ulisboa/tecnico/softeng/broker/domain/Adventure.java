@@ -86,7 +86,15 @@ public class Adventure {
 	public LocalDate getEnd() {
 		return this.end;
 	}
-
+	
+	public String getClientNIF() {
+		return this.client.getNif();
+	}
+	
+	public String getClientIBAN() {
+		return this.client.getIban();
+	}
+	
 	public int getAge() {
 		return this.client.getAge();
 	}
