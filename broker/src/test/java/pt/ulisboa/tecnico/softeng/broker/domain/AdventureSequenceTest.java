@@ -17,6 +17,7 @@ import pt.ulisboa.tecnico.softeng.broker.interfaces.ActivityInterface;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.BankInterface;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.CarInterface;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.HotelInterface;
+import pt.ulisboa.tecnico.softeng.broker.interfaces.TaxInterface;
 import pt.ulisboa.tecnico.softeng.car.domain.Car;
 import pt.ulisboa.tecnico.softeng.car.exception.CarException;
 import pt.ulisboa.tecnico.softeng.hotel.domain.Room.Type;
@@ -51,7 +52,7 @@ public class AdventureSequenceTest {
 	}
 	
 	@Test
-	public void successSequenceOne(@Mocked final BankInterface bankInterface,
+	public void successSequenceOne(@Mocked final BankInterface bankInterface, @Mocked final TaxInterface taxInterface,
 			@Mocked final ActivityInterface activityInterface, @Mocked final HotelInterface roomInterface, @Mocked final CarInterface carInterface) {
 		new Expectations() {
 			{
@@ -69,14 +70,20 @@ public class AdventureSequenceTest {
 
 				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
 
-				ActivityInterface.getActivityReservationData(ACTIVITY_CONFIRMATION);
+				ActivityInterface.getActivityReservationData(ACTIVITY_CONFIRMATION).getInvoiceReference();
+				this.result = "InvoiceReference";
 
-				HotelInterface.getRoomBookingData(ROOM_CONFIRMATION);
+				HotelInterface.getRoomBookingData(ROOM_CONFIRMATION).getInvoiceReference();
+				this.result = "InvoiceReference";
+				
+				TaxInterface.invoiceSubmited(anyString, anyString);
+				this.result = true;
 			}
 		};
 
 		Adventure adventure = new Adventure(this.broker, arrival, departure, this.client, MARGIN, RENTV_T);
-
+		adventure.setPayementInvoiceReference("PaymentInvoiceReference");
+		
 		adventure.process();  //reserveActivity
 		adventure.process();  //reserveHotel
 		adventure.process();  //rentVehicle
@@ -87,7 +94,7 @@ public class AdventureSequenceTest {
 	}
 
 	@Test
-	public void successSequenceTwo(@Mocked final BankInterface bankInterface,
+	public void successSequenceTwo(@Mocked final BankInterface bankInterface, @Mocked final TaxInterface taxInterface,
 			@Mocked final ActivityInterface activityInterface, @Mocked final HotelInterface roomInterface) {
 		new Expectations() {
 			{
@@ -99,11 +106,16 @@ public class AdventureSequenceTest {
 
 				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
 
-				ActivityInterface.getActivityReservationData(ACTIVITY_CONFIRMATION);
+				ActivityInterface.getActivityReservationData(ACTIVITY_CONFIRMATION).getInvoiceReference();
+				this.result = "InvoiceReference";
+				
+				TaxInterface.invoiceSubmited(anyString, anyString);
+				this.result = true;
 			}
 		};
 
 		Adventure adventure = new Adventure(this.broker, arrival, arrival, this.client, MARGIN, RENTV_T);
+		adventure.setPayementInvoiceReference("PaymentInvoiceReference");
 
 		adventure.process(); //reserveActivity
 		adventure.process(); //payment
@@ -113,7 +125,7 @@ public class AdventureSequenceTest {
 	}
 	
 	@Test
-	public void successSequenceThree(@Mocked final BankInterface bankInterface,
+	public void successSequenceThree(@Mocked final BankInterface bankInterface, @Mocked final TaxInterface taxInterface,
 			@Mocked final ActivityInterface activityInterface, @Mocked final HotelInterface roomInterface) {
 		new Expectations() {
 			{
@@ -128,13 +140,21 @@ public class AdventureSequenceTest {
 
 				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
 
-				ActivityInterface.getActivityReservationData(ACTIVITY_CONFIRMATION);
+				ActivityInterface.getActivityReservationData(ACTIVITY_CONFIRMATION).getInvoiceReference();
+				this.result = "InvoiceReference";
 				
-				HotelInterface.getRoomBookingData(ROOM_CONFIRMATION);
+				HotelInterface.getRoomBookingData(ROOM_CONFIRMATION).getInvoiceReference();
+				this.result = "InvoiceReference";
+				
+				
+				
+				TaxInterface.invoiceSubmited(anyString, anyString);
+				this.result = true;
 			}
 		};
 
 		Adventure adventure = new Adventure(this.broker, arrival, departure, this.client, MARGIN, RENTV_F);
+		adventure.setPayementInvoiceReference("PaymentInvoiceReference");
 
 		adventure.process(); //reserveActivity
 		adventure.process(); //reserveHotel
