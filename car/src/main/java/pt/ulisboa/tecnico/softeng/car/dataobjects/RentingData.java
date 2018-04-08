@@ -10,12 +10,13 @@ public class RentingData {
 	private LocalDate begin;
 	private LocalDate end;
 	private double amount;
+	private String invoiceReference;
 
 	public RentingData() {
 	}
 
 	public RentingData(String reference, String plate, String drivingLicense, String rentACarCode, LocalDate begin,
-			LocalDate end, double amount) {
+			LocalDate end, double amount, String invoiceReference) {
 		this.reference = reference;
 		this.plate = plate;
 		this.drivingLicense = drivingLicense;
@@ -23,6 +24,7 @@ public class RentingData {
 		this.begin = begin;
 		this.end = end;
 		this.amount = amount;
+		this.invoiceReference = invoiceReference;
 	}
 
 	/**
@@ -30,6 +32,13 @@ public class RentingData {
 	 */
 	public double getAmount() {
 		return this.amount;
+	}
+
+	/**
+	 * @return the invoice reference
+	 */
+	public String getInvoiceReference() {
+		return this.invoiceReference;
 	}
 	
 	/**
@@ -45,6 +54,14 @@ public class RentingData {
 	 */
 	public void setReference(String reference) {
 		this.reference = reference;
+	}
+	
+	/**
+	 * @param invoiceReference
+	 *         
+	 */
+	public void setInvoiceReference(String invoiceReference) {
+		this.invoiceReference = invoiceReference;
 	}
 
 	/**
