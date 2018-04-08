@@ -26,7 +26,8 @@ public class ProcessPaymentState extends AdventureState {
 			adventure.setPaymentConfirmation(BankInterface.processPayment(adventure.getClientIBAN(), adventure.getAmount()));
 			try {
 				InvoiceData invoice = new InvoiceData(adventure.getBroker().getNIFSeller(), adventure.getClientIBAN(), "Servico", adventure.getAmount(), LocalDate.now());
-				TaxInterface.submitInvoice(invoice);		
+				adventure.setPayementInvoiceReference(TaxInterface.submitInvoice(invoice));
+				
 			} catch (TaxException te) {
 				//implement handling of exception
 			}
