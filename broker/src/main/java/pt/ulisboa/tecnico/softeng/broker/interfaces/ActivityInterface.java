@@ -6,9 +6,8 @@ import pt.ulisboa.tecnico.softeng.activity.dataobjects.ActivityReservationData;
 import pt.ulisboa.tecnico.softeng.activity.domain.ActivityProvider;
 
 public class ActivityInterface {
-	public static String reserveActivity(LocalDate begin, LocalDate end, int age) {
-		// TODO: change interface
-		return "REFERENCE"; // ActivityProvider.reserveActivity(begin, end, age, NIF, IBAN);
+	public static String reserveActivity(LocalDate begin, LocalDate end, int age, String NIF, String IBAN) {
+		return ActivityProvider.reserveActivity(begin, end, age, NIF, IBAN);
 	}
 
 	public static String cancelReservation(String activityConfirmation) {

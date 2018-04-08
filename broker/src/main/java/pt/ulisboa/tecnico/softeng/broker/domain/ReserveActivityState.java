@@ -17,7 +17,8 @@ public class ReserveActivityState extends AdventureState {
 	public void process(Adventure adventure) {
 		try {
 			adventure.setActivityConfirmation(
-					ActivityInterface.reserveActivity(adventure.getBegin(), adventure.getEnd(), adventure.getAge()));
+					ActivityInterface.reserveActivity(adventure.getBegin(), adventure.getEnd(), adventure.getAge(),
+							adventure.getBroker().getNIFBuyer(), adventure.getBroker().getIBAN()));
 		} catch (ActivityException ae) {
 			adventure.setState(State.CANCELLED);
 			return;

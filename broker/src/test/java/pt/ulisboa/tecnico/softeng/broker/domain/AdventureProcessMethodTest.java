@@ -87,7 +87,7 @@ public class AdventureProcessMethodTest {
 				BankInterface.processPayment(anyString, MARGIN);
 				this.result = PAYMENT_CONFIRMATION;
 
-				ActivityInterface.reserveActivity(begin, end, anyInt);
+				ActivityInterface.reserveActivity(begin, end, anyInt, anyString, anyString);
 				this.result = ACTIVITY_CONFIRMATION;
 
 				HotelInterface.reserveRoom(Type.SINGLE, begin, end, anyString, anyString);
@@ -138,7 +138,7 @@ public class AdventureProcessMethodTest {
 				BankInterface.processPayment(anyString, MARGIN);
 				this.result = PAYMENT_CONFIRMATION;
 
-				ActivityInterface.reserveActivity(begin, end, anyInt);
+				ActivityInterface.reserveActivity(begin, end, anyInt, anyString, anyString);
 				this.result = ACTIVITY_CONFIRMATION;
 
 				HotelInterface.reserveRoom(Type.SINGLE, begin, end , anyString, anyString);

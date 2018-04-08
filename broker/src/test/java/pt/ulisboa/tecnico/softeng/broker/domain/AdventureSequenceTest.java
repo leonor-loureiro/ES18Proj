@@ -58,7 +58,7 @@ public class AdventureSequenceTest {
 				BankInterface.processPayment(IBAN, MARGIN);
 				this.result = PAYMENT_CONFIRMATION;
 
-				ActivityInterface.reserveActivity(arrival, departure, AGE);
+				ActivityInterface.reserveActivity(arrival, departure, AGE, anyString, anyString);
 				this.result = ACTIVITY_CONFIRMATION;
 
 				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure, anyString, anyString);
@@ -95,7 +95,7 @@ public class AdventureSequenceTest {
 				BankInterface.processPayment(IBAN, MARGIN);
 				this.result = PAYMENT_CONFIRMATION;
 
-				ActivityInterface.reserveActivity(arrival, arrival, AGE);
+				ActivityInterface.reserveActivity(arrival, arrival, AGE, anyString, anyString);
 				this.result = ACTIVITY_CONFIRMATION;
 
 				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
@@ -122,7 +122,7 @@ public class AdventureSequenceTest {
 				BankInterface.processPayment(IBAN, MARGIN);
 				this.result = PAYMENT_CONFIRMATION;
 
-				ActivityInterface.reserveActivity(arrival, departure, AGE);
+				ActivityInterface.reserveActivity(arrival, departure, AGE, anyString, anyString);
 				this.result = ACTIVITY_CONFIRMATION;
 				
 				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure, anyString, anyString);
@@ -154,7 +154,7 @@ public class AdventureSequenceTest {
 		new Expectations() {
 			{
 
-				ActivityInterface.reserveActivity(arrival, departure, AGE);
+				ActivityInterface.reserveActivity(arrival, departure, AGE, anyString, anyString);
 				this.result = ACTIVITY_CONFIRMATION;
 
 				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure, anyString, anyString);
@@ -197,7 +197,7 @@ public class AdventureSequenceTest {
 		new Expectations() {
 			{
 
-				ActivityInterface.reserveActivity(arrival, departure, AGE);
+				ActivityInterface.reserveActivity(arrival, departure, AGE, anyString, anyString);
 				this.result = new ActivityException();
 
 			}
@@ -219,7 +219,7 @@ public class AdventureSequenceTest {
 			{
 
 
-				ActivityInterface.reserveActivity(arrival, departure, AGE);
+				ActivityInterface.reserveActivity(arrival, departure, AGE, anyString, anyString);
 				this.result = ACTIVITY_CONFIRMATION;
 
 				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure, anyString, anyString);
@@ -249,7 +249,7 @@ public class AdventureSequenceTest {
 				BankInterface.processPayment(IBAN, MARGIN);
 				this.result = PAYMENT_CONFIRMATION;
 
-				ActivityInterface.reserveActivity(arrival, departure, AGE);
+				ActivityInterface.reserveActivity(arrival, departure, AGE, anyString, anyString);
 				this.result = ACTIVITY_CONFIRMATION;
 
 				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure, anyString, anyString);
@@ -299,7 +299,7 @@ public class AdventureSequenceTest {
 			{
 				
 
-				ActivityInterface.reserveActivity(arrival, departure, AGE);
+				ActivityInterface.reserveActivity(arrival, departure, AGE, anyString, anyString);
 				this.result = ACTIVITY_CONFIRMATION;
 
 				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure, anyString, anyString);
