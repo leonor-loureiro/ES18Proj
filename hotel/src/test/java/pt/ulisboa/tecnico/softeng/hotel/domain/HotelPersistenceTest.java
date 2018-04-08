@@ -75,7 +75,7 @@ public class HotelPersistenceTest {
 		assertEquals(this.arrival, booking.getArrival());
 		assertEquals(this.departure, booking.getDeparture());
 		assertEquals(CLIENT_IBAN, booking.getBuyerIban());
-		assertEquals(CLIENT_NIF, booking.getNif());
+		assertEquals(CLIENT_NIF, booking.getBuyerNif());
 		assertEquals(HOTEL_NIF, booking.getProviderNif());
 		assertEquals(80.0, booking.getPrice(), 0.0d);
 		assertEquals(room, booking.getRoom());

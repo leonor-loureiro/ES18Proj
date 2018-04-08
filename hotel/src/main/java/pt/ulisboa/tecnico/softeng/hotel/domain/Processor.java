@@ -44,8 +44,8 @@ public class Processor extends Processor_Base {
 						continue;
 					}
 				}
-				InvoiceData invoiceData = new InvoiceData(booking.getProviderNif(), booking.getNif(), Booking.getType(),
-						booking.getPrice(), booking.getArrival());
+				InvoiceData invoiceData = new InvoiceData(booking.getProviderNif(), booking.getBuyerNif(),
+						Booking.getType(), booking.getPrice(), booking.getArrival());
 				try {
 					booking.setInvoiceReference(TaxInterface.submitInvoice(invoiceData));
 				} catch (TaxException | RemoteAccessException ex) {

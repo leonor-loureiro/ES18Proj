@@ -42,7 +42,7 @@ class Booking {
 	LocalDate arrival;
 	LocalDate departure;
 	double price;
-	String nif;
+	String buyerNif;
 	String providerNif;
 	String paymentReference;
 	String invoiceReference;
