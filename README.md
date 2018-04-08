@@ -1,4 +1,4 @@
--# Adventure Builder
+﻿-# Adventure Builder
 
 To run tests execute: mvn clean install
 
@@ -40,18 +40,18 @@ Responsibilities:
 	CarrascoII
 		Add NIF and IBAN
 		Processes payment in bank
-		Submit cancel payment to bank
 		Manage queues of pending invoices
 		
 	wimpytoaster
 		Add bank interface
 		Add tax interface
 		Submit invoice to tax module
-		Submit cancel invoice to Tax
-		
+		Submit cancel invoice to tax
+		Submit cancel payment to bank 
+
 	JellyWellyBelly
 		Add price to a room/vehicle
-		Submit cancel invoice to Tax
+		Submit cancel invoice to tax
 		Submit cancel payment to bank
 		Handle errors in cancel invoice to tax
 		Handle errors in cancel payment to bank
