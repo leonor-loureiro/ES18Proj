@@ -6,7 +6,9 @@ import pt.ulisboa.tecnico.softeng.broker.domain.Adventure.State;
 import pt.ulisboa.tecnico.softeng.broker.exception.RemoteAccessException;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.ActivityInterface;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.BankInterface;
+import pt.ulisboa.tecnico.softeng.broker.interfaces.CarInterface;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.HotelInterface;
+import pt.ulisboa.tecnico.softeng.car.exception.CarException;
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 
 public class ConfirmedState extends AdventureState {
@@ -58,6 +60,22 @@ public class ConfirmedState extends AdventureState {
 			try {
 				HotelInterface.getRoomBookingData(adventure.getRoomConfirmation());
 			} catch (HotelException he) {
+				adventure.setState(State.UNDO);
+				return;
+			} catch (RemoteAccessException rae) {
+				incNumOfRemoteErrors();
+				if (getNumOfRemoteErrors() == MAX_REMOTE_ERRORS) {
+					adventure.setState(State.UNDO);
+				}
+				return;
+			}
+			resetNumOfRemoteErrors();
+		}
+		
+		if (adventure.getRentingConfirmation() != null) {
+			try {
+				CarInterface.getRentingData(adventure.getRentingConfirmation());
+			} catch (CarException he) {
 				adventure.setState(State.UNDO);
 				return;
 			} catch (RemoteAccessException rae) {
