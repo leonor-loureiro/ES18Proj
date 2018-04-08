@@ -34,6 +34,7 @@ public class Adventure {
 	private String activityCancellation;
 	private String rentingConfirmation;
 	private String rentingCancellation;
+	private String paymentInvoiceReference;
 	
 	private AdventureState state;
 
@@ -105,6 +106,14 @@ public class Adventure {
 	
 	public String getDriversLicense() {
 		return this.client.getDrivingLicense();
+	}
+	
+	public String getPaymentInvoiceReference() {
+		return this.paymentInvoiceReference;
+	}
+	
+	public void setPayementInvoiceReference(String invoiceReference) {
+		this.paymentInvoiceReference  = invoiceReference;
 	}
 
 	public void updateAmount() {
@@ -231,6 +240,8 @@ public class Adventure {
 	public void process() {
 		this.state.process(this);
 	}
+	
+	
 
 //	public boolean cancelRoom() {
 //		return getRoomConfirmation() != null && getRoomCancellation() == null;
