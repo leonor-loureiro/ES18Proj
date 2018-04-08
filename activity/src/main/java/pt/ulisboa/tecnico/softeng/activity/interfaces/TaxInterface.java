@@ -9,6 +9,6 @@ public class TaxInterface {
 	}
 
 	public static void cancelInvoice(String invoiceReference) {
-		// IRS.cancelInvoice(invoiceReference);
+		IRS.cancelInvoice(invoiceReference);
 	}
 }

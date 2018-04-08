@@ -62,6 +62,21 @@ public class IRS {
 
 		return invoice.getReference();
 	}
+	
+	public static void cancelInvoice(String invoiceReference) {
+		for (TaxPayer taxPayer : IRS.getIRS().taxPayers) {
+			taxPayer.cancelInvoice(invoiceReference);			
+		}
+	}
+	
+	public static boolean checkCancelledInvoice(String invoiceReference){
+		for (TaxPayer taxPayer : IRS.getIRS().taxPayers) {
+			if (taxPayer.getCancelledInvoiceByReference(invoiceReference) != null) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	public void removeItemTypes() {
 		this.itemTypes.clear();
