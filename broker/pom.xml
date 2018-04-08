@@ -33,6 +33,7 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
                 <configuration>
                     <excludes>
                         <exclude>**/Application.class</exclude>
+                        <exclude>**/**Interface.class</exclude>
                         <exclude>**/RemoteAccessException.class</exclude>
                         <exclude>**/**State.class</exclude>
                         <exclude>**/exception/**</exclude>

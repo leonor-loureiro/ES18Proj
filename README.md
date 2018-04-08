@@ -1,4 +1,4 @@
--# Adventure Builder
+﻿-# Adventure Builder
 
 To run tests execute: mvn clean install
 
@@ -20,4 +20,50 @@ Team 1: Broker
 
 Team 2: Hotel, Car & Tax
 
+Responsibilities:
 
+	dfAndrade 
+		Create the entity Client in broker (replace IBAN)
+		Associate two NIFs to broker (seller and buyer)
+		Add car interface
+
+	leonor-loureiro
+		Create state rent vehicle
+		Move state payment to before confirmation
+		Add tax interface
+
+	Anfifo
+		Submit invoice to tax module in state payment
+		Confirmation state moves to undo if some of the modules did not have payment references or did not sent invoice to tax
+		Submit cancel invoice to tax in state undo
+		
+	CarrascoII
+		Add NIF and IBAN
+		Processes payment in bank
+		Manage queues of pending invoices
+		
+	wimpytoaster
+		Add bank interface
+		Add tax interface
+		Submit invoice to tax module
+		Submit cancel payment to bank 
+
+	JellyWellyBelly
+		Add price to a room/vehicle
+		Submit cancel invoice to tax
+		Handle errors in cancel invoice to tax
+		Handle errors in cancel payment to bank
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
