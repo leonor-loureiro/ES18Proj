@@ -32,7 +32,7 @@ public class ProcessPaymentStateProcessMethodTest {
 	@Before
 	public void setUp() {
 		this.client = new Client(broker, IBAN, "444444444", "A1", 20);
-		this.adventure = new Adventure(this.broker, this.begin, this.end, this.client, MARGIN, false);
+		this.adventure = new Adventure(this.broker, this.begin, this.end, this.client, MARGIN, true);
 		this.adventure.setState(State.PROCESS_PAYMENT);
 	}
 

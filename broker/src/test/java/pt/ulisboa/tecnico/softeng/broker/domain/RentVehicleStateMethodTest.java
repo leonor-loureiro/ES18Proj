@@ -27,7 +27,7 @@ public class RentVehicleStateMethodTest {
 	private static final LocalDate departure = new LocalDate(2016, 12, 21);
 	private static final String NIF = "444444444";
 	private static final String DR_L = "A1";
-	private static final boolean RENTV_F = false;
+	private static final boolean RENTV_T = true;
 	private Adventure adventure;
 	private Client client;
 
@@ -37,7 +37,7 @@ public class RentVehicleStateMethodTest {
 	@Before
 	public void setUp() {
 		this.client = new Client(this.broker, IBAN, NIF, DR_L, AGE);
-		this.adventure = new Adventure(this.broker, arrival, departure, this.client, MARGIN, RENTV_F);
+		this.adventure = new Adventure(this.broker, arrival, departure, this.client, MARGIN, RENTV_T);
 		this.adventure.setState(State.RENT_VEHICLE);
 	}
 

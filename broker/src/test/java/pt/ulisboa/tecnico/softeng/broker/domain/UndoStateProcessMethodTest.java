@@ -35,7 +35,7 @@ public class UndoStateProcessMethodTest {
 	private static final String RENT_CANCELLATION = "RentingCancellation";
 	private static final LocalDate arrival = new LocalDate(2016, 12, 19);
 	private static final LocalDate departure = new LocalDate(2016, 12, 21);
-	private static final boolean RENTV_F = false;
+	private static final boolean RENTV_T = true;
 	private Adventure adventure;
 
 	@Injectable
@@ -46,7 +46,7 @@ public class UndoStateProcessMethodTest {
 	
 	@Before
 	public void setUp() {
-		this.adventure = new Adventure(this.broker, arrival, departure, this.client, MARGIN, RENTV_F);
+		this.adventure = new Adventure(this.broker, arrival, departure, this.client, MARGIN, RENTV_T);
 		this.adventure.setState(State.UNDO);
 	}
 

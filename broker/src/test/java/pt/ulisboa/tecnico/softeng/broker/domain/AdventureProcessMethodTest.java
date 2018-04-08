@@ -47,6 +47,7 @@ public class AdventureProcessMethodTest {
 	private final String DR_L = "A1";
 	private static final String NIF_OF_CLIENT = "333333333";
 	
+	private final boolean RENTV_T = true;
 	private final boolean RENTV_F = false;
 	private final int MARGIN   = 300;
 	private final int GOOD_AGE = 20;
@@ -98,7 +99,7 @@ public class AdventureProcessMethodTest {
 		};
 	
 		
-		Adventure adventure = new Adventure(this.broker, this.begin, this.end, this.adClient, MARGIN, RENTV_F);
+		Adventure adventure = new Adventure(this.broker, this.begin, this.end, this.adClient, MARGIN, RENTV_T);
 
 		adventure.process(); //reserveActivity
 		adventure.process(); //reserveHotel
@@ -109,11 +110,12 @@ public class AdventureProcessMethodTest {
 		assertNotNull(adventure.getPaymentConfirmation());
 		assertNotNull(adventure.getRoomConfirmation());
 		assertNotNull(adventure.getActivityConfirmation());
+		assertNotNull(adventure.getRentingConfirmation());
 	}
 
 	@Test
 	public void successNoHotelBooking() {
-		Adventure adventure = new Adventure(this.broker, this.begin, this.begin, this.adClient, MARGIN, RENTV_F);
+		Adventure adventure = new Adventure(this.broker, this.begin, this.begin, this.adClient, MARGIN, RENTV_T);
 
 		adventure.process(); //reserveActivity
 		adventure.process(); //payment
@@ -121,6 +123,37 @@ public class AdventureProcessMethodTest {
 		assertEquals(Adventure.State.CONFIRMED, adventure.getState());
 		assertNotNull(adventure.getPaymentConfirmation());	
 		assertNotNull(adventure.getActivityConfirmation());
+	}
+	
+	@Test
+	public void successNoVehicleRenting(@Mocked final BankInterface bankInterface,
+			@Mocked final ActivityInterface activityInterface, @Mocked final HotelInterface roomInterface, @Mocked final CarInterface carInterface) {
+		
+		Adventure adventure = new Adventure(this.broker, this.begin, this.end, this.adClient, MARGIN, RENTV_F);
+
+		new Expectations() {
+			{
+				BankInterface.processPayment(anyString, MARGIN);
+				this.result = PAYMENT_CONFIRMATION;
+
+				ActivityInterface.reserveActivity(begin, end, anyInt);
+				this.result = ACTIVITY_CONFIRMATION;
+
+				HotelInterface.reserveRoom(Type.SINGLE, begin, end);
+				this.result = ROOM_CONFIRMATION;
+				
+			}
+		};
+		
+		
+		adventure.process(); //reserveActivity
+		adventure.process(); //reserveHotel
+		adventure.process(); //payment
+
+		assertEquals(Adventure.State.CONFIRMED, adventure.getState());
+		assertNotNull(adventure.getPaymentConfirmation());	
+		assertNotNull(adventure.getActivityConfirmation());
+		assertNotNull(adventure.getRoomConfirmation());
 	}
 
 	@After
@@ -132,4 +165,6 @@ public class AdventureProcessMethodTest {
 		RentACar.rentACars.clear();
 		
 	}
+	
+	
 }

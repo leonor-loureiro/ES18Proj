@@ -26,7 +26,7 @@ public class ReserveActivityStateProcessMethodTest {
 	private static final String ACTIVITY_CONFIRMATION = "ActivityConfirmation";
 	private static final LocalDate begin = new LocalDate(2016, 12, 19);
 	private static final LocalDate end = new LocalDate(2016, 12, 21);
-	private static final boolean RENTV_F = false;
+	private static final boolean RENTV_T = true;
 	private Adventure adventure;
 	private Client client;
 
@@ -37,13 +37,13 @@ public class ReserveActivityStateProcessMethodTest {
 	@Before
 	public void setUp() {	
 		this.client = new Client(this.broker, IBAN, NIF, DR_L, AGE);
-		this.adventure = new Adventure(this.broker, begin, end, this.client, MARGIN, RENTV_F);
+		this.adventure = new Adventure(this.broker, begin, end, this.client, MARGIN, RENTV_T);
 		this.adventure.setState(State.RESERVE_ACTIVITY);
 	}
 
 	@Test
 	public void successNoBookRoom(@Mocked final ActivityInterface activityInterface) {
-		Adventure sameDayAdventure = new Adventure(this.broker, begin, begin, this.client, MARGIN, RENTV_F);
+		Adventure sameDayAdventure = new Adventure(this.broker, begin, begin, this.client, MARGIN, RENTV_T);
 		sameDayAdventure.setState(State.RESERVE_ACTIVITY);
 
 		new Expectations() {

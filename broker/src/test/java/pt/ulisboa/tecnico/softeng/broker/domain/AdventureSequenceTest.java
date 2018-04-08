@@ -27,6 +27,7 @@ public class AdventureSequenceTest {
 	private static final String IBAN = "BK01987654321";
 	private static final int MARGIN = 300;
 	private static final int AGE = 20;
+	private static final boolean RENTV_T = true;
 	private static final boolean RENTV_F = false;
 	private static final String PAYMENT_CONFIRMATION = "PaymentConfirmation";
 	private static final String PAYMENT_CANCELLATION = "PaymentCancellation";
@@ -74,7 +75,7 @@ public class AdventureSequenceTest {
 			}
 		};
 
-		Adventure adventure = new Adventure(this.broker, arrival, departure, this.client, MARGIN, RENTV_F);
+		Adventure adventure = new Adventure(this.broker, arrival, departure, this.client, MARGIN, RENTV_T);
 
 		adventure.process();  //reserveActivity
 		adventure.process();  //reserveHotel
@@ -102,9 +103,41 @@ public class AdventureSequenceTest {
 			}
 		};
 
-		Adventure adventure = new Adventure(this.broker, arrival, arrival, this.client, MARGIN, RENTV_F);
+		Adventure adventure = new Adventure(this.broker, arrival, arrival, this.client, MARGIN, RENTV_T);
 
 		adventure.process(); //reserveActivity
+		adventure.process(); //payment
+		adventure.process(); //confirmation
+
+		Assert.assertEquals(State.CONFIRMED, adventure.getState());
+	}
+	
+	@Test
+	public void successSequenceThree(@Mocked final BankInterface bankInterface,
+			@Mocked final ActivityInterface activityInterface, @Mocked final HotelInterface roomInterface) {
+		new Expectations() {
+			{
+				BankInterface.processPayment(IBAN, MARGIN);
+				this.result = PAYMENT_CONFIRMATION;
+
+				ActivityInterface.reserveActivity(arrival, departure, AGE);
+				this.result = ACTIVITY_CONFIRMATION;
+				
+				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure);
+				this.result = ROOM_CONFIRMATION;
+
+				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
+
+				ActivityInterface.getActivityReservationData(ACTIVITY_CONFIRMATION);
+				
+				HotelInterface.getRoomBookingData(ROOM_CONFIRMATION);
+			}
+		};
+
+		Adventure adventure = new Adventure(this.broker, arrival, departure, this.client, MARGIN, RENTV_F);
+
+		adventure.process(); //reserveActivity
+		adventure.process(); //reserveHotel
 		adventure.process(); //payment
 		adventure.process(); //confirmation
 
@@ -142,7 +175,7 @@ public class AdventureSequenceTest {
 			}
 		};
 
-		Adventure adventure = new Adventure(this.broker, arrival, departure, this.client, MARGIN, RENTV_F);
+		Adventure adventure = new Adventure(this.broker, arrival, departure, this.client, MARGIN, RENTV_T);
 
 		adventure.process(); //reserveActivity
 		adventure.process(); //reserveHotel
@@ -167,7 +200,7 @@ public class AdventureSequenceTest {
 			}
 		};
 
-		Adventure adventure = new Adventure(this.broker, arrival, departure, this.client, MARGIN, RENTV_F);
+		Adventure adventure = new Adventure(this.broker, arrival, departure, this.client, MARGIN, RENTV_T);
 
 		adventure.process(); //reserveActivity
 		adventure.process(); //cancel
@@ -194,7 +227,7 @@ public class AdventureSequenceTest {
 			}
 		};
 
-		Adventure adventure = new Adventure(this.broker, arrival, departure, this.client, MARGIN, RENTV_F);
+		Adventure adventure = new Adventure(this.broker, arrival, departure, this.client, MARGIN, RENTV_T);
 
 		adventure.process(); //reserveActivity
 		adventure.process(); //reserveHotel
@@ -240,7 +273,7 @@ public class AdventureSequenceTest {
 			}
 		};
 
-		Adventure adventure = new Adventure(this.broker, arrival, departure, this.client, MARGIN, RENTV_F);
+		Adventure adventure = new Adventure(this.broker, arrival, departure, this.client, MARGIN, RENTV_T);
 
 		adventure.process(); //reserveActivity
 		adventure.process(); //reserveRoom
@@ -279,7 +312,7 @@ public class AdventureSequenceTest {
 							}
 		};
 
-		Adventure adventure = new Adventure(this.broker, arrival, departure, this.client, MARGIN, RENTV_F);
+		Adventure adventure = new Adventure(this.broker, arrival, departure, this.client, MARGIN, RENTV_T);
 
 		adventure.process(); //reserveActivity
 		adventure.process(); //reserveRoom
