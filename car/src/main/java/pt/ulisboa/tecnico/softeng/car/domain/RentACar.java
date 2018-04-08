@@ -158,7 +158,8 @@ public class RentACar {
 			renting.getVehicle().getRentACar().getCode(),
 			renting.getBegin(),
 			renting.getEnd(),
-			renting.getAmount()
+			renting.getAmount(),
+			renting.getInvoiceReference()
 		);
 	}
 }

@@ -12,4 +12,8 @@ public class TaxInterface {
 		// IRS.cancelInvoice(invoiceReference);
 	}
 	
+	public static boolean invoiceSubmited(String NIF, String invoiceReference) {
+		return IRS.taxPayerHasInvoice(NIF, invoiceReference);
+	}
+	
 }

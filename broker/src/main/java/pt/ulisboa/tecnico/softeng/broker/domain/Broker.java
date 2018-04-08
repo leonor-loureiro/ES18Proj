@@ -12,7 +12,7 @@ import pt.ulisboa.tecnico.softeng.broker.exception.BrokerException;
 public class Broker {
 	private static Logger logger = LoggerFactory.getLogger(Broker.class);
 
-	public static Set<Broker> brokers = new HashSet<>();
+	public static final Set<Broker> brokers    = new HashSet<>();
 
 	private final String code;
 	private final String name;
@@ -24,32 +24,30 @@ public class Broker {
 	private final String iban;
 	
 	public Broker(String code, String name, String nifSeller, String nifBuyer, String iban) {
-		checkCode(code);
+		checkArguments(code, name, nifSeller, nifBuyer, iban);
 		this.code = code;
-		
+				
+		this.nifSeller = nifSeller;
+		this.nifBuyer  = nifBuyer;
+		this.iban      = iban;
+		this.name      = name;
+
+		Broker.brokers.add(this);
+	}
+
+	private void checkArguments(String code, String name, String nifSeller, String nifBuyer, String iban) {
+		checkStringValue(code);
 		checkStringValue(name);
 		checkStringValue(nifSeller);
 		checkStringValue(nifBuyer);
 		checkStringValue(iban);
 		
-		this.nifSeller = nifSeller;
-		this.nifBuyer  = nifBuyer;
-		this.iban      = iban;
-		this.name = name;
-
-		Broker.brokers.add(this);
-	}
-
-	private void checkCode(String code) {
-		if (code == null || code.trim().length() == 0) {
+		if (Broker.brokers.stream().anyMatch(br -> (br.getNIFSeller().equals(nifSeller) ||
+													br.getNIFBuyer().equals(nifBuyer) ||
+													br.getIBAN().equals(iban)   ||
+													br.getCode().equals(code)
+													)))
 			throw new BrokerException();
-		}
-
-		for (Broker broker : Broker.brokers) {
-			if (broker.getCode().equals(code)) {
-				throw new BrokerException();
-			}
-		}
 	}
 
 	private void checkStringValue(String name) {
@@ -95,5 +93,4 @@ public class Broker {
 		this.bulkBookings.add(bulkBooking);
 		bulkBooking.processBooking();
 	}
-
 }
