@@ -157,7 +157,8 @@ public class RentACar {
 			renting.getDrivingLicense(),
 			renting.getVehicle().getRentACar().getCode(),
 			renting.getBegin(),
-			renting.getEnd()
+			renting.getEnd(),
+			renting.getAmount()
 		);
 	}
 }
