@@ -21,8 +21,12 @@ public class BulkRoomBooking {
 	private boolean cancelled = false;
 	private int numberOfHotelExceptions = 0;
 	private int numberOfRemoteErrors = 0;
-
-	public BulkRoomBooking(int number, LocalDate arrival, LocalDate departure) {
+	private String buyerNIF;
+	private String buyerIBAN;
+	
+	public BulkRoomBooking(int number, LocalDate arrival, LocalDate departure, String buyerNIF, String buyerIBAN) {
+		this.buyerNIF = buyerNIF;
+		this.buyerIBAN = buyerIBAN;
 		this.number = number;
 		this.arrival = arrival;
 		this.departure = departure;
@@ -50,7 +54,7 @@ public class BulkRoomBooking {
 		}
 
 		try {
-			this.references.addAll(HotelInterface.bulkBooking(this.number, this.arrival, this.departure));
+			this.references.addAll(HotelInterface.bulkBooking(this.number, this.arrival, this.departure, this.buyerNIF, this.buyerIBAN));
 			this.numberOfHotelExceptions = 0;
 			this.numberOfRemoteErrors = 0;
 			return;

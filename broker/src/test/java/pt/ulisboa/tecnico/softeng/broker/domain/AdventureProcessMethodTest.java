@@ -90,7 +90,7 @@ public class AdventureProcessMethodTest {
 				ActivityInterface.reserveActivity(begin, end, anyInt);
 				this.result = ACTIVITY_CONFIRMATION;
 
-				HotelInterface.reserveRoom(Type.SINGLE, begin, end);
+				HotelInterface.reserveRoom(Type.SINGLE, begin, end, anyString, anyString);
 				this.result = ROOM_CONFIRMATION;
 				
 				CarInterface.rentVehicle(Car.class, anyString, begin, end, anyString, anyString);
@@ -139,7 +139,7 @@ public class AdventureProcessMethodTest {
 				ActivityInterface.reserveActivity(begin, end, anyInt);
 				this.result = ACTIVITY_CONFIRMATION;
 
-				HotelInterface.reserveRoom(Type.SINGLE, begin, end);
+				HotelInterface.reserveRoom(Type.SINGLE, begin, end , anyString, anyString);
 				this.result = ROOM_CONFIRMATION;
 				
 			}

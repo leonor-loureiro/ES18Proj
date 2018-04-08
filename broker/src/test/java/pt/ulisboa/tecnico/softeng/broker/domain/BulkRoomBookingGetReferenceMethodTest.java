@@ -30,9 +30,13 @@ public class BulkRoomBookingGetReferenceMethodTest {
 	private static final LocalDate departure = new LocalDate(2016, 12, 21);
 	private BulkRoomBooking bulk;
 
+	private static final String IBAN = "BK01987654322";
+	private static final String NIF = "444444444";
+
+	
 	@Before
 	public void setUp() {
-		this.bulk = new BulkRoomBooking(NUMBER, arrival, departure);
+		this.bulk = new BulkRoomBooking(NUMBER, arrival, departure, NIF, IBAN);
 		this.bulk.getReferences().addAll(Arrays.asList(REF_1, REF_2));
 	}
 

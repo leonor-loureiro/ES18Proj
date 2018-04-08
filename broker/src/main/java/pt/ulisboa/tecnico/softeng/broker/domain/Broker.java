@@ -91,7 +91,7 @@ public class Broker {
 	}
 
 	public void bulkBooking(int number, LocalDate arrival, LocalDate departure) {
-		BulkRoomBooking bulkBooking = new BulkRoomBooking(number, arrival, departure);
+		BulkRoomBooking bulkBooking = new BulkRoomBooking(number, arrival, departure, this.getNIFBuyer(), this.getIBAN());
 		this.bulkBookings.add(bulkBooking);
 		bulkBooking.processBooking();
 	}

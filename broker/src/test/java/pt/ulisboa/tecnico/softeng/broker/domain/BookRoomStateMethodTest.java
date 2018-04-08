@@ -30,6 +30,7 @@ public class BookRoomStateMethodTest {
 	private static final LocalDate arrival = new LocalDate(2016, 12, 19);
 	private static final LocalDate departure = new LocalDate(2016, 12, 21);
 	
+	
 	private Client client;
 	private Adventure adventure, adventure1;
 
@@ -51,7 +52,7 @@ public class BookRoomStateMethodTest {
 	public void successBookRoomToRentCar(@Mocked final HotelInterface hotelInterface) {
 		new Expectations() {
 			{
-				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure);
+				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure, anyString, anyString);
 				this.result = ROOM_CONFIRMATION;
 			}
 		};
@@ -65,7 +66,7 @@ public class BookRoomStateMethodTest {
 	public void successBookRoomToProcessPayment(@Mocked final HotelInterface hotelInterface) {
 		new Expectations() {
 			{
-				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure);
+				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure, anyString, anyString);
 				this.result = ROOM_CONFIRMATION;
 			}
 		};
@@ -79,7 +80,7 @@ public class BookRoomStateMethodTest {
 	public void hotelException(@Mocked final HotelInterface hotelInterface) {
 		new Expectations() {
 			{
-				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure);
+				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure, anyString, anyString);
 				this.result = new HotelException();
 			}
 		};
@@ -93,7 +94,7 @@ public class BookRoomStateMethodTest {
 	public void singleRemoteAccessException(@Mocked final HotelInterface hotelInterface) {
 		new Expectations() {
 			{
-				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure);
+				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure, anyString, anyString);
 				this.result = new RemoteAccessException();
 			}
 		};
@@ -107,7 +108,7 @@ public class BookRoomStateMethodTest {
 	public void maxRemoteAccessException(@Mocked final HotelInterface hotelInterface) {
 		new Expectations() {
 			{
-				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure);
+				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure, anyString, anyString);
 				this.result = new RemoteAccessException();
 				this.times = BookRoomState.MAX_REMOTE_ERRORS;
 			}
@@ -124,7 +125,7 @@ public class BookRoomStateMethodTest {
 	public void maxMinusOneRemoteAccessException(@Mocked final HotelInterface hotelInterface) {
 		new Expectations() {
 			{
-				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure);
+				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure, anyString, anyString);
 				this.result = new RemoteAccessException();
 				this.times = BookRoomState.MAX_REMOTE_ERRORS - 1;
 			}
@@ -141,7 +142,7 @@ public class BookRoomStateMethodTest {
 	public void fiveRemoteAccessExceptionOneSuccessToRentVehicle(@Mocked final HotelInterface hotelInterface) {
 		new Expectations() {
 			{
-				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure);
+				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure, anyString, anyString);
 				this.result = new Delegate() {
 					int i = 0;
 
@@ -172,7 +173,7 @@ public class BookRoomStateMethodTest {
 	public void fiveRemoteAccessExceptionOneSuccessToProcessPayment(@Mocked final HotelInterface hotelInterface) {
 		new Expectations() {
 			{
-				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure);
+				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure, anyString, anyString);
 				this.result = new Delegate() {
 					int i = 0;
 
@@ -203,7 +204,7 @@ public class BookRoomStateMethodTest {
 	public void oneRemoteAccessExceptionOneActivityException(@Mocked final HotelInterface hotelInterface) {
 		new Expectations() {
 			{
-				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure);
+				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure, anyString, anyString);
 				this.result = new Delegate() {
 					int i = 0;
 
