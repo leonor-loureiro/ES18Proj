@@ -40,7 +40,7 @@ public class ProcessPaymentStateProcessMethodTest {
 	public void success(@Mocked final BankInterface bankInterface) {
 		new Expectations() {
 			{
-				BankInterface.processPayment(IBAN, MARGIN);
+				BankInterface.processPayment(IBAN, anyInt);
 				this.result = PAYMENT_CONFIRMATION;
 			}
 		};
@@ -54,7 +54,7 @@ public class ProcessPaymentStateProcessMethodTest {
 	public void bankException(@Mocked final BankInterface bankInterface) {
 		new Expectations() {
 			{
-				BankInterface.processPayment(IBAN, MARGIN);
+				BankInterface.processPayment(IBAN, anyInt);
 				this.result = new BankException();
 			}
 		};
@@ -68,7 +68,7 @@ public class ProcessPaymentStateProcessMethodTest {
 	public void singleRemoteAccessException(@Mocked final BankInterface bankInterface) {
 		new Expectations() {
 			{
-				BankInterface.processPayment(IBAN, MARGIN);
+				BankInterface.processPayment(IBAN, anyInt);
 				this.result = new RemoteAccessException();
 			}
 		};
@@ -82,7 +82,7 @@ public class ProcessPaymentStateProcessMethodTest {
 	public void maxRemoteAccessException(@Mocked final BankInterface bankInterface) {
 		new Expectations() {
 			{
-				BankInterface.processPayment(IBAN, MARGIN);
+				BankInterface.processPayment(IBAN, anyInt);
 				this.result = new RemoteAccessException();
 			}
 		};
@@ -98,7 +98,7 @@ public class ProcessPaymentStateProcessMethodTest {
 	public void maxMinusOneRemoteAccessException(@Mocked final BankInterface bankInterface) {
 		new Expectations() {
 			{
-				BankInterface.processPayment(IBAN, MARGIN);
+				BankInterface.processPayment(IBAN, anyInt);
 				this.result = new RemoteAccessException();
 			}
 		};
@@ -113,7 +113,7 @@ public class ProcessPaymentStateProcessMethodTest {
 	public void twoRemoteAccessExceptionOneSuccess(@Mocked final BankInterface bankInterface) {
 		new Expectations() {
 			{
-				BankInterface.processPayment(IBAN, MARGIN);
+				BankInterface.processPayment(IBAN, anyInt);
 				this.result = new Delegate() {
 					int i = 0;
 
@@ -142,7 +142,7 @@ public class ProcessPaymentStateProcessMethodTest {
 	public void oneRemoteAccessExceptionOneBankException(@Mocked final BankInterface bankInterface) {
 		new Expectations() {
 			{
-				BankInterface.processPayment(IBAN, MARGIN);
+				BankInterface.processPayment(IBAN, anyInt);
 
 				this.result = new Delegate() {
 					int i = 0;

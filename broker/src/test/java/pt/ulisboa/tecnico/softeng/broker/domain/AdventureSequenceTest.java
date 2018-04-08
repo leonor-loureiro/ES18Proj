@@ -55,7 +55,7 @@ public class AdventureSequenceTest {
 			@Mocked final ActivityInterface activityInterface, @Mocked final HotelInterface roomInterface, @Mocked final CarInterface carInterface) {
 		new Expectations() {
 			{
-				BankInterface.processPayment(IBAN, MARGIN);
+				BankInterface.processPayment(IBAN, anyInt);
 				this.result = PAYMENT_CONFIRMATION;
 
 				ActivityInterface.reserveActivity(arrival, departure, AGE, anyString, anyString);
@@ -91,7 +91,7 @@ public class AdventureSequenceTest {
 			@Mocked final ActivityInterface activityInterface, @Mocked final HotelInterface roomInterface) {
 		new Expectations() {
 			{
-				BankInterface.processPayment(IBAN, MARGIN);
+				BankInterface.processPayment(IBAN, anyInt);
 				this.result = PAYMENT_CONFIRMATION;
 
 				ActivityInterface.reserveActivity(arrival, arrival, AGE, anyString, anyString);
@@ -117,7 +117,7 @@ public class AdventureSequenceTest {
 			@Mocked final ActivityInterface activityInterface, @Mocked final HotelInterface roomInterface) {
 		new Expectations() {
 			{
-				BankInterface.processPayment(IBAN, MARGIN);
+				BankInterface.processPayment(IBAN, anyInt);
 				this.result = PAYMENT_CONFIRMATION;
 
 				ActivityInterface.reserveActivity(arrival, departure, AGE, anyString, anyString);
@@ -160,7 +160,7 @@ public class AdventureSequenceTest {
 				CarInterface.rentVehicle(Car.class, anyString, arrival, departure, anyString, anyString);
 				this.result = RENT_CONFIRMATION;
 				
-				BankInterface.processPayment(IBAN, MARGIN);
+				BankInterface.processPayment(IBAN, anyInt);
 				this.result = new BankException();
 				
 				ActivityInterface.cancelReservation(ACTIVITY_CONFIRMATION);
@@ -243,7 +243,7 @@ public class AdventureSequenceTest {
 			@Mocked final ActivityInterface activityInterface, @Mocked final HotelInterface roomInterface,  @Mocked final CarInterface carInterface) {
 		new Expectations() {
 			{
-				BankInterface.processPayment(IBAN, MARGIN);
+				BankInterface.processPayment(IBAN, anyInt);
 				this.result = PAYMENT_CONFIRMATION;
 
 				ActivityInterface.reserveActivity(arrival, departure, AGE, anyString, anyString);

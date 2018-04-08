@@ -43,7 +43,7 @@ public class AdventureConstructorMethodTest {
 		Assert.assertEquals(this.end, adventure.getEnd());
 		Assert.assertEquals(20, adventure.getAge());
 		Assert.assertEquals(IBAN_CLIENT, adventure.getIBAN());
-		Assert.assertEquals(MARGIN, adventure.getAmount());
+		Assert.assertEquals(MARGIN, adventure.getMargin());
 		Assert.assertTrue(this.broker.hasAdventure(adventure));
 
 		Assert.assertNull(adventure.getPaymentConfirmation());
@@ -85,7 +85,7 @@ public class AdventureConstructorMethodTest {
 		Assert.assertEquals(this.begin, adventure.getEnd());
 		Assert.assertEquals(20, adventure.getAge());
 		Assert.assertEquals(IBAN_CLIENT, adventure.getIBAN());
-		Assert.assertEquals(MARGIN, adventure.getAmount());
+		Assert.assertEquals(MARGIN, adventure.getMargin());
 		Assert.assertTrue(this.broker.hasAdventure(adventure));
 
 		Assert.assertNull(adventure.getPaymentConfirmation());
