@@ -22,26 +22,6 @@ Team 2: Hotel, Car & Tax
 
 Responsibilities:
 
-
-
-
-Submit invoice to tax module in state payment
-Confirmation state moves to undo if some of the modules did not have payment references or did not sent invoice to tax
-Submit cancel invoice to tax in state undo
-
-
-Add NIF and IBAN [onde aplicável]
-Add price to a room/vehicle [onde aplicável]
-Add bank interface
-Add tax interface
-Submit invoice to tax module
-Processes payment in bank  [onde aplicável]
-Submit cancel invoice to Tax
-Submit cancel payment to bank
-Manage queues of pending invoices
-Handle errors in cancel invoice to tax
-Handle errors in cancel payment to bank
-
 	dfAndrade 
 		Create the entity Client in broker (replace IBAN)
 		Associate two NIFs to broker (seller and buyer)
@@ -59,8 +39,6 @@ Handle errors in cancel payment to bank
 		
 	CarrascoII
 		Add NIF and IBAN
-		Add bank interface
-		Add tax interface
 		Processes payment in bank
 		Submit cancel payment to bank
 		Manage queues of pending invoices
