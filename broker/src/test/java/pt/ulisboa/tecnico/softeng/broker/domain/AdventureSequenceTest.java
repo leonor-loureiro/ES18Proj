@@ -77,11 +77,12 @@ public class AdventureSequenceTest {
 
 		Adventure adventure = new Adventure(this.broker, arrival, departure, this.client, MARGIN, RENTV_T);
 
-		adventure.process();  //reserveActivity
-		adventure.process();  //reserveHotel
-		adventure.process();  //rentVehicle
-		adventure.process();  //payment
-		adventure.process();  //confirm
+		adventure.process(); //reserveActivity
+		adventure.process(); //reserveHotel
+		adventure.process(); //rentVehicle
+		adventure.process(); //process payment
+		adventure.process(); //tax payment
+		adventure.process(); //confirm
 
 		Assert.assertEquals(State.CONFIRMED, adventure.getState());
 	}
@@ -106,7 +107,8 @@ public class AdventureSequenceTest {
 		Adventure adventure = new Adventure(this.broker, arrival, arrival, this.client, MARGIN, RENTV_T);
 
 		adventure.process(); //reserveActivity
-		adventure.process(); //payment
+		adventure.process(); //process payment
+		adventure.process(); //tax payment
 		adventure.process(); //confirmation
 
 		Assert.assertEquals(State.CONFIRMED, adventure.getState());
@@ -138,7 +140,8 @@ public class AdventureSequenceTest {
 
 		adventure.process(); //reserveActivity
 		adventure.process(); //reserveHotel
-		adventure.process(); //payment
+		adventure.process(); //process payment
+		adventure.process(); //tax payment
 		adventure.process(); //confirmation
 
 		Assert.assertEquals(State.CONFIRMED, adventure.getState());
@@ -180,7 +183,7 @@ public class AdventureSequenceTest {
 		adventure.process(); //reserveActivity
 		adventure.process(); //reserveHotel
 		adventure.process();  //rentVehicle
-		adventure.process(); //payment
+		adventure.process(); //process payment
 		adventure.process(); //undo
 		adventure.process(); //cancel
 
@@ -278,10 +281,11 @@ public class AdventureSequenceTest {
 		adventure.process(); //reserveActivity
 		adventure.process(); //reserveRoom
 		adventure.process(); //rentVehicle
-		adventure.process(); //payment
+		adventure.process(); //process payment
 		for (int i = 0; i < ConfirmedState.MAX_BANK_EXCEPTIONS; i++) {
 			adventure.process(); //confirm
 		}
+		adventure.process(); //tax payment
 		adventure.process(); //cancel
 
 		Assert.assertEquals(State.CANCELLED, adventure.getState());

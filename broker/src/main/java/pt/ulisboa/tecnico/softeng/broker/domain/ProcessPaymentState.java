@@ -28,7 +28,7 @@ public class ProcessPaymentState extends AdventureState {
 			return;
 		}
 
-		adventure.setState(State.CONFIRMED);
+		adventure.setState(State.TAX_PAYMENT);
 	}
 
 }
