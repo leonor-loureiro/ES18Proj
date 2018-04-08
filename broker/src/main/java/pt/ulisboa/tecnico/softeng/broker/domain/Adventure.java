@@ -224,20 +224,20 @@ public class Adventure {
 		this.state.process(this);
 	}
 
-	public boolean cancelRoom() {
-		return getRoomConfirmation() != null && getRoomCancellation() == null;
-	}
-
-	public boolean cancelActivity() {
-		return getActivityConfirmation() != null && getActivityCancellation() == null;
-	}
-
-	public boolean cancelPayment() {
-		return getPaymentConfirmation() != null && getPaymentCancellation() == null;
-	}
-	
-	public boolean cancelRenting() {
-		return getRentingConfirmation() != null && getRentingCancellation() == null;
-	}
+//	public boolean cancelRoom() {
+//		return getRoomConfirmation() != null && getRoomCancellation() == null;
+//	}
+//
+//	public boolean cancelActivity() {
+//		return getActivityConfirmation() != null && getActivityCancellation() == null;
+//	}
+//
+//	public boolean cancelPayment() {
+//		return getPaymentConfirmation() != null && getPaymentCancellation() == null;
+//	}
+//	
+//	public boolean cancelRenting() {
+//		return getRentingConfirmation() != null && getRentingCancellation() == null;
+//	}
 
 }
