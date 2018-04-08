@@ -7,7 +7,8 @@ import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 
 public abstract class TaxPayer {
 	protected final Set<Invoice> invoices = new HashSet<>();
-
+	protected final Set<Invoice> cancelledInvoices = new HashSet<>();
+	
 	private final String NIF;
 	private final String name;
 	private final String address;
@@ -56,6 +57,29 @@ public abstract class TaxPayer {
 			}
 		}
 		return null;
+	}
+	
+	public Invoice getCancelledInvoiceByReference(String invoiceReference) {
+		if (invoiceReference == null || invoiceReference.isEmpty()) {
+			throw new TaxException();
+		}
+
+		for (Invoice invoice : this.cancelledInvoices) {
+			if (invoice.getReference().equals(invoiceReference)) {
+				return invoice;
+			}
+		}
+		return null;
+	}
+	
+	public void cancelInvoice(String invoiceReference) {
+		try {
+			Invoice i = getInvoiceByReference(invoiceReference);
+			if (i != null) {
+				cancelledInvoices.add(i);
+				invoices.remove(i);	
+			}
+		} catch (TaxException te) {}
 	}
 
 	public String getNIF() {
