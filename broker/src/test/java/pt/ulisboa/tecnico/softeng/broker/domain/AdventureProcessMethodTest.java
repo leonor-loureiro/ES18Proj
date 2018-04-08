@@ -84,7 +84,7 @@ public class AdventureProcessMethodTest {
 		
 		new Expectations() {
 			{
-				BankInterface.processPayment(anyString, MARGIN);
+				BankInterface.processPayment(anyString, anyInt);
 				this.result = PAYMENT_CONFIRMATION;
 
 				ActivityInterface.reserveActivity(begin, end, anyInt, anyString, anyString);
@@ -114,11 +114,22 @@ public class AdventureProcessMethodTest {
 	}
 
 	@Test
-	public void successNoHotelBooking() {
+	public void successNoHotelBooking(@Mocked final BankInterface bankInterface,
+			@Mocked final ActivityInterface activityInterface) {
 		Adventure adventure = new Adventure(this.broker, this.begin, this.begin, this.adClient, MARGIN, RENTV_T);
 
+		new Expectations() {
+			{
+				ActivityInterface.reserveActivity(begin, begin, anyInt, anyString, anyString);
+				this.result = ACTIVITY_CONFIRMATION;
+	
+				BankInterface.processPayment(anyString, anyInt);
+				this.result = PAYMENT_CONFIRMATION;
+			}
+		};
+		
 		adventure.process(); //reserveActivity
-		adventure.process(); //payment
+		adventure.process(); 
 
 		assertEquals(Adventure.State.CONFIRMED, adventure.getState());
 		assertNotNull(adventure.getPaymentConfirmation());	
@@ -133,7 +144,7 @@ public class AdventureProcessMethodTest {
 
 		new Expectations() {
 			{
-				BankInterface.processPayment(anyString, MARGIN);
+				BankInterface.processPayment(anyString, anyInt);
 				this.result = PAYMENT_CONFIRMATION;
 
 				ActivityInterface.reserveActivity(begin, end, anyInt, anyString, anyString);

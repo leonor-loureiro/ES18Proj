@@ -5,6 +5,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import pt.ulisboa.tecnico.softeng.broker.exception.BrokerException;
+import pt.ulisboa.tecnico.softeng.broker.interfaces.ActivityInterface;
+import pt.ulisboa.tecnico.softeng.broker.interfaces.CarInterface;
+import pt.ulisboa.tecnico.softeng.broker.interfaces.HotelInterface;
 
 public class Adventure {
 	private static Logger logger = LoggerFactory.getLogger(Adventure.class);
@@ -12,15 +15,16 @@ public class Adventure {
 	public static enum State {
 		PROCESS_PAYMENT, RESERVE_ACTIVITY, BOOK_ROOM, RENT_VEHICLE, UNDO, CONFIRMED, CANCELLED
 	}
-
+	
+	private int amount = 0;
 	private static int counter = 0;
-
+	
+	private final int margin;
 	private final String ID;
 	private final Broker broker;
 	private final LocalDate begin;
 	private final LocalDate end;
 	private final Client client;
-	private final int amount;
 	private final boolean rentVehicle;
 	private String paymentConfirmation;
 	private String paymentCancellation;
@@ -41,7 +45,7 @@ public class Adventure {
 		this.client  = client;
 		this.broker  = broker;
 		this.begin   = begin;
-		this.amount  = margin;
+		this.margin  = margin;
 		this.rentVehicle = rentCar;
 
 		broker.addAdventure(this);
@@ -90,9 +94,25 @@ public class Adventure {
 	public String getIBAN() {
 		return this.client.getIban();
 	}
+	
+	public String getDriversLicense() {
+		return this.client.getDrivingLicense();
+	}
 
+	public void updateAmount() {
+		int sum = 0;
+		if (activityConfirmation != null)
+			sum += ActivityInterface.getActivityReservationData(activityConfirmation).getAmount();
+		if(roomConfirmation != null)
+			sum += HotelInterface.getRoomBookingData(roomConfirmation).getAmount();
+		if(rentingConfirmation != null)
+			sum += CarInterface.getRentingData(rentingConfirmation).getAmount();
+		amount = sum;
+	}
+	
 	public int getAmount() {
-		return this.amount;
+		
+		return this.amount * (1 + margin);
 	}
 	
 	public boolean getRentVehicle() {
@@ -103,6 +123,10 @@ public class Adventure {
 		return this.paymentConfirmation;
 	}
 
+	public int getMargin() {
+		return this.margin;
+	}
+	
 	public void setPaymentConfirmation(String paymentConfirmation) {
 		this.paymentConfirmation = paymentConfirmation;
 	}
