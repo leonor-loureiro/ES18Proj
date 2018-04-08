@@ -1,6 +1,8 @@
 package pt.ulisboa.tecnico.softeng.tax.domain;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.joda.time.LocalDate;
 import org.junit.After;
@@ -40,12 +42,15 @@ public class IRSSubmitInvoiceTest {
 		assertEquals(FOOD, invoice.getItemType().getName());
 		assertEquals(VALUE, invoice.getValue(), 0.0000);
 		assertEquals(this.date, invoice.getDate());
+		assertTrue(IRS.taxPayerHasInvoice(SELLER_NIF,invoiceReference));
+		assertFalse(IRS.taxPayerHasInvoice(SELLER_NIF,"XPTO"));
+
 	}
 
 	@Test(expected = TaxException.class)
 	public void nullSellerNIF() {
 		InvoiceData invoiceData = new InvoiceData(null, BUYER_NIF, FOOD, VALUE, this.date);
-		this.irs.submitInvoice(invoiceData);
+		this.irs.submitInvoice(invoiceData);		
 	}
 
 	@Test(expected = TaxException.class)

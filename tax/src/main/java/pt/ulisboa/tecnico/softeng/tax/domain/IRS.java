@@ -34,6 +34,12 @@ public class IRS {
 		return null;
 	}
 
+	public static boolean taxPayerHasInvoice(String NIF, String invoiceReference) {
+		IRS irs = IRS.getIRS();
+		TaxPayer taxPayer = irs.getTaxPayerByNIF(NIF);
+		return (taxPayer.getInvoiceByReference(invoiceReference) != null);
+		
+	}
 	void addItemType(ItemType itemType) {
 		this.itemTypes.add(itemType);
 	}
