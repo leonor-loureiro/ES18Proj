@@ -96,17 +96,20 @@ Responsibilities:
 			[TI1]		Make Invoice presistent
 			[TIT1]		Make ItemType persistent
 						
-			Stage 2	[TIR2]		Make IRS attributes persistent
-                   [TTPIRR]	Create TaxPayer---IRS relationship
-                   [TITIRR]	Create ItemType---IRS relationship
-                   [TITIR]	Create ItemType---Invoice relationship
-                   [TIT2]		Make ItemType attributes persistent
+			Stage 2	
+			[TIR2]		Make IRS attributes persistent
+			[TTPIRR]	Create TaxPayer---IRS relationship
+			[TITIRR]	Create ItemType---IRS relationship
+			[TITIR]	Create ItemType---Invoice relationship
+			[TIT2]	Make ItemType attributes persistent
 						
-			Stage 3  [TBIR]		Create Buyer---Invoice relationship
-                   [TSIR]		Create Seller---Invoice relationship
+			Stage 3  
+			[TBIR]		Create Buyer---Invoice relationship
+			[TSIR]		Create Seller---Invoice relationship
 						
-			Stage 4	[TI2]		Make Invoice attributes presistent
-                   [TTP2]		Make TaxPayer, Seller and Buyer attributes persistent
+			Stage 4	
+			[TI2]		Make Invoice attributes presistent
+			[TTP2]		Make TaxPayer, Seller and Buyer attributes persistent
 			
 			Broker does not have any external-module dependencies and there is only one person working on it. (JellyWellyBelly)
 			Team 2 has it's dependencies (car module) solved in the schedule.
