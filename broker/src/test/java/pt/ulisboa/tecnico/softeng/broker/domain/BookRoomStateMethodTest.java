@@ -93,6 +93,25 @@ public class BookRoomStateMethodTest extends RollbackTestAbstractClass {
 	}
 
 	@Test
+	public void singleRemoteAccessExceptionInGetBookingData(@Mocked final HotelInterface hotelInterface) {
+		new Expectations() {
+			{
+				HotelInterface.reserveRoom(Type.SINGLE, BookRoomStateMethodTest.this.begin,
+						BookRoomStateMethodTest.this.end, NIF_AS_BUYER, BROKER_IBAN);
+				this.result = ROOM_CONFIRMATION;
+
+				HotelInterface.getRoomBookingData(ROOM_CONFIRMATION);
+				this.result = new RemoteAccessException();
+
+			}
+		};
+
+		this.adventure.process();
+
+		Assert.assertEquals(State.BOOK_ROOM, this.adventure.getState().getValue());
+	}
+
+	@Test
 	public void maxRemoteAccessException(@Mocked final HotelInterface hotelInterface) {
 		new Expectations() {
 			{
