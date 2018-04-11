@@ -38,9 +38,9 @@ Responsibilities:
 		leonor-loureiro
 			[AAO1]		Make ActivityOffer attributes persistent
 			[AAP1]		Make ActivityProvider attributes persistent
-			[AB1	]	Make Booking atributes persistent
-			[AP1	]	Make Processor persistent
-			[AP2	]	Make Processor attributes persistent
+			[AB1]	Make Booking atributes persistent
+			[AP1]	Make Processor persistent
+			[AP2]	Make Processor attributes persistent
 			[ABPR]		Create Booking---Processor relationship
 			[CV1]		Make Vehicle,Car and Motorcycle persistent
 					
@@ -91,21 +91,21 @@ Responsibilities:
 			The dependencies in tax module forced team 2's development (of only this module) to be separated in to 4 different stages:
 			
 			Stage 1 	[TIR1]		Make IRS persistent
-				 		[TTP1]		Make TaxPayer, Seller and Buyer persistent
-						[TI1]		Make Invoice presistent
-						[TIT1]		Make ItemType persistent
+                   [TTP1]		Make TaxPayer, Seller and Buyer persistent
+                   [TI1]		Make Invoice presistent
+                   [TIT1]		Make ItemType persistent
 						
 			Stage 2	[TIR2]		Make IRS attributes persistent
-						[TTPIRR]	Create TaxPayer---IRS relationship
-						[TITIRR]	Create ItemType---IRS relationship
-						[TITIR]	Create ItemType---Invoice relationship
-						[TIT2]		Make ItemType attributes persistent
+                   [TTPIRR]	Create TaxPayer---IRS relationship
+                   [TITIRR]	Create ItemType---IRS relationship
+                   [TITIR]	Create ItemType---Invoice relationship
+                   [TIT2]		Make ItemType attributes persistent
 						
 			Stage 3  [TBIR]		Create Buyer---Invoice relationship
-						[TSIR]		Create Seller---Invoice relationship
+                   [TSIR]		Create Seller---Invoice relationship
 						
 			Stage 4	[TI2]		Make Invoice attributes presistent
-						[TTP2]		Make TaxPayer, Seller and Buyer attributes persistent
+                   [TTP2]		Make TaxPayer, Seller and Buyer attributes persistent
 			
 			Broker does not have any external-module dependencies and there is only one person working on it. (JellyWellyBelly)
 			Team 2 has it's dependencies (car module) solved in the schedule.
