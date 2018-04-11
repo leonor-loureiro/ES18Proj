@@ -57,7 +57,7 @@ Responsibilities:
 
 		Team 1 Dependecies
 			Activity does not have any external-module dependencies and there is only one person working on it. (leonor-loureiro)
-			Activity does not have any external-module dependencies and there is only one person working on it. (Anfifo)
+			Hotel does not have any external-module dependencies and there is only one person working on it. (Anfifo)
 			
 	Team2:		
 		CarrascoII
@@ -111,5 +111,4 @@ Responsibilities:
 			[TTP2]		Make TaxPayer, Seller and Buyer attributes persistent
 			
 			Broker does not have any external-module dependencies and there is only one person working on it. (JellyWellyBelly)
-			Team 2 has it's dependencies (car module) solved in the schedule.
 		
