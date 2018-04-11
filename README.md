@@ -26,11 +26,11 @@ Responsibilities:
 
 	Team1:
 		dfAndrade
-			[CV2]  	Make Vehicle,Car and Motorcycle attributes persistent
+			[CV2]		Make Vehicle,Car and Motorcycle attributes persistent
 			[CRA1]		Make RentACar persistent
 			[CRA2]		Make RentACar attributes persistent
-			[CR1] 		Make Renting persistent
-			[CR2]	   Make Renting attributes persistent
+			[CR1]		Make Renting persistent
+			[CR2]		Make Renting attributes persistent
 			[CRAVR]	Create RentACar---Vehicle relationship
 			[CRVR]		Create Renting---Vehicle relationship
 			
@@ -38,9 +38,9 @@ Responsibilities:
 		leonor-loureiro
 			[AAO1]		Make ActivityOffer attributes persistent
 			[AAP1]		Make ActivityProvider attributes persistent
-			[AB1]	Make Booking atributes persistent
-			[AP1]	Make Processor persistent
-			[AP2]	Make Processor attributes persistent
+			[AB1]		Make Booking atributes persistent
+			[AP1]		Make Processor persistent
+			[AP2]		Make Processor attributes persistent
 			[ABPR]		Create Booking---Processor relationship
 			[CV1]		Make Vehicle,Car and Motorcycle persistent
 					
@@ -62,21 +62,21 @@ Responsibilities:
 			
 	Team2:		
 		CarrascoII
-			[TIR1]			Make IRS persistent
-			[TTP1]			Make TaxPayer, Seller and Buyer persistent
-			[TIR2]			Make IRS attributes persistent
-			[TTPIRR]		Create TaxPayer---IRS relationship
-			[TITIRR]		Create ItemType---IRS relationship
-			[TBIR]			Create Buyer---Invoice relationship
-			[TI2]			Make Invoice attributes presistent
+			[TIR1]		Make IRS persistent
+			[TTP1]		Make TaxPayer, Seller and Buyer persistent
+			[TIR2]		Make IRS attributes persistent
+			[TTPIRR]	Create TaxPayer---IRS relationship
+			[TITIRR]	Create ItemType---IRS relationship
+			[TBIR]		Create Buyer---Invoice relationship
+			[TI2]		Make Invoice attributes presistent
 			
 		wimpytoaster
-			[TI1]			Make Invoice presistent
-			[TIT1]			Make ItemType persistent
-			[TITIR]		Create ItemType---Invoice relationship
-			[TIT2]			Make ItemType attributes persistent
-			[TSIR]			Create Seller---Invoice relationship
-			[TTP2]			Make TaxPayer, Seller and Buyer attributes persistent
+			[TI1]		Make Invoice presistent
+			[TIT1]		Make ItemType persistent
+			[TITIR]	Create ItemType---Invoice relationship
+			[TIT2]		Make ItemType attributes persistent
+			[TSIR]		Create Seller---Invoice relationship
+			[TTP2]		Make TaxPayer, Seller and Buyer attributes persistent
 			
 		JellyWellyBelly
 			[BC1]		Make Client persistent
@@ -90,10 +90,11 @@ Responsibilities:
 		Team 2 Dependecies
 			The dependencies in tax module forced team 2's development (of only this module) to be separated in to 4 different stages:
 			
-			Stage 1 	[TIR1]		Make IRS persistent
-                   [TTP1]		Make TaxPayer, Seller and Buyer persistent
-                   [TI1]		Make Invoice presistent
-                   [TIT1]		Make ItemType persistent
+			Stage 1 	
+				[TIR1]		Make IRS persistent
+				[TTP1]		Make TaxPayer, Seller and Buyer persistent
+				[TI1]		Make Invoice presistent
+				[TIT1]		Make ItemType persistent
 						
 			Stage 2	[TIR2]		Make IRS attributes persistent
                    [TTPIRR]	Create TaxPayer---IRS relationship
