@@ -31,7 +31,7 @@ Responsibilities:
 			[CRA2]		Make RentACar attributes persistent
 			[CR1]		Make Renting persistent
 			[CR2]		Make Renting attributes persistent
-			[CRAVR]	Create RentACar---Vehicle relationship
+			[CRAVR]		Create RentACar---Vehicle relationship
 			[CRVR]		Create Renting---Vehicle relationship
 			
 	
@@ -73,7 +73,7 @@ Responsibilities:
 		wimpytoaster
 			[TI1]		Make Invoice presistent
 			[TIT1]		Make ItemType persistent
-			[TITIR]	Create ItemType---Invoice relationship
+			[TITIR]		Create ItemType---Invoice relationship
 			[TIT2]		Make ItemType attributes persistent
 			[TSIR]		Create Seller---Invoice relationship
 			[TTP2]		Make TaxPayer, Seller and Buyer attributes persistent
@@ -91,10 +91,10 @@ Responsibilities:
 			The dependencies in tax module forced team 2's development (of only this module) to be separated in to 4 different stages:
 			
 			Stage 1 	
-				[TIR1]		Make IRS persistent
-				[TTP1]		Make TaxPayer, Seller and Buyer persistent
-				[TI1]		Make Invoice presistent
-				[TIT1]		Make ItemType persistent
+			[TIR1]		Make IRS persistent
+			[TTP1]		Make TaxPayer, Seller and Buyer persistent
+			[TI1]		Make Invoice presistent
+			[TIT1]		Make ItemType persistent
 						
 			Stage 2	[TIR2]		Make IRS attributes persistent
                    [TTPIRR]	Create TaxPayer---IRS relationship
