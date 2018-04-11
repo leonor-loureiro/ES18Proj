@@ -100,8 +100,8 @@ Responsibilities:
 			[TIR2]		Make IRS attributes persistent
 			[TTPIRR]	Create TaxPayer---IRS relationship
 			[TITIRR]	Create ItemType---IRS relationship
-			[TITIR]	Create ItemType---Invoice relationship
-			[TIT2]	Make ItemType attributes persistent
+			[TITIR]		Create ItemType---Invoice relationship
+			[TIT2]		Make ItemType attributes persistent
 						
 			Stage 3  
 			[TBIR]		Create Buyer---Invoice relationship
