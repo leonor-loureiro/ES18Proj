@@ -57,6 +57,7 @@ public class ActivityPersistenceTest {
 		assertEquals(PROVIDER_CODE, provider.getCode());
 		assertEquals(PROVIDER_NAME, provider.getName());
 		assertEquals(1, provider.getActivitySet().size());
+		assertNotNull(provider.getProcessor());
 
 		List<Activity> activities = new ArrayList<>(provider.getActivitySet());
 		Activity activity = activities.get(0);
