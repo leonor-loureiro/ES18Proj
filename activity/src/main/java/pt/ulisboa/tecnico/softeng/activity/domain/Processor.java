@@ -65,5 +65,10 @@ public class Processor extends Processor_Base {
 	public void clean() {
 		this.bookingToProcess.clear();
 	}
+	
+	public void delete() {
+		setActivityProvider(null);
+		deleteDomainObject();
+	}
 
 }

@@ -15,7 +15,7 @@ public class ActivityProvider extends ActivityProvider_Base {
 	private final String nif;
 	private final String iban;
 
-	private final Processor processor = new Processor();
+//	private final Processor processor = new Processor();
 
 	@Override
 	public int getCounter() {
@@ -34,10 +34,12 @@ public class ActivityProvider extends ActivityProvider_Base {
 		this.iban = iban;
 
 		FenixFramework.getDomainRoot().addActivityProvider(this);
+		setProcessor(new Processor());
 	}
 
 	public void delete() {
 		setRoot(null);
+		getProcessor().delete();
 
 		for (Activity activity : getActivitySet()) {
 			activity.delete();
@@ -77,9 +79,6 @@ public class ActivityProvider extends ActivityProvider_Base {
 		return this.iban;
 	}
 
-	public Processor getProcessor() {
-		return this.processor;
-	}
 
 	public List<ActivityOffer> findOffer(LocalDate begin, LocalDate end, int age) {
 		List<ActivityOffer> result = new ArrayList<>();
