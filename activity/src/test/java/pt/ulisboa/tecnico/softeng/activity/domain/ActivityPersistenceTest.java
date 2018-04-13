@@ -1,6 +1,7 @@
 package pt.ulisboa.tecnico.softeng.activity.domain;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -82,6 +83,15 @@ public class ActivityPersistenceTest {
 		assertNotNull(booking.getReference());
 		assertNull(booking.getCancel());
 		assertNull(booking.getCancellationDate());
+		assertEquals(provider.getNif(), booking.getProviderNif());
+		assertEquals(BUYER_NIF,booking.getNif());
+		assertEquals(BUYER_IBAN,booking.getIban());
+		assertEquals(offer.getPrice(),booking.getAmount(),0);
+		assertEquals(offer.getBegin(),booking.getDate());
+		assertFalse(booking.getCancelledInvoice());
+		assertNull(booking.getCancelledPaymentReference());
+		assertEquals(1,booking.getCounter());
+		
 	}
 
 	@After
