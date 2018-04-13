@@ -15,7 +15,7 @@ import mockit.Expectations;
 import mockit.integration.junit4.JMockit;
 
 @RunWith(JMockit.class)
-public class RentACarCancelRentingMethodTest {
+public class RentACarCancelRentingMethodTest extends RollbackTestAbstractClass{
 	private static final String PLATE_CAR = "22-33-HZ";
 	private static final String RENT_A_CAR_NAME = "Eartz";
 	private static final String DRIVING_LICENSE = "lx1423";
@@ -34,8 +34,8 @@ public class RentACarCancelRentingMethodTest {
 	@Mocked
 	private BankInterface bankInterface;
 
-	@Before
-	public void setUp() {
+	@Override
+	public void populate4Test() {
 		rentACar = new RentACar(RENT_A_CAR_NAME, NIF, IBAN);
 		car = new Car(PLATE_CAR, 10, 10, rentACar);
 
@@ -91,8 +91,8 @@ public class RentACarCancelRentingMethodTest {
 		RentACar.cancelRenting("MISSING_REFERENCE");
 	}
 
-	@After
-	public void tearDown() {
+	@Override										//FIXME delete when car is persistent
+	public void tearDownNotPersistent() {
 		RentACar.rentACars.clear();
 		Vehicle.plates.clear();
 	}

@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import pt.ulisboa.tecnico.softeng.car.exception.CarException;
 
-public class VehicleConstructorTest {
+public class VehicleConstructorTest extends RollbackTestAbstractClass {
 	private static final String PLATE_CAR = "22-33-HZ";
 	private static final String PLATE_MOTORCYCLE = "44-33-HZ";
 	private static final String RENT_A_CAR_NAME = "Eartz";
@@ -17,8 +17,8 @@ public class VehicleConstructorTest {
 	private static final String IBAN = "IBAN";
 	private RentACar rentACar;
 
-	@Before
-	public void setUp() {
+	@Override
+	public void populate4Test() {
 		this.rentACar = new RentACar(RENT_A_CAR_NAME, NIF, IBAN);
 	}
 
@@ -77,8 +77,8 @@ public class VehicleConstructorTest {
 		new Car(PLATE_CAR, 0, 10, null);
 	}
 
-	@After
-	public void tearDown() {
+	@Override										//FIXME delete when car is persistent
+	public void tearDownNotPersistent() {
 		RentACar.rentACars.clear();
 		Vehicle.plates.clear();
 	}
