@@ -74,6 +74,7 @@ public class ActivityPersistenceTest {
 		assertEquals(this.end, offer.getEnd());
 		assertEquals(CAPACITY, offer.getCapacity());
 		assertEquals(1, offer.getBookingSet().size());
+		assertEquals(30, offer.getAmount());
 
 		List<Booking> bookings = new ArrayList<>(offer.getBookingSet());
 		Booking booking = bookings.get(0);
