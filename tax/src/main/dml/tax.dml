@@ -1,0 +1,21 @@
+package pt.ulisboa.tecnico.softeng.tax.domain;
+
+class Invoice {
+    String reference;
+	double value;
+	LocalDate date;
+	double iva;
+	int counter;
+}
+
+relation DomainRootHasInvoices {
+	.pt.ist.fenixframework.DomainRoot playsRole root {
+		multiplicity 1..1;
+	}
+	Invoice playsRole invoice {
+		multiplicity 0..*;
+	}
+}
+
+
+
