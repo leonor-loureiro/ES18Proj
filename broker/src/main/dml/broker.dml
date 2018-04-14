@@ -48,6 +48,7 @@ class ConfirmedState extends AdventureState;
 class TaxPaymentState extends AdventureState;
 class UndoState extends AdventureState;
 class CancelledState extends AdventureState;
+class Client;
 
 relation AdventureHasState {
 	Adventure playsRole adventure {

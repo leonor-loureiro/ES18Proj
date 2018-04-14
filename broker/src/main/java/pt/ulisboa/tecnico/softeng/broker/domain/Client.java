@@ -2,7 +2,7 @@ package pt.ulisboa.tecnico.softeng.broker.domain;
 
 import pt.ulisboa.tecnico.softeng.broker.exception.BrokerException;
 
-public class Client {
+public class Client extends Client_Base {
 	private final String IBAN;
 	private final String NIF;
 	private final String drivingLicense;
