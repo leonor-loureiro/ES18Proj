@@ -6,7 +6,6 @@ import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
 
 public class ActivityOffer extends ActivityOffer_Base {
 
-	private final int amount;
 
 	public ActivityOffer(Activity activity, LocalDate begin, LocalDate end, int amount) {
 		checkArguments(activity, begin, end, amount);
@@ -14,8 +13,7 @@ public class ActivityOffer extends ActivityOffer_Base {
 		setBegin(begin);
 		setEnd(end);
 		setCapacity(activity.getCapacity());
-
-		this.amount = amount;
+		setAmount(amount);
 
 		setActivity(activity);
 	}
@@ -55,7 +53,7 @@ public class ActivityOffer extends ActivityOffer_Base {
 	}
 
 	public int getPrice() {
-		return this.amount;
+		return getAmount();
 	}
 
 	boolean available(LocalDate begin, LocalDate end) {

@@ -3,6 +3,8 @@ package pt.ulisboa.tecnico.softeng.activity.domain;
 import java.util.HashSet;
 import java.util.Set;
 
+import pt.ist.fenixframework.FenixFramework;
+
 import pt.ulisboa.tecnico.softeng.activity.exception.RemoteAccessException;
 import pt.ulisboa.tecnico.softeng.activity.interfaces.BankInterface;
 import pt.ulisboa.tecnico.softeng.activity.interfaces.TaxInterface;
@@ -10,19 +12,18 @@ import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
 import pt.ulisboa.tecnico.softeng.tax.dataobjects.InvoiceData;
 import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 
-public class Processor {
+public class Processor extends Processor_Base {
 	// important to use a set to avoid double submission of the same booking when it
 	// is cancelled while trying to pay or send invoice
-	private final Set<Booking> bookingToProcess = new HashSet<>();
 
 	public void submitBooking(Booking booking) {
-		this.bookingToProcess.add(booking);
+		addBooking(booking);
 		processInvoices();
 	}
 
 	private void processInvoices() {
 		Set<Booking> failedToProcess = new HashSet<>();
-		for (Booking booking : this.bookingToProcess) {
+		for (Booking booking : getBookingSet()) {
 			if (!booking.isCancelled()) {
 				if (booking.getPaymentReference() == null) {
 					try {
@@ -53,15 +54,25 @@ public class Processor {
 				}
 
 			}
+			booking.setProcessor(null);
 		}
 
-		this.bookingToProcess.clear();
-		this.bookingToProcess.addAll(failedToProcess);
+		for(Booking booking : failedToProcess) {
+			addBooking(booking);
+		}
 
 	}
 
 	public void clean() {
-		this.bookingToProcess.clear();
+		for(Booking booking : getBookingSet()) {
+			booking.setProcessor(null);
+		}
+	}
+	
+	public void delete() {
+		clean();
+		setActivityProvider(null);
+		deleteDomainObject();
 	}
 
 }

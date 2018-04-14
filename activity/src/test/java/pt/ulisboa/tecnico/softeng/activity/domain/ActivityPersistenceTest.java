@@ -1,6 +1,7 @@
 package pt.ulisboa.tecnico.softeng.activity.domain;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -43,7 +44,11 @@ public class ActivityPersistenceTest {
 
 		ActivityOffer activityOffer = new ActivityOffer(activity, this.begin, this.end, 30);
 
-		new Booking(activityProvider, activityOffer, BUYER_NIF, BUYER_IBAN);
+		Booking booking = new Booking(activityProvider, activityOffer, BUYER_NIF, BUYER_IBAN);
+		
+		activityProvider.getProcessor().submitBooking(booking);
+		
+		
 	}
 
 	@Atomic(mode = TxMode.READ)
@@ -55,7 +60,16 @@ public class ActivityPersistenceTest {
 
 		assertEquals(PROVIDER_CODE, provider.getCode());
 		assertEquals(PROVIDER_NAME, provider.getName());
+		assertEquals(NIF, provider.getNif());
+		assertEquals(IBAN, provider.getIban());
 		assertEquals(1, provider.getActivitySet().size());
+		assertNotNull(provider.getProcessor());
+		
+		Processor processor = provider.getProcessor();
+		List<Booking> bookings = new ArrayList<>(processor.getBookingSet());
+		
+		assertEquals(1, bookings.size());
+		assertNotNull(bookings.get(0).getReference());
 
 		List<Activity> activities = new ArrayList<>(provider.getActivitySet());
 		Activity activity = activities.get(0);
@@ -74,13 +88,23 @@ public class ActivityPersistenceTest {
 		assertEquals(this.end, offer.getEnd());
 		assertEquals(CAPACITY, offer.getCapacity());
 		assertEquals(1, offer.getBookingSet().size());
+		assertEquals(30, offer.getAmount());
 
-		List<Booking> bookings = new ArrayList<>(offer.getBookingSet());
+		bookings = new ArrayList<>(offer.getBookingSet());
 		Booking booking = bookings.get(0);
 
 		assertNotNull(booking.getReference());
 		assertNull(booking.getCancel());
 		assertNull(booking.getCancellationDate());
+		assertEquals(provider.getNif(), booking.getProviderNif());
+		assertEquals(BUYER_NIF,booking.getNif());
+		assertEquals(BUYER_IBAN,booking.getIban());
+		assertEquals(offer.getPrice(),booking.getAmount(),0);
+		assertEquals(offer.getBegin(),booking.getDate());
+		assertFalse(booking.getCancelledInvoice());
+		assertNull(booking.getCancelledPaymentReference());
+		assertEquals(1,booking.getCounter());
+		
 	}
 
 	@After
