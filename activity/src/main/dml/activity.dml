@@ -83,3 +83,13 @@ relation ActivityProviderHasProcessor {
 		multiplicity 1..1;
 	}
 }
+
+relation ProcessorHasBookings {
+	Processor playsRole processor {
+		multiplicity 0..1;
+	}
+	Booking playsRole booking {
+		multiplicity 0..*;
+	}
+}
+
