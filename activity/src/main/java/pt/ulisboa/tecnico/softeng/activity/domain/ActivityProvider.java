@@ -12,10 +12,6 @@ import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
 public class ActivityProvider extends ActivityProvider_Base {
 	static final int CODE_SIZE = 6;
 
-	private final String nif;
-	private final String iban;
-
-//	private final Processor processor = new Processor();
 
 	@Override
 	public int getCounter() {
@@ -30,8 +26,8 @@ public class ActivityProvider extends ActivityProvider_Base {
 		setCode(code);
 		setName(name);
 
-		this.nif = nif;
-		this.iban = iban;
+		setNif(nif);
+		setIban(iban);
 
 		FenixFramework.getDomainRoot().addActivityProvider(this);
 		setProcessor(new Processor());
@@ -69,14 +65,6 @@ public class ActivityProvider extends ActivityProvider_Base {
 				throw new ActivityException();
 			}
 		}
-	}
-
-	public String getNif() {
-		return this.nif;
-	}
-
-	public String getIban() {
-		return this.iban;
 	}
 
 
