@@ -44,7 +44,11 @@ public class ActivityPersistenceTest {
 
 		ActivityOffer activityOffer = new ActivityOffer(activity, this.begin, this.end, 30);
 
-		new Booking(activityProvider, activityOffer, BUYER_NIF, BUYER_IBAN);
+		Booking booking = new Booking(activityProvider, activityOffer, BUYER_NIF, BUYER_IBAN);
+		
+		activityProvider.getProcessor().submitBooking(booking);
+		
+		
 	}
 
 	@Atomic(mode = TxMode.READ)
@@ -58,6 +62,12 @@ public class ActivityPersistenceTest {
 		assertEquals(PROVIDER_NAME, provider.getName());
 		assertEquals(1, provider.getActivitySet().size());
 		assertNotNull(provider.getProcessor());
+		
+		Processor processor = provider.getProcessor();
+		List<Booking> bookings = new ArrayList<>(processor.getBookingSet());
+		
+		assertEquals(1, bookings.size());
+		assertNotNull(bookings.get(0).getReference());
 
 		List<Activity> activities = new ArrayList<>(provider.getActivitySet());
 		Activity activity = activities.get(0);
@@ -78,7 +88,7 @@ public class ActivityPersistenceTest {
 		assertEquals(1, offer.getBookingSet().size());
 		assertEquals(30, offer.getAmount());
 
-		List<Booking> bookings = new ArrayList<>(offer.getBookingSet());
+		bookings = new ArrayList<>(offer.getBookingSet());
 		Booking booking = bookings.get(0);
 
 		assertNotNull(booking.getReference());
