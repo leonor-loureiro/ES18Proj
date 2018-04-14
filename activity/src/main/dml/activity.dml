@@ -77,9 +77,9 @@ class Processor;
 
 relation ActivityProviderHasProcessor {
 	ActivityProvider playsRole activityProvider {
-		multiplicity 0..1;
+		multiplicity 1..1;
 	}
 	Processor playsRole processor {
-		multiplicity 0..1;
+		multiplicity 1..1;
 	}
 }
