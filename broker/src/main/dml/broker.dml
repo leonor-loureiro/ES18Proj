@@ -48,7 +48,6 @@ class ConfirmedState extends AdventureState;
 class TaxPaymentState extends AdventureState;
 class UndoState extends AdventureState;
 class CancelledState extends AdventureState;
-class Client;
 
 relation AdventureHasState {
 	Adventure playsRole adventure {
@@ -88,4 +87,11 @@ relation BulkRoomBookingHasReferences {
 	Reference playsRole reference {
 		multiplicity 0..*;
 	}
+}
+
+class Client {
+    String IBAN;
+    String NIF;
+    String drivingLicense;
+    int age;
 }

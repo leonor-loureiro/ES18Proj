@@ -3,17 +3,14 @@ package pt.ulisboa.tecnico.softeng.broker.domain;
 import pt.ulisboa.tecnico.softeng.broker.exception.BrokerException;
 
 public class Client extends Client_Base {
-	private final String IBAN;
-	private final String NIF;
-	private final String drivingLicense;
-	private final int age;
 
 	public Client(Broker broker, String IBAN, String NIF, String drivingLicense, int age) {
 		checkArguments(broker, IBAN, NIF, drivingLicense, age);
-		this.IBAN = IBAN;
-		this.NIF = NIF;
-		this.drivingLicense = drivingLicense;
-		this.age = age;
+
+		setIBAN(IBAN);
+        setNIF(NIF);
+        setDrivingLicense(drivingLicense);
+        setAge(age);
 
 		broker.addClient(this);
 	}
@@ -42,19 +39,15 @@ public class Client extends Client_Base {
 
 	}
 
-	public String getIBAN() {
-		return this.IBAN;
-	}
+    @Override
+	public String getIBAN() { return super.getIBAN(); }
 
-	public String getNIF() {
-		return this.NIF;
-	}
+    @Override
+	public String getNIF() { return super.getNIF(); }
 
-	public int getAge() {
-		return this.age;
-	}
+    @Override
+	public int getAge() { return super.getAge(); }
 
-	public String getDrivingLicense() {
-		return drivingLicense;
-	}
+    @Override
+	public String getDrivingLicense() { return super.getDrivingLicense(); }
 }
