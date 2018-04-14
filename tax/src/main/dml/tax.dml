@@ -16,6 +16,3 @@ relation DomainRootHasInvoices {
 		multiplicity 0..*;
 	}
 }
-
-
-
