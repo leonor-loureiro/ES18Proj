@@ -6,6 +6,10 @@ class Hotel {
 	String code;
 	String name;
 	int counter;
+	String nif;
+	String iban;
+	double priceSingle;
+	double priceDouble;
 }
 
 relation DomainRootHasHotels {

@@ -14,11 +14,6 @@ import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 public class Hotel extends Hotel_Base {
 	static final int CODE_SIZE = 7;
 
-	private final String nif;
-	private final String iban;
-	private double priceSingle;
-	private double priceDouble;
-
 	private final Processor processor = new Processor();
 
 	@Override
@@ -34,10 +29,10 @@ public class Hotel extends Hotel_Base {
 		setCode(code);
 		setName(name);
 
-		this.nif = nif;
-		this.iban = iban;
-		this.priceSingle = priceSingle;
-		this.priceDouble = priceDouble;
+		setNif(nif);
+		setIban(iban);
+		setPriceSingle(priceSingle);
+		setPriceDouble(priceDouble);
 
 		FenixFramework.getDomainRoot().addHotel(this);
 	}
@@ -99,32 +94,27 @@ public class Hotel extends Hotel_Base {
 		}
 		return availableRooms;
 	}
-
+	
+	@Deprecated
 	public String getNIF() {
-		return this.nif;
+		return getNif();
 	}
 
+	@Deprecated
 	public String getIBAN() {
-		return this.iban;
+		return getIban();
 	}
 
 	public Processor getProcessor() {
 		return this.processor;
 	}
 
-	public double getPriceSingle() {
-		return this.priceSingle;
-	}
-
-	public double getPriceDouble() {
-		return this.priceDouble;
-	}
 
 	public double getPrice(Room.Type type) {
 		if (type == null) {
 			throw new HotelException();
 		} else {
-			return type.equals(Room.Type.SINGLE) ? this.priceSingle : this.priceDouble;
+			return type.equals(Room.Type.SINGLE) ? getPriceSingle() : getPriceDouble();
 		}
 	}
 
@@ -132,9 +122,9 @@ public class Hotel extends Hotel_Base {
 		if (price < 0 || type == null) {
 			throw new HotelException();
 		} else if (type.equals(Room.Type.SINGLE)) {
-			this.priceSingle = price;
+			setPriceSingle(price);
 		} else {
-			this.priceDouble = price;
+			setPriceDouble(price);
 		}
 	}
 
