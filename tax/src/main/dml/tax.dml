@@ -5,18 +5,29 @@ class Invoice {
 }
 
 class ItemType {
-
+    String name;
+    int tax;
 }
 
 class IRS {
 
 }
 
+
 relation DomainRootHasIRS {
 	.pt.ist.fenixframework.DomainRoot playsRole root {
 		multiplicity 1..1;
 	}
 	IRS playsRole irs {
+		multiplicity 1..1;
+	}
+}
+
+relation InvoiceHasItemType {
+    Invoice playsRole invoice {
+		multiplicity 1..1;
+	}
+	ItemType playsRole itemType {
 		multiplicity 1..1;
 	}
 }

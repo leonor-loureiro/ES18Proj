@@ -11,7 +11,6 @@ public class Invoice extends Invoice_Base {
 	private final double value;
 	private final double iva;
 	private final LocalDate date;
-	private final ItemType itemType;
 	private final Seller seller;
 	private final Buyer buyer;
 	private boolean cancelled = false;
@@ -22,7 +21,7 @@ public class Invoice extends Invoice_Base {
 		this.reference = Integer.toString(++Invoice.counter);
 		this.value = value;
 		this.date = date;
-		this.itemType = itemType;
+		setItemType(itemType);
 		this.seller = seller;
 		this.buyer = buyer;
 		this.iva = value * itemType.getTax() / 100;
@@ -67,10 +66,6 @@ public class Invoice extends Invoice_Base {
 
 	public LocalDate getDate() {
 		return this.date;
-	}
-
-	public ItemType getItemType() {
-		return this.itemType;
 	}
 
 	public Seller getSeller() {
