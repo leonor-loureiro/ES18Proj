@@ -2,7 +2,7 @@ package pt.ulisboa.tecnico.softeng.tax.domain;
 
 import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 
-public class ItemType {
+public class ItemType extends ItemType_Base {
 	public final String name;
 	public int tax;
 
