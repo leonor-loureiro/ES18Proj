@@ -50,4 +50,8 @@ public class Client extends Client_Base {
 
     @Override
 	public String getDrivingLicense() { return super.getDrivingLicense(); }
+
+	public void delete() {
+		deleteDomainObject();
+	}
 }
