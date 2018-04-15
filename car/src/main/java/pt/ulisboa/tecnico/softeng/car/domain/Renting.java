@@ -4,7 +4,7 @@ import org.joda.time.LocalDate;
 
 import pt.ulisboa.tecnico.softeng.car.exception.CarException;
 
-public class Renting extends RentACar_Base{
+public class Renting extends Renting_Base {
 	private static String drivingLicenseFormat = "^[a-zA-Z]+\\d+$";
 	private static final String type = "RENTAL";
 
@@ -14,7 +14,6 @@ public class Renting extends RentACar_Base{
 	private final LocalDate begin;
 	private final LocalDate end;
 	private int kilometers = -1;
-	private final Vehicle vehicle;
 	private final String clientNIF;
 	private final String clientIBAN;
 	private final double price;
@@ -29,14 +28,22 @@ public class Renting extends RentACar_Base{
 	public Renting(String drivingLicense, LocalDate begin, LocalDate end, Vehicle vehicle, String buyerNIF,
 			String buyerIBAN) {
 		checkArguments(drivingLicense, begin, end, vehicle);
+
 		this.reference = Integer.toString(vehicle.getRentACar().getNextCounter());
 		this.drivingLicense = drivingLicense;
 		this.begin = begin;
 		this.end = end;
-		this.vehicle = vehicle;
 		this.clientNIF = buyerNIF;
 		this.clientIBAN = buyerIBAN;
 		this.price = vehicle.getPrice() * (end.getDayOfYear() - begin.getDayOfYear());
+
+		setVehicle(vehicle);
+	}
+
+	public void delete() {
+		setVehicle(null);
+
+		deleteDomainObject();
 	}
 
 	private void checkArguments(String drivingLicense, LocalDate begin, LocalDate end, Vehicle vehicle) {
@@ -82,13 +89,6 @@ public class Renting extends RentACar_Base{
 		return this.cancellationDate;
 	}
 
-	/**
-	 * @return the vehicle
-	 */
-	public Vehicle getVehicle() {
-		return this.vehicle;
-	}
-
 	public boolean isCancelled() {
 		return this.cancellationReference != null && this.cancellationDate != null;
 	}
@@ -122,7 +122,7 @@ public class Renting extends RentACar_Base{
 	 */
 	public void checkout(int kilometers) {
 		this.kilometers = kilometers;
-		this.vehicle.addKilometers(this.kilometers);
+		getVehicle().addKilometers(this.kilometers);
 	}
 
 	public String cancel() {

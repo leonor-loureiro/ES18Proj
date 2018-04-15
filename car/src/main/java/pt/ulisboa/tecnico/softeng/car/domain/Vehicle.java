@@ -38,6 +38,9 @@ public abstract class Vehicle extends Vehicle_Base {
 
 		plates.clear();
 
+		for (Renting r : getRentingSet())
+			r.delete();
+
 		deleteDomainObject();
     }
 
@@ -97,16 +100,6 @@ public abstract class Vehicle extends Vehicle_Base {
 			}
 		}
 		return true;
-	}
-
-	/**
-	 * Add a <code>Renting</code> object to the vehicle. Use with caution --- no
-	 * validation is being made.
-	 *
-	 * @param renting
-	 */
-	private void addRenting(Renting renting) {
-		this.rentings.add(renting);
 	}
 
 	/**
