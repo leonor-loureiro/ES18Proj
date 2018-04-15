@@ -25,7 +25,9 @@ public class HotelPersistenceTest {
 	private static final double PRICE_SINGLE = 20.0;
 	private static final double PRICE_DOUBLE = 30.0;
 
-	
+
+	private final String NIF_BUYER = "123456789";
+	private final String IBAN_BUYER = "IBAN";
 	
 	private final LocalDate arrival = new LocalDate(2017, 12, 15);
 	private final LocalDate departure = new LocalDate(2017, 12, 19);
@@ -42,7 +44,7 @@ public class HotelPersistenceTest {
 
 		Room room = new Room(hotel, ROOM_NUMBER, Type.DOUBLE);
 
-		room.reserve(Type.DOUBLE, this.arrival, this.departure, "123456789", "IBAN");
+		room.reserve(Type.DOUBLE, this.arrival, this.departure, NIF_BUYER, IBAN_BUYER);
 
 	}
 
@@ -65,12 +67,20 @@ public class HotelPersistenceTest {
 		assertEquals(Type.DOUBLE, room.getType());
 		assertEquals(1, room.getBookingSet().size());
 
+		
 		List<Booking> bookings = new ArrayList<>(room.getBookingSet());
 		Booking booking = bookings.get(0);
 
 		assertEquals(this.arrival, booking.getArrival());
 		assertEquals(this.departure, booking.getDeparture());
 		assertNotNull(booking.getReference());
+		Assert.assertEquals(NIF_BUYER, booking.getNif());
+		Assert.assertEquals(IBAN_BUYER, booking.getIban());
+		Assert.assertNull(booking.getInvoiceReference());
+		Assert.assertNull(booking.getPaymentReference());
+//		Assert.assertEquals(booking.getCancelledInvoice(), false);
+		Assert.assertNull(booking.getCancelledPaymentReference(), null);
+		Assert.assertNotNull(booking.getType());
 	}
 
 	@After

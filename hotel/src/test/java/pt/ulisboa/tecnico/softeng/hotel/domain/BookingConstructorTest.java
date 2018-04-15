@@ -16,8 +16,11 @@ public class BookingConstructorTest extends RollbackTestAbstractClass {
 	private static final LocalDate ARRIVAL = new LocalDate(2016, 12, 19);
 	private static final LocalDate DEPARTURE = new LocalDate(2016, 12, 21);
 	private static final double ROOM_PRICE = 20.0;
+	
 	private static String NIF_BUYER = "123456789";
 	private static String IBAN_BUYER = "IBAN_BUYER";
+	private static String HOTEL_NIF = "NIF";
+	
 	private Room room;
 
 	@Mocked
@@ -27,7 +30,7 @@ public class BookingConstructorTest extends RollbackTestAbstractClass {
 
 	@Override
 	public void populate4Test() {
-		Hotel hotel = new Hotel("XPTO123", "Londres", "NIF", "IBAN", 20.0, 30.0);
+		Hotel hotel = new Hotel("XPTO123", "Londres", HOTEL_NIF, "IBAN", 20.0, 30.0);
 		this.room = new Room(hotel, "01", Room.Type.SINGLE);
 	}
 
@@ -40,6 +43,14 @@ public class BookingConstructorTest extends RollbackTestAbstractClass {
 		Assert.assertEquals(ARRIVAL, booking.getArrival());
 		Assert.assertEquals(DEPARTURE, booking.getDeparture());
 		Assert.assertEquals(ROOM_PRICE * 2, booking.getPrice(), 0.0d);
+		
+		Assert.assertEquals(NIF_BUYER, booking.getNif());
+		Assert.assertEquals(IBAN_BUYER, booking.getIban());
+		Assert.assertNull(booking.getInvoiceReference());
+		Assert.assertNull(booking.getPaymentReference());
+//		Assert.assertEquals(booking.getCancelledInvoice(), false);
+		Assert.assertNull(booking.getCancelledPaymentReference(), null);
+		Assert.assertNotNull(booking.getType());
 	}
 
 	@Test(expected = HotelException.class)
