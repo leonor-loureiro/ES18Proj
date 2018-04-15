@@ -310,13 +310,4 @@ public class InvoiceProcessorSubmitRentingMethodTest extends RollbackTestAbstrac
 		};
 	}
 
-	@Override										//FIXME delete when car is persistent
-	public void tearDownNotPersistent() {
-		FenixFramework.getDomainRoot().getRentACarSet().forEach(RentACar::delete);
-	}
-	
-	
-
-	
-
 }

@@ -81,8 +81,4 @@ public class RentACarGetAllAvailableVehiclesTest extends RollbackTestAbstractCla
 		assertFalse(cars.contains(car));
 	}
 
-	@Override										//FIXME delete when car is persistent
-	public void tearDownNotPersistent()  {
-		FenixFramework.getDomainRoot().getRentACarSet().forEach(RentACar::delete);
-	}
 }

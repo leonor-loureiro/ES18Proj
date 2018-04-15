@@ -76,9 +76,4 @@ public class RentingConflictTest extends RollbackTestAbstractClass {
 		Renting renting = new Renting(DRIVING_LICENSE, date1, date2, car, NIF, IBAN_BUYER);
 		renting.conflict(date2, date1);
 	}
-
-	@Override										//FIXME delete when car is persistent
-	public void tearDownNotPersistent() {
-		FenixFramework.getDomainRoot().getRentACarSet().forEach(RentACar::delete);
-	}
 }

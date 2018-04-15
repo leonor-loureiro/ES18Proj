@@ -91,9 +91,4 @@ public class RentACarCancelRentingMethodTest extends RollbackTestAbstractClass{
 		};
 		RentACar.cancelRenting("MISSING_REFERENCE");
 	}
-
-	@Override										//FIXME delete when car is persistent
-	public void tearDownNotPersistent() {
-		FenixFramework.getDomainRoot().getRentACarSet().forEach(RentACar::delete);
-	}
 }

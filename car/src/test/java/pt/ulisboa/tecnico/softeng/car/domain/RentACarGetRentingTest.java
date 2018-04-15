@@ -49,9 +49,4 @@ public class RentACarGetRentingTest extends RollbackTestAbstractClass {
 	public void nonExistent() {
 		assertNull(RentACar.getRenting("a"));
 	}
-
-	@Override										//FIXME delete when car is persistent
-	public void tearDownNotPersistent()  {
-		FenixFramework.getDomainRoot().getRentACarSet().forEach(RentACar::delete);
-	}
 }

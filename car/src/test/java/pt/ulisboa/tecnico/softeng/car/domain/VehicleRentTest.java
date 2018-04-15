@@ -55,9 +55,4 @@ public class VehicleRentTest extends RollbackTestAbstractClass{
 		Vehicle car = new Car(PLATE_CAR, 10, 10, rentACar);
 		car.rent(DRIVING_LICENSE, date1, null, NIF, IBAN_BUYER);
 	}
-
-	@Override										//FIXME delete when car is persistent
-	public void tearDownNotPersistent() {
-		FenixFramework.getDomainRoot().getRentACarSet().forEach(RentACar::delete);
-	}
 }

@@ -77,10 +77,4 @@ public class VehicleConstructorTest extends RollbackTestAbstractClass {
 	public void noRentACar() {
 		new Car(PLATE_CAR, 0, 10, null);
 	}
-
-	@Override										//FIXME delete when car is persistent
-	public void tearDownNotPersistent() {
-		FenixFramework.getDomainRoot().getRentACarSet().forEach(RentACar::delete);
-	}
-
 }
