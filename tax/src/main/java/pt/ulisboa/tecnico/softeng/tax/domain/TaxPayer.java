@@ -18,8 +18,6 @@ public abstract class TaxPayer extends TaxPayer_Base {
 		this.NIF = NIF;
 		this.name = name;
 		this.address = address;
-
-		irs.addTaxPayer(this);
 	}
 	
 	private void checkArguments(IRS irs, String NIF, String name, String address) {

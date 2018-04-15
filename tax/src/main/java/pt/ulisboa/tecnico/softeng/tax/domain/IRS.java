@@ -7,7 +7,6 @@ import pt.ulisboa.tecnico.softeng.tax.dataobjects.InvoiceData;
 import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 
 public class IRS extends IRS_Base {
-	private final Set<TaxPayer> taxPayers = new HashSet<>();
 	private final Set<ItemType> itemTypes = new HashSet<>();
 
 	private static IRS instance;
@@ -22,12 +21,8 @@ public class IRS extends IRS_Base {
 	private IRS() {
 	}
 
-	void addTaxPayer(TaxPayer taxPayer) {
-		this.taxPayers.add(taxPayer);
-	}
-
 	public TaxPayer getTaxPayerByNIF(String NIF) {
-		for (TaxPayer taxPayer : this.taxPayers) {
+		for (TaxPayer taxPayer : getTaxPayerSet()) {
 			if (taxPayer.getNIF().equals(NIF)) {
 				return taxPayer;
 			}
@@ -63,7 +58,7 @@ public class IRS extends IRS_Base {
 	}
 
 	public void removeTaxPayers() {
-		this.taxPayers.clear();
+		getTaxPayerSet().clear();
 	}
 
 	public void clearAll() {
@@ -86,7 +81,7 @@ public class IRS extends IRS_Base {
 	}
 
 	private Invoice getInvoiceByReference(String reference) {
-		for (TaxPayer taxPayer : this.taxPayers) {
+		for (TaxPayer taxPayer : getTaxPayerSet()) {
 			Invoice invoice = taxPayer.getInvoiceByReference(reference);
 			if (invoice != null) {
 				return invoice;
