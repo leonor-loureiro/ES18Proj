@@ -48,7 +48,7 @@ public class BookingConstructorTest extends RollbackTestAbstractClass {
 		Assert.assertEquals(IBAN_BUYER, booking.getIban());
 		Assert.assertNull(booking.getInvoiceReference());
 		Assert.assertNull(booking.getPaymentReference());
-//		Assert.assertEquals(booking.getCancelledInvoice(), false);
+		Assert.assertEquals(booking.getCancelledInvoice(), false);
 		Assert.assertNull(booking.getCancelledPaymentReference(), null);
 		Assert.assertNotNull(booking.getType());
 	}
