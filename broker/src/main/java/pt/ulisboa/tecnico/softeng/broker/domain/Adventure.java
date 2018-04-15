@@ -13,7 +13,7 @@ public class Adventure extends Adventure_Base {
 		PROCESS_PAYMENT, RESERVE_ACTIVITY, BOOK_ROOM, RENT_VEHICLE, UNDO, CONFIRMED, CANCELLED, TAX_PAYMENT
 	}
 
-	private final Client client;
+	//private final Client client;
 
  	private AdventureState state;
 
@@ -29,9 +29,7 @@ public class Adventure extends Adventure_Base {
         setBroker(broker);
 		setBegin(begin);
 		setEnd(end);
-
-		this.client = client;
-
+		setClient(client);
         setMargin(margin);
         setRentVehicle(rentVehicle);
         setCurrentAmount(0.0);
@@ -43,6 +41,7 @@ public class Adventure extends Adventure_Base {
 
 	public void delete() {
 		setBroker(null);
+        setClient(null);
 
 		getState().delete();
 
@@ -68,15 +67,15 @@ public class Adventure extends Adventure_Base {
 	}
 
 	public int getAge() {
-		return this.client.getAge();
+		return super.getClient().getAge();
 	}
 
 	public String getIBAN() {
-		return this.client.getIBAN();
+		return super.getClient().getIBAN();
 	}
 
 	public Client getClient() {
-		return this.client;
+		return super.getClient();
 	}
 
 	public double getMargin() {

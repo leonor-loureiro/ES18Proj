@@ -120,3 +120,13 @@ relation BrokerHasClients {
         multiplicity 0..*;
     }
 }
+
+relation AdventureHasClient {
+    Adventure playsRole adventure {
+    	multiplicity 1..1;
+    }
+
+    Client playsRole client {
+        multiplicity 1..1;
+    }
+}
