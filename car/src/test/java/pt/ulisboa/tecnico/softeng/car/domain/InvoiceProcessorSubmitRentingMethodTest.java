@@ -10,6 +10,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import pt.ist.fenixframework.FenixFramework;
 import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
 import pt.ulisboa.tecnico.softeng.car.exception.RemoteAccessException;
 import pt.ulisboa.tecnico.softeng.car.interfaces.BankInterface;
@@ -311,8 +312,7 @@ public class InvoiceProcessorSubmitRentingMethodTest extends RollbackTestAbstrac
 
 	@Override										//FIXME delete when car is persistent
 	public void tearDownNotPersistent() {
-		 RentACar.rentACars.clear();
-		 Vehicle.plates.clear();
+		FenixFramework.getDomainRoot().getRentACarSet().forEach(RentACar::delete);
 	}
 	
 	

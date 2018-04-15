@@ -7,6 +7,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import pt.ist.fenixframework.FenixFramework;
 import pt.ulisboa.tecnico.softeng.car.exception.CarException;
 import pt.ulisboa.tecnico.softeng.car.interfaces.BankInterface;
 import pt.ulisboa.tecnico.softeng.car.interfaces.TaxInterface;
@@ -54,7 +55,7 @@ public class RentACarRentTest extends RollbackTestAbstractClass{
 
 	@Test(expected = CarException.class)
 	public void noRentACars() {
-		RentACar.rentACars.clear();
+		FenixFramework.getDomainRoot().getRentACarSet().forEach(r -> r.delete());
 		RentACar.rent(Car.class, DRIVING_LICENSE, NIF, IBAN_BUYER, BEGIN, END);
 	}
 
@@ -65,7 +66,6 @@ public class RentACarRentTest extends RollbackTestAbstractClass{
 
 	@Override										//FIXME delete when car is persistent
 	public void tearDownNotPersistent() {
-		RentACar.rentACars.clear();
-		Vehicle.plates.clear();
+		FenixFramework.getDomainRoot().getRentACarSet().forEach(RentACar::delete);
 	}
 }
