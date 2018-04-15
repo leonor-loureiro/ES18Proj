@@ -39,5 +39,5 @@ Once logged into the container, enter the mysql interactive console
 mysql --password
 ```
 
-And create the 5 databases for the project as specified in
+And create the 7 databases for the project as specified in
 the `resources/fenix-framework.properties`.

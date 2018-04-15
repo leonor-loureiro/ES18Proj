@@ -6,8 +6,8 @@ import java.util.Set;
 import org.joda.time.LocalDate;
 
 import pt.ist.fenixframework.FenixFramework;
-import pt.ulisboa.tecnico.softeng.car.dataobjects.RentingData;
 import pt.ulisboa.tecnico.softeng.car.exception.CarException;
+import pt.ulisboa.tecnico.softeng.car.services.local.dataobjects.RentingData;
 
 public class RentACar extends RentACar_Base {
 	public RentACar(String name, String nif, String iban) {

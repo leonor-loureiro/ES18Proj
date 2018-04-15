@@ -57,7 +57,7 @@ public class BrokerPersistenceTest extends BaseTest {
 		assertEquals(this.begin, adventure.getBegin());
 		assertEquals(this.end, adventure.getEnd());
 		assertEquals(AGE, adventure.getAge());
-		assertEquals(CLIENT_IBAN, adventure.getIBAN());
+		assertEquals(CLIENT_IBAN, adventure.getIban());
 		assertNull(adventure.getPaymentConfirmation());
         assertNull(adventure.getPaymentCancellation());
         assertNull(adventure.getRentingConfirmation());
@@ -95,8 +95,8 @@ public class BrokerPersistenceTest extends BaseTest {
 		assertEquals(REF_ONE, reference.getValue());
 
         Client client = adventure.getClient();
-        assertEquals(CLIENT_IBAN, client.getIBAN());
-        assertEquals(CLIENT_NIF, client.getNIF());
+        assertEquals(CLIENT_IBAN, client.getIban());
+        assertEquals(CLIENT_NIF, client.getNif());
         assertEquals(AGE, client.getAge());
         assertEquals(DRIVING_LICENSE, client.getDrivingLicense());
 	}

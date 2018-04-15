@@ -7,8 +7,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import pt.ulisboa.tecnico.softeng.tax.dataobjects.InvoiceData;
 import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
+import pt.ulisboa.tecnico.softeng.tax.services.local.dataobjects.InvoiceData;
 
 public class IRSSubmitInvoiceTest extends RollbackTestAbstractClass {
 	private static final String SELLER_NIF = "123456789";

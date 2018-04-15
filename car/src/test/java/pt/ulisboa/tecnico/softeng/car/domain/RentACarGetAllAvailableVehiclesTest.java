@@ -7,13 +7,14 @@ import java.util.Set;
 
 import mockit.Mocked;
 import mockit.integration.junit4.JMockit;
+import pt.ulisboa.tecnico.softeng.car.services.remote.BankInterface;
+import pt.ulisboa.tecnico.softeng.car.services.remote.TaxInterface;
+
 import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import pt.ulisboa.tecnico.softeng.car.interfaces.BankInterface;
-import pt.ulisboa.tecnico.softeng.car.interfaces.TaxInterface;
 
 @RunWith(JMockit.class)
 public class RentACarGetAllAvailableVehiclesTest extends RollbackTestAbstractClass {

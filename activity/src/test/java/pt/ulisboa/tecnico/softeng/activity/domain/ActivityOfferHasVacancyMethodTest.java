@@ -8,9 +8,9 @@ import org.junit.runner.RunWith;
 import mockit.Expectations;
 import mockit.Mocked;
 import mockit.integration.junit4.JMockit;
-import pt.ulisboa.tecnico.softeng.activity.interfaces.BankInterface;
-import pt.ulisboa.tecnico.softeng.activity.interfaces.TaxInterface;
-import pt.ulisboa.tecnico.softeng.tax.dataobjects.InvoiceData;
+import pt.ulisboa.tecnico.softeng.activity.services.remote.BankInterface;
+import pt.ulisboa.tecnico.softeng.activity.services.remote.TaxInterface;
+import pt.ulisboa.tecnico.softeng.activity.services.remote.dataobjects.InvoiceData;
 
 @RunWith(JMockit.class)
 public class ActivityOfferHasVacancyMethodTest extends RollbackTestAbstractClass {

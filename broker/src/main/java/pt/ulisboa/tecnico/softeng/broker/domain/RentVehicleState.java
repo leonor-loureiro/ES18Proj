@@ -1,10 +1,10 @@
 package pt.ulisboa.tecnico.softeng.broker.domain;
 
 import pt.ulisboa.tecnico.softeng.broker.domain.Adventure.State;
-import pt.ulisboa.tecnico.softeng.broker.exception.RemoteAccessException;
-import pt.ulisboa.tecnico.softeng.broker.interfaces.CarInterface;
-import pt.ulisboa.tecnico.softeng.car.domain.Car;
-import pt.ulisboa.tecnico.softeng.car.exception.CarException;
+import pt.ulisboa.tecnico.softeng.broker.services.remote.CarInterface;
+import pt.ulisboa.tecnico.softeng.broker.services.remote.CarInterface.Type;
+import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.CarException;
+import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.RemoteAccessException;
 
 public class RentVehicleState extends RentVehicleState_Base {
 	public static final int MAX_REMOTE_ERRORS = 5;
@@ -18,7 +18,7 @@ public class RentVehicleState extends RentVehicleState_Base {
 	public void process() {
 		try {
 			// For now we will only reserve cars
-			String reference = CarInterface.rentCar(Car.class, getAdventure().getClient().getDrivingLicense(),
+			String reference = CarInterface.rentCar(Type.CAR, getAdventure().getClient().getDrivingLicense(),
 					getAdventure().getBroker().getNifAsBuyer(), getAdventure().getBroker().getIban(),
 					getAdventure().getBegin(), getAdventure().getEnd());
 

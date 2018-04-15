@@ -6,12 +6,12 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
 import pt.ulisboa.tecnico.softeng.hotel.exception.RemoteAccessException;
-import pt.ulisboa.tecnico.softeng.hotel.interfaces.BankInterface;
-import pt.ulisboa.tecnico.softeng.hotel.interfaces.TaxInterface;
-import pt.ulisboa.tecnico.softeng.tax.dataobjects.InvoiceData;
-import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
+import pt.ulisboa.tecnico.softeng.hotel.services.remote.BankInterface;
+import pt.ulisboa.tecnico.softeng.hotel.services.remote.TaxInterface;
+import pt.ulisboa.tecnico.softeng.hotel.services.remote.dataobjects.InvoiceData;
+import pt.ulisboa.tecnico.softeng.hotel.services.remote.exceptions.BankException;
+import pt.ulisboa.tecnico.softeng.hotel.services.remote.exceptions.TaxException;
 
 public class Processor extends Processor_Base {
 	private static Logger logger = LoggerFactory.getLogger(Processor.class);

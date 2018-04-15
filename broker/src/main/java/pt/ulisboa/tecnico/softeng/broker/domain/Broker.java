@@ -68,7 +68,7 @@ public class Broker extends Broker_Base {
 
 	public Client getClientByNIF(String NIF) {
 		for (Client client : getClientSet()) {
-			if (client.getNIF().equals(NIF)) {
+			if (client.getNif().equals(NIF)) {
 				return client;
 			}
 		}

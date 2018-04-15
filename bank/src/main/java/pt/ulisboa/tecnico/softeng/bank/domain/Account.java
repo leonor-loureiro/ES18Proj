@@ -3,6 +3,7 @@ package pt.ulisboa.tecnico.softeng.bank.domain;
 import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
 
 public class Account extends Account_Base {
+
 	public Account(Bank bank, Client client) {
 		checkArguments(bank, client);
 

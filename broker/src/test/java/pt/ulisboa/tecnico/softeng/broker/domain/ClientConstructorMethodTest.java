@@ -19,8 +19,8 @@ public class ClientConstructorMethodTest extends RollbackTestAbstractClass {
 	public void success() {
 		Client client = new Client(this.broker, CLIENT_IBAN, CLIENT_NIF, DRIVING_LICENSE, AGE);
 
-		Assert.assertEquals(CLIENT_IBAN, client.getIBAN());
-		Assert.assertEquals(CLIENT_NIF, client.getNIF());
+		Assert.assertEquals(CLIENT_IBAN, client.getIban());
+		Assert.assertEquals(CLIENT_NIF, client.getNif());
 		Assert.assertEquals(AGE, client.getAge());
 	}
 
@@ -75,8 +75,8 @@ public class ClientConstructorMethodTest extends RollbackTestAbstractClass {
 	public void nullDrivingLicense() {
 		Client client = new Client(this.broker, CLIENT_IBAN, CLIENT_NIF, null, AGE);
 
-		Assert.assertEquals(CLIENT_IBAN, client.getIBAN());
-		Assert.assertEquals(CLIENT_NIF, client.getNIF());
+		Assert.assertEquals(CLIENT_IBAN, client.getIban());
+		Assert.assertEquals(CLIENT_NIF, client.getNif());
 		Assert.assertEquals(AGE, client.getAge());
 		Assert.assertNull(client.getDrivingLicense());
 	}
