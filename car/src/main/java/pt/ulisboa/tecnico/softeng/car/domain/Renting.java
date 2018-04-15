@@ -4,7 +4,7 @@ import org.joda.time.LocalDate;
 
 import pt.ulisboa.tecnico.softeng.car.exception.CarException;
 
-public class Renting {
+public class Renting extends RentACar_Base{
 	private static String drivingLicenseFormat = "^[a-zA-Z]+\\d+$";
 	private static final String type = "RENTAL";
 
