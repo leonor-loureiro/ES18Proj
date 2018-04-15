@@ -60,13 +60,15 @@ public class HotelPersistenceTest {
 		Assert.assertTrue(PRICE_SINGLE == hotel.getPriceSingle());
 		Assert.assertTrue(PRICE_DOUBLE == hotel.getPriceDouble());
 
+		assertNotNull(hotel.getProcessor);
+
+		
 		List<Room> hotels = new ArrayList<>(hotel.getRoomSet());
 		Room room = hotels.get(0);
 
 		assertEquals(ROOM_NUMBER, room.getNumber());
 		assertEquals(Type.DOUBLE, room.getType());
 		assertEquals(1, room.getBookingSet().size());
-
 		
 		List<Booking> bookings = new ArrayList<>(room.getBookingSet());
 		Booking booking = bookings.get(0);
