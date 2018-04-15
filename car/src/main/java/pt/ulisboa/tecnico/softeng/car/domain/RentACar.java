@@ -13,25 +13,20 @@ import pt.ulisboa.tecnico.softeng.car.exception.CarException;
 
 public class RentACar extends RentACar_Base {
 
-	private static int counter;
-
 	public int getNextCounter() {
-		return ++counter;
+		setCounter(getCounter() + 1);
+		return getCounter();
 	}
-
-	private final String name;
-	private final String code;
-	private final String nif;
-	private final String iban;
 
 	private final Processor processor = new Processor();
 
 	public RentACar(String name, String nif, String iban) {
 		checkArguments(name, nif, iban);
-		this.name = name;
-		this.nif = nif;
-		this.iban = iban;
-		this.code = nif + Integer.toString(getNextCounter());
+
+		setName(name);
+		setNIF(nif);
+		setIBAN(iban);
+		setCode(nif + Integer.toString(getNextCounter()));
 
 		FenixFramework.getDomainRoot().addRentACar(this);
 	}
@@ -52,34 +47,10 @@ public class RentACar extends RentACar_Base {
 	public void delete() {
 		setRoot(null);
 
-		counter = 0;
-
 		for (Vehicle v : getVehicleSet())
 			v.delete();
 
 		deleteDomainObject();
-	}
-
-	/**
-	 * @return the name
-	 */
-	public String getName() {
-		return this.name;
-	}
-
-	public String getNIF() {
-		return this.nif;
-	}
-
-	public String getIBAN() {
-		return this.iban;
-	}
-
-	/**
-	 * @return the code
-	 */
-	public String getCode() {
-		return this.code;
 	}
 
 	public boolean hasVehicle(String plate) {

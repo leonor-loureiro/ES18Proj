@@ -1,6 +1,11 @@
 package pt.ulisboa.tecnico.softeng.car.domain;
 
 class RentACar {
+    int counter;
+    String name;
+    String code;
+    String NIF;
+    String IBAN;
 }
 
 relation DomainRootHasRentACarApplication {
