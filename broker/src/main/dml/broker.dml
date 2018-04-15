@@ -69,6 +69,8 @@ class BulkRoomBooking {
 	boolean cancelled;
 	int numberOfHotelExceptions;
 	int numberOfRemoteErrors;
+	String buyerNif;
+	String buyerIban;
 }
 
 relation BrokerHasBulkRoomBookings {
