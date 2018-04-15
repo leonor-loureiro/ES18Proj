@@ -12,6 +12,9 @@ class IRS {
 }
 
 class TaxPayer {
+	String NIF;
+	String name;
+	String address;
 }
 
 relation DomainRootHasIRS {

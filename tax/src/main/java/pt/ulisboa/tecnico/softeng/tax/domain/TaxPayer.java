@@ -7,17 +7,13 @@ import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 
 public abstract class TaxPayer extends TaxPayer_Base {
 	protected final Set<Invoice> invoices = new HashSet<>();
-
-	private final String NIF;
-	private final String name;
-	private final String address;
-
+	
 	public TaxPayer(IRS irs, String NIF, String name, String address) {
 		checkArguments(irs, NIF, name, address);
 
-		this.NIF = NIF;
-		this.name = name;
-		this.address = address;
+		setNIF(NIF);
+		setName(name);
+		setAddress(address);
 	}
 	
 	private void checkArguments(IRS irs, String NIF, String name, String address) {
@@ -57,14 +53,14 @@ public abstract class TaxPayer extends TaxPayer_Base {
 	}
 
 	public String getNIF() {
-		return this.NIF;
+		return getNIF();
 	}
 
 	public String getName() {
-		return this.name;
+		return getName();
 	}
 
 	public String getAddress() {
-		return this.address;
+		return getAddress();
 	}
 }
