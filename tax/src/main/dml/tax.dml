@@ -8,3 +8,7 @@ class ItemType {
     String name;
     int tax;
 }
+
+class IRS {
+
+}
