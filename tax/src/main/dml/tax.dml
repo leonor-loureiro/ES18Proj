@@ -11,3 +11,12 @@ class ItemType {
 class IRS {
 
 }
+
+relation DomainRootHasIRS {
+	.pt.ist.fenixframework.DomainRoot playsRole root {
+		multiplicity 1..1;
+	}
+	IRS playsRole irs {
+		multiplicity 1..1;
+	}
+}
