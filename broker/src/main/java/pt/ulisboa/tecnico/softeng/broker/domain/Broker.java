@@ -13,10 +13,6 @@ import pt.ulisboa.tecnico.softeng.broker.exception.BrokerException;
 public class Broker extends Broker_Base {
 	private static Logger logger = LoggerFactory.getLogger(Broker.class);
 
-	//private final String nifAsSeller;
-	//private final String nifAsBuyer;
-	//private final String iban;
-
 	@Override
 	public int getCounter() {
 		int counter = super.getCounter() + 1;
