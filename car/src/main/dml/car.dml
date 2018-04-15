@@ -13,6 +13,9 @@ relation DomainRootHasRentACarApplication {
 }
 
 class Vehicle {
+    String plate;
+    int kilometers;
+    double price;
 }
 
 class Car extends Vehicle {}
