@@ -12,3 +12,13 @@ class ItemType {
 class IRS {
 
 }
+
+
+relation InvoiceHasItemType {
+    Invoice playsRole invoice {
+		multiplicity 1..1;
+	}
+	ItemType playsRole itemType {
+		multiplicity 1..1;
+	}
+}
