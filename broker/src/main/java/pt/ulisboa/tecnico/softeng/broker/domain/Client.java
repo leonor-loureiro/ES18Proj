@@ -52,6 +52,7 @@ public class Client extends Client_Base {
 	public String getDrivingLicense() { return super.getDrivingLicense(); }
 
 	public void delete() {
+        setBroker(null);
 		deleteDomainObject();
 	}
 }

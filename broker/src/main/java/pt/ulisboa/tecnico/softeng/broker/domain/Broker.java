@@ -16,7 +16,6 @@ public class Broker extends Broker_Base {
 	private final String nifAsSeller;
 	private final String nifAsBuyer;
 	private final String iban;
-	private final Set<Client> clients = new HashSet<>();
 
 	@Override
 	public int getCounter() {
@@ -48,6 +47,10 @@ public class Broker extends Broker_Base {
 		for (BulkRoomBooking bulkRoomBooking : getRoomBulkBookingSet()) {
 			bulkRoomBooking.delete();
 		}
+
+        for (Client client : getClientSet()) {
+            client.delete();
+        }
 
 		deleteDomainObject();
 	}
@@ -91,7 +94,7 @@ public class Broker extends Broker_Base {
 	}
 
 	public Client getClientByNIF(String NIF) {
-		for (Client client : this.clients) {
+		for (Client client : getClientSet()) {
 			if (client.getNIF().equals(NIF)) {
 				return client;
 			}
@@ -100,11 +103,11 @@ public class Broker extends Broker_Base {
 	}
 
 	public boolean drivingLicenseIsRegistered(String drivingLicense) {
-		return this.clients.stream().anyMatch(client -> client.getDrivingLicense().equals(drivingLicense));
+		return getClientSet().stream().anyMatch(client -> client.getDrivingLicense().equals(drivingLicense));
 	}
 
 	public void addClient(Client client) {
-		this.clients.add(client);
+        getClientSet().add(client);
 	}
 
 	public void bulkBooking(int number, LocalDate arrival, LocalDate departure) {

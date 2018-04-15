@@ -95,3 +95,13 @@ class Client {
     String drivingLicense;
     int age;
 }
+
+relation BrokerHasClients {
+    Broker playsRole broker {
+    	multiplicity 1..1;
+    }
+
+    Client playsRole client {
+        multiplicity 0..*;
+    }
+}

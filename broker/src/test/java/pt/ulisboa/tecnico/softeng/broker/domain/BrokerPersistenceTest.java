@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.junit.After;
 import org.junit.Test;
+import org.junit.Assert;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
@@ -19,6 +20,27 @@ public class BrokerPersistenceTest extends BaseTest {
 	public void success() {
 		atomicProcess();
 		atomicAssert();
+	}
+
+	@Test
+	public void successDelete() {
+		atomicProcessDelete();
+		atomicAssertDelete();
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	public void atomicProcessDelete() {
+		Broker broker = new Broker(BROKER_CODE, BROKER_NAME, BROKER_NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN);
+		Client client = new Client(broker, CLIENT_IBAN, CLIENT_NIF, DRIVING_LICENSE, AGE);
+		client.delete();
+	}
+
+	@Atomic(mode = TxMode.READ)
+	public void atomicAssertDelete() {
+		List<Broker> brokers = new ArrayList<>(FenixFramework.getDomainRoot().getBrokerSet());
+		Broker broker = brokers.get(0);
+
+		Assert.assertNull(broker.getClientByNIF(CLIENT_NIF));
 	}
 
 	@Atomic(mode = TxMode.WRITE)
