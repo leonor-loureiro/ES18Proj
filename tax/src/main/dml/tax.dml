@@ -7,22 +7,3 @@ class Invoice {
 class ItemType {
 
 }
-
-
-relation DomainRootHasInvoices {
-	.pt.ist.fenixframework.DomainRoot playsRole root {
-		multiplicity 1..1;
-	}
-	Invoice playsRole invoice {
-		multiplicity 0..*;
-	}
-}
-
-relation DomainRootHasItemType {
-	.pt.ist.fenixframework.DomainRoot playsRole root {
-		multiplicity 1..1;
-	}
-	ItemType playsRole itemType {
-		multiplicity 0..*;
-	}
-}
