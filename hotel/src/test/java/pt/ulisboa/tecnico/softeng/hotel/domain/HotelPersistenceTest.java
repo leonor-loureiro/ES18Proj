@@ -60,7 +60,7 @@ public class HotelPersistenceTest {
 		Assert.assertTrue(PRICE_SINGLE == hotel.getPriceSingle());
 		Assert.assertTrue(PRICE_DOUBLE == hotel.getPriceDouble());
 
-		assertNotNull(hotel.getProcessor);
+		assertNotNull(hotel.getProcessor());
 
 		
 		List<Room> hotels = new ArrayList<>(hotel.getRoomSet());
