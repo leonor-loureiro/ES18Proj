@@ -10,7 +10,7 @@ import pt.ulisboa.tecnico.softeng.hotel.interfaces.TaxInterface;
 import pt.ulisboa.tecnico.softeng.tax.dataobjects.InvoiceData;
 import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 
-public class Processor {
+public class Processor extends Processor_Base{
 	private final Set<Booking> bookingToProcess = new HashSet<>();
 
 	public void submitBooking(Booking booking) {
