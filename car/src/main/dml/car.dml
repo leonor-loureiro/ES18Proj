@@ -1,0 +1,13 @@
+package pt.ulisboa.tecnico.softeng.car.domain;
+
+class RentACar {}
+
+relation DomainRootHasRentACarApplication {
+	.pt.ist.fenixframework.DomainRoot playsRole root {
+		multiplicity 1..1;
+	}
+	RentACar playsRole rentACar {
+		multiplicity 0..*;
+	}
+}
+

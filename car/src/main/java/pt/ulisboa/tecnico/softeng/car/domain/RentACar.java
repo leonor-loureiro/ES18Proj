@@ -7,11 +7,11 @@ import java.util.Set;
 
 import org.joda.time.LocalDate;
 
+import pt.ist.fenixframework.FenixFramework;
 import pt.ulisboa.tecnico.softeng.car.dataobjects.RentingData;
 import pt.ulisboa.tecnico.softeng.car.exception.CarException;
 
-public class RentACar {
-	public static final Set<RentACar> rentACars = new HashSet<>();
+public class RentACar extends RentACar_Base {
 
 	private static int counter;
 
@@ -34,7 +34,7 @@ public class RentACar {
 		this.iban = iban;
 		this.code = nif + Integer.toString(getNextCounter());
 
-		rentACars.add(this);
+		FenixFramework.getDomainRoot().addRentACar(this);
 	}
 
 	private void checkArguments(String name, String nif, String iban) {
@@ -43,7 +43,7 @@ public class RentACar {
 			throw new CarException();
 		}
 
-		for (final RentACar rental : rentACars) {
+		for (final RentACar rental : FenixFramework.getDomainRoot().getRentACarSet()) {
 			if (rental.getNIF().equals(nif)) {
 				throw new CarException();
 			}
@@ -92,7 +92,7 @@ public class RentACar {
 
 	private static Set<Vehicle> getAllAvailableVehicles(Class<?> cls, LocalDate begin, LocalDate end) {
 		final Set<Vehicle> vehicles = new HashSet<>();
-		for (final RentACar rentACar : rentACars) {
+		for (final RentACar rentACar : FenixFramework.getDomainRoot().getRentACarSet()) {
 			vehicles.addAll(rentACar.getAvailableVehicles(cls, begin, end));
 		}
 		return vehicles;
@@ -137,7 +137,7 @@ public class RentACar {
 	 * @return the renting with the given reference.
 	 */
 	protected static Renting getRenting(String reference) {
-		for (final RentACar rentACar : rentACars) {
+		for (final RentACar rentACar : FenixFramework.getDomainRoot().getRentACarSet()) {
 			for (final Vehicle vehicle : rentACar.vehicles.values()) {
 				final Renting renting = vehicle.getRenting(reference);
 				if (renting != null) {
