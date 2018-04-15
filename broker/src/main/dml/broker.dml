@@ -23,12 +23,21 @@ class Adventure {
 	String ID;
 	LocalDate begin;
 	LocalDate end;
+
 	String paymentConfirmation;
 	String paymentCancellation;
 	String roomConfirmation;
 	String roomCancellation;
 	String activityConfirmation;
 	String activityCancellation;
+    String rentingConfirmation;
+    String rentingCancellation;
+    String invoiceReference;
+
+    double margin;
+    double currentAmount;
+    boolean rentVehicle;
+    boolean invoiceCancelled;
 }
 
 relation BrokerHasAdventures {
