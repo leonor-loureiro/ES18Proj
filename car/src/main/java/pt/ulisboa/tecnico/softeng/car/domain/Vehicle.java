@@ -33,6 +33,14 @@ public abstract class Vehicle extends Vehicle_Base {
 		rentACar.addVehicle(this);
 	}
 
+    public void delete() {
+		setRentACar(null);
+
+		plates.clear();
+
+		deleteDomainObject();
+    }
+
 	private void checkArguments(String plate, int kilometers, RentACar rentACar) {
 		if (plate == null || !plate.matches(plateFormat) || plates.contains(plate.toUpperCase())) {
 			throw new CarException();

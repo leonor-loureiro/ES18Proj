@@ -14,3 +14,17 @@ relation DomainRootHasRentACarApplication {
 
 class Vehicle {
 }
+
+class Car extends Vehicle {}
+
+class Motorcycle extends Vehicle {}
+
+relation RentACarHasVehicles {
+    RentACar playsRole rentACar {
+        multiplicity 1;
+    }
+
+    Vehicle playsRole vehicle {
+        multiplicity *;
+    }
+}
