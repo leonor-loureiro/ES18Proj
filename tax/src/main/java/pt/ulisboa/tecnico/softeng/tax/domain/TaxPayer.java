@@ -5,7 +5,7 @@ import java.util.Set;
 
 import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 
-public abstract class TaxPayer {
+public abstract class TaxPayer extends TaxPayer_Base {
 	protected final Set<Invoice> invoices = new HashSet<>();
 
 	private final String NIF;
@@ -21,7 +21,7 @@ public abstract class TaxPayer {
 
 		irs.addTaxPayer(this);
 	}
-
+	
 	private void checkArguments(IRS irs, String NIF, String name, String address) {
 		if (NIF == null || NIF.length() != 9) {
 			throw new TaxException();
@@ -69,5 +69,4 @@ public abstract class TaxPayer {
 	public String getAddress() {
 		return this.address;
 	}
-
 }

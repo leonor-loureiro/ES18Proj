@@ -1,7 +1,6 @@
 package pt.ulisboa.tecnico.softeng.tax.domain;
 
 class Invoice {
-
 }
 
 class ItemType {
@@ -10,9 +9,10 @@ class ItemType {
 }
 
 class IRS {
-
 }
 
+class TaxPayer {
+}
 
 relation DomainRootHasIRS {
 	.pt.ist.fenixframework.DomainRoot playsRole root {
