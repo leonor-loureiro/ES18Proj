@@ -4,7 +4,7 @@ import org.joda.time.LocalDate;
 
 import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 
-public class Invoice {
+public class Invoice extends Invoice_Base {
 	private static int counter = 0;
 
 	private final String reference;
