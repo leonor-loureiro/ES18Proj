@@ -1,14 +1,9 @@
 package pt.ulisboa.tecnico.softeng.tax.domain;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import pt.ulisboa.tecnico.softeng.tax.dataobjects.InvoiceData;
 import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 
 public class IRS extends IRS_Base {
-	private final Set<ItemType> itemTypes = new HashSet<>();
-
 	private static IRS instance;
 
 	public static IRS getIRS() {
@@ -30,12 +25,8 @@ public class IRS extends IRS_Base {
 		return null;
 	}
 
-	void addItemType(ItemType itemType) {
-		this.itemTypes.add(itemType);
-	}
-
 	public ItemType getItemTypeByName(String name) {
-		for (ItemType itemType : this.itemTypes) {
+		for (ItemType itemType : getItemTypeSet()) {
 			if (itemType.getName().equals(name)) {
 				return itemType;
 			}
@@ -54,7 +45,7 @@ public class IRS extends IRS_Base {
 	}
 
 	public void removeItemTypes() {
-		this.itemTypes.clear();
+		getItemTypeSet().clear();
 	}
 
 	public void removeTaxPayers() {

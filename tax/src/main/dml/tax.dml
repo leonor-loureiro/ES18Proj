@@ -40,3 +40,12 @@ relation IRSHasTaxPayer {
 		multiplicity 0..*;
 	}
 }
+
+relation IRSHasItemType {
+	IRS playsRole irs {
+		multiplicity 1..1;
+	}
+	ItemType playsRole itemType {
+		multiplicity 0..*;
+	}
+}
