@@ -4,6 +4,10 @@ class Broker {
 	String code;
 	String name;
 	int counter;
+
+	String nifAsSeller;
+	String nifAsBuyer;
+	String iban;
 }
 
 relation DomainRootHasBrokerApplication {
