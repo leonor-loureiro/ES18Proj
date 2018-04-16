@@ -21,4 +21,9 @@ public class Seller extends Seller_Base {
 		return result;
 	}
 
+	public void delete() {
+
+		setInvoice2(null);
+		deleteDomainObject();
+	}
 }
