@@ -62,13 +62,13 @@ relation IRSHasItemType {
 	}
 }
 
-relation BuyerHasInvoice {
-	Buyer playsRole buyer {
-		multiplicity 1..1;
-	}
-	Invoice playsRole invoice {
-		multiplicity 0..*;
-	}
+relation InvoiceHasBuyer {
+	Invoice playsRole invoice2 {
+    	multiplicity 1..1;
+    }
+    Buyer playsRole buyer {
+    	multiplicity 1..1;
+    }
 }
 
 relation InvoiceHasSeller {
