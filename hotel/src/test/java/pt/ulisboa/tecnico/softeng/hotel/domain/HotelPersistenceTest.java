@@ -44,8 +44,9 @@ public class HotelPersistenceTest {
 
 		Room room = new Room(hotel, ROOM_NUMBER, Type.DOUBLE);
 
-		room.reserve(Type.DOUBLE, this.arrival, this.departure, NIF_BUYER, IBAN_BUYER);
-
+		Booking booking = room.reserve(Type.DOUBLE, this.arrival, this.departure, NIF_BUYER, IBAN_BUYER);
+		
+		hotel.getProcessor().submitBooking(booking);
 	}
 
 	@Atomic(mode = TxMode.READ)
@@ -61,7 +62,9 @@ public class HotelPersistenceTest {
 		Assert.assertTrue(PRICE_DOUBLE == hotel.getPriceDouble());
 
 		assertNotNull(hotel.getProcessor());
-
+		List<Booking> bookings = new ArrayList<>(hotel.getProcessor().getBookingSet());
+		Assert.assertTrue(bookings.size() == 1);
+		Assert.assertNotNull(bookings.get(0).getReference());
 		
 		List<Room> hotels = new ArrayList<>(hotel.getRoomSet());
 		Room room = hotels.get(0);
@@ -70,7 +73,7 @@ public class HotelPersistenceTest {
 		assertEquals(Type.DOUBLE, room.getType());
 		assertEquals(1, room.getBookingSet().size());
 		
-		List<Booking> bookings = new ArrayList<>(room.getBookingSet());
+		bookings = new ArrayList<>(room.getBookingSet());
 		Booking booking = bookings.get(0);
 
 		assertEquals(this.arrival, booking.getArrival());
