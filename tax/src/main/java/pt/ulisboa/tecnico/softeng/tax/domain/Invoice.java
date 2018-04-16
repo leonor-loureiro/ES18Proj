@@ -11,7 +11,6 @@ public class Invoice extends Invoice_Base {
 	private final double value;
 	private final double iva;
 	private final LocalDate date;
-	private final Seller seller;
 	private final Buyer buyer;
 	private boolean cancelled = false;
 
@@ -22,7 +21,7 @@ public class Invoice extends Invoice_Base {
 		this.value = value;
 		this.date = date;
 		setItemType(itemType);
-		this.seller = seller;
+		setSeller(seller);
 		this.buyer = buyer;
 		this.iva = value * itemType.getTax() / 100;
 
@@ -68,9 +67,6 @@ public class Invoice extends Invoice_Base {
 		return this.date;
 	}
 
-	public Seller getSeller() {
-		return this.seller;
-	}
 
 	public Buyer getBuyer() {
 		return this.buyer;
@@ -84,4 +80,11 @@ public class Invoice extends Invoice_Base {
 		return this.cancelled;
 	}
 
+	public void delete() {
+
+		getItemType().delete();
+		getSeller().delete();
+
+		deleteDomainObject();
+	}
 }

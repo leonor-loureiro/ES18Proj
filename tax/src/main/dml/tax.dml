@@ -64,3 +64,12 @@ relation BuyerHasInvoice {
 		multiplicity 0..*;
 	}
 }
+
+relation InvoiceHasSeller {
+    Invoice playsRole invoice {
+    	multiplicity 1..1;
+    }
+    Seller playsRole seller {
+    	multiplicity 1..1;
+    }
+}
