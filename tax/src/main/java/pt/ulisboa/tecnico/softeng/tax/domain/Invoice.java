@@ -54,6 +54,8 @@ public class Invoice extends Invoice_Base {
 	}
 
 	public void delete() {
+		setTaxPayer(null);
+		
 		getItemType().delete();
 		getSeller().delete();
 		getBuyer().delete();
