@@ -19,8 +19,8 @@ public class Invoice extends Invoice_Base {
 		setIva(value * itemType.getTax() / 100);
 		setCancelled(false);
 
-		seller.addInvoice(this);
-		buyer.addInvoice(this);
+		getSeller().addInvoice(this);
+		getBuyer().addInvoice(this);
 	}
 
 	private void checkArguments(double value, LocalDate date, ItemType itemType, Seller seller, Buyer buyer) {
@@ -54,8 +54,11 @@ public class Invoice extends Invoice_Base {
 	}
 
 	public void delete() {
-		setTaxPayer(null);
-		
+
+		for (TaxPayer taxPayer : getTaxPayerSet()) {
+			taxPayer.delete();
+		}
+
 		getItemType().delete();
 		getSeller().delete();
 		getBuyer().delete();
