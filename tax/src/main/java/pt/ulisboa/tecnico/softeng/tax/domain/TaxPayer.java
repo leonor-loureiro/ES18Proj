@@ -1,8 +1,5 @@
 package pt.ulisboa.tecnico.softeng.tax.domain;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 
 public abstract class TaxPayer extends TaxPayer_Base {
@@ -17,9 +14,10 @@ public abstract class TaxPayer extends TaxPayer_Base {
 	public void init(IRS irs, String NIF, String name, String address) {
 		checkArguments(irs, NIF, name, address);
 
+		setIrs(irs);
 		setNIF(NIF);
 		setName(name);
-		setAddress(address);		
+		setAddress(address);
 	}
 	
 	private void checkArguments(IRS irs, String NIF, String name, String address) {
@@ -45,7 +43,6 @@ public abstract class TaxPayer extends TaxPayer_Base {
 		if (invoiceReference == null || invoiceReference.isEmpty()) {
 			throw new TaxException();
 		}
-
 		for (Invoice invoice : getInvoiceSet()) {
 			if (invoice.getReference().equals(invoiceReference)) {
 				return invoice;
