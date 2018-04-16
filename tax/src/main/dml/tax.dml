@@ -1,6 +1,12 @@
 package pt.ulisboa.tecnico.softeng.tax.domain;
 
 class Invoice {
+    int counter;
+    String reference;
+    double value;
+    double iva;
+    LocalDate date;
+    boolean cancelled;
 }
 
 class ItemType {
