@@ -62,6 +62,15 @@ relation IRSHasItemType {
 	}
 }
 
+relation TaxPayerHasInvoice {
+	TaxPayer playsRole taxPayer {
+		multiplicity 1..1;
+	}
+	Invoice playsRole invoice {
+		multiplicity 0..*;
+	}
+}
+
 relation InvoiceHasBuyer {
 	Invoice playsRole invoice2 {
     	multiplicity 1..1;
@@ -72,7 +81,7 @@ relation InvoiceHasBuyer {
 }
 
 relation InvoiceHasSeller {
-    Invoice playsRole invoice {
+    Invoice playsRole invoice2 {
     	multiplicity 1..1;
     }
     Seller playsRole seller {
