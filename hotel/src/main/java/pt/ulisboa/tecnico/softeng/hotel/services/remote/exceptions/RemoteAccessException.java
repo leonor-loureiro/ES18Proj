@@ -1,4 +1,4 @@
-package pt.ulisboa.tecnico.softeng.hotel.exception;
+package pt.ulisboa.tecnico.softeng.hotel.services.remote.exceptions;
 
 public class RemoteAccessException extends RuntimeException {
 	public RemoteAccessException() {

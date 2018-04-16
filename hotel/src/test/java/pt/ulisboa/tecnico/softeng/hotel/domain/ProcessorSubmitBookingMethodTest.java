@@ -9,11 +9,11 @@ import mockit.Expectations;
 import mockit.FullVerifications;
 import mockit.Mocked;
 import mockit.integration.junit4.JMockit;
-import pt.ulisboa.tecnico.softeng.hotel.exception.RemoteAccessException;
 import pt.ulisboa.tecnico.softeng.hotel.services.remote.BankInterface;
 import pt.ulisboa.tecnico.softeng.hotel.services.remote.TaxInterface;
 import pt.ulisboa.tecnico.softeng.hotel.services.remote.dataobjects.InvoiceData;
 import pt.ulisboa.tecnico.softeng.hotel.services.remote.exceptions.BankException;
+import pt.ulisboa.tecnico.softeng.hotel.services.remote.exceptions.RemoteAccessException;
 import pt.ulisboa.tecnico.softeng.hotel.services.remote.exceptions.TaxException;
 
 @RunWith(JMockit.class)

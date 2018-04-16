@@ -3,11 +3,11 @@ package pt.ulisboa.tecnico.softeng.activity.domain;
 import java.util.HashSet;
 import java.util.Set;
 
-import pt.ulisboa.tecnico.softeng.activity.exception.RemoteAccessException;
 import pt.ulisboa.tecnico.softeng.activity.services.remote.BankInterface;
 import pt.ulisboa.tecnico.softeng.activity.services.remote.TaxInterface;
 import pt.ulisboa.tecnico.softeng.activity.services.remote.dataobjects.InvoiceData;
 import pt.ulisboa.tecnico.softeng.activity.services.remote.exceptions.BankException;
+import pt.ulisboa.tecnico.softeng.activity.services.remote.exceptions.RemoteAccessException;
 import pt.ulisboa.tecnico.softeng.activity.services.remote.exceptions.TaxException;
 
 public class Processor extends Processor_Base {
