@@ -8,6 +8,8 @@ public class ItemType extends ItemType_Base {
 		checkArguments(irs, name, tax);
 		setName(name);
 		setTax(tax);
+
+		setIrs(irs);
 	}
 
 	private void checkArguments(IRS irs, String name, int tax) {
