@@ -39,6 +39,11 @@ public class Booking extends Booking_Base {
 		if (departure.isBefore(arrival)) {
 			throw new HotelException();
 		}
+
+		if (!room.isFree(room.getType(), arrival, departure)) {
+			throw new HotelException();
+		}
+
 	}
 
 	public static String getType() {

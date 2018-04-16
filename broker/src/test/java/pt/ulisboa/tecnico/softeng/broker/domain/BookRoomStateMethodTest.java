@@ -1,5 +1,7 @@
 package pt.ulisboa.tecnico.softeng.broker.domain;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,11 +11,11 @@ import mockit.Expectations;
 import mockit.Mocked;
 import mockit.integration.junit4.JMockit;
 import pt.ulisboa.tecnico.softeng.broker.domain.Adventure.State;
-import pt.ulisboa.tecnico.softeng.broker.exception.RemoteAccessException;
-import pt.ulisboa.tecnico.softeng.broker.interfaces.HotelInterface;
-import pt.ulisboa.tecnico.softeng.broker.interfaces.TaxInterface;
-import pt.ulisboa.tecnico.softeng.hotel.domain.Room.Type;
-import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
+import pt.ulisboa.tecnico.softeng.broker.services.remote.HotelInterface;
+import pt.ulisboa.tecnico.softeng.broker.services.remote.HotelInterface.Type;
+import pt.ulisboa.tecnico.softeng.broker.services.remote.TaxInterface;
+import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.HotelException;
+import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.RemoteAccessException;
 
 @RunWith(JMockit.class)
 public class BookRoomStateMethodTest extends RollbackTestAbstractClass {
@@ -41,7 +43,7 @@ public class BookRoomStateMethodTest extends RollbackTestAbstractClass {
 
 		this.adventure.process();
 
-		Assert.assertEquals(State.PROCESS_PAYMENT, this.adventure.getState().getValue());
+		assertEquals(State.PROCESS_PAYMENT, this.adventure.getState().getValue());
 	}
 
 	@Test
@@ -59,7 +61,7 @@ public class BookRoomStateMethodTest extends RollbackTestAbstractClass {
 
 		adv.process();
 
-		Assert.assertEquals(State.RENT_VEHICLE, adv.getState().getValue());
+		assertEquals(State.RENT_VEHICLE, adv.getState().getValue());
 	}
 
 	@Test
@@ -84,6 +86,25 @@ public class BookRoomStateMethodTest extends RollbackTestAbstractClass {
 				HotelInterface.reserveRoom(Type.SINGLE, BookRoomStateMethodTest.this.begin,
 						BookRoomStateMethodTest.this.end, NIF_AS_BUYER, BROKER_IBAN);
 				this.result = new RemoteAccessException();
+			}
+		};
+
+		this.adventure.process();
+
+		Assert.assertEquals(State.BOOK_ROOM, this.adventure.getState().getValue());
+	}
+
+	@Test
+	public void singleRemoteAccessExceptionInGetBookingData(@Mocked final HotelInterface hotelInterface) {
+		new Expectations() {
+			{
+				HotelInterface.reserveRoom(Type.SINGLE, BookRoomStateMethodTest.this.begin,
+						BookRoomStateMethodTest.this.end, NIF_AS_BUYER, BROKER_IBAN);
+				this.result = ROOM_CONFIRMATION;
+
+				HotelInterface.getRoomBookingData(ROOM_CONFIRMATION);
+				this.result = new RemoteAccessException();
+
 			}
 		};
 
@@ -132,7 +153,6 @@ public class BookRoomStateMethodTest extends RollbackTestAbstractClass {
 	public void fiveRemoteAccessExceptionOneSuccess(@Mocked final HotelInterface hotelInterface) {
 		new Expectations() {
 			{
-
 				HotelInterface.reserveRoom(Type.SINGLE, BookRoomStateMethodTest.this.begin,
 						BookRoomStateMethodTest.this.end, NIF_AS_BUYER, BROKER_IBAN);
 				this.result = new Delegate() {

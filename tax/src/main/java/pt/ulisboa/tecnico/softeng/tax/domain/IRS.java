@@ -1,8 +1,8 @@
 package pt.ulisboa.tecnico.softeng.tax.domain;
 
 import pt.ist.fenixframework.FenixFramework;
-import pt.ulisboa.tecnico.softeng.tax.dataobjects.InvoiceData;
 import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
+import pt.ulisboa.tecnico.softeng.tax.services.local.dataobjects.InvoiceData;
 
 public class IRS extends IRS_Base {
 

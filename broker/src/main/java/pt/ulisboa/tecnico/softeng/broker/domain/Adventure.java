@@ -65,8 +65,8 @@ public class Adventure extends Adventure_Base {
 		return getClient().getAge();
 	}
 
-	public String getIBAN() {
-		return getClient().getIBAN();
+	public String getIban() {
+		return getClient().getIban();
 	}
 
 	public void incAmountToPay(double toPay) {

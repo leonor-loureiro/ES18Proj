@@ -1,18 +1,11 @@
 package pt.ulisboa.tecnico.softeng.bank.domain;
 
 import pt.ist.fenixframework.FenixFramework;
-import pt.ulisboa.tecnico.softeng.bank.dataobjects.BankOperationData;
 import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
+import pt.ulisboa.tecnico.softeng.bank.services.local.dataobjects.BankOperationData;
 
 public class Bank extends Bank_Base {
 	public static final int CODE_SIZE = 4;
-
-	@Override
-	public int getCounter() {
-		int counter = super.getCounter() + 1;
-		setCounter(counter);
-		return counter;
-	}
 
 	public Bank(String name, String code) {
 		checkArguments(name, code);
@@ -55,6 +48,13 @@ public class Bank extends Bank_Base {
 				throw new BankException();
 			}
 		}
+	}
+
+	@Override
+	public int getCounter() {
+		int counter = super.getCounter() + 1;
+		setCounter(counter);
+		return counter;
 	}
 
 	public Account getAccount(String IBAN) {
@@ -122,6 +122,10 @@ public class Bank extends Bank_Base {
 			return new BankOperationData(operation);
 		}
 		throw new BankException();
+	}
+
+	public Client getClientById(String id) {
+		return getClientSet().stream().filter(c -> c.getID().equals(id)).findFirst().orElse(null);
 	}
 
 }

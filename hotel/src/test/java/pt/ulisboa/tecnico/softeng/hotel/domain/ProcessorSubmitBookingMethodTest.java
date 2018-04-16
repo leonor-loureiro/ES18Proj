@@ -9,17 +9,19 @@ import mockit.Expectations;
 import mockit.FullVerifications;
 import mockit.Mocked;
 import mockit.integration.junit4.JMockit;
-import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
-import pt.ulisboa.tecnico.softeng.hotel.exception.RemoteAccessException;
-import pt.ulisboa.tecnico.softeng.hotel.interfaces.BankInterface;
-import pt.ulisboa.tecnico.softeng.hotel.interfaces.TaxInterface;
-import pt.ulisboa.tecnico.softeng.tax.dataobjects.InvoiceData;
-import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
+import pt.ulisboa.tecnico.softeng.hotel.services.remote.BankInterface;
+import pt.ulisboa.tecnico.softeng.hotel.services.remote.TaxInterface;
+import pt.ulisboa.tecnico.softeng.hotel.services.remote.dataobjects.InvoiceData;
+import pt.ulisboa.tecnico.softeng.hotel.services.remote.exceptions.BankException;
+import pt.ulisboa.tecnico.softeng.hotel.services.remote.exceptions.RemoteAccessException;
+import pt.ulisboa.tecnico.softeng.hotel.services.remote.exceptions.TaxException;
 
 @RunWith(JMockit.class)
 public class ProcessorSubmitBookingMethodTest extends RollbackTestAbstractClass {
 	private static LocalDate arrival = new LocalDate(2016, 12, 19);
 	private static LocalDate departure = new LocalDate(2016, 12, 24);
+	private static LocalDate arrivalTwo = new LocalDate(2016, 12, 25);
+	private static LocalDate departureTwo = new LocalDate(2016, 12, 28);
 	private final String NIF_HOTEL = "123456700";
 	private final String NIF_BUYER = "123456789";
 	private final String IBAN_BUYER = "IBAN_BUYER";
@@ -66,7 +68,7 @@ public class ProcessorSubmitBookingMethodTest extends RollbackTestAbstractClass 
 
 		this.hotel.getProcessor().submitBooking(this.booking);
 		this.hotel.getProcessor()
-				.submitBooking(new Booking(this.room, arrival, departure, this.NIF_BUYER, this.IBAN_BUYER));
+				.submitBooking(new Booking(this.room, arrivalTwo, departureTwo, this.NIF_BUYER, this.IBAN_BUYER));
 
 		new FullVerifications(taxInterface) {
 			{
@@ -90,7 +92,7 @@ public class ProcessorSubmitBookingMethodTest extends RollbackTestAbstractClass 
 
 		this.hotel.getProcessor().submitBooking(this.booking);
 		this.hotel.getProcessor()
-				.submitBooking(new Booking(this.room, arrival, departure, this.NIF_BUYER, this.IBAN_BUYER));
+				.submitBooking(new Booking(this.room, arrivalTwo, departureTwo, this.NIF_BUYER, this.IBAN_BUYER));
 
 		new FullVerifications(taxInterface) {
 			{
@@ -114,7 +116,7 @@ public class ProcessorSubmitBookingMethodTest extends RollbackTestAbstractClass 
 
 		this.hotel.getProcessor().submitBooking(this.booking);
 		this.hotel.getProcessor()
-				.submitBooking(new Booking(this.room, arrival, departure, this.NIF_BUYER, this.IBAN_BUYER));
+				.submitBooking(new Booking(this.room, arrivalTwo, departureTwo, this.NIF_BUYER, this.IBAN_BUYER));
 
 		new FullVerifications(bankInterface) {
 			{
@@ -138,7 +140,7 @@ public class ProcessorSubmitBookingMethodTest extends RollbackTestAbstractClass 
 
 		this.hotel.getProcessor().submitBooking(this.booking);
 		this.hotel.getProcessor()
-				.submitBooking(new Booking(this.room, arrival, departure, this.NIF_BUYER, this.IBAN_BUYER));
+				.submitBooking(new Booking(this.room, arrivalTwo, departureTwo, this.NIF_BUYER, this.IBAN_BUYER));
 
 		new FullVerifications(bankInterface) {
 			{

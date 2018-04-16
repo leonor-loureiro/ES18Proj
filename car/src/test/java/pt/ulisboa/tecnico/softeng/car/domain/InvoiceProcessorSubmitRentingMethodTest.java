@@ -1,63 +1,61 @@
 package pt.ulisboa.tecnico.softeng.car.domain;
 
+import org.joda.time.LocalDate;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
 import mockit.Delegate;
 import mockit.Expectations;
 import mockit.FullVerifications;
 import mockit.Mocked;
 import mockit.integration.junit4.JMockit;
-import org.joda.time.LocalDate;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
-import pt.ulisboa.tecnico.softeng.car.exception.RemoteAccessException;
-import pt.ulisboa.tecnico.softeng.car.interfaces.BankInterface;
-import pt.ulisboa.tecnico.softeng.car.interfaces.TaxInterface;
-import pt.ulisboa.tecnico.softeng.tax.dataobjects.InvoiceData;
-import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
+import pt.ulisboa.tecnico.softeng.car.services.remote.BankInterface;
+import pt.ulisboa.tecnico.softeng.car.services.remote.TaxInterface;
+import pt.ulisboa.tecnico.softeng.car.services.remote.dataobjects.InvoiceData;
+import pt.ulisboa.tecnico.softeng.car.services.remote.exceptions.BankException;
+import pt.ulisboa.tecnico.softeng.car.services.remote.exceptions.RemoteAccessException;
+import pt.ulisboa.tecnico.softeng.car.services.remote.exceptions.TaxException;
 
 @RunWith(JMockit.class)
 public class InvoiceProcessorSubmitRentingMethodTest extends RollbackTestAbstractClass {
 	private static final String CANCEL_PAYMENT_REFERENCE = "CancelPaymentReference";
-    private static final String INVOICE_REFERENCE = "InvoiceReference";
-    private static final String PAYMENT_REFERENCE = "PaymentReference";
+	private static final String INVOICE_REFERENCE = "InvoiceReference";
+	private static final String PAYMENT_REFERENCE = "PaymentReference";
 
-    private static final String PLATE_CAR = "22-33-HZ";
-    private static final String DRIVING_LICENSE = "br112233";
-    private static final LocalDate date0 = LocalDate.parse("2018-01-05");
-    private static final LocalDate date1 = LocalDate.parse("2018-01-06");
-    private static final LocalDate date2 = LocalDate.parse("2018-01-07");
-    private static final LocalDate date3 = LocalDate.parse("2018-01-08");
-    private static final LocalDate date4 = LocalDate.parse("2018-01-09");
-    private static final String RENT_A_CAR_NAME = "Eartz";
-    private static final String NIF = "NIF";
-    private static final String NIF_CUSTOMER = "NIF1";
+	private static final String PLATE_CAR = "22-33-HZ";
+	private static final String DRIVING_LICENSE = "br112233";
+	private static final LocalDate date0 = LocalDate.parse("2018-01-05");
+	private static final LocalDate date1 = LocalDate.parse("2018-01-06");
+	private static final LocalDate date2 = LocalDate.parse("2018-01-07");
+	private static final LocalDate date3 = LocalDate.parse("2018-01-08");
+	private static final String RENT_A_CAR_NAME = "Eartz";
+	private static final String NIF = "NIF";
+	private static final String NIF_CUSTOMER = "NIF1";
 
-    private static final String IBAN = "IBAN";
-    private static final String IBAN_CUSTOMER  = "IBAN";
+	private static final String IBAN = "IBAN";
+	private static final String IBAN_CUSTOMER = "IBAN";
 
-    private Car car;
+	private Car car;
 
-	private  RentACar rentACar;
+	private RentACar rentACar;
 
 	@Override
 	public void populate4Test() {
-	    rentACar = new RentACar(RENT_A_CAR_NAME, NIF, IBAN);
-        this.car = new Car(PLATE_CAR, 10, 10, rentACar);
+		this.rentACar = new RentACar(RENT_A_CAR_NAME, NIF, IBAN);
+		this.car = new Car(PLATE_CAR, 10, 10, this.rentACar);
 	}
 
 	@Test
 	public void success(@Mocked final TaxInterface taxInterface, @Mocked final BankInterface bankInterface) {
 		new Expectations() {
 			{
-				bankInterface.processPayment(this.anyString, this.anyDouble);
+				BankInterface.processPayment(this.anyString, this.anyDouble);
 				this.result = PAYMENT_REFERENCE;
 				TaxInterface.submitInvoice((InvoiceData) this.any);
 			}
 		};
 
-        this.car.rent(DRIVING_LICENSE, date0, date1, NIF_CUSTOMER, IBAN_CUSTOMER);
+		this.car.rent(DRIVING_LICENSE, date0, date1, NIF_CUSTOMER, IBAN_CUSTOMER);
 
 		new FullVerifications() {
 			{
@@ -78,8 +76,8 @@ public class InvoiceProcessorSubmitRentingMethodTest extends RollbackTestAbstrac
 			}
 		};
 
-        this.car.rent(DRIVING_LICENSE, date0, date1, NIF_CUSTOMER, IBAN_CUSTOMER);
-        this.car.rent(DRIVING_LICENSE, date2, date3, NIF_CUSTOMER, IBAN_CUSTOMER);
+		this.car.rent(DRIVING_LICENSE, date0, date1, NIF_CUSTOMER, IBAN_CUSTOMER);
+		this.car.rent(DRIVING_LICENSE, date2, date3, NIF_CUSTOMER, IBAN_CUSTOMER);
 
 		new FullVerifications(taxInterface) {
 			{
@@ -102,9 +100,8 @@ public class InvoiceProcessorSubmitRentingMethodTest extends RollbackTestAbstrac
 			}
 		};
 
-
-        this.car.rent(DRIVING_LICENSE, date0, date1, NIF_CUSTOMER, IBAN_CUSTOMER);
-        this.car.rent(DRIVING_LICENSE, date2, date3, NIF_CUSTOMER, IBAN_CUSTOMER);
+		this.car.rent(DRIVING_LICENSE, date0, date1, NIF_CUSTOMER, IBAN_CUSTOMER);
+		this.car.rent(DRIVING_LICENSE, date2, date3, NIF_CUSTOMER, IBAN_CUSTOMER);
 
 		new FullVerifications(taxInterface) {
 			{
@@ -127,8 +124,8 @@ public class InvoiceProcessorSubmitRentingMethodTest extends RollbackTestAbstrac
 			}
 		};
 
-        this.car.rent(DRIVING_LICENSE, date0, date1, NIF_CUSTOMER, IBAN_CUSTOMER);
-        this.car.rent(DRIVING_LICENSE, date2, date3, NIF_CUSTOMER, IBAN_CUSTOMER);
+		this.car.rent(DRIVING_LICENSE, date0, date1, NIF_CUSTOMER, IBAN_CUSTOMER);
+		this.car.rent(DRIVING_LICENSE, date2, date3, NIF_CUSTOMER, IBAN_CUSTOMER);
 
 		new FullVerifications(bankInterface) {
 			{
@@ -151,8 +148,8 @@ public class InvoiceProcessorSubmitRentingMethodTest extends RollbackTestAbstrac
 			}
 		};
 
-        this.car.rent(DRIVING_LICENSE, date0, date1, NIF_CUSTOMER, IBAN_CUSTOMER);
-        this.car.rent(DRIVING_LICENSE, date2, date3, NIF_CUSTOMER, IBAN_CUSTOMER);
+		this.car.rent(DRIVING_LICENSE, date0, date1, NIF_CUSTOMER, IBAN_CUSTOMER);
+		this.car.rent(DRIVING_LICENSE, date2, date3, NIF_CUSTOMER, IBAN_CUSTOMER);
 
 		new FullVerifications(bankInterface) {
 			{
@@ -174,7 +171,7 @@ public class InvoiceProcessorSubmitRentingMethodTest extends RollbackTestAbstrac
 			}
 		};
 
-        Renting renting = this.car.rent(DRIVING_LICENSE, date0, date1, NIF_CUSTOMER, IBAN_CUSTOMER);
+		Renting renting = this.car.rent(DRIVING_LICENSE, date0, date1, NIF_CUSTOMER, IBAN_CUSTOMER);
 		renting.cancel();
 
 		new FullVerifications() {
@@ -198,9 +195,9 @@ public class InvoiceProcessorSubmitRentingMethodTest extends RollbackTestAbstrac
 			}
 		};
 
-        Renting renting = this.car.rent(DRIVING_LICENSE, date0, date1, NIF_CUSTOMER, IBAN_CUSTOMER);
+		Renting renting = this.car.rent(DRIVING_LICENSE, date0, date1, NIF_CUSTOMER, IBAN_CUSTOMER);
 		renting.cancel();
-        this.car.rent(DRIVING_LICENSE, date2, date3, NIF_CUSTOMER, IBAN_CUSTOMER);
+		this.car.rent(DRIVING_LICENSE, date2, date3, NIF_CUSTOMER, IBAN_CUSTOMER);
 
 		new FullVerifications(bankInterface) {
 			{
@@ -225,11 +222,11 @@ public class InvoiceProcessorSubmitRentingMethodTest extends RollbackTestAbstrac
 			}
 		};
 
-        Renting renting = this.car.rent(DRIVING_LICENSE, date0, date1, NIF_CUSTOMER, IBAN_CUSTOMER);
-        renting.cancel();
-        this.car.rent(DRIVING_LICENSE, date2, date3, NIF_CUSTOMER, IBAN_CUSTOMER);
+		Renting renting = this.car.rent(DRIVING_LICENSE, date0, date1, NIF_CUSTOMER, IBAN_CUSTOMER);
+		renting.cancel();
+		this.car.rent(DRIVING_LICENSE, date2, date3, NIF_CUSTOMER, IBAN_CUSTOMER);
 
-        new FullVerifications(bankInterface) {
+		new FullVerifications(bankInterface) {
 			{
 				BankInterface.cancelPayment(this.anyString);
 				this.times = 2;
@@ -260,9 +257,9 @@ public class InvoiceProcessorSubmitRentingMethodTest extends RollbackTestAbstrac
 			}
 		};
 
-        Renting renting = this.car.rent(DRIVING_LICENSE, date0, date1, NIF_CUSTOMER, IBAN_CUSTOMER);
-        renting.cancel();
-        this.car.rent(DRIVING_LICENSE, date2, date3, NIF_CUSTOMER, IBAN_CUSTOMER);
+		Renting renting = this.car.rent(DRIVING_LICENSE, date0, date1, NIF_CUSTOMER, IBAN_CUSTOMER);
+		renting.cancel();
+		this.car.rent(DRIVING_LICENSE, date2, date3, NIF_CUSTOMER, IBAN_CUSTOMER);
 
 		new FullVerifications(taxInterface) {
 			{
@@ -297,9 +294,9 @@ public class InvoiceProcessorSubmitRentingMethodTest extends RollbackTestAbstrac
 			}
 		};
 
-        Renting renting = this.car.rent(DRIVING_LICENSE, date0, date1, NIF_CUSTOMER, IBAN_CUSTOMER);
-        renting.cancel();
-        this.car.rent(DRIVING_LICENSE, date2, date3, NIF_CUSTOMER, IBAN_CUSTOMER);
+		Renting renting = this.car.rent(DRIVING_LICENSE, date0, date1, NIF_CUSTOMER, IBAN_CUSTOMER);
+		renting.cancel();
+		this.car.rent(DRIVING_LICENSE, date2, date3, NIF_CUSTOMER, IBAN_CUSTOMER);
 
 		new FullVerifications(taxInterface) {
 			{

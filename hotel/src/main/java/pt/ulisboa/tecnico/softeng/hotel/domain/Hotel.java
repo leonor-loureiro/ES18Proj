@@ -8,8 +8,8 @@ import java.util.Set;
 import org.joda.time.LocalDate;
 
 import pt.ist.fenixframework.FenixFramework;
-import pt.ulisboa.tecnico.softeng.hotel.dataobjects.RoomBookingData;
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
+import pt.ulisboa.tecnico.softeng.hotel.services.local.dataobjects.RoomBookingData;
 
 public class Hotel extends Hotel_Base {
 	static final int CODE_SIZE = 7;
@@ -129,7 +129,7 @@ public class Hotel extends Hotel_Base {
 		return false;
 	}
 
-	private Booking getBooking(String reference) {
+	public Booking getBooking(String reference) {
 		for (Room room : getRoomSet()) {
 			Booking booking = room.getBooking(reference);
 			if (booking != null) {
@@ -167,7 +167,7 @@ public class Hotel extends Hotel_Base {
 			for (Room room : hotel.getRoomSet()) {
 				Booking booking = room.getBooking(reference);
 				if (booking != null) {
-					return new RoomBookingData(room, booking);
+					return new RoomBookingData(booking);
 				}
 			}
 		}
@@ -214,6 +214,11 @@ public class Hotel extends Hotel_Base {
 			}
 		}
 		return null;
+	}
+
+	public Room getRoomByNumber(String number) {
+		return getRoomSet().stream().filter(r -> r.getNumber().equals(number)).findFirst().orElse(null);
+
 	}
 
 	@Override

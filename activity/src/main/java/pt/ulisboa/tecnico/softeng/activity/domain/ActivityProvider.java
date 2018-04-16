@@ -6,8 +6,8 @@ import java.util.List;
 import org.joda.time.LocalDate;
 
 import pt.ist.fenixframework.FenixFramework;
-import pt.ulisboa.tecnico.softeng.activity.dataobjects.ActivityReservationData;
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
+import pt.ulisboa.tecnico.softeng.activity.services.local.dataobjects.ActivityReservationData;
 
 public class ActivityProvider extends ActivityProvider_Base {
 	static final int CODE_SIZE = 6;
@@ -68,7 +68,7 @@ public class ActivityProvider extends ActivityProvider_Base {
 		return result;
 	}
 
-	private Booking getBooking(String reference) {
+	public Booking getBooking(String reference) {
 		for (Activity activity : getActivitySet()) {
 			Booking booking = activity.getBooking(reference);
 			if (booking != null) {
@@ -129,4 +129,5 @@ public class ActivityProvider extends ActivityProvider_Base {
 		setCounter(counter);
 		return counter;
 	}
+
 }

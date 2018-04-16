@@ -10,10 +10,10 @@ import mockit.Delegate;
 import mockit.Expectations;
 import mockit.Mocked;
 import mockit.integration.junit4.JMockit;
-import pt.ulisboa.tecnico.softeng.broker.exception.RemoteAccessException;
-import pt.ulisboa.tecnico.softeng.broker.interfaces.HotelInterface;
-import pt.ulisboa.tecnico.softeng.hotel.dataobjects.RoomBookingData;
-import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
+import pt.ulisboa.tecnico.softeng.broker.services.remote.HotelInterface;
+import pt.ulisboa.tecnico.softeng.broker.services.remote.dataobjects.RoomBookingData;
+import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.HotelException;
+import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.RemoteAccessException;
 
 @RunWith(JMockit.class)
 public class BulkRoomBookingGetReferenceMethodTest extends RollbackTestAbstractClass {
@@ -32,7 +32,13 @@ public class BulkRoomBookingGetReferenceMethodTest extends RollbackTestAbstractC
 		new Expectations() {
 			{
 				HotelInterface.getRoomBookingData(this.anyString);
-				this.result = new RoomBookingData(SINGLE);
+				this.result = new Delegate() {
+					RoomBookingData delegate() {
+						RoomBookingData roomBookingData = new RoomBookingData();
+						roomBookingData.setRoomType(SINGLE);
+						return roomBookingData;
+					}
+				};
 			}
 		};
 
@@ -46,7 +52,13 @@ public class BulkRoomBookingGetReferenceMethodTest extends RollbackTestAbstractC
 		new Expectations() {
 			{
 				HotelInterface.getRoomBookingData(this.anyString);
-				this.result = new RoomBookingData(DOUBLE);
+				this.result = new Delegate() {
+					RoomBookingData delegate() {
+						RoomBookingData roomBookingData = new RoomBookingData();
+						roomBookingData.setRoomType(DOUBLE);
+						return roomBookingData;
+					}
+				};
 			}
 		};
 
@@ -116,7 +128,9 @@ public class BulkRoomBookingGetReferenceMethodTest extends RollbackTestAbstractC
 						if (this.i < BulkRoomBooking.MAX_REMOTE_ERRORS - 1) {
 							throw new RemoteAccessException();
 						} else {
-							return new RoomBookingData(DOUBLE);
+							RoomBookingData roomBookingData = new RoomBookingData();
+							roomBookingData.setRoomType(DOUBLE);
+							return roomBookingData;
 						}
 					}
 				};
@@ -144,7 +158,9 @@ public class BulkRoomBookingGetReferenceMethodTest extends RollbackTestAbstractC
 						if (this.i < BulkRoomBooking.MAX_REMOTE_ERRORS - 1) {
 							throw new RemoteAccessException();
 						} else if (this.i == BulkRoomBooking.MAX_REMOTE_ERRORS - 1) {
-							return new RoomBookingData(DOUBLE);
+							RoomBookingData roomBookingData = new RoomBookingData();
+							roomBookingData.setRoomType(DOUBLE);
+							return roomBookingData;
 						} else {
 							throw new RemoteAccessException();
 						}

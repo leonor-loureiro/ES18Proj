@@ -8,8 +8,8 @@ import org.junit.runner.RunWith;
 import mockit.Mocked;
 import mockit.integration.junit4.JMockit;
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
-import pt.ulisboa.tecnico.softeng.hotel.interfaces.BankInterface;
-import pt.ulisboa.tecnico.softeng.hotel.interfaces.TaxInterface;
+import pt.ulisboa.tecnico.softeng.hotel.services.remote.BankInterface;
+import pt.ulisboa.tecnico.softeng.hotel.services.remote.TaxInterface;
 
 @RunWith(JMockit.class)
 public class BookingConflictMethodTest extends RollbackTestAbstractClass {

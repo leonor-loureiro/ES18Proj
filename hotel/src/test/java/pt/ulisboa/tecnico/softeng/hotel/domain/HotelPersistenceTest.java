@@ -2,6 +2,7 @@ package pt.ulisboa.tecnico.softeng.hotel.domain;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +49,10 @@ public class HotelPersistenceTest {
 
 	@Atomic(mode = TxMode.READ)
 	public void atomicAssert() {
-		Hotel hotel = Hotel.getHotelByCode(HOTEL_CODE);
+		assertEquals(1, FenixFramework.getDomainRoot().getHotelSet().size());
+
+		List<Hotel> hotels = new ArrayList<>(FenixFramework.getDomainRoot().getHotelSet());
+		Hotel hotel = hotels.get(0);
 
 		assertEquals(HOTEL_NAME, hotel.getName());
 		assertEquals(HOTEL_CODE, hotel.getCode());
@@ -59,10 +63,10 @@ public class HotelPersistenceTest {
 		assertEquals(1, hotel.getRoomSet().size());
 		Processor processor = hotel.getProcessor();
 		assertNotNull(processor);
-		assertEquals(1, processor.getBookingSet().size());
+		assertEquals(0, processor.getBookingSet().size());
 
-		List<Room> hotels = new ArrayList<>(hotel.getRoomSet());
-		Room room = hotels.get(0);
+		List<Room> rooms = new ArrayList<>(hotel.getRoomSet());
+		Room room = rooms.get(0);
 
 		assertEquals(ROOM_NUMBER, room.getNumber());
 		assertEquals(Type.DOUBLE, room.getType());
@@ -79,7 +83,7 @@ public class HotelPersistenceTest {
 		assertEquals(HOTEL_NIF, booking.getProviderNif());
 		assertEquals(80.0, booking.getPrice(), 0.0d);
 		assertEquals(room, booking.getRoom());
-		assertEquals(processor, booking.getProcessor());
+		assertNull(booking.getProcessor());
 	}
 
 	@After

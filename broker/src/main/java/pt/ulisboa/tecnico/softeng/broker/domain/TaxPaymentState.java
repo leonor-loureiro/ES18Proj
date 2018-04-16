@@ -1,10 +1,10 @@
 package pt.ulisboa.tecnico.softeng.broker.domain;
 
 import pt.ulisboa.tecnico.softeng.broker.domain.Adventure.State;
-import pt.ulisboa.tecnico.softeng.broker.exception.RemoteAccessException;
-import pt.ulisboa.tecnico.softeng.broker.interfaces.TaxInterface;
-import pt.ulisboa.tecnico.softeng.tax.dataobjects.InvoiceData;
-import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
+import pt.ulisboa.tecnico.softeng.broker.services.remote.TaxInterface;
+import pt.ulisboa.tecnico.softeng.broker.services.remote.dataobjects.InvoiceData;
+import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.RemoteAccessException;
+import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.TaxException;
 
 public class TaxPaymentState extends TaxPaymentState_Base {
 	public static final int MAX_REMOTE_ERRORS = 3;
@@ -18,7 +18,7 @@ public class TaxPaymentState extends TaxPaymentState_Base {
 	public void process() {
 		try {
 			InvoiceData invoiceData = new InvoiceData(getAdventure().getBroker().getNifAsSeller(),
-					getAdventure().getClient().getNIF(), "ADVENTURE", getAdventure().getAmount(),
+					getAdventure().getClient().getNif(), "ADVENTURE", getAdventure().getAmount(),
 					getAdventure().getBegin());
 			getAdventure().setInvoiceReference(TaxInterface.submitInvoice(invoiceData));
 		} catch (TaxException be) {

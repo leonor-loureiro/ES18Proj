@@ -11,9 +11,9 @@ import mockit.Mocked;
 import mockit.integration.junit4.JMockit;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
-import pt.ulisboa.tecnico.softeng.hotel.interfaces.BankInterface;
-import pt.ulisboa.tecnico.softeng.hotel.interfaces.TaxInterface;
-import pt.ulisboa.tecnico.softeng.tax.dataobjects.InvoiceData;
+import pt.ulisboa.tecnico.softeng.hotel.services.remote.BankInterface;
+import pt.ulisboa.tecnico.softeng.hotel.services.remote.TaxInterface;
+import pt.ulisboa.tecnico.softeng.hotel.services.remote.dataobjects.InvoiceData;
 
 @RunWith(JMockit.class)
 public class HotelReserveRoomMethodTest extends RollbackTestAbstractClass {

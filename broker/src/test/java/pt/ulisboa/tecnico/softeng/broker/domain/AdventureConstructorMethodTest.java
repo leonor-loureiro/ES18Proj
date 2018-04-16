@@ -55,7 +55,7 @@ public class AdventureConstructorMethodTest extends RollbackTestAbstractClass {
 		Assert.assertEquals(this.begin, adventure.getBegin());
 		Assert.assertEquals(this.end, adventure.getEnd());
 		Assert.assertEquals(18, adventure.getAge());
-		Assert.assertEquals(CLIENT_IBAN, adventure.getIBAN());
+		Assert.assertEquals(CLIENT_IBAN, adventure.getIban());
 		Assert.assertEquals(MARGIN, adventure.getMargin(), 0);
 		Assert.assertTrue(this.broker.getAdventureSet().contains(adventure));
 
@@ -79,7 +79,7 @@ public class AdventureConstructorMethodTest extends RollbackTestAbstractClass {
 		Assert.assertEquals(this.begin, adventure.getBegin());
 		Assert.assertEquals(this.end, adventure.getEnd());
 		Assert.assertEquals(100, adventure.getAge());
-		Assert.assertEquals(CLIENT_IBAN, adventure.getIBAN());
+		Assert.assertEquals(CLIENT_IBAN, adventure.getIban());
 		Assert.assertEquals(MARGIN, adventure.getMargin(), 0);
 		Assert.assertTrue(this.broker.getAdventureSet().contains(adventure));
 
@@ -107,7 +107,7 @@ public class AdventureConstructorMethodTest extends RollbackTestAbstractClass {
 		Assert.assertEquals(this.begin, adventure.getBegin());
 		Assert.assertEquals(this.end, adventure.getEnd());
 		Assert.assertEquals(20, adventure.getAge());
-		Assert.assertEquals(CLIENT_IBAN, adventure.getIBAN());
+		Assert.assertEquals(CLIENT_IBAN, adventure.getIban());
 		Assert.assertEquals(1, adventure.getMargin(), 0);
 		Assert.assertTrue(this.broker.getAdventureSet().contains(adventure));
 
@@ -129,7 +129,7 @@ public class AdventureConstructorMethodTest extends RollbackTestAbstractClass {
 		Assert.assertEquals(this.begin, adventure.getBegin());
 		Assert.assertEquals(this.begin, adventure.getEnd());
 		Assert.assertEquals(20, adventure.getAge());
-		Assert.assertEquals(CLIENT_IBAN, adventure.getIBAN());
+		Assert.assertEquals(CLIENT_IBAN, adventure.getIban());
 		Assert.assertEquals(MARGIN, adventure.getMargin(), 0);
 		Assert.assertTrue(this.broker.getAdventureSet().contains(adventure));
 
