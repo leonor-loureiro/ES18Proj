@@ -44,19 +44,6 @@ public class IRS extends IRS_Base {
 		return invoice.getReference();
 	}
 
-	public void removeItemTypes() {
-		getItemTypeSet().clear();
-	}
-
-	public void removeTaxPayers() {
-		getTaxPayerSet().clear();
-	}
-
-	public void clearAll() {
-		removeItemTypes();
-		removeTaxPayers();
-	}
-
 	public static void cancelInvoice(String reference) {
 		if (reference == null || reference.isEmpty()) {
 			throw new TaxException();
@@ -81,4 +68,17 @@ public class IRS extends IRS_Base {
 		return null;
 	}
 
+	public void delete() {
+		setRoot(null);
+		
+		for(TaxPayer taxPayer : getTaxPayerSet()) {
+			taxPayer.delete();
+		}
+		
+		for(ItemType itemType : getItemTypeSet()) {
+			itemType.delete();
+		}
+		
+		deleteDomainObject();
+	}	
 }
