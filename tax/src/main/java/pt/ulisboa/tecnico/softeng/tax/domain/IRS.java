@@ -1,21 +1,21 @@
 package pt.ulisboa.tecnico.softeng.tax.domain;
 
+import pt.ist.fenixframework.FenixFramework;
 import pt.ulisboa.tecnico.softeng.tax.dataobjects.InvoiceData;
 import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 
 public class IRS extends IRS_Base {
-	private static IRS instance;
 
 	public static IRS getIRS() {
-		if (instance == null) {
-			instance = new IRS();
+		if (FenixFramework.getDomainRoot().getIrs() == null) {
+			FenixFramework.getDomainRoot().setIrs(new IRS());
 		}
-		return instance;
+		return FenixFramework.getDomainRoot().getIrs();
 	}
 
 	private IRS() {
 	}
-
+	
 	public TaxPayer getTaxPayerByNIF(String NIF) {
 		for (TaxPayer taxPayer : getTaxPayerSet()) {
 			if (taxPayer.getNIF().equals(NIF)) {
