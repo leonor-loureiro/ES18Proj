@@ -9,11 +9,18 @@ public abstract class TaxPayer extends TaxPayer_Base {
 	protected final Set<Invoice> invoices = new HashSet<>();
 	
 	public TaxPayer(IRS irs, String NIF, String name, String address) {
+		init(irs, NIF, name, address);
+	}
+	
+	protected TaxPayer() {
+	}
+	
+	public void init(IRS irs, String NIF, String name, String address) {
 		checkArguments(irs, NIF, name, address);
 
 		setNIF(NIF);
 		setName(name);
-		setAddress(address);
+		setAddress(address);		
 	}
 	
 	private void checkArguments(IRS irs, String NIF, String name, String address) {

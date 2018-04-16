@@ -2,11 +2,11 @@ package pt.ulisboa.tecnico.softeng.tax.domain;
 
 import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 
-public class Buyer extends TaxPayer {
+public class Buyer extends Buyer_Base {
 	private final static int PERCENTAGE = 5;
 
 	public Buyer(IRS irs, String NIF, String name, String address) {
-		super(irs, NIF, name, address);
+		init(irs, NIF, name, address);
 	}
 
 	public double taxReturn(int year) {
