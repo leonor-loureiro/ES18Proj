@@ -17,6 +17,9 @@ class TaxPayer {
 	String address;
 }
 
+class Buyer extends TaxPayer;
+class Seller extends TaxPayer;
+
 relation DomainRootHasIRS {
 	.pt.ist.fenixframework.DomainRoot playsRole root {
 		multiplicity 1..1;
