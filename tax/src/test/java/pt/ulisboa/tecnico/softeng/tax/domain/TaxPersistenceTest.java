@@ -17,6 +17,8 @@ public class TaxPersistenceTest {
     private static final String ITEMTYPE_NAME = "Bina";
     private static final int ITEMTYPE_TAX = 23;
 
+    private static final double INVOICE_VALUE = 100;
+    private static final LocalDate INVOICE_DATE = new LocalDate();
 
 
     @Test
@@ -29,7 +31,7 @@ public class TaxPersistenceTest {
     public void atomicProcess() {
         //ItemType itemType = new ItemType(IRS, ITEMTYPE_NAME, ITEMTYPE_TAX);
 
-
+        //Invoice invoice = new Invoice(INVOICE_VALUE, INVOICE_DATE, itemType, seller, buyer);
 
     }
 
