@@ -49,8 +49,4 @@ public class IRSGetItemTypeByNameTest extends RollbackTestAbstractClass {
 		assertNull(itemType);
 	}
 
-	@Override
-	public void tearDownNotPersistent() {
-		this.irs.clearAll();
-	}
 }

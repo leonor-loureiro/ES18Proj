@@ -108,8 +108,4 @@ public class IRSSubmitInvoiceTest extends RollbackTestAbstractClass {
 		IRS.submitInvoice(invoiceData);
 	}
 
-	@Override
-	public void tearDownNotPersistent() {
-		this.irs.clearAll();
-	}
 }
