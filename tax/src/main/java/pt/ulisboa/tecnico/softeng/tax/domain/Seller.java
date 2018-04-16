@@ -13,7 +13,7 @@ public class Seller extends Seller_Base {
 		}
 
 		double result = 0;
-		for (Invoice invoice : this.invoices) {
+		for (Invoice invoice : getInvoiceSet()) {
 			if (!invoice.isCancelled() && invoice.getDate().getYear() == year) {
 				result = result + invoice.getIva();
 			}
