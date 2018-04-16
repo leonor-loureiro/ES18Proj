@@ -12,6 +12,9 @@ import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TaxPersistenceTest {
 
     private static final String ITEMTYPE_NAME = "Bina";
@@ -48,12 +51,38 @@ public class TaxPersistenceTest {
 
     @Atomic(mode = TxMode.READ)
     public void atomicAssert() {
+        IRS irs = FenixFramework.getDomainRoot().getIrs();
+
+        assertNotNull(irs);
+
+        List<ItemType> itemTypes = new ArrayList<>(irs.getItemTypeSet());
+        ItemType itemType = itemTypes.get(0);
+
+        assertEquals(ITEMTYPE_NAME, itemType.getName());
+        assertEquals(ITEMTYPE_TAX, itemType.getTax());
+
+        List<TaxPayer> taxPayers = new ArrayList<>(irs.getTaxPayerSet());
+        TaxPayer taxPayer = taxPayers.get(1);
+
+        assertEquals(BUYER_NIF, taxPayer.getNIF());
+        assertEquals(BUYER_NAME, taxPayer.getName());
+        assertEquals(BUYER_ADDRESS, taxPayer.getAddress());
+
+        TaxPayer taxPayer1 = taxPayers.get(0);
+
+        assertEquals(SELLER_NIF, taxPayer1.getNIF());
+        assertEquals(SELLER_NAME, taxPayer1.getName());
+        assertEquals(SELLER_ADDRESS, taxPayer1.getAddress());
+
+
+
+
 
     }
 
     @After
     @Atomic(mode = TxMode.WRITE)
     public void tearDown() {
-    	
+    	FenixFramework.getDomainRoot().getIrs().delete();
     }
 }
