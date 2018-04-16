@@ -25,6 +25,8 @@ public class ItemType extends ItemType_Base {
 	}
 
 	public void delete() {
+		setInvoice(null);
+
 		deleteDomainObject();
 	}
 }
