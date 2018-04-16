@@ -6,7 +6,6 @@ import java.util.Set;
 import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 
 public abstract class TaxPayer extends TaxPayer_Base {
-	protected final Set<Invoice> invoices = new HashSet<>();
 	
 	public TaxPayer(IRS irs, String NIF, String name, String address) {
 		init(irs, NIF, name, address);
@@ -42,16 +41,12 @@ public abstract class TaxPayer extends TaxPayer_Base {
 
 	}
 
-	public void addInvoice(Invoice invoice) {
-		this.invoices.add(invoice);
-	}
-
 	public Invoice getInvoiceByReference(String invoiceReference) {
 		if (invoiceReference == null || invoiceReference.isEmpty()) {
 			throw new TaxException();
 		}
 
-		for (Invoice invoice : this.invoices) {
+		for (Invoice invoice : getInvoiceSet()) {
 			if (invoice.getReference().equals(invoiceReference)) {
 				return invoice;
 			}
@@ -59,15 +54,13 @@ public abstract class TaxPayer extends TaxPayer_Base {
 		return null;
 	}
 
-	public String getNIF() {
-		return getNIF();
-	}
-
-	public String getName() {
-		return getName();
-	}
-
-	public String getAddress() {
-		return getAddress();
+	public void delete() {
+		setIrs(null);
+		
+		for(Invoice invoice : getInvoiceSet()) {
+			invoice.delete();
+		}
+		
+		deleteDomainObject();
 	}
 }
