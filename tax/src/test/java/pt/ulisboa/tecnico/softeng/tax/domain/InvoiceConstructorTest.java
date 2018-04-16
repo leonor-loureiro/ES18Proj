@@ -44,6 +44,7 @@ public class InvoiceConstructorTest extends RollbackTestAbstractClass {
 		assertEquals(VALUE * TAX / 100.0, invoice.getIva(), 0.00001f);
 		assertFalse(invoice.isCancelled());
 
+
 		assertEquals(invoice, this.seller.getInvoiceByReference(invoice.getReference()));
 		assertEquals(invoice, this.buyer.getInvoiceByReference(invoice.getReference()));
 	}
@@ -87,9 +88,5 @@ public class InvoiceConstructorTest extends RollbackTestAbstractClass {
 		new Invoice(VALUE, new LocalDate(1970, 01, 01), this.itemType, this.seller, this.buyer);
 	}
 
-	@Override
-	public void tearDownNotPersistent() {
-		IRS.getIRS().clearAll();
-	}
 
 }

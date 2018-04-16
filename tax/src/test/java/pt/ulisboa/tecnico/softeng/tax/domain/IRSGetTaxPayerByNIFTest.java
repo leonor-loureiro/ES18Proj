@@ -57,9 +57,4 @@ public class IRSGetTaxPayerByNIFTest extends RollbackTestAbstractClass {
 
 		assertNull(taxPayer);
 	}
-
-	@Override
-	public void tearDownNotPersistent() {
-		this.irs.clearAll();
-	}
 }

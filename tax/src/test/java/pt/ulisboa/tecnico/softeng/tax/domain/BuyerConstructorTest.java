@@ -7,6 +7,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import pt.ist.fenixframework.FenixFramework;
 import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 
 public class BuyerConstructorTest extends RollbackTestAbstractClass {
@@ -29,7 +30,7 @@ public class BuyerConstructorTest extends RollbackTestAbstractClass {
 		assertEquals(NAME, buyer.getName());
 		assertEquals(ADDRESS, buyer.getAddress());
 
-		assertEquals(buyer, IRS.getIRS().getTaxPayerByNIF(NIF));
+		assertEquals(buyer, FenixFramework.getDomainRoot().getIrs().getTaxPayerByNIF(NIF));
 	}
 
 	@Test
@@ -77,11 +78,6 @@ public class BuyerConstructorTest extends RollbackTestAbstractClass {
 	@Test(expected = TaxException.class)
 	public void emptyAddress() {
 		new Buyer(this.irs, NIF, NAME, "");
-	}
-
-	@Override
-	public void tearDownNotPersistent() {
-		IRS.getIRS().clearAll();
 	}
 
 }

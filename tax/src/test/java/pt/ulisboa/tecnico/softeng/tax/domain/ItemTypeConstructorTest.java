@@ -65,9 +65,4 @@ public class ItemTypeConstructorTest extends RollbackTestAbstractClass {
 		new ItemType(this.irs, CAR, 0);
 	}
 
-	@Override
-	public void tearDownNotPersistent() {
-		IRS.getIRS().clearAll();
-	}
-
 }

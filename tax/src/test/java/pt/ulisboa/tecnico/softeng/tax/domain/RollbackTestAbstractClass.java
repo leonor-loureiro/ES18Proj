@@ -24,7 +24,6 @@ public abstract class RollbackTestAbstractClass {
     public void tearDown() {
         try {
             FenixFramework.getTransactionManager().rollback();
-            tearDownNotPersistent();	//FIXME delete when tax is persistent
         } catch (IllegalStateException | SecurityException | SystemException e) {
             e.printStackTrace();
         }
@@ -32,5 +31,4 @@ public abstract class RollbackTestAbstractClass {
 
     public abstract void populate4Test();
 
-    public void tearDownNotPersistent() {}  //FIXME delete when tax is persistent
 }

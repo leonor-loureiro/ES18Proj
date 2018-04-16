@@ -74,9 +74,5 @@ public class SellerConstructorTest extends RollbackTestAbstractClass {
 		new Seller(this.irs, NIF, NAME, "");
 	}
 
-	@Override
-	public void tearDownNotPersistent() {
-		IRS.getIRS().clearAll();
-	}
 
 }
