@@ -121,9 +121,9 @@ relation BrokerHasClients {
     }
 }
 
-relation AdventureHasClient {
+relation ClientHasAdventures {
     Adventure playsRole adventure {
-    	multiplicity 1..1;
+    	multiplicity 0..*;
     }
 
     Client playsRole client {
