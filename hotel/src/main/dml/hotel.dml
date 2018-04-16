@@ -73,3 +73,12 @@ relation RoomHasBookings {
 		multiplicity 0..*;
 	}
 }
+
+relation ProcessorHasBookings{
+	Processor playsRole processor {
+		multiplicity 0..1;
+	}
+	Booking playsRole booking {
+		multiplicity 0..*;
+	}
+}
