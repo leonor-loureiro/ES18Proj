@@ -55,3 +55,12 @@ relation IRSHasItemType {
 		multiplicity 0..*;
 	}
 }
+
+relation BuyerHasInvoice {
+	Buyer playsRole buyer {
+		multiplicity 1..1;
+	}
+	Invoice playsRole invoice {
+		multiplicity 0..*;
+	}
+}
