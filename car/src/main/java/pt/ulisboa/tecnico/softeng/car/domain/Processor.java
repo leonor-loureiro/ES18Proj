@@ -12,16 +12,14 @@ import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 
 public class Processor extends Processor_Base{
 
-	private final Set<Renting> rentingToProcess = new HashSet<>();
-
 	public void submitRenting(Renting renting) {
-		this.rentingToProcess.add(renting);
+		addRenting(renting);
 		processInvoices();
 	}
 
 	private void processInvoices() {
 		Set<Renting> failedToProcess = new HashSet<>();
-		for (Renting renting : this.rentingToProcess) {
+		for (Renting renting : getRentingSet()) {
 			if (!renting.isCancelled()) {
 				if (renting.getPaymentReference() == null) {
 					try {
@@ -53,19 +51,22 @@ public class Processor extends Processor_Base{
 				}
 
 			}
+			renting.setProcessor(null);
 		}
 
-		this.rentingToProcess.clear();
-		this.rentingToProcess.addAll(failedToProcess);
+		for(Renting renting : failedToProcess)
+			addRenting(renting);
 
 	}
 
 	public void clean() {
-		this.rentingToProcess.clear();
+		for(Renting renting : getRentingSet())
+			renting.setProcessor(null);
 	}
 	
 	public void delete() {
-		
+		clean();
 		setRentACar(null);
+		deleteDomainObject();
 	}
 }
