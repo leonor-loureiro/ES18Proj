@@ -17,6 +17,8 @@ relation DomainRootHasRentACarApplication {
 	}
 }
 
+class Processor {}
+
 class Vehicle {
     String plate;
     int kilometers;
