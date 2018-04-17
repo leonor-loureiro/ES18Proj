@@ -36,7 +36,7 @@ public class RentACarPersistenceTest {
 
         Vehicle car = new Car(PLATE_CAR, 10, 10, rentACar);
 
-        Renting renting = RentACar.rent(Car.class, DRIVING_LICENSE, NIF, IBAN_BUYER, BEGIN, END);
+        Renting renting = RentACar.getRenting(RentACar.rent(Car.class, DRIVING_LICENSE, NIF, IBAN_BUYER, BEGIN, END));
         
         rentACar.getProcessor().submitRenting(renting);
     }
@@ -50,7 +50,8 @@ public class RentACarPersistenceTest {
         Assert.assertEquals(IBAN, rentACar.getIBAN());
         Assert.assertEquals(NAME, rentACar.getName());
         Assert.assertEquals(1, rentACar.getVehicleSet().size());
-
+        Assert.assertNotNull(rentACar.getProcessor());
+        
         Vehicle vehicle = rentACar.getVehicleSet().stream().findFirst().orElse(null);
         Assert.assertEquals(PLATE_CAR, vehicle.getPlate());
         Assert.assertEquals(10, vehicle.getKilometers());
