@@ -40,6 +40,16 @@ relation RentACarHasVehicles {
     }
 }
 
+relation RentACarHasProcessor{
+    RentACar playsRole rentACar {
+        multiplicity 1..1;
+    }
+
+    Processor playsRole processor {
+        multiplicity 1..1;
+    }
+}
+
 class Renting {
     String reference;
     String cancellationReference;

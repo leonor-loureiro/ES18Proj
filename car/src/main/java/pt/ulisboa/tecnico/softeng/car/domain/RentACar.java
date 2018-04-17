@@ -18,11 +18,12 @@ public class RentACar extends RentACar_Base {
 		return getCounter();
 	}
 
-	private final Processor processor = new Processor();
 
 	public RentACar(String name, String nif, String iban) {
 		checkArguments(name, nif, iban);
-
+		
+		setProcessor(new Processor());
+		
 		setName(name);
 		setNIF(nif);
 		setIBAN(iban);
@@ -49,7 +50,8 @@ public class RentACar extends RentACar_Base {
 
 		for (Vehicle v : getVehicleSet())
 			v.delete();
-
+		
+		getProcessor().delete();
 		deleteDomainObject();
 	}
 
@@ -134,8 +136,5 @@ public class RentACar extends RentACar_Base {
 		return new RentingData(renting);
 	}
 
-	public Processor getProcessor() {
-		return this.processor;
-	}
 
 }

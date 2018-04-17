@@ -63,5 +63,9 @@ public class Processor extends Processor_Base{
 	public void clean() {
 		this.rentingToProcess.clear();
 	}
-
+	
+	public void delete() {
+		
+		setRentACar(null);
+	}
 }
