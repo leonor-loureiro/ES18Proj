@@ -68,3 +68,12 @@ relation VehicleHasRentings {
         multiplicity 0..*;
     }
 }
+
+relation ProcessorHasRentints{
+	Processor playsRole processor{
+		multiplicity 0..1;
+	}
+	Renting playsRole renting{
+		multiplicity 0..*;
+	}
+}
