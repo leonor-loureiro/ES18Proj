@@ -2,6 +2,6 @@
 # and replace password by your mysql root password
 dbAlias=//localhost:3306/advhotel
 dbUsername=root
-dbPassword=password
+dbPassword=
 updateRepositoryStructureIfNeeded=true
 canCreateDomainMetaObjects=false
