@@ -23,12 +23,12 @@ before_script:
   - for module in activity bank broker car hotel tax; do cp $module/src/main/resources/fenix-framework.properties{.example,} ; done
 
 script:
-  - mvn clean test -B
+  - mvn clean package -B
 
 env:
   global:
     # You can fetch this at https://codecov.io/gh/tecnico-softeng/es18XX-YY-project/settings
-    - CODECOV_TOKEN=:2514a47a-e24f-42b7-bc8a-c46cccde2771
+    - CODECOV_TOKEN=2514a47a-e24f-42b7-bc8a-c46cccde2771
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
