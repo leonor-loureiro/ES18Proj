@@ -37,7 +37,7 @@
 			<tbody>
 				<tr th:each="account : ${client.accounts}">
 					<td th:text="${account.iban}">123456789</td>
-					<td th:text="${account.balance}">xpto3456</td>
+					<td th:text="${#numbers.formatDecimal(account.balance, 1, 2)}">xpto3456</td>
 					<td><a th:href="@{/banks/{code}/clients/{id}/accounts/{iban}/operations(code=${client.bankCode},id=${client.id},iban=${account.iban})}">Operations</a></td>
 				</tr>
 			</tbody>

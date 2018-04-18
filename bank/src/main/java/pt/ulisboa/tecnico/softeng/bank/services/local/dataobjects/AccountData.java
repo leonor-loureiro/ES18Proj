@@ -5,7 +5,7 @@ import pt.ulisboa.tecnico.softeng.bank.domain.Account;
 public class AccountData {
 	private String iban;
 	private Double balance;
-	private double amount;
+	private Double amount;
 
 	public AccountData() {
 	}
@@ -31,11 +31,11 @@ public class AccountData {
 		this.balance = balance;
 	}
 
-	public double getAmount() {
+	public Double getAmount() {
 		return this.amount;
 	}
 
-	public void setAmount(Integer amount) {
+	public void setAmount(Double amount) {
 		this.amount = amount;
 	}
 
