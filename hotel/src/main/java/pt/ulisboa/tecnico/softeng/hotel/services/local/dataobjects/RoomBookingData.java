@@ -70,8 +70,16 @@ public class RoomBookingData {
 		return this.arrival;
 	}
 
+	public void setArrival(LocalDate arrival) {
+		this.arrival = arrival;
+	}
+
 	public LocalDate getDeparture() {
 		return this.departure;
+	}
+
+	public void setDeparture(LocalDate departure) {
+		this.departure = departure;
 	}
 
 	public LocalDate getCancellationDate() {
