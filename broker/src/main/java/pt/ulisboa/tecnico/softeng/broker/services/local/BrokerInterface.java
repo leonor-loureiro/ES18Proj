@@ -50,9 +50,8 @@ public class BrokerInterface {
 
 	@Atomic(mode = TxMode.WRITE)
 	public static void createBulkRoomBooking(String brokerCode, BulkData bulkData) {
-		// TODO: receive nif and iban
 		new BulkRoomBooking(getBrokerByCode(brokerCode), bulkData.getNumber() != null ? bulkData.getNumber() : 0,
-				bulkData.getArrival(), bulkData.getDeparture(), "ERROR", "ERROR");
+				bulkData.getArrival(), bulkData.getDeparture(), bulkData.getBuyerNif(), bulkData.getBuyerIban());
 
 	}
 

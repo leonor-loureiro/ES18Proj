@@ -40,8 +40,8 @@ public class BulkController {
 
 	@RequestMapping(method = RequestMethod.POST)
 	public String submitBulk(Model model, @PathVariable String brokerCode, @ModelAttribute BulkData bulkData) {
-		logger.info("submitBulk brokerCode:{}, number:{}, arrival:{}, departure:{}", brokerCode, bulkData.getNumber(),
-				bulkData.getArrival(), bulkData.getDeparture());
+		logger.info("submitBulk brokerCode:{}, number:{}, arrival:{}, departure:{}, nif:{}, iban:{}", brokerCode,
+				bulkData.getNumber(), bulkData.getArrival(), bulkData.getDeparture());
 
 		try {
 			BrokerInterface.createBulkRoomBooking(brokerCode, bulkData);
