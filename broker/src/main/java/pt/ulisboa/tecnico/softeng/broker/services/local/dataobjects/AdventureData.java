@@ -45,8 +45,7 @@ public class AdventureData {
 		this.activityCancellation = adventure.getActivityCancellation();
 
 		Client client = adventure.getClient();
-		this.clientData = new ClientData(client.getIban(), client.getNif(), client.getDrivingLicense(),
-				client.getAge());
+		this.clientData = new ClientData(client);
 	}
 
 	public String getId() {

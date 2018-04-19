@@ -14,6 +14,8 @@ public class BulkData {
 	private LocalDate arrival;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate departure;
+	private String buyerNif;
+	private String buyerIban;
 	private int actualNumber;
 	private boolean cancelled;
 	private List<String> references;
@@ -25,14 +27,13 @@ public class BulkData {
 		this.number = bulkRoomBooking.getNumber();
 		this.arrival = bulkRoomBooking.getArrival();
 		this.departure = bulkRoomBooking.getDeparture();
+		this.buyerNif = bulkRoomBooking.getBuyerNif();
+		this.buyerIban = bulkRoomBooking.getBuyerIban();
 		this.actualNumber = bulkRoomBooking.getReferenceSet().size();
 		this.cancelled = bulkRoomBooking.getCancelled();
 
 		this.references = bulkRoomBooking.getReferenceSet().stream().map(r -> r.getValue())
 				.collect(Collectors.toList());
-
-		this.references.add("fjhkdsl");
-		this.references.add("jkfhglkfdsg");
 	}
 
 	public Integer getNumber() {
@@ -57,6 +58,22 @@ public class BulkData {
 
 	public void setDeparture(LocalDate departure) {
 		this.departure = departure;
+	}
+
+	public String getBuyerNif() {
+		return this.buyerNif;
+	}
+
+	public void setBuyerNif(String buyerNif) {
+		this.buyerNif = buyerNif;
+	}
+
+	public String getBuyerIban() {
+		return this.buyerIban;
+	}
+
+	public void setBuyerIban(String buyerIban) {
+		this.buyerIban = buyerIban;
 	}
 
 	public int getActualNumber() {
