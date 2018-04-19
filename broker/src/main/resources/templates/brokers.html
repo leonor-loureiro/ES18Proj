@@ -32,7 +32,6 @@
 					<th>Name</th>
 					<th>Code</th>
 					<th>Clients</th>
-					<th>Adventures</th>
 					<th>Bulks</th>
 				</tr>
 			</thead>
@@ -42,8 +41,6 @@
 					<td th:text="${broker.code}">Code</td>
 					<td><a
 						th:href="@{/brokers/{code}/clients(code=${broker.code})}">Link</a></td>
-					<td><a
-						th:href="@{/brokers/{code}/adventures(code=${broker.code})}">Link</a></td>
 					<td><a
 						th:href="@{/brokers/{code}/bulks(code=${broker.code})}">Link</a></td>
 				</tr>
