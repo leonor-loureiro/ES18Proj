@@ -47,7 +47,6 @@ class Renting {
 	double price;
 	String paymentReference;
 	String invoiceReference;
-    String cancel;
 	LocalDate cancellationDate;
 	boolean cancelledInvoice;
 	String cancelledPaymentReference;
