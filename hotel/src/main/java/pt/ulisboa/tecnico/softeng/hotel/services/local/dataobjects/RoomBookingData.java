@@ -36,8 +36,10 @@ public class RoomBookingData {
 		this.roomType = booking.getRoom().getType().name();
 		this.arrival = booking.getArrival();
 		this.departure = booking.getDeparture();
-		this.cancellationDate = booking.getCancellationDate();
 		this.price = booking.getPrice();
+		this.buyerNif = booking.getBuyerNif();
+		this.buyerIban = booking.getBuyerIban();
+		this.cancellationDate = booking.getCancellationDate();
 		this.paymentReference = booking.getPaymentReference();
 		this.invoiceReference = booking.getInvoiceReference();
 	}
