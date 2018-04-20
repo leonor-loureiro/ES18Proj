@@ -21,7 +21,7 @@ public class ItemTypeController {
 	public String itemTypeForm(Model model) {
 		logger.info("itemTypeForm");
 		model.addAttribute("item", new ItemTypeData());
-		model.addAttribute("items", TaxInterface.getItemTypes());
+		model.addAttribute("items", TaxInterface.getItemTypeListData());
 		return "itemsView";
 	}
 
@@ -34,7 +34,7 @@ public class ItemTypeController {
 		} catch (TaxException be) {
 			model.addAttribute("error", "Error: it was not possible to create the item type " + itemTypeData.getName());
 			model.addAttribute("item", itemTypeData);
-			model.addAttribute("items", TaxInterface.getItemTypes());
+			model.addAttribute("items", TaxInterface.getItemTypeListData());
 			return "itemsView";
 		}
 
