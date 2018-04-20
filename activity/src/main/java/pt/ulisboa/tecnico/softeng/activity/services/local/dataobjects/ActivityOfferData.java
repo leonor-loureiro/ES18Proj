@@ -9,24 +9,56 @@ import org.springframework.format.annotation.DateTimeFormat;
 import pt.ulisboa.tecnico.softeng.activity.domain.ActivityOffer;
 
 public class ActivityOfferData {
+	private String externalId;
+	private String codeProvider;
+	private String codeActivity;
+	private String name;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate begin;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate end;
 	private Integer capacity;
 	private Double amount;
-	private List<ActivityReservationData> reservations;
+	private List<ActivityBookingData> reservations;
 
 	public ActivityOfferData() {
 	}
 
 	public ActivityOfferData(ActivityOffer offer) {
+		this.externalId = offer.getExternalId();
+		this.codeProvider = offer.getActivity().getActivityProvider().getCode();
+		this.codeActivity = offer.getActivity().getCode();
+		this.name = offer.getActivity().getName();
 		this.begin = offer.getBegin();
 		this.end = offer.getEnd();
 		this.capacity = offer.getCapacity();
 		this.amount = offer.getAmount();
-		this.reservations = offer.getBookingSet().stream().map(b -> new ActivityReservationData(b))
+		this.reservations = offer.getBookingSet().stream().map(b -> new ActivityBookingData(b))
 				.collect(Collectors.toList());
+	}
+
+	public String getExternalId() {
+		return this.externalId;
+	}
+
+	public void setExternalId(String externalId) {
+		this.externalId = externalId;
+	}
+
+	public String getCodeProvider() {
+		return this.codeProvider;
+	}
+
+	public void setCodeProvider(String codeProvider) {
+		this.codeProvider = codeProvider;
+	}
+
+	public String getCodeActivity() {
+		return this.codeActivity;
+	}
+
+	public void setCodeActivity(String codeActivity) {
+		this.codeActivity = codeActivity;
 	}
 
 	public LocalDate getBegin() {
@@ -53,11 +85,11 @@ public class ActivityOfferData {
 		this.capacity = capacity;
 	}
 
-	public List<ActivityReservationData> getReservations() {
+	public List<ActivityBookingData> getReservations() {
 		return this.reservations;
 	}
 
-	public void setReservations(List<ActivityReservationData> reservations) {
+	public void setReservations(List<ActivityBookingData> reservations) {
 		this.reservations = reservations;
 	}
 
@@ -67,6 +99,14 @@ public class ActivityOfferData {
 
 	public void setAmount(Double amount) {
 		this.amount = amount;
+	}
+
+	public String getName() {
+		return this.name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 }

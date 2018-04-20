@@ -7,7 +7,7 @@ import org.joda.time.LocalDate;
 
 import pt.ist.fenixframework.FenixFramework;
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
-import pt.ulisboa.tecnico.softeng.activity.services.local.dataobjects.ActivityReservationData;
+import pt.ulisboa.tecnico.softeng.activity.services.local.dataobjects.ActivityBookingData;
 
 public class ActivityProvider extends ActivityProvider_Base {
 	static final int CODE_SIZE = 6;
@@ -109,13 +109,13 @@ public class ActivityProvider extends ActivityProvider_Base {
 		throw new ActivityException();
 	}
 
-	public static ActivityReservationData getActivityReservationData(String reference) {
+	public static ActivityBookingData getActivityReservationData(String reference) {
 		for (ActivityProvider provider : FenixFramework.getDomainRoot().getActivityProviderSet()) {
 			for (Activity activity : provider.getActivitySet()) {
 				for (ActivityOffer offer : activity.getActivityOfferSet()) {
 					Booking booking = offer.getBooking(reference);
 					if (booking != null) {
-						return new ActivityReservationData(provider, offer, booking);
+						return new ActivityBookingData(booking);
 					}
 				}
 			}
