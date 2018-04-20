@@ -49,7 +49,9 @@ public class ActivityInterface {
 			throw new ActivityException();
 		}
 
-		new Activity(provider, activity.getName(), activity.getMinAge(), activity.getMaxAge(), activity.getCapacity());
+		new Activity(provider, activity.getName(), activity.getMinAge() != null ? activity.getMinAge() : -1,
+				activity.getMaxAge() != null ? activity.getMaxAge() : -1,
+				activity.getCapacity() != null ? activity.getCapacity() : -1);
 	}
 
 	@Atomic(mode = TxMode.WRITE)
@@ -69,7 +71,8 @@ public class ActivityInterface {
 			throw new ActivityException();
 		}
 
-		new ActivityOffer(activity, offer.getBegin(), offer.getEnd(), offer.getAmount());
+		new ActivityOffer(activity, offer.getBegin(), offer.getEnd(),
+				offer.getAmount() != null ? offer.getAmount() : -1);
 	}
 
 	@Atomic(mode = TxMode.WRITE)

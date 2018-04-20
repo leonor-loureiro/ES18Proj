@@ -27,7 +27,8 @@ public class ActivityProviderController {
 
 	@RequestMapping(method = RequestMethod.POST)
 	public String providerSubmit(Model model, @ModelAttribute ActivityProviderData provider) {
-		logger.info("providerSubmit name:{}, code:{}", provider.getName(), provider.getCode());
+		logger.info("providerSubmit name:{}, code:{}, nif:{}, iban:{}", provider.getName(), provider.getCode(),
+				provider.getNif(), provider.getIban());
 
 		try {
 			ActivityInterface.createProvider(provider);
