@@ -3,8 +3,6 @@ package pt.ulisboa.tecnico.softeng.tax.domain;
 import static org.junit.Assert.assertEquals;
 
 import org.joda.time.LocalDate;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
@@ -14,7 +12,8 @@ public class IRSSubmitInvoiceTest extends RollbackTestAbstractClass {
 	private static final String SELLER_NIF = "123456789";
 	private static final String BUYER_NIF = "987654321";
 	private static final String FOOD = "FOOD";
-	private static final int VALUE = 16;
+	private static final double VALUE = 160;
+	private static final int TAX = 16;
 	private final LocalDate date = new LocalDate(2018, 02, 13);
 
 	private IRS irs;
@@ -24,7 +23,7 @@ public class IRSSubmitInvoiceTest extends RollbackTestAbstractClass {
 		this.irs = IRS.getIRSInstance();
 		new Seller(this.irs, SELLER_NIF, "José Vendido", "Somewhere");
 		new Buyer(this.irs, BUYER_NIF, "Manuel Comprado", "Anywhere");
-		new ItemType(this.irs, FOOD, VALUE);
+		new ItemType(this.irs, FOOD, TAX);
 	}
 
 	@Test
@@ -80,13 +79,13 @@ public class IRSSubmitInvoiceTest extends RollbackTestAbstractClass {
 
 	@Test(expected = TaxException.class)
 	public void zeroValue() {
-		InvoiceData invoiceData = new InvoiceData(SELLER_NIF, BUYER_NIF, FOOD, 0.0f, this.date);
+		InvoiceData invoiceData = new InvoiceData(SELLER_NIF, BUYER_NIF, FOOD, 0.0d, this.date);
 		IRS.submitInvoice(invoiceData);
 	}
 
 	@Test(expected = TaxException.class)
 	public void negativeValue() {
-		InvoiceData invoiceData = new InvoiceData(SELLER_NIF, BUYER_NIF, FOOD, -23.7f, this.date);
+		InvoiceData invoiceData = new InvoiceData(SELLER_NIF, BUYER_NIF, FOOD, -23.7d, this.date);
 		IRS.submitInvoice(invoiceData);
 	}
 
