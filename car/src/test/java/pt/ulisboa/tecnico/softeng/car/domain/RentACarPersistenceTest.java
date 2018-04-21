@@ -1,13 +1,17 @@
 package pt.ulisboa.tecnico.softeng.car.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
+
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.FenixFramework;
 
-public class RentACarPersistencTest {
+public class RentACarPersistenceTest {
     private static final String NAME = "eartz";
     private static final String NIF = "NIF";
     private static final String IBAN = "IBAN";
@@ -32,7 +36,9 @@ public class RentACarPersistencTest {
 
         Vehicle car = new Car(PLATE_CAR, 10, 10, rentACar);
 
-        RentACar.rent(Car.class, DRIVING_LICENSE, NIF, IBAN_BUYER, BEGIN, END);
+        Renting renting = RentACar.getRenting(RentACar.rent(Car.class, DRIVING_LICENSE, NIF, IBAN_BUYER, BEGIN, END));
+        
+        rentACar.getProcessor().submitRenting(renting);
     }
 
     @Atomic(mode = Atomic.TxMode.READ)
@@ -44,13 +50,18 @@ public class RentACarPersistencTest {
         Assert.assertEquals(IBAN, rentACar.getIBAN());
         Assert.assertEquals(NAME, rentACar.getName());
         Assert.assertEquals(1, rentACar.getVehicleSet().size());
-
+        Assert.assertNotNull(rentACar.getProcessor());
+        
         Vehicle vehicle = rentACar.getVehicleSet().stream().findFirst().orElse(null);
         Assert.assertEquals(PLATE_CAR, vehicle.getPlate());
         Assert.assertEquals(10, vehicle.getKilometers());
         Assert.assertEquals(10, vehicle.getKilometers());
         Assert.assertEquals(1, vehicle.getRentingSet().size());
-
+        
+        List<Renting> rentings = new ArrayList<>(rentACar.getProcessor().getRentingSet());
+        Assert.assertTrue(rentings.size() == 1);
+        Assert.assertNotNull(rentings.get(0).getReference());
+        
         Renting renting = vehicle.getRentingSet().stream().findFirst().orElse(null);
         Assert.assertEquals(BEGIN, renting.getBegin());
         Assert.assertEquals(END, renting.getEnd());
