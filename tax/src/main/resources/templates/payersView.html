@@ -36,6 +36,7 @@
 					<th>Address</th>
 					<th>NIF</th>
 					<th>Type</th>
+					<th>Invoices</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -44,6 +45,7 @@
 					<td th:text="${payer.address}">Av</td>
 					<td th:text="${payer.nif}">1234556789</td>
 					<td th:text="${payer.type}">SELLER</td>
+					<td><a th:href="@{/tax/payers/{nif}/invoices(nif=${payer.nif})}">Invoices</a></td>
 				</tr>
 			</tbody>
 		</table>

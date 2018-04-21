@@ -52,8 +52,8 @@ public class IRS extends IRS_Base {
 
 	public static String submitInvoice(InvoiceData invoiceData) {
 		IRS irs = IRS.getIRSInstance();
-		Seller seller = (Seller) irs.getTaxPayerByNIF(invoiceData.getSellerNIF());
-		Buyer buyer = (Buyer) irs.getTaxPayerByNIF(invoiceData.getBuyerNIF());
+		Seller seller = (Seller) irs.getTaxPayerByNIF(invoiceData.getSellerNif());
+		Buyer buyer = (Buyer) irs.getTaxPayerByNIF(invoiceData.getBuyerNif());
 		ItemType itemType = irs.getItemTypeByName(invoiceData.getItemType());
 		Invoice invoice = new Invoice(invoiceData.getValue(), invoiceData.getDate(), itemType, seller, buyer);
 
