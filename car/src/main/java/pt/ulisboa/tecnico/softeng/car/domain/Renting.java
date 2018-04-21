@@ -16,7 +16,7 @@ public class Renting extends Renting_Base {
 		setCancelledInvoice(false);
 		setCancelledPaymentReference(null);
 
-		setReference(Integer.toString(vehicle.getRentACar().getNextCounter()));
+		setReference(vehicle.getRentACar().getNIF() + Integer.toString(vehicle.getRentACar().getNextCounter()));
 		setDrivingLicense(drivingLicense);
 		setBegin(begin);
 		setEnd(end);
