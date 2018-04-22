@@ -9,8 +9,7 @@ public class Invoice extends Invoice_Base {
 	Invoice(double value, LocalDate date, ItemType itemType, Seller seller, Buyer buyer) {
 		checkArguments(value, date, itemType, seller, buyer);
 
-		setCounter(getCounter() + 1);
-		setReference(Integer.toString(getCounter()));
+		setReference(Integer.toString(buyer.getCounter() + seller.getCounter()));
 		setValue(value);
 		setDate(date);
 		setItemType(itemType);
@@ -21,6 +20,7 @@ public class Invoice extends Invoice_Base {
 
 		getSeller().addInvoice(this);
 		getBuyer().addInvoice(this);
+		getItemType().addInvoice(this);
 	}
 
 	private void checkArguments(double value, LocalDate date, ItemType itemType, Seller seller, Buyer buyer) {
@@ -53,15 +53,19 @@ public class Invoice extends Invoice_Base {
 		return getCancelled();
 	}
 
-	public void delete() {
-
-		for (TaxPayer taxPayer : getTaxPayerSet()) {
-			taxPayer.delete();
+	public void delete(TaxPayer taxPayer) {		
+		
+		if(taxPayer instanceof Seller) {
+			setSeller(null);
+			getBuyer().delete(this);
+			setBuyer(null);
 		}
-
-		getItemType().delete();
-		getSeller().delete();
-		getBuyer().delete();
+		
+		else if(taxPayer instanceof Buyer) {
+			setBuyer(null);
+			getSeller().delete(this);
+			setSeller(null);
+		}
 		
 		deleteDomainObject();
 	}
