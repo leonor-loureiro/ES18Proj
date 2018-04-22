@@ -1,5 +1,6 @@
 package pt.ulisboa.tecnico.softeng.tax.domain;
 
+import pt.ist.fenixframework.FenixFramework;
 import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 
 public abstract class TaxPayer extends TaxPayer_Base {
@@ -18,6 +19,14 @@ public abstract class TaxPayer extends TaxPayer_Base {
 		setNIF(NIF);
 		setName(name);
 		setAddress(address);
+		setCounter(Integer.parseInt(getNIF()));
+	}
+	
+	@Override
+	public int getCounter() {
+		int counter = super.getCounter() + 1;
+		setCounter(counter);
+		return counter;
 	}
 	
 	private void checkArguments(IRS irs, String NIF, String name, String address) {
@@ -43,21 +52,27 @@ public abstract class TaxPayer extends TaxPayer_Base {
 		if (invoiceReference == null || invoiceReference.isEmpty()) {
 			throw new TaxException();
 		}
-		for (Invoice invoice : getInvoiceSet()) {
-			if (invoice.getReference().equals(invoiceReference)) {
-				return invoice;
+		
+		for(TaxPayer taxPayer : FenixFramework.getDomainRoot().getIrs().getTaxPayerSet()) {
+			if(taxPayer instanceof Buyer) {
+				Buyer buyer = (Buyer) taxPayer;
+				for(Invoice invoice : buyer.getInvoiceSet()) {
+					if (invoice.getReference().equals(invoiceReference)) {
+						return invoice;
+					}
+				}
+			}
+			else {
+				Seller seller = (Seller) taxPayer;
+				for(Invoice invoice : seller.getInvoiceSet()) {
+					if (invoice.getReference().equals(invoiceReference)) {
+						return invoice;
+					}
+				}
 			}
 		}
 		return null;
 	}
 
-	public void delete() {
-		setIrs(null);
-		
-		for(Invoice invoice : getInvoiceSet()) {
-			invoice.delete();
-		}
-		
-		deleteDomainObject();
-	}
+	public abstract void delete(Invoice invoice);
 }
