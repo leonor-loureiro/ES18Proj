@@ -34,8 +34,8 @@ public class HotelConstructorTest extends RollbackTestAbstractClass {
 		
 		Assert.assertEquals(HOTEL_CODE, hotel.getCode());
 		Assert.assertEquals(HOTEL_NAME, hotel.getName());
-		Assert.assertEquals(NIF, hotel.getNIF());
-		Assert.assertEquals(IBAN, hotel.getIBAN());
+		Assert.assertEquals(NIF, hotel.getNif());
+		Assert.assertEquals(IBAN, hotel.getIban());
 		Assert.assertTrue(PRICE_SINGLE == hotel.getPriceSingle());
 		Assert.assertTrue(PRICE_DOUBLE == hotel.getPriceDouble());
 		

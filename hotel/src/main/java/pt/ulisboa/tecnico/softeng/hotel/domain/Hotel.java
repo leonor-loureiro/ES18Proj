@@ -68,7 +68,7 @@ public class Hotel extends Hotel_Base {
 		}
 
 		for (Hotel hotel : FenixFramework.getDomainRoot().getHotelSet()) {
-			if (hotel.getNIF().equals(nif)) {
+			if (hotel.getNif().equals(nif)) {
 				throw new HotelException();
 			}
 		}
@@ -97,16 +97,6 @@ public class Hotel extends Hotel_Base {
 		return availableRooms;
 	}
 	
-	@Deprecated
-	public String getNIF() {
-		return getNif();
-	}
-
-	@Deprecated
-	public String getIBAN() {
-		return getIban();
-	}
-
 	public double getPrice(Room.Type type) {
 		if (type == null) {
 			throw new HotelException();

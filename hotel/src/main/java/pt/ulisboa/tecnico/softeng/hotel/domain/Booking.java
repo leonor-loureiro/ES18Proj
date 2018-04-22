@@ -23,7 +23,7 @@ public class Booking extends Booking_Base {
 		setPrice(room.getHotel().getPrice(room.getType()) * Days.daysBetween(arrival, departure).getDays());
 		setNif(buyerNIF);
 		setBuyerIban(buyerIban);
-		setProviderNif(room.getHotel().getNIF());
+		setProviderNif(room.getHotel().getNif());
 
 		setRoom(room);
 	}
@@ -95,7 +95,6 @@ public class Booking extends Booking_Base {
 		return getCancelledInvoice();
 	}
 	
-	@Deprecated
 	public String getIban() {
 		return getBuyerIban();
 	}
