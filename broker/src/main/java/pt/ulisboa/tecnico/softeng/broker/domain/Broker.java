@@ -13,11 +13,6 @@ import pt.ulisboa.tecnico.softeng.broker.exception.BrokerException;
 public class Broker extends Broker_Base {
 	private static Logger logger = LoggerFactory.getLogger(Broker.class);
 
-	private final String nifAsSeller;
-	private final String nifAsBuyer;
-	private final String iban;
-	private final Set<Client> clients = new HashSet<>();
-
 	@Override
 	public int getCounter() {
 		int counter = super.getCounter() + 1;
@@ -31,9 +26,9 @@ public class Broker extends Broker_Base {
 		setCode(code);
 		setName(name);
 
-		this.nifAsSeller = nifAsSeller;
-		this.nifAsBuyer = nifAsBuyer;
-		this.iban = iban;
+		setNifAsSeller(nifAsSeller);
+        setNifAsBuyer(nifAsBuyer);
+        setIban(iban);
 
 		FenixFramework.getDomainRoot().addBroker(this);
 	}
@@ -48,6 +43,10 @@ public class Broker extends Broker_Base {
 		for (BulkRoomBooking bulkRoomBooking : getRoomBulkBookingSet()) {
 			bulkRoomBooking.delete();
 		}
+
+        for (Client client : getClientSet()) {
+            client.delete();
+        }
 
 		deleteDomainObject();
 	}
@@ -78,20 +77,18 @@ public class Broker extends Broker_Base {
 
 	}
 
-	public String getNifAsSeller() {
-		return this.nifAsSeller;
-	}
+	public String getNifAsSeller() { return	super.getNifAsSeller(); }
 
 	public String getNifAsBuyer() {
-		return this.nifAsBuyer;
+		return super.getNifAsBuyer();
 	}
 
 	public String getIBAN() {
-		return this.iban;
+		return super.getIban();
 	}
 
 	public Client getClientByNIF(String NIF) {
-		for (Client client : this.clients) {
+		for (Client client : getClientSet()) {
 			if (client.getNIF().equals(NIF)) {
 				return client;
 			}
@@ -100,15 +97,15 @@ public class Broker extends Broker_Base {
 	}
 
 	public boolean drivingLicenseIsRegistered(String drivingLicense) {
-		return this.clients.stream().anyMatch(client -> client.getDrivingLicense().equals(drivingLicense));
+		return getClientSet().stream().anyMatch(client -> client.getDrivingLicense().equals(drivingLicense));
 	}
 
 	public void addClient(Client client) {
-		this.clients.add(client);
+        getClientSet().add(client);
 	}
 
 	public void bulkBooking(int number, LocalDate arrival, LocalDate departure) {
-		BulkRoomBooking bulkBooking = new BulkRoomBooking(this, number, arrival, departure, this.nifAsBuyer, this.iban);
+		BulkRoomBooking bulkBooking = new BulkRoomBooking(this, number, arrival, departure, getNifAsBuyer(), getIBAN());
 		bulkBooking.processBooking();
 	}
 }

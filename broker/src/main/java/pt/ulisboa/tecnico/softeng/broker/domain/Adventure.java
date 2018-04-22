@@ -13,17 +13,6 @@ public class Adventure extends Adventure_Base {
 		PROCESS_PAYMENT, RESERVE_ACTIVITY, BOOK_ROOM, RENT_VEHICLE, UNDO, CONFIRMED, CANCELLED, TAX_PAYMENT
 	}
 
-	private final Client client;
-	private final double margin;
-	private final boolean rentVehicle;
-	private double currentAmount;
-	private String rentingConfirmation;
-	private String rentingCancellation;
-	private String invoiceReference;
-	private boolean invoiceCancelled;
-
-	private AdventureState state;
-
 	public Adventure(Broker broker, LocalDate begin, LocalDate end, Client client, double margin) {
 		this(broker, begin, end, client, margin, false);
 	}
@@ -32,23 +21,23 @@ public class Adventure extends Adventure_Base {
 		checkArguments(broker, begin, end, client, margin);
 
 		setID(broker.getCode() + Integer.toString(broker.getCounter()));
+
+        setBroker(broker);
 		setBegin(begin);
 		setEnd(end);
-
-		this.client = client;
-		this.margin = margin;
-		this.rentVehicle = rentVehicle;
-		this.currentAmount = 0.0;
+		setClient(client);
+        setMargin(margin);
+        setRentVehicle(rentVehicle);
+        setCurrentAmount(0.0);
 
 		broker.addAdventure(this);
-
-		setBroker(broker);
 
 		setState(State.RESERVE_ACTIVITY);
 	}
 
 	public void delete() {
 		setBroker(null);
+        setClient(null);
 
 		getState().delete();
 
@@ -74,59 +63,51 @@ public class Adventure extends Adventure_Base {
 	}
 
 	public int getAge() {
-		return this.client.getAge();
+		return super.getClient().getAge();
 	}
 
 	public String getIBAN() {
-		return this.client.getIBAN();
+		return super.getClient().getIBAN();
 	}
 
 	public Client getClient() {
-		return this.client;
+		return super.getClient();
 	}
 
 	public double getMargin() {
-		return this.margin;
+		return super.getMargin();
 	}
 
-	public void incAmountToPay(double toPay) {
-		this.currentAmount += toPay;
-	}
+	public void incAmountToPay(double toPay) { super.setCurrentAmount(super.getCurrentAmount() + toPay); }
 
-	public double getAmount() {
-		return this.currentAmount * (1 + this.margin);
-	}
+	public double getAmount() { return super.getCurrentAmount() * (1 + super.getMargin()); }
 
-	public boolean shouldRentVehicle() {
-		return this.rentVehicle;
-	}
+	public boolean shouldRentVehicle() { return super.getRentVehicle(); }
 
 	public String getRentingConfirmation() {
-		return this.rentingConfirmation;
+		return super.getRentingConfirmation();
 	}
 
 	public void setRentingConfirmation(String rentingConfirmation) {
-		this.rentingConfirmation = rentingConfirmation;
+		super.setRentingConfirmation(rentingConfirmation);
 	}
 
 	public String getRentingCancellation() {
-		return this.rentingCancellation;
+		return super.getRentingCancellation();
 	}
 
-	public void setRentingCancellation(String rentingCancellation) {
-		this.rentingCancellation = rentingCancellation;
-	}
+	public void setRentingCancellation(String rentingCancellation) { super.setRentingCancellation(rentingCancellation); }
 
 	public String getInvoiceReference() {
-		return this.invoiceReference;
+		return super.getInvoiceReference();
 	}
 
 	public void setInvoiceReference(String invoiceReference) {
-		this.invoiceReference = invoiceReference;
+		super.setInvoiceReference(invoiceReference);
 	}
 
 	public void setInvoiceCancelled(boolean value) {
-		this.invoiceCancelled = value;
+		super.setInvoiceCancelled(value);
 	}
 
 	public void setState(State state) {
@@ -203,7 +184,7 @@ public class Adventure extends Adventure_Base {
 	}
 
 	public boolean shouldCancelInvoice() {
-		return getInvoiceReference() != null && !this.invoiceCancelled;
+		return getInvoiceReference() != null && !super.getInvoiceCancelled();
 	}
 
 	public boolean invoiceIsCancelled() {

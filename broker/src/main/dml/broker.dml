@@ -4,6 +4,10 @@ class Broker {
 	String code;
 	String name;
 	int counter;
+
+	String nifAsSeller;
+	String nifAsBuyer;
+	String iban;
 }
 
 relation DomainRootHasBrokerApplication {
@@ -19,12 +23,21 @@ class Adventure {
 	String ID;
 	LocalDate begin;
 	LocalDate end;
+
 	String paymentConfirmation;
 	String paymentCancellation;
 	String roomConfirmation;
 	String roomCancellation;
 	String activityConfirmation;
 	String activityCancellation;
+    String rentingConfirmation;
+    String rentingCancellation;
+    String invoiceReference;
+
+    double margin;
+    double currentAmount;
+    boolean rentVehicle;
+    boolean invoiceCancelled;
 }
 
 relation BrokerHasAdventures {
@@ -65,6 +78,8 @@ class BulkRoomBooking {
 	boolean cancelled;
 	int numberOfHotelExceptions;
 	int numberOfRemoteErrors;
+	String buyerNif;
+	String buyerIban;
 }
 
 relation BrokerHasBulkRoomBookings {
@@ -87,4 +102,31 @@ relation BulkRoomBookingHasReferences {
 	Reference playsRole reference {
 		multiplicity 0..*;
 	}
+}
+
+class Client {
+    String IBAN;
+    String NIF;
+    String drivingLicense;
+    int age;
+}
+
+relation BrokerHasClients {
+    Broker playsRole broker {
+    	multiplicity 1..1;
+    }
+
+    Client playsRole client {
+        multiplicity 0..*;
+    }
+}
+
+relation ClientHasAdventures {
+    Adventure playsRole adventure {
+    	multiplicity 0..*;
+    }
+
+    Client playsRole client {
+        multiplicity 1..1;
+    }
 }
