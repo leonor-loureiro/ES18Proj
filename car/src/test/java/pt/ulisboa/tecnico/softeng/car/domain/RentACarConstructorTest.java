@@ -5,14 +5,18 @@ import static org.junit.Assert.assertEquals;
 import org.junit.After;
 import org.junit.Test;
 
+import pt.ist.fenixframework.FenixFramework;
 import pt.ulisboa.tecnico.softeng.car.exception.CarException;
 
-public class RentACarConstructorTest {
+public class RentACarConstructorTest extends RollbackTestAbstractClass {
 	private static final String NAME = "eartz";
 	private static final String NIF = "NIF";
 	private static final String IBAN = "IBAN";
 
 
+	@Override
+	public void populate4Test() {}
+	
 	@Test
 	public void success() {
 		RentACar rentACar = new RentACar(NAME, NIF, IBAN);
@@ -29,8 +33,4 @@ public class RentACarConstructorTest {
 		new RentACar("", NIF, IBAN);
 	}
 
-	@After
-	public void tearDown() {
-		RentACar.rentACars.clear();
-	}
 }

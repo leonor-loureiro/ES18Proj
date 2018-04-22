@@ -92,7 +92,7 @@
 							<exclude>**/dataobjects/**</exclude>
 							<exclude>**/exception/**</exclude>
 							<exclude>**/interfaces/**</exclude>
-
+							<exclude>**/fenixframework/**</exclude>
 						</excludes>
 					</configuration>
 					<executions>

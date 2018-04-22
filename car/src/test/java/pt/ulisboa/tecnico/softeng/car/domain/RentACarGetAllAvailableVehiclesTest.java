@@ -12,11 +12,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import pt.ist.fenixframework.FenixFramework;
 import pt.ulisboa.tecnico.softeng.car.interfaces.BankInterface;
 import pt.ulisboa.tecnico.softeng.car.interfaces.TaxInterface;
 
 @RunWith(JMockit.class)
-public class RentACarGetAllAvailableVehiclesTest {
+public class RentACarGetAllAvailableVehiclesTest extends RollbackTestAbstractClass{
 
 	private static final String NAME1 = "eartz";
 	private static final String NAME2 = "eartz";
@@ -39,8 +40,8 @@ public class RentACarGetAllAvailableVehiclesTest {
 	@Mocked
 	private TaxInterface taxInterface;
 
-	@Before
-	public void setUp() {
+	@Override
+	public void populate4Test() {
 		this.rentACar1 = new RentACar(NAME1, NIF, IBAN);
 		this.rentACar2 = new RentACar(NAME2, NIF + "1", IBAN);
 	}
@@ -80,9 +81,4 @@ public class RentACarGetAllAvailableVehiclesTest {
 		assertFalse(cars.contains(car));
 	}
 
-	@After
-	public void tearDown() {
-		RentACar.rentACars.clear();
-		Vehicle.plates.clear();
-	}
 }

@@ -10,13 +10,14 @@ import org.junit.Before;
 import org.junit.Test;
 
 import org.junit.runner.RunWith;
+import pt.ist.fenixframework.FenixFramework;
 import pt.ulisboa.tecnico.softeng.car.dataobjects.RentingData;
 import pt.ulisboa.tecnico.softeng.car.exception.CarException;
 import pt.ulisboa.tecnico.softeng.car.interfaces.BankInterface;
 import pt.ulisboa.tecnico.softeng.car.interfaces.TaxInterface;
 
 @RunWith(JMockit.class)
-public class RentACarGetRentingDataTest {
+public class RentACarGetRentingDataTest  extends RollbackTestAbstractClass {
 
 	private static final String NAME1 = "eartz";
 	private static final String PLATE_CAR1 = "aa-00-11";
@@ -33,8 +34,8 @@ public class RentACarGetRentingDataTest {
 	@Mocked
 	private TaxInterface taxInterface;
 
-	@Before
-	public void setUp() {
+	@Override
+	public void populate4Test() {
 		RentACar rentACar1 = new RentACar(NAME1, NIF, IBAN);
 		this.car = new Car(PLATE_CAR1, 10, 10, rentACar1);
 	}
@@ -52,11 +53,5 @@ public class RentACarGetRentingDataTest {
 	@Test(expected = CarException.class)
 	public void getRentingDataFail() {
 		RentACar.getRentingData("1");
-	}
-
-	@After
-	public void tearDown() {
-		RentACar.rentACars.clear();
-		Vehicle.plates.clear();
 	}
 }
