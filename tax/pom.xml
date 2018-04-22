@@ -25,9 +25,14 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
                     <excludes>
                         <exclude>**/TaxException.class</exclude>
                         <exclude>**/dataobjects/**</exclude>
+						 <exclude>**/fenixframework/**</exclude>
                     </excludes>
                 </configuration>
             </plugin>
+			<plugin>
+				<groupId>pt.ist</groupId>
+				<artifactId>ff-maven-plugin</artifactId>
+			</plugin>
 		</plugins>
 	</build>
 

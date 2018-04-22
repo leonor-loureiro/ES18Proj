@@ -2,9 +2,9 @@ package pt.ulisboa.tecnico.softeng.tax.domain;
 
 import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 
-public class Seller extends TaxPayer {
+public class Seller extends Seller_Base {
 	public Seller(IRS irs, String NIF, String name, String address) {
-		super(irs, NIF, name, address);
+		init(irs, NIF, name, address);
 	}
 
 	public double toPay(int year) {
@@ -13,7 +13,7 @@ public class Seller extends TaxPayer {
 		}
 
 		double result = 0;
-		for (Invoice invoice : this.invoices) {
+		for (Invoice invoice : getInvoiceSet()) {
 			if (!invoice.isCancelled() && invoice.getDate().getYear() == year) {
 				result = result + invoice.getIva();
 			}
@@ -21,4 +21,18 @@ public class Seller extends TaxPayer {
 		return result;
 	}
 
+	public void delete(Invoice invoice) {
+		if(invoice != null) {			
+			setIrs(null);
+		}
+		else {
+			setIrs(null);
+
+			for(Invoice inv : getInvoiceSet()) {
+				inv.delete(this);
+			}
+			
+			deleteDomainObject();
+		}
+	}
 }
