@@ -1,7 +1,6 @@
 package pt.ulisboa.tecnico.softeng.tax.domain;
 
 class Invoice {
-    int counter;
     String reference;
     double value;
     double iva;
@@ -21,6 +20,7 @@ class TaxPayer {
 	String NIF;
 	String name;
 	String address;
+	int counter;
 }
 
 class Buyer extends TaxPayer;
@@ -37,7 +37,7 @@ relation DomainRootHasIRS {
 
 relation InvoiceHasItemType {
     Invoice playsRole invoice {
-		multiplicity 1..1;
+		multiplicity 0..*;
 	}
 	ItemType playsRole itemType {
 		multiplicity 1..1;
@@ -62,29 +62,20 @@ relation IRSHasItemType {
 	}
 }
 
-relation TaxPayerHasInvoice {
-	TaxPayer playsRole taxPayer {
-		multiplicity 2..2;
-	}
-	Invoice playsRole invoice {
-		multiplicity 0..*;
-	}
-}
-
-relation InvoiceHasBuyer {
-	Invoice playsRole invoice2 {
-    	multiplicity 1..1;
-    }
+relation BuyerHasInvoice {
     Buyer playsRole buyer {
     	multiplicity 1..1;
     }
+	Invoice playsRole invoice {
+    	multiplicity 0..*;
+    }
 }
 
-relation InvoiceHasSeller {
-    Invoice playsRole invoice2 {
-    	multiplicity 1..1;
-    }
+relation SellerHasInvoice {
     Seller playsRole seller {
     	multiplicity 1..1;
+    }
+    Invoice playsRole invoice {
+    	multiplicity 0..*;
     }
 }
