@@ -23,9 +23,18 @@ public class Buyer extends Buyer_Base {
 		return result;
 	}
 	
-	public void delete() {
-		setIrs(null);
-		setInvoice2(null);
-		deleteDomainObject();
+	public void delete(Invoice invoice) {
+		if(invoice != null) {			
+			setIrs(null);
+		}
+		else {
+			setIrs(null);
+			
+			for(Invoice inv : getInvoiceSet()) {
+				inv.delete(this);
+			}
+			
+			deleteDomainObject();
+		}
 	}
 }
