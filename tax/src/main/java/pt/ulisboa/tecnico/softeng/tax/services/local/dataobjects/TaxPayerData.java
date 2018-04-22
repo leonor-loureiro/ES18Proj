@@ -2,7 +2,6 @@ package pt.ulisboa.tecnico.softeng.tax.services.local.dataobjects;
 
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.stream.Collectors;
 
 import pt.ulisboa.tecnico.softeng.tax.domain.Buyer;
 import pt.ulisboa.tecnico.softeng.tax.domain.Seller;
@@ -31,12 +30,10 @@ public class TaxPayerData {
 		this.type = taxPayer instanceof Buyer ? Type.BUYER : Type.SELLER;
 		if (taxPayer instanceof Seller) {
 			seller = (Seller) taxPayer;
-			this.taxes = seller.getInvoiceSet().stream().map(i -> i.getDate().getYear()).distinct()
-					.collect(Collectors.toMap(y -> y, y -> seller.toPay(y)));
+			this.taxes = seller.getToPayPerYear();
 		} else {
 			buyer = (Buyer) taxPayer;
-			this.taxes = buyer.getInvoiceSet().stream().map(i -> i.getDate().getYear()).distinct()
-					.collect(Collectors.toMap(y -> y, y -> buyer.taxReturn(y)));
+			this.taxes = buyer.getTaxReturnPerYear();
 		}
 	}
 
