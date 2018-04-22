@@ -31,6 +31,14 @@ public class HotelConstructorTest extends RollbackTestAbstractClass {
 		Assert.assertEquals(1, FenixFramework.getDomainRoot().getHotelSet().size());
 		Assert.assertEquals(PRICE_SINGLE, hotel.getPrice(Room.Type.SINGLE), 0.0d);
 		Assert.assertEquals(PRICE_DOUBLE, hotel.getPrice(Room.Type.DOUBLE), 0.0d);
+		
+		Assert.assertEquals(HOTEL_CODE, hotel.getCode());
+		Assert.assertEquals(HOTEL_NAME, hotel.getName());
+		Assert.assertEquals(NIF, hotel.getNIF());
+		Assert.assertEquals(IBAN, hotel.getIBAN());
+		Assert.assertTrue(PRICE_SINGLE == hotel.getPriceSingle());
+		Assert.assertTrue(PRICE_DOUBLE == hotel.getPriceDouble());
+		
 	}
 
 	@Test(expected = HotelException.class)
