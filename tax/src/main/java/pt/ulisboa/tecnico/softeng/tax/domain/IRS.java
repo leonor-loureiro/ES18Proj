@@ -54,7 +54,7 @@ public class IRS extends IRS_Base {
 		if (invoice == null) {
 			throw new TaxException();
 		}
-
+		
 		invoice.cancel();
 	}
 
@@ -71,12 +71,12 @@ public class IRS extends IRS_Base {
 	public void delete() {
 		setRoot(null);
 		
-		for(TaxPayer taxPayer : getTaxPayerSet()) {
-			taxPayer.delete();
-		}
-		
 		for(ItemType itemType : getItemTypeSet()) {
 			itemType.delete();
+		}
+
+		for(TaxPayer taxPayer : getTaxPayerSet()) {
+			taxPayer.delete(null);
 		}
 		
 		deleteDomainObject();
