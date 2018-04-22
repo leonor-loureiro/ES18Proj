@@ -74,5 +74,5 @@ public abstract class TaxPayer extends TaxPayer_Base {
 		return null;
 	}
 
-	public abstract void delete(Invoice invoice);
+	public abstract void delete();
 }

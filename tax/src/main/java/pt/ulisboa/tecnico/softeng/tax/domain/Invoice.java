@@ -53,19 +53,9 @@ public class Invoice extends Invoice_Base {
 		return getCancelled();
 	}
 
-	public void delete(TaxPayer taxPayer) {		
-		
-		if(taxPayer instanceof Seller) {
-			setSeller(null);
-			getBuyer().delete(this);
-			setBuyer(null);
-		}
-		
-		else if(taxPayer instanceof Buyer) {
-			setBuyer(null);
-			getSeller().delete(this);
-			setSeller(null);
-		}
+	public void delete() {
+		setSeller(null);	
+		setBuyer(null);
 		
 		deleteDomainObject();
 	}

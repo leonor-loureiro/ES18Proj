@@ -76,7 +76,7 @@ public class IRS extends IRS_Base {
 		}
 
 		for(TaxPayer taxPayer : getTaxPayerSet()) {
-			taxPayer.delete(null);
+			taxPayer.delete();
 		}
 		
 		deleteDomainObject();

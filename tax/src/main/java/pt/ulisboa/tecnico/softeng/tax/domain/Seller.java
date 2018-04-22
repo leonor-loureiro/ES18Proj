@@ -21,18 +21,13 @@ public class Seller extends Seller_Base {
 		return result;
 	}
 
-	public void delete(Invoice invoice) {
-		if(invoice != null) {			
-			setIrs(null);
-		}
-		else {
-			setIrs(null);
+	public void delete() {
+		setIrs(null);
 
-			for(Invoice inv : getInvoiceSet()) {
-				inv.delete(this);
-			}
-			
-			deleteDomainObject();
+		for(Invoice inv : getInvoiceSet()) {
+			inv.delete();
 		}
+		
+		deleteDomainObject();		
 	}
 }
