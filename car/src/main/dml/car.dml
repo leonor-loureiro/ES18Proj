@@ -19,7 +19,7 @@ relation DomainRootHasRentACarApplication {
 
 class Vehicle {
     String plate;
-    int kilometers;
+    Integer kilometers;
     double price;
 }
 

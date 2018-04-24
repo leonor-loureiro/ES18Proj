@@ -55,12 +55,12 @@ public class CarPersistenceTest {
 		for (Vehicle vehicle : rentACar.getVehicleSet()) {
 			if (vehicle instanceof Car) {
 				assertEquals(PLATE_CAR1, vehicle.getPlate());
-				assertEquals(10, vehicle.getKilometers());
+				assertEquals(10, vehicle.getKilometers().intValue());
 				assertEquals(10, vehicle.getPrice(), 0);
 			}
 			if (vehicle instanceof Motorcycle) {
 				assertEquals(PLATE_CAR2, vehicle.getPlate());
-				assertEquals(20, vehicle.getKilometers());
+				assertEquals(20, vehicle.getKilometers().intValue());
 				assertEquals(5, vehicle.getPrice(), 0);
 			}
 		}

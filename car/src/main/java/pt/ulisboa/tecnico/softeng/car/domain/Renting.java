@@ -70,12 +70,20 @@ public class Renting extends Renting_Base {
 	 * 
 	 * @param kilometers
 	 */
-	public void checkout(int kilometers) {
+	public void checkout(Integer kilometers) {
+	    if (isCancelled()) {
+	        throw new CarException();
+        }
+
 		setKilometers(kilometers);
 		getVehicle().addKilometers(kilometers);
 	}
 
 	public String cancel() {
+	    if (getKilometers() != -1) {
+            throw new CarException();
+        }
+
 		setCancellationReference(getReference() + "CANCEL");
 		setCancellationDate(LocalDate.now());
 

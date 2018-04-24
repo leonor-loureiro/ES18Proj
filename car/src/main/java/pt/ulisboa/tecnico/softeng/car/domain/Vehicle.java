@@ -10,6 +10,10 @@ public abstract class Vehicle extends Vehicle_Base {
 
 	protected static String plateFormat = "..-..-..";
 
+    public static enum Type {
+        CAR, MOTORCYCLE
+    }
+
 	protected Vehicle() { }
 
 	public Vehicle(String plate, int kilometers, double price, RentACar rentACar) {
