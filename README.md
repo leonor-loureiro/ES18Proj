@@ -1,4 +1,4 @@
-# Adventure Builder [![Build Status](https://travis-ci.com/tecnico-softeng/es18tg_06-project.svg?token=TzeQEgtqUtSfbxXNgbUu&branch=develop)](https://travis-ci.com/tecnico-softeng/es18tg_06-project) [![codecov](https://codecov.io/gh/tecnico-softeng/es18tg_06-project/branch/master/graph/badge.svg?token=14SYbuaeEv)](https://codecov.io/gh/tecnico-softeng/es18tg_06-project)
+# Adventure Builder [![Build Status](https://travis-ci.com/tecnico-softeng/es18tg_06-project.svg?token=TzeQEgtqUtSfbxXNgbUu&branch=develop)](https://travis-ci.com/tecnico-softeng/es18tg_06-project) [![codecov](https://codecov.io/gh/tecnico-softeng/es18tg_06-project/branch/develop/graph/badge.svg?token=14SYbuaeEv)](https://codecov.io/gh/tecnico-softeng/es18tg_06-project)
 
 To run tests execute: mvn clean install
 
