@@ -43,4 +43,13 @@ public class HotelController {
 		return "redirect:/hotels";
 	}
 
+	@RequestMapping(method = RequestMethod.DELETE)
+	public String deleteHotels(Model model) {
+		logger.info("deleteHotels");
+
+		HotelInterface.deleteHotels();
+
+		return "redirect:/hotels";
+	}
+
 }

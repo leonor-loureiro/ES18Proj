@@ -36,7 +36,8 @@ public class BookRoomStateMethodTest extends RollbackTestAbstractClass {
 		new Expectations() {
 			{
 				HotelInterface.reserveRoom(Type.SINGLE, BookRoomStateMethodTest.this.begin,
-						BookRoomStateMethodTest.this.end, NIF_AS_BUYER, BROKER_IBAN);
+						BookRoomStateMethodTest.this.end, NIF_AS_BUYER, BROKER_IBAN,
+						BookRoomStateMethodTest.this.adventure.getID());
 				this.result = ROOM_CONFIRMATION;
 			}
 		};
@@ -54,7 +55,7 @@ public class BookRoomStateMethodTest extends RollbackTestAbstractClass {
 		new Expectations() {
 			{
 				HotelInterface.reserveRoom(Type.SINGLE, BookRoomStateMethodTest.this.begin,
-						BookRoomStateMethodTest.this.end, NIF_AS_BUYER, BROKER_IBAN);
+						BookRoomStateMethodTest.this.end, NIF_AS_BUYER, BROKER_IBAN, adv.getID());
 				this.result = ROOM_CONFIRMATION;
 			}
 		};
@@ -69,7 +70,8 @@ public class BookRoomStateMethodTest extends RollbackTestAbstractClass {
 		new Expectations() {
 			{
 				HotelInterface.reserveRoom(Type.SINGLE, BookRoomStateMethodTest.this.begin,
-						BookRoomStateMethodTest.this.end, NIF_AS_BUYER, BROKER_IBAN);
+						BookRoomStateMethodTest.this.end, NIF_AS_BUYER, BROKER_IBAN,
+						BookRoomStateMethodTest.this.adventure.getID());
 				this.result = new HotelException();
 			}
 		};
@@ -84,7 +86,8 @@ public class BookRoomStateMethodTest extends RollbackTestAbstractClass {
 		new Expectations() {
 			{
 				HotelInterface.reserveRoom(Type.SINGLE, BookRoomStateMethodTest.this.begin,
-						BookRoomStateMethodTest.this.end, NIF_AS_BUYER, BROKER_IBAN);
+						BookRoomStateMethodTest.this.end, NIF_AS_BUYER, BROKER_IBAN,
+						BookRoomStateMethodTest.this.adventure.getID());
 				this.result = new RemoteAccessException();
 			}
 		};
@@ -99,7 +102,8 @@ public class BookRoomStateMethodTest extends RollbackTestAbstractClass {
 		new Expectations() {
 			{
 				HotelInterface.reserveRoom(Type.SINGLE, BookRoomStateMethodTest.this.begin,
-						BookRoomStateMethodTest.this.end, NIF_AS_BUYER, BROKER_IBAN);
+						BookRoomStateMethodTest.this.end, NIF_AS_BUYER, BROKER_IBAN,
+						BookRoomStateMethodTest.this.adventure.getID());
 				this.result = ROOM_CONFIRMATION;
 
 				HotelInterface.getRoomBookingData(ROOM_CONFIRMATION);
@@ -118,7 +122,8 @@ public class BookRoomStateMethodTest extends RollbackTestAbstractClass {
 		new Expectations() {
 			{
 				HotelInterface.reserveRoom(Type.SINGLE, BookRoomStateMethodTest.this.begin,
-						BookRoomStateMethodTest.this.end, NIF_AS_BUYER, BROKER_IBAN);
+						BookRoomStateMethodTest.this.end, NIF_AS_BUYER, BROKER_IBAN,
+						BookRoomStateMethodTest.this.adventure.getID());
 				this.result = new RemoteAccessException();
 				this.times = BookRoomState.MAX_REMOTE_ERRORS;
 			}
@@ -136,7 +141,8 @@ public class BookRoomStateMethodTest extends RollbackTestAbstractClass {
 		new Expectations() {
 			{
 				HotelInterface.reserveRoom(Type.SINGLE, BookRoomStateMethodTest.this.begin,
-						BookRoomStateMethodTest.this.end, NIF_AS_BUYER, BROKER_IBAN);
+						BookRoomStateMethodTest.this.end, NIF_AS_BUYER, BROKER_IBAN,
+						BookRoomStateMethodTest.this.adventure.getID());
 				this.result = new RemoteAccessException();
 				this.times = BookRoomState.MAX_REMOTE_ERRORS - 1;
 			}
@@ -154,7 +160,8 @@ public class BookRoomStateMethodTest extends RollbackTestAbstractClass {
 		new Expectations() {
 			{
 				HotelInterface.reserveRoom(Type.SINGLE, BookRoomStateMethodTest.this.begin,
-						BookRoomStateMethodTest.this.end, NIF_AS_BUYER, BROKER_IBAN);
+						BookRoomStateMethodTest.this.end, NIF_AS_BUYER, BROKER_IBAN,
+						BookRoomStateMethodTest.this.adventure.getID());
 				this.result = new Delegate() {
 					int i = 0;
 
@@ -186,7 +193,8 @@ public class BookRoomStateMethodTest extends RollbackTestAbstractClass {
 		new Expectations() {
 			{
 				HotelInterface.reserveRoom(Type.SINGLE, BookRoomStateMethodTest.this.begin,
-						BookRoomStateMethodTest.this.end, NIF_AS_BUYER, BROKER_IBAN);
+						BookRoomStateMethodTest.this.end, NIF_AS_BUYER, BROKER_IBAN,
+						BookRoomStateMethodTest.this.adventure.getID());
 				this.result = new Delegate() {
 					int i = 0;
 

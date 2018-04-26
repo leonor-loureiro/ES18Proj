@@ -8,7 +8,7 @@ public class BankOperationData {
 	private String reference;
 	private String type;
 	private String iban;
-	private double value;
+	private Double value;
 	private DateTime time;
 
 	public BankOperationData() {
@@ -50,7 +50,7 @@ public class BankOperationData {
 		return this.value;
 	}
 
-	public void setValue(int value) {
+	public void setValue(double value) {
 		this.value = value;
 	}
 

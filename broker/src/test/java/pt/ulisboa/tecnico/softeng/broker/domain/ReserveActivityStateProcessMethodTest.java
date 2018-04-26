@@ -36,7 +36,8 @@ public class ReserveActivityStateProcessMethodTest extends RollbackTestAbstractC
 		new Expectations() {
 			{
 				ActivityInterface.reserveActivity(ReserveActivityStateProcessMethodTest.this.begin,
-						ReserveActivityStateProcessMethodTest.this.begin, AGE, this.anyString, this.anyString);
+						ReserveActivityStateProcessMethodTest.this.begin, AGE, this.anyString, this.anyString,
+						sameDayAdventure.getID());
 				this.result = ACTIVITY_CONFIRMATION;
 			}
 		};
@@ -54,7 +55,8 @@ public class ReserveActivityStateProcessMethodTest extends RollbackTestAbstractC
 		new Expectations() {
 			{
 				ActivityInterface.reserveActivity(ReserveActivityStateProcessMethodTest.this.begin,
-						ReserveActivityStateProcessMethodTest.this.begin, AGE, this.anyString, this.anyString);
+						ReserveActivityStateProcessMethodTest.this.begin, AGE, this.anyString, this.anyString,
+						adv.getID());
 				this.result = ACTIVITY_CONFIRMATION;
 			}
 		};
@@ -69,7 +71,8 @@ public class ReserveActivityStateProcessMethodTest extends RollbackTestAbstractC
 		new Expectations() {
 			{
 				ActivityInterface.reserveActivity(ReserveActivityStateProcessMethodTest.this.begin,
-						ReserveActivityStateProcessMethodTest.this.end, AGE, this.anyString, this.anyString);
+						ReserveActivityStateProcessMethodTest.this.end, AGE, this.anyString, this.anyString,
+						ReserveActivityStateProcessMethodTest.this.adventure.getID());
 				this.result = ACTIVITY_CONFIRMATION;
 			}
 		};
@@ -84,7 +87,8 @@ public class ReserveActivityStateProcessMethodTest extends RollbackTestAbstractC
 		new Expectations() {
 			{
 				ActivityInterface.reserveActivity(ReserveActivityStateProcessMethodTest.this.begin,
-						ReserveActivityStateProcessMethodTest.this.end, AGE, this.anyString, this.anyString);
+						ReserveActivityStateProcessMethodTest.this.end, AGE, this.anyString, this.anyString,
+						ReserveActivityStateProcessMethodTest.this.adventure.getID());
 				this.result = new ActivityException();
 			}
 		};
@@ -99,7 +103,8 @@ public class ReserveActivityStateProcessMethodTest extends RollbackTestAbstractC
 		new Expectations() {
 			{
 				ActivityInterface.reserveActivity(ReserveActivityStateProcessMethodTest.this.begin,
-						ReserveActivityStateProcessMethodTest.this.end, AGE, this.anyString, this.anyString);
+						ReserveActivityStateProcessMethodTest.this.end, AGE, this.anyString, this.anyString,
+						ReserveActivityStateProcessMethodTest.this.adventure.getID());
 				this.result = new RemoteAccessException();
 			}
 		};
@@ -114,7 +119,8 @@ public class ReserveActivityStateProcessMethodTest extends RollbackTestAbstractC
 		new Expectations() {
 			{
 				ActivityInterface.reserveActivity(ReserveActivityStateProcessMethodTest.this.begin,
-						ReserveActivityStateProcessMethodTest.this.end, AGE, this.anyString, this.anyString);
+						ReserveActivityStateProcessMethodTest.this.end, AGE, this.anyString, this.anyString,
+						ReserveActivityStateProcessMethodTest.this.adventure.getID());
 				this.result = new RemoteAccessException();
 			}
 		};
@@ -133,7 +139,8 @@ public class ReserveActivityStateProcessMethodTest extends RollbackTestAbstractC
 		new Expectations() {
 			{
 				ActivityInterface.reserveActivity(ReserveActivityStateProcessMethodTest.this.begin,
-						ReserveActivityStateProcessMethodTest.this.end, AGE, this.anyString, this.anyString);
+						ReserveActivityStateProcessMethodTest.this.end, AGE, this.anyString, this.anyString,
+						ReserveActivityStateProcessMethodTest.this.adventure.getID());
 				this.result = new RemoteAccessException();
 			}
 		};
@@ -151,7 +158,8 @@ public class ReserveActivityStateProcessMethodTest extends RollbackTestAbstractC
 		new Expectations() {
 			{
 				ActivityInterface.reserveActivity(ReserveActivityStateProcessMethodTest.this.begin,
-						ReserveActivityStateProcessMethodTest.this.end, AGE, this.anyString, this.anyString);
+						ReserveActivityStateProcessMethodTest.this.end, AGE, this.anyString, this.anyString,
+						ReserveActivityStateProcessMethodTest.this.adventure.getID());
 				this.result = new Delegate() {
 					int i = 0;
 
@@ -181,7 +189,8 @@ public class ReserveActivityStateProcessMethodTest extends RollbackTestAbstractC
 		new Expectations() {
 			{
 				ActivityInterface.reserveActivity(ReserveActivityStateProcessMethodTest.this.begin,
-						ReserveActivityStateProcessMethodTest.this.end, AGE, this.anyString, this.anyString);
+						ReserveActivityStateProcessMethodTest.this.end, AGE, this.anyString, this.anyString,
+						ReserveActivityStateProcessMethodTest.this.adventure.getID());
 				this.result = new Delegate() {
 					int i = 0;
 

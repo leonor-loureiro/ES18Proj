@@ -32,7 +32,8 @@ public class ProcessPaymentStateProcessMethodTest extends RollbackTestAbstractCl
 	public void success(@Mocked final BankInterface bankInterface) {
 		new Expectations() {
 			{
-				BankInterface.processPayment(CLIENT_IBAN, this.anyDouble);
+				BankInterface.processPayment(CLIENT_IBAN, this.anyDouble,
+						ProcessPaymentStateProcessMethodTest.this.adventure.getID());
 				this.result = PAYMENT_CONFIRMATION;
 			}
 		};
@@ -46,7 +47,8 @@ public class ProcessPaymentStateProcessMethodTest extends RollbackTestAbstractCl
 	public void bankException(@Mocked final BankInterface bankInterface) {
 		new Expectations() {
 			{
-				BankInterface.processPayment(CLIENT_IBAN, this.anyDouble);
+				BankInterface.processPayment(CLIENT_IBAN, this.anyDouble,
+						ProcessPaymentStateProcessMethodTest.this.adventure.getID());
 				this.result = new BankException();
 			}
 		};
@@ -61,7 +63,8 @@ public class ProcessPaymentStateProcessMethodTest extends RollbackTestAbstractCl
 	public void singleRemoteAccessException(@Mocked final BankInterface bankInterface) {
 		new Expectations() {
 			{
-				BankInterface.processPayment(CLIENT_IBAN, this.anyDouble);
+				BankInterface.processPayment(CLIENT_IBAN, this.anyDouble,
+						ProcessPaymentStateProcessMethodTest.this.adventure.getID());
 				this.result = new RemoteAccessException();
 			}
 		};
@@ -75,7 +78,8 @@ public class ProcessPaymentStateProcessMethodTest extends RollbackTestAbstractCl
 	public void maxRemoteAccessException(@Mocked final BankInterface bankInterface) {
 		new Expectations() {
 			{
-				BankInterface.processPayment(CLIENT_IBAN, this.anyDouble);
+				BankInterface.processPayment(CLIENT_IBAN, this.anyDouble,
+						ProcessPaymentStateProcessMethodTest.this.adventure.getID());
 				this.result = new RemoteAccessException();
 			}
 		};
@@ -92,7 +96,8 @@ public class ProcessPaymentStateProcessMethodTest extends RollbackTestAbstractCl
 	public void maxMinusOneRemoteAccessException(@Mocked final BankInterface bankInterface) {
 		new Expectations() {
 			{
-				BankInterface.processPayment(CLIENT_IBAN, this.anyDouble);
+				BankInterface.processPayment(CLIENT_IBAN, this.anyDouble,
+						ProcessPaymentStateProcessMethodTest.this.adventure.getID());
 				this.result = new RemoteAccessException();
 			}
 		};
@@ -107,7 +112,8 @@ public class ProcessPaymentStateProcessMethodTest extends RollbackTestAbstractCl
 	public void twoRemoteAccessExceptionOneSuccess(@Mocked final BankInterface bankInterface) {
 		new Expectations() {
 			{
-				BankInterface.processPayment(CLIENT_IBAN, this.anyDouble);
+				BankInterface.processPayment(CLIENT_IBAN, this.anyDouble,
+						ProcessPaymentStateProcessMethodTest.this.adventure.getID());
 				this.result = new Delegate() {
 					int i = 0;
 
@@ -136,8 +142,8 @@ public class ProcessPaymentStateProcessMethodTest extends RollbackTestAbstractCl
 	public void oneRemoteAccessExceptionOneBankException(@Mocked final BankInterface bankInterface) {
 		new Expectations() {
 			{
-				BankInterface.processPayment(CLIENT_IBAN, this.anyDouble);
-
+				BankInterface.processPayment(CLIENT_IBAN, this.anyDouble,
+						ProcessPaymentStateProcessMethodTest.this.adventure.getID());
 				this.result = new Delegate() {
 					int i = 0;
 

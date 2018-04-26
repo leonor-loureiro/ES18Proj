@@ -227,4 +227,12 @@ public class Hotel extends Hotel_Base {
 		setCounter(counter);
 		return counter;
 	}
+
+	public Booking getBooking4AdventureId(String adventureId) {
+		return getRoomSet().stream().flatMap(r -> r.getBookingSet().stream())
+				.filter(b -> b.getAdventureId() != null && b.getAdventureId().equals(adventureId)).findFirst()
+				.orElse(null);
+
+	}
+
 }

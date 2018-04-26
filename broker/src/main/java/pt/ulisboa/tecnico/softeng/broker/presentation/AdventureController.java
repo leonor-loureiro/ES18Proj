@@ -58,4 +58,13 @@ public class AdventureController {
 		return "redirect:/brokers/" + brokerCode + "/clients/" + clientNif + "/adventures";
 	}
 
+	@RequestMapping(value = "/{id}/process", method = RequestMethod.POST)
+	public String processAdventure(Model model, @PathVariable String brokerCode, @PathVariable String id) {
+		logger.info("processAdventure brokerCode:{}, adventureId:{}", brokerCode, id);
+
+		BrokerInterface.processAdventure(brokerCode, id);
+
+		return "redirect:/brokers/" + brokerCode + "/adventures";
+	}
+
 }

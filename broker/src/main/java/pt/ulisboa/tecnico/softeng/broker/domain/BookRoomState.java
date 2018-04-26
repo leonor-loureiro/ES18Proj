@@ -17,9 +17,9 @@ public class BookRoomState extends BookRoomState_Base {
 	@Override
 	public void process() {
 		try {
-			getAdventure().setRoomConfirmation(
-					HotelInterface.reserveRoom(Type.SINGLE, getAdventure().getBegin(), getAdventure().getEnd(),
-							getAdventure().getBroker().getNifAsBuyer(), getAdventure().getBroker().getIban()));
+			getAdventure().setRoomConfirmation(HotelInterface.reserveRoom(Type.SINGLE, getAdventure().getBegin(),
+					getAdventure().getEnd(), getAdventure().getBroker().getNifAsBuyer(),
+					getAdventure().getBroker().getIban(), getAdventure().getID()));
 			getAdventure()
 					.incAmountToPay(HotelInterface.getRoomBookingData(getAdventure().getRoomConfirmation()).getPrice());
 		} catch (HotelException he) {

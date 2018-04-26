@@ -1,23 +1,69 @@
 package pt.ulisboa.tecnico.softeng.broker.services.remote;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestTemplate;
+
 import pt.ulisboa.tecnico.softeng.broker.services.remote.dataobjects.BankOperationData;
+import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.BankException;
+import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.RemoteAccessException;
 
 public class BankInterface {
-	public static String processPayment(String IBAN, double amount) {
-		// return Bank.processPayment(IBAN, amount);
-		// TODO: implement in the final version as a rest invocation
-		return null;
+	private static Logger logger = LoggerFactory.getLogger(BankInterface.class);
+
+	private static String ENDPOINT = "http://localhost:8082";
+
+	public static String processPayment(String iban, double amount, String adventureId) {
+		logger.info("processPayment iban:{}, amount:{}, adventureId:{}", iban, amount, adventureId);
+
+		RestTemplate restTemplate = new RestTemplate();
+		try {
+			String result = restTemplate.postForObject(ENDPOINT + "/rest/banks/accounts/" + iban
+					+ "/processPayment?amount=" + amount + "&adventureId=" + adventureId, null, String.class);
+			return result;
+		} catch (HttpClientErrorException e) {
+			logger.info("processPayment HttpClientErrorException  iban:{}, amount:{}", iban, amount);
+			throw new BankException();
+		} catch (Exception e) {
+			logger.info("processPayment Exception  iban:{}, amount:{}", iban, amount);
+			throw new RemoteAccessException();
+		}
 	}
 
 	public static String cancelPayment(String reference) {
-		// return Bank.cancelPayment(reference);
-		// TODO: implement in the final version as a rest invocation
-		return null;
+		logger.info("cancelPayment reference:{}", reference);
+
+		RestTemplate restTemplate = new RestTemplate();
+		try {
+			String result = restTemplate.postForObject(ENDPOINT + "/rest/banks/cancel?reference=" + reference, null,
+					String.class);
+			return result;
+		} catch (HttpClientErrorException e) {
+			logger.info("cancelPayment HttpClientErrorException reference:{}", reference);
+			throw new BankException();
+		} catch (Exception e) {
+			logger.info("cancelPayment Exception reference:{}", reference);
+			throw new RemoteAccessException();
+		}
 	}
 
 	public static BankOperationData getOperationData(String reference) {
-		// return Bank.getOperationData(reference);
-		// TODO: implement in the final version as a rest invocation
-		return null;
+		logger.info("getOperationData reference:{}", reference);
+
+		RestTemplate restTemplate = new RestTemplate();
+		try {
+			BankOperationData result = restTemplate
+					.getForObject(ENDPOINT + "/rest/banks/operation?reference=" + reference, BankOperationData.class);
+			logger.info("getOperationData iban:{}", result.getIban());
+			return result;
+		} catch (HttpClientErrorException e) {
+			logger.info("getOperationData HttpClientErrorException reference:{}", reference);
+			throw new BankException();
+		} catch (Exception e) {
+			logger.info("getOperationData Exception reference:{}", reference);
+			throw new RemoteAccessException();
+		}
 	}
+
 }
