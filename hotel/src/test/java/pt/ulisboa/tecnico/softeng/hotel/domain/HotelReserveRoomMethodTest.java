@@ -41,7 +41,7 @@ public class HotelReserveRoomMethodTest extends RollbackTestAbstractClass {
 	public void success() {
 		new Expectations() {
 			{
-				BankInterface.processPayment(this.anyString, this.anyDouble);
+				BankInterface.processPayment(this.anyString, this.anyDouble, this.anyString, this.anyString);
 
 				TaxInterface.submitInvoice((InvoiceData) this.any);
 			}

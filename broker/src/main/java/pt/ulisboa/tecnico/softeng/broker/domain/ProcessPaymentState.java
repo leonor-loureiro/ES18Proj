@@ -6,6 +6,7 @@ import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.BankException
 import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.RemoteAccessException;
 
 public class ProcessPaymentState extends ProcessPaymentState_Base {
+	private static final String TRANSACTION_SOURCE = "ADVENTURE";
 	public static final int MAX_REMOTE_ERRORS = 3;
 
 	@Override
@@ -17,7 +18,7 @@ public class ProcessPaymentState extends ProcessPaymentState_Base {
 	public void process() {
 		try {
 			getAdventure().setPaymentConfirmation(BankInterface.processPayment(getAdventure().getIban(),
-					getAdventure().getAmount(), getAdventure().getID()));
+					getAdventure().getAmount(), TRANSACTION_SOURCE, getAdventure().getID()));
 		} catch (BankException be) {
 			getAdventure().setState(State.UNDO);
 			return;

@@ -11,6 +11,8 @@ import pt.ulisboa.tecnico.softeng.activity.services.remote.exceptions.RemoteAcce
 import pt.ulisboa.tecnico.softeng.activity.services.remote.exceptions.TaxException;
 
 public class Processor extends Processor_Base {
+	private static final String TRANSACTION_SOURCE = "ACTIVITY";
+
 	public void delete() {
 		setActivityProvider(null);
 
@@ -32,8 +34,8 @@ public class Processor extends Processor_Base {
 			if (!booking.isCancelled()) {
 				if (booking.getPaymentReference() == null) {
 					try {
-						booking.setPaymentReference(
-								BankInterface.processPayment(booking.getIban(), booking.getAmount()));
+						booking.setPaymentReference(BankInterface.processPayment(booking.getIban(), booking.getAmount(),
+								TRANSACTION_SOURCE, booking.getReference()));
 					} catch (BankException | RemoteAccessException ex) {
 						failedToProcess.add(booking);
 						continue;

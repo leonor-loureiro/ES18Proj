@@ -11,6 +11,8 @@ import pt.ulisboa.tecnico.softeng.car.services.remote.exceptions.RemoteAccessExc
 import pt.ulisboa.tecnico.softeng.car.services.remote.exceptions.TaxException;
 
 public class Processor extends Processor_Base {
+	private static final String TRANSACTION_SOURCE = "CAR";
+
 	public void delete() {
 		setRentACar(null);
 
@@ -32,8 +34,8 @@ public class Processor extends Processor_Base {
 			if (!renting.isCancelled()) {
 				if (renting.getPaymentReference() == null) {
 					try {
-						renting.setPaymentReference(
-								BankInterface.processPayment(renting.getClientIban(), renting.getPrice()));
+						renting.setPaymentReference(BankInterface.processPayment(renting.getClientIban(),
+								renting.getPrice(), TRANSACTION_SOURCE, renting.getReference()));
 					} catch (BankException | RemoteAccessException ex) {
 						failedToProcess.add(renting);
 						continue;

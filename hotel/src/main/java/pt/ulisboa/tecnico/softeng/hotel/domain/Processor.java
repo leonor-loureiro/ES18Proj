@@ -16,6 +16,8 @@ import pt.ulisboa.tecnico.softeng.hotel.services.remote.exceptions.TaxException;
 public class Processor extends Processor_Base {
 	private static Logger logger = LoggerFactory.getLogger(Processor.class);
 
+	private static final String TRANSACTION_SOURCE = "HOTEL";
+
 	public void delete() {
 		setHotel(null);
 
@@ -37,8 +39,8 @@ public class Processor extends Processor_Base {
 			if (!booking.isCancelled()) {
 				if (booking.getPaymentReference() == null) {
 					try {
-						booking.setPaymentReference(
-								BankInterface.processPayment(booking.getBuyerIban(), booking.getPrice()));
+						booking.setPaymentReference(BankInterface.processPayment(booking.getBuyerIban(),
+								booking.getPrice(), TRANSACTION_SOURCE, booking.getReference()));
 					} catch (BankException | RemoteAccessException ex) {
 						failedToProcess.add(booking);
 						continue;

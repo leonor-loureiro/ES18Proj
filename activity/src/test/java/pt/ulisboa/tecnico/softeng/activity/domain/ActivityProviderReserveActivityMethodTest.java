@@ -52,7 +52,7 @@ public class ActivityProviderReserveActivityMethodTest extends RollbackTestAbstr
 	public void reserveAcitivity(@Mocked final TaxInterface taxInterface, @Mocked final BankInterface bankInterface) {
 		new Expectations() {
 			{
-				BankInterface.processPayment(this.anyString, this.anyDouble);
+				BankInterface.processPayment(this.anyString, this.anyDouble, this.anyString, this.anyString);
 
 				TaxInterface.submitInvoice((InvoiceData) this.any);
 			}

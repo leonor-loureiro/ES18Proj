@@ -78,8 +78,8 @@ public class RentACar extends RentACar_Base {
 		return getAllAvailableVehicles(Car.class, begin, end);
 	}
 
-	public static String rent(Class<? extends Vehicle> vehicleType, String drivingLicense, String buyerNIF,
-			String buyerIBAN, LocalDate begin, LocalDate end) {
+	public static String rent(Class<? extends Vehicle> vehicleType, String drivingLicense, String buyerNif,
+			String buyerIban, LocalDate begin, LocalDate end) {
 		Set<Vehicle> availableVehicles;
 
 		if (vehicleType == Car.class) {
@@ -88,7 +88,7 @@ public class RentACar extends RentACar_Base {
 			availableVehicles = getAllAvailableMotorcycles(begin, end);
 		}
 
-		return availableVehicles.stream().findFirst().map(v -> v.rent(drivingLicense, begin, end, buyerNIF, buyerIBAN))
+		return availableVehicles.stream().findFirst().map(v -> v.rent(drivingLicense, begin, end, buyerNif, buyerIban))
 				.orElseThrow(CarException::new).getReference();
 	}
 

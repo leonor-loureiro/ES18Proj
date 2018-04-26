@@ -62,10 +62,10 @@ public class AdventureSequenceTest extends RollbackTestAbstractClass {
 				this.result = ROOM_CONFIRMATION;
 
 				CarInterface.rentCar((CarInterface.Type) this.any, this.anyString, this.anyString, this.anyString,
-						(LocalDate) this.any, (LocalDate) this.any);
+						(LocalDate) this.any, (LocalDate) this.any, this.anyString);
 				this.result = RENTING_CONFIRMATION;
 
-				BankInterface.processPayment(CLIENT_IBAN, this.anyDouble, this.anyString);
+				BankInterface.processPayment(CLIENT_IBAN, this.anyDouble, this.anyString, this.anyString);
 				this.result = PAYMENT_CONFIRMATION;
 
 				TaxInterface.submitInvoice((InvoiceData) this.any);
@@ -119,7 +119,7 @@ public class AdventureSequenceTest extends RollbackTestAbstractClass {
 						this.anyString);
 				this.result = ROOM_CONFIRMATION;
 
-				BankInterface.processPayment(CLIENT_IBAN, this.anyDouble, this.anyString);
+				BankInterface.processPayment(CLIENT_IBAN, this.anyDouble, this.anyString, this.anyString);
 				this.result = PAYMENT_CONFIRMATION;
 
 				TaxInterface.submitInvoice((InvoiceData) this.any);
@@ -163,10 +163,10 @@ public class AdventureSequenceTest extends RollbackTestAbstractClass {
 				this.result = ACTIVITY_CONFIRMATION;
 
 				CarInterface.rentCar((CarInterface.Type) this.any, this.anyString, this.anyString, this.anyString,
-						(LocalDate) this.any, (LocalDate) this.any);
+						(LocalDate) this.any, (LocalDate) this.any, this.anyString);
 				this.result = RENTING_CONFIRMATION;
 
-				BankInterface.processPayment(CLIENT_IBAN, this.anyDouble, this.anyString);
+				BankInterface.processPayment(CLIENT_IBAN, this.anyDouble, this.anyString, this.anyString);
 				this.result = PAYMENT_CONFIRMATION;
 
 				TaxInterface.submitInvoice((InvoiceData) this.any);
@@ -208,7 +208,7 @@ public class AdventureSequenceTest extends RollbackTestAbstractClass {
 						this.anyString);
 				this.result = ACTIVITY_CONFIRMATION;
 
-				BankInterface.processPayment(CLIENT_IBAN, this.anyDouble, this.anyString);
+				BankInterface.processPayment(CLIENT_IBAN, this.anyDouble, this.anyString, this.anyString);
 				this.result = PAYMENT_CONFIRMATION;
 
 				TaxInterface.submitInvoice((InvoiceData) this.any);
@@ -294,7 +294,7 @@ public class AdventureSequenceTest extends RollbackTestAbstractClass {
 				this.result = ACTIVITY_CONFIRMATION;
 
 				CarInterface.rentCar((CarInterface.Type) this.any, this.anyString, this.anyString, this.anyString,
-						(LocalDate) this.any, (LocalDate) this.any);
+						(LocalDate) this.any, (LocalDate) this.any, this.anyString);
 				this.result = new CarException();
 
 				ActivityInterface.cancelReservation(ACTIVITY_CONFIRMATION);
@@ -329,10 +329,10 @@ public class AdventureSequenceTest extends RollbackTestAbstractClass {
 				this.result = ROOM_CONFIRMATION;
 
 				CarInterface.rentCar((CarInterface.Type) this.any, this.anyString, this.anyString, this.anyString,
-						(LocalDate) this.any, (LocalDate) this.any);
+						(LocalDate) this.any, (LocalDate) this.any, this.anyString);
 				this.result = RENTING_CONFIRMATION;
 
-				BankInterface.processPayment(CLIENT_IBAN, this.anyDouble, this.anyString);
+				BankInterface.processPayment(CLIENT_IBAN, this.anyDouble, this.anyString, this.anyString);
 				this.result = new BankException();
 
 				ActivityInterface.cancelReservation(ACTIVITY_CONFIRMATION);
@@ -374,10 +374,10 @@ public class AdventureSequenceTest extends RollbackTestAbstractClass {
 				this.result = ROOM_CONFIRMATION;
 
 				CarInterface.rentCar(CarInterface.Type.CAR, this.anyString, this.anyString, this.anyString,
-						(LocalDate) this.any, (LocalDate) this.any);
+						(LocalDate) this.any, (LocalDate) this.any, this.anyString);
 				this.result = RENTING_CONFIRMATION;
 
-				BankInterface.processPayment(CLIENT_IBAN, this.anyDouble, this.anyString);
+				BankInterface.processPayment(CLIENT_IBAN, this.anyDouble, this.anyString, this.anyString);
 				this.result = PAYMENT_CONFIRMATION;
 
 				TaxInterface.submitInvoice((InvoiceData) this.any);

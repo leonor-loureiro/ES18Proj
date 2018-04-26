@@ -24,7 +24,8 @@ public class ActivityRestController {
 	public ResponseEntity<String> reserve(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate begin,
 			@DateTimeFormat(pattern = "yyyy-MM-dd") @RequestParam LocalDate end, @RequestParam int age,
 			@RequestParam String nif, @RequestParam String iban, @RequestParam String adventureId) {
-		logger.info("reserve begin:{}, end:{}, age:{}, adventureId:{}", begin, end, age, adventureId);
+		logger.info("reserve begin:{}, end:{}, age:{}, nif:{}, iban:{}, adventureId:{}", begin, end, age, nif, iban,
+				adventureId);
 		try {
 			return new ResponseEntity<>(ActivityInterface.reserveActivity(begin, end, age, nif, iban, adventureId),
 					HttpStatus.OK);

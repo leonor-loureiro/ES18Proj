@@ -60,7 +60,8 @@ class Operation {
 	OperationType type;
 	double value;
 	DateTime time;
-	String adventureId;
+	String transactionSource;
+	String transactionReference;
 }
 
 relation BankHasOperation {

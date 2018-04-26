@@ -8,8 +8,8 @@ public class Renting extends Renting_Base {
 	private static String drivingLicenseFormat = "^[a-zA-Z]+\\d+$";
 	private static final String TYPE = "RENTAL";
 
-	public Renting(String drivingLicense, LocalDate begin, LocalDate end, Vehicle vehicle, String buyerNIF,
-			String buyerIBAN) {
+	public Renting(String drivingLicense, LocalDate begin, LocalDate end, Vehicle vehicle, String buyerNif,
+			String buyerIban) {
 		checkArguments(drivingLicense, begin, end, vehicle);
 
 		setKilometers(-1);
@@ -19,8 +19,8 @@ public class Renting extends Renting_Base {
 		setDrivingLicense(drivingLicense);
 		setBegin(begin);
 		setEnd(end);
-		setClientNif(buyerNIF);
-		setClientIban(buyerIBAN);
+		setClientNif(buyerNif);
+		setClientIban(buyerIban);
 		setPrice(vehicle.getPrice() * (end.getDayOfYear() - begin.getDayOfYear()));
 
 		setVehicle(vehicle);

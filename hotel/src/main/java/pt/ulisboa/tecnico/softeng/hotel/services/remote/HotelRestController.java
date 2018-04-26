@@ -26,7 +26,8 @@ public class HotelRestController {
 			@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate arrival,
 			@DateTimeFormat(pattern = "yyyy-MM-dd") @RequestParam LocalDate departure, @RequestParam String nif,
 			@RequestParam String iban, @RequestParam String adventureId) {
-		logger.info("reserve type:{}, arrival:{}, departure:{}, adventureId:{}", type, arrival, departure, adventureId);
+		logger.info("reserve type:{}, arrival:{}, departure:{}, nif:{}, iba:{}, adventureId:{}", type, arrival,
+				departure, nif, iban, adventureId);
 		try {
 			return new ResponseEntity<>(HotelInterface.reserveRoom(type, arrival, departure, nif, iban, adventureId),
 					HttpStatus.OK);

@@ -40,7 +40,7 @@ public class ActivityInterfaceCancelReservationMethodTest extends RollbackTestAb
 	public void success(@Mocked final TaxInterface taxInterface, @Mocked final BankInterface bankInterface) {
 		new Expectations() {
 			{
-				BankInterface.processPayment(this.anyString, this.anyDouble);
+				BankInterface.processPayment(this.anyString, this.anyDouble, this.anyString, this.anyString);
 
 				TaxInterface.submitInvoice((InvoiceData) this.any);
 			}
@@ -59,7 +59,7 @@ public class ActivityInterfaceCancelReservationMethodTest extends RollbackTestAb
 	public void doesNotExist(@Mocked final TaxInterface taxInterface, @Mocked final BankInterface bankInterface) {
 		new Expectations() {
 			{
-				BankInterface.processPayment(this.anyString, this.anyDouble);
+				BankInterface.processPayment(this.anyString, this.anyDouble, this.anyString, this.anyString);
 
 				TaxInterface.submitInvoice((InvoiceData) this.any);
 			}

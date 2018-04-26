@@ -59,7 +59,7 @@ public class ActivityOfferHasVacancyMethodTest extends RollbackTestAbstractClass
 			@Mocked final BankInterface bankInterface) {
 		new Expectations() {
 			{
-				BankInterface.processPayment(this.anyString, this.anyDouble);
+				BankInterface.processPayment(this.anyString, this.anyDouble, this.anyString, this.anyString);
 
 				TaxInterface.submitInvoice((InvoiceData) this.any);
 			}
@@ -78,7 +78,7 @@ public class ActivityOfferHasVacancyMethodTest extends RollbackTestAbstractClass
 			@Mocked final BankInterface bankInterface) {
 		new Expectations() {
 			{
-				BankInterface.processPayment(this.anyString, this.anyDouble);
+				BankInterface.processPayment(this.anyString, this.anyDouble, this.anyString, this.anyString);
 
 				TaxInterface.submitInvoice((InvoiceData) this.any);
 			}

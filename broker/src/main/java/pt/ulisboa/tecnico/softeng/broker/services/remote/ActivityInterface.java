@@ -17,7 +17,8 @@ public class ActivityInterface {
 
 	public static String reserveActivity(LocalDate begin, LocalDate end, int age, String nif, String iban,
 			String adventureId) {
-		logger.info("reserveActivity begin:{}, end:{}, age:{}, adventureId:{}", begin, end, age, adventureId);
+		logger.info("reserveActivity begin:{}, end:{}, age:{}, nif:{}, iban:{}, adventureId:{}", begin, end, age, nif,
+				iban, adventureId);
 		RestTemplate restTemplate = new RestTemplate();
 		try {
 			String result = restTemplate
@@ -65,6 +66,6 @@ public class ActivityInterface {
 			logger.info("getActivityReservationData Exception:{}", reference);
 			throw new RemoteAccessException();
 		}
-
 	}
+
 }

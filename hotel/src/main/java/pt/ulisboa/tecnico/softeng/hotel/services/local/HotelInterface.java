@@ -72,6 +72,11 @@ public class HotelInterface {
 	@Atomic(mode = TxMode.WRITE)
 	public static String reserveRoom(Room.Type type, LocalDate arrival, LocalDate departure, String buyerNif,
 			String buyerIban, String adventureId) {
+		Booking booking = getBooking4AdventureId(adventureId);
+		if (booking != null) {
+			return booking.getReference();
+		}
+
 		for (Hotel hotel : FenixFramework.getDomainRoot().getHotelSet()) {
 			Room room = hotel.hasVacancy(type, arrival, departure);
 			if (room != null) {

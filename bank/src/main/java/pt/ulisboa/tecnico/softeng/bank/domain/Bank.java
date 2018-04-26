@@ -89,9 +89,11 @@ public class Bank extends Bank_Base {
 		return null;
 	}
 
-	public Operation getOperationbyAdventureId(String adventureId) {
+	public Operation getOperationBySourceAndReference(String transactionSource, String transactionReference) {
 		for (Operation operation : getOperationSet()) {
-			if (operation.getAdventureId() != null && operation.getAdventureId().equals(adventureId)) {
+			if (operation.getTransactionSource() != null && operation.getTransactionReference() != null
+					&& operation.getTransactionSource().equals(transactionSource)
+					&& operation.getTransactionReference().equals(transactionReference)) {
 				return operation;
 			}
 		}

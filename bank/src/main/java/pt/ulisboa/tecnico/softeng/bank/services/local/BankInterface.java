@@ -112,8 +112,9 @@ public class BankInterface {
 	}
 
 	@Atomic(mode = TxMode.WRITE)
-	public static String processPayment(String IBAN, int amount, String adventureId) {
-		Operation operation = getOperationByAdventureId(adventureId);
+	public static String processPayment(String IBAN, int amount, String transactionSource,
+			String transactionReference) {
+		Operation operation = getOperationBySourceAndReference(transactionSource, transactionReference);
 		if (operation != null) {
 			return operation.getReference();
 		}
@@ -122,7 +123,8 @@ public class BankInterface {
 			Account account = bank.getAccount(IBAN);
 			if (account != null) {
 				Operation newOperation = account.withdraw(amount);
-				newOperation.setAdventureId(adventureId);
+				newOperation.setTransactionSource(transactionSource);
+				newOperation.setTransactionReference(transactionReference);
 				return newOperation.getReference();
 			}
 		}
@@ -162,9 +164,9 @@ public class BankInterface {
 		return null;
 	}
 
-	private static Operation getOperationByAdventureId(String adventureId) {
+	private static Operation getOperationBySourceAndReference(String transactionSource, String transactionReference) {
 		for (Bank bank : FenixFramework.getDomainRoot().getBankSet()) {
-			Operation operation = bank.getOperationbyAdventureId(adventureId);
+			Operation operation = bank.getOperationBySourceAndReference(transactionSource, transactionReference);
 			if (operation != null) {
 				return operation;
 			}
