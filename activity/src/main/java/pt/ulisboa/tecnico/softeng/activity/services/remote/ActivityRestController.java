@@ -1,11 +1,10 @@
 package pt.ulisboa.tecnico.softeng.activity.services.remote;
 
-import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,14 +20,12 @@ public class ActivityRestController {
 	private static Logger logger = LoggerFactory.getLogger(ActivityRestController.class);
 
 	@RequestMapping(value = "/reserve", method = RequestMethod.POST)
-	public ResponseEntity<String> reserve(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate begin,
-			@DateTimeFormat(pattern = "yyyy-MM-dd") @RequestParam LocalDate end, @RequestParam int age,
-			@RequestParam String nif, @RequestParam String iban, @RequestParam String adventureId) {
-		logger.info("reserve begin:{}, end:{}, age:{}, nif:{}, iban:{}, adventureId:{}", begin, end, age, nif, iban,
-				adventureId);
+	public ResponseEntity<String> reserve(@RequestBody ActivityBookingData activityBookingData) {
+		logger.info("reserveActivity begin:{}, end:{}, age:{}, nif:{}, iban:{}, adventureId:{}",
+				activityBookingData.getBegin(), activityBookingData.getEnd(), activityBookingData.getAge(),
+				activityBookingData.getNif(), activityBookingData.getIban(), activityBookingData.getAdventureId());
 		try {
-			return new ResponseEntity<>(ActivityInterface.reserveActivity(begin, end, age, nif, iban, adventureId),
-					HttpStatus.OK);
+			return new ResponseEntity<String>(ActivityInterface.reserveActivity(activityBookingData), HttpStatus.OK);
 		} catch (ActivityException be) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}

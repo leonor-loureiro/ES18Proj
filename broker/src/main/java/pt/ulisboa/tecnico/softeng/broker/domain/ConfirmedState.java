@@ -5,7 +5,7 @@ import pt.ulisboa.tecnico.softeng.broker.services.remote.ActivityInterface;
 import pt.ulisboa.tecnico.softeng.broker.services.remote.BankInterface;
 import pt.ulisboa.tecnico.softeng.broker.services.remote.CarInterface;
 import pt.ulisboa.tecnico.softeng.broker.services.remote.HotelInterface;
-import pt.ulisboa.tecnico.softeng.broker.services.remote.dataobjects.ActivityReservationData;
+import pt.ulisboa.tecnico.softeng.broker.services.remote.dataobjects.ActivityBookingData;
 import pt.ulisboa.tecnico.softeng.broker.services.remote.dataobjects.RentingData;
 import pt.ulisboa.tecnico.softeng.broker.services.remote.dataobjects.RoomBookingData;
 import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.ActivityException;
@@ -45,7 +45,7 @@ public class ConfirmedState extends ConfirmedState_Base {
 		resetNumOfRemoteErrors();
 		setNumberOfBankExceptions(0);
 
-		ActivityReservationData reservation;
+		ActivityBookingData reservation;
 		try {
 			reservation = ActivityInterface.getActivityReservationData(getAdventure().getActivityConfirmation());
 		} catch (ActivityException ae) {

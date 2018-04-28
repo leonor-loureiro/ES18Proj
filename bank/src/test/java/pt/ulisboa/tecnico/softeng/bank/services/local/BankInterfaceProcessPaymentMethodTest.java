@@ -13,6 +13,7 @@ import pt.ulisboa.tecnico.softeng.bank.domain.Client;
 import pt.ulisboa.tecnico.softeng.bank.domain.Operation;
 import pt.ulisboa.tecnico.softeng.bank.domain.RollbackTestAbstractClass;
 import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
+import pt.ulisboa.tecnico.softeng.bank.services.local.dataobjects.BankOperationData;
 
 public class BankInterfaceProcessPaymentMethodTest extends RollbackTestAbstractClass {
 	private static final String TRANSACTION_SOURCE = "ADVENTURE";
@@ -34,7 +35,8 @@ public class BankInterfaceProcessPaymentMethodTest extends RollbackTestAbstractC
 	@Test
 	public void success() {
 		this.account.getIBAN();
-		String newReference = BankInterface.processPayment(this.iban, 100, TRANSACTION_SOURCE, TRANSACTION_REFERENCE);
+		String newReference = BankInterface
+				.processPayment(new BankOperationData(this.iban, 100, TRANSACTION_SOURCE, TRANSACTION_REFERENCE));
 
 		assertNotNull(newReference);
 		assertTrue(newReference.startsWith("BK01"));
@@ -51,19 +53,21 @@ public class BankInterfaceProcessPaymentMethodTest extends RollbackTestAbstractC
 		String otherIban = otherAccount.getIBAN();
 		otherAccount.deposit(1000);
 
-		BankInterface.processPayment(otherIban, 100, TRANSACTION_SOURCE, TRANSACTION_REFERENCE);
+		BankInterface.processPayment(new BankOperationData(otherIban, 100, TRANSACTION_SOURCE, TRANSACTION_REFERENCE));
 		assertEquals(900, otherAccount.getBalance(), 0.0d);
 
-		BankInterface.processPayment(this.iban, 100, TRANSACTION_SOURCE, TRANSACTION_REFERENCE + "PLUS");
+		BankInterface.processPayment(
+				new BankOperationData(this.iban, 100, TRANSACTION_SOURCE, TRANSACTION_REFERENCE + "PLUS"));
 		assertEquals(400, this.account.getBalance(), 0.0d);
 	}
 
 	@Test
 	public void redoAnAlreadyPayed() {
 		this.account.getIBAN();
-		String firstReference = BankInterface.processPayment(this.iban, 100, TRANSACTION_SOURCE, TRANSACTION_REFERENCE);
-		String secondReference = BankInterface.processPayment(this.iban, 100, TRANSACTION_SOURCE,
-				TRANSACTION_REFERENCE);
+		String firstReference = BankInterface
+				.processPayment(new BankOperationData(this.iban, 100, TRANSACTION_SOURCE, TRANSACTION_REFERENCE));
+		String secondReference = BankInterface
+				.processPayment(new BankOperationData(this.iban, 100, TRANSACTION_SOURCE, TRANSACTION_REFERENCE));
 
 		assertEquals(firstReference, secondReference);
 		assertEquals(400, this.account.getBalance(), 0.0d);
@@ -71,29 +75,29 @@ public class BankInterfaceProcessPaymentMethodTest extends RollbackTestAbstractC
 
 	@Test(expected = BankException.class)
 	public void nullIban() {
-		BankInterface.processPayment(null, 100, TRANSACTION_SOURCE, TRANSACTION_REFERENCE);
+		BankInterface.processPayment(new BankOperationData(null, 100, TRANSACTION_SOURCE, TRANSACTION_REFERENCE));
 	}
 
 	@Test(expected = BankException.class)
 	public void emptyIban() {
-		BankInterface.processPayment("  ", 100, TRANSACTION_SOURCE, TRANSACTION_REFERENCE);
+		BankInterface.processPayment(new BankOperationData("  ", 100, TRANSACTION_SOURCE, TRANSACTION_REFERENCE));
 	}
 
 	@Test(expected = BankException.class)
 	public void zeroAmount() {
-		BankInterface.processPayment(this.iban, 0, TRANSACTION_SOURCE, TRANSACTION_REFERENCE);
+		BankInterface.processPayment(new BankOperationData(this.iban, 0, TRANSACTION_SOURCE, TRANSACTION_REFERENCE));
 	}
 
 	@Test
 	public void oneAmount() {
-		BankInterface.processPayment(this.iban, 1, TRANSACTION_SOURCE, TRANSACTION_REFERENCE);
+		BankInterface.processPayment(new BankOperationData(this.iban, 1, TRANSACTION_SOURCE, TRANSACTION_REFERENCE));
 
 		assertEquals(499, this.account.getBalance(), 0.0d);
 	}
 
 	@Test(expected = BankException.class)
 	public void notExistIban() {
-		BankInterface.processPayment("other", 0, TRANSACTION_SOURCE, TRANSACTION_REFERENCE);
+		BankInterface.processPayment(new BankOperationData("other", 0, TRANSACTION_SOURCE, TRANSACTION_REFERENCE));
 	}
 
 	@Test(expected = BankException.class)

@@ -7,6 +7,12 @@ import java.util.Map;
 import org.joda.time.LocalDate;
 import org.junit.Test;
 
+import pt.ulisboa.tecnico.softeng.tax.domain.Buyer;
+import pt.ulisboa.tecnico.softeng.tax.domain.IRS;
+import pt.ulisboa.tecnico.softeng.tax.domain.Invoice;
+import pt.ulisboa.tecnico.softeng.tax.domain.ItemType;
+import pt.ulisboa.tecnico.softeng.tax.domain.Seller;
+
 public class TaxPayerGetTaxesPerYearMethodsTest extends RollbackTestAbstractClass {
 	private static final String SELLER_NIF = "123456788";
 	private static final String BUYER_NIF = "987654311";

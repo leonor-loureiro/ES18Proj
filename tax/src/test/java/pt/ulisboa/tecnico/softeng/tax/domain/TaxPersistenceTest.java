@@ -12,6 +12,12 @@ import org.junit.Test;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.FenixFramework;
+import pt.ulisboa.tecnico.softeng.tax.domain.Buyer;
+import pt.ulisboa.tecnico.softeng.tax.domain.IRS;
+import pt.ulisboa.tecnico.softeng.tax.domain.Invoice;
+import pt.ulisboa.tecnico.softeng.tax.domain.ItemType;
+import pt.ulisboa.tecnico.softeng.tax.domain.Seller;
+import pt.ulisboa.tecnico.softeng.tax.domain.TaxPayer;
 
 public class TaxPersistenceTest {
 	private static final String SELLER_NIF = "123456789";

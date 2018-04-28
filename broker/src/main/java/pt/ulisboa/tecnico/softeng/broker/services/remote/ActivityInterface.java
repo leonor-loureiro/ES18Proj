@@ -1,12 +1,11 @@
 package pt.ulisboa.tecnico.softeng.broker.services.remote;
 
-import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import pt.ulisboa.tecnico.softeng.broker.services.remote.dataobjects.ActivityReservationData;
+import pt.ulisboa.tecnico.softeng.broker.services.remote.dataobjects.ActivityBookingData;
 import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.ActivityException;
 import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.RemoteAccessException;
 
@@ -15,23 +14,25 @@ public class ActivityInterface {
 
 	private static String ENDPOINT = "http://localhost:8081";
 
-	public static String reserveActivity(LocalDate begin, LocalDate end, int age, String nif, String iban,
-			String adventureId) {
-		logger.info("reserveActivity begin:{}, end:{}, age:{}, nif:{}, iban:{}, adventureId:{}", begin, end, age, nif,
-				iban, adventureId);
+	public static String reserveActivity(ActivityBookingData activityBookingData) {
+		logger.info("reserveActivity begin:{}, end:{}, age:{}, nif:{}, iban:{}, adventureId:{}",
+				activityBookingData.getBegin(), activityBookingData.getEnd(), activityBookingData.getAge(),
+				activityBookingData.getNif(), activityBookingData.getIban(), activityBookingData.getAdventureId());
 		RestTemplate restTemplate = new RestTemplate();
 		try {
-			String result = restTemplate
-					.postForObject(
-							ENDPOINT + "/rest/providers/reserve?begin=" + begin + "&end=" + end + "&age=" + age
-									+ "&nif=" + nif + "&iban=" + iban + "&adventureId=" + adventureId,
-							null, String.class);
+			String result = restTemplate.postForObject(ENDPOINT + "/rest/providers/reserve", activityBookingData,
+					String.class);
 			return result;
 		} catch (HttpClientErrorException e) {
-			logger.info("reserveActivity HttpClientErrorException begin:{}, end:{}, age:{}", begin, end, age);
+			logger.info(
+					"reserveActivity HttpClientErrorException begin:{}, end:{}, age:{}, nif:{}, iban:{}, adventureId:{}",
+					activityBookingData.getBegin(), activityBookingData.getEnd(), activityBookingData.getAge(),
+					activityBookingData.getNif(), activityBookingData.getIban(), activityBookingData.getAdventureId());
 			throw new ActivityException();
 		} catch (Exception e) {
-			logger.info("reserveActivity Exception begin:{}, end:{}, age:{}", begin, end, age);
+			logger.info("reserveActivity Exception begin:{}, end:{}, age:{}, nif:{}, iban:{}, adventureId:{}",
+					activityBookingData.getBegin(), activityBookingData.getEnd(), activityBookingData.getAge(),
+					activityBookingData.getNif(), activityBookingData.getIban(), activityBookingData.getAdventureId());
 			throw new RemoteAccessException();
 		}
 	}
@@ -52,12 +53,12 @@ public class ActivityInterface {
 		}
 	}
 
-	public static ActivityReservationData getActivityReservationData(String reference) {
+	public static ActivityBookingData getActivityReservationData(String reference) {
 		logger.info("getActivityReservationData reference:{}", reference);
 		RestTemplate restTemplate = new RestTemplate();
 		try {
-			ActivityReservationData result = restTemplate.getForObject(
-					ENDPOINT + "/rest/providers/reservation?reference=" + reference, ActivityReservationData.class);
+			ActivityBookingData result = restTemplate.getForObject(
+					ENDPOINT + "/rest/providers/reservation?reference=" + reference, ActivityBookingData.class);
 			return result;
 		} catch (HttpClientErrorException e) {
 			logger.info("getActivityReservationData HttpClientErrorException:{}", reference);

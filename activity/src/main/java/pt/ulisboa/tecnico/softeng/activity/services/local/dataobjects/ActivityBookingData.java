@@ -8,11 +8,13 @@ public class ActivityBookingData {
 	private String reference;
 	private String nif;
 	private String iban;
-	private String cancellation;
 	private String name;
 	private String code;
 	private LocalDate begin;
 	private LocalDate end;
+	private int age;
+	private String adventureId;
+	private String cancellation;
 	private LocalDate cancellationDate;
 	private Double price;
 	private String paymentReference;
@@ -30,6 +32,8 @@ public class ActivityBookingData {
 		this.iban = booking.getIban();
 		this.begin = booking.getActivityOffer().getBegin();
 		this.end = booking.getActivityOffer().getEnd();
+		this.age = booking.getAge();
+		this.adventureId = booking.getAdventureId();
 		this.cancellationDate = booking.getCancellationDate();
 		this.price = booking.getAmount();
 		this.paymentReference = booking.getPaymentReference();
@@ -40,16 +44,8 @@ public class ActivityBookingData {
 		return this.reference;
 	}
 
-	public String getCancellation() {
-		return this.cancellation;
-	}
-
-	public String getName() {
-		return this.name;
-	}
-
-	public String getCode() {
-		return this.code;
+	public void setReference(String reference) {
+		this.reference = reference;
 	}
 
 	public String getNif() {
@@ -68,28 +64,92 @@ public class ActivityBookingData {
 		this.iban = iban;
 	}
 
+	public String getName() {
+		return this.name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getCode() {
+		return this.code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
 	public LocalDate getBegin() {
 		return this.begin;
+	}
+
+	public void setBegin(LocalDate begin) {
+		this.begin = begin;
 	}
 
 	public LocalDate getEnd() {
 		return this.end;
 	}
 
+	public void setEnd(LocalDate end) {
+		this.end = end;
+	}
+
+	public int getAge() {
+		return this.age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+	public String getAdventureId() {
+		return this.adventureId;
+	}
+
+	public void setAdventureId(String adventureId) {
+		this.adventureId = adventureId;
+	}
+
+	public String getCancellation() {
+		return this.cancellation;
+	}
+
+	public void setCancellation(String cancellation) {
+		this.cancellation = cancellation;
+	}
+
 	public LocalDate getCancellationDate() {
 		return this.cancellationDate;
 	}
 
-	public double getPrice() {
+	public void setCancellationDate(LocalDate cancellationDate) {
+		this.cancellationDate = cancellationDate;
+	}
+
+	public Double getPrice() {
 		return this.price;
+	}
+
+	public void setPrice(Double price) {
+		this.price = price;
 	}
 
 	public String getPaymentReference() {
 		return this.paymentReference;
 	}
 
+	public void setPaymentReference(String paymentReference) {
+		this.paymentReference = paymentReference;
+	}
+
 	public String getInvoiceReference() {
 		return this.invoiceReference;
+	}
+
+	public void setInvoiceReference(String invoiceReference) {
+		this.invoiceReference = invoiceReference;
 	}
 
 }

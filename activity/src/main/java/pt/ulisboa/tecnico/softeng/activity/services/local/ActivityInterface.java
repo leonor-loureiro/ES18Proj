@@ -3,8 +3,6 @@ package pt.ulisboa.tecnico.softeng.activity.services.local;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.joda.time.LocalDate;
-
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
@@ -87,19 +85,20 @@ public class ActivityInterface {
 	}
 
 	@Atomic(mode = TxMode.WRITE)
-	public static String reserveActivity(LocalDate begin, LocalDate end, int age, String nif, String iban,
-			String adventureId) {
-		Booking booking = getBookingByAdventureId(adventureId);
+	public static String reserveActivity(ActivityBookingData activityBookingData) {
+		Booking booking = getBookingByAdventureId(activityBookingData.getAdventureId());
 		if (booking != null) {
 			return booking.getReference();
 		}
 
 		List<ActivityOffer> offers;
 		for (ActivityProvider provider : FenixFramework.getDomainRoot().getActivityProviderSet()) {
-			offers = provider.findOffer(begin, end, age);
+			offers = provider.findOffer(activityBookingData.getBegin(), activityBookingData.getEnd(),
+					activityBookingData.getAge());
 			if (!offers.isEmpty()) {
-				Booking newBooking = new Booking(provider, offers.get(0), nif, iban);
-				newBooking.setAdventureId(adventureId);
+				Booking newBooking = new Booking(provider, offers.get(0), activityBookingData.getAge(),
+						activityBookingData.getNif(), activityBookingData.getIban());
+				newBooking.setAdventureId(activityBookingData.getAdventureId());
 				return newBooking.getReference();
 			}
 		}

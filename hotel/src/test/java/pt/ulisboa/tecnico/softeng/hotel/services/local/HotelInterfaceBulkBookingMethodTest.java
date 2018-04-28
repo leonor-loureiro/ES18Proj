@@ -20,6 +20,7 @@ import pt.ulisboa.tecnico.softeng.hotel.domain.Room.Type;
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 import pt.ulisboa.tecnico.softeng.hotel.services.remote.BankInterface;
 import pt.ulisboa.tecnico.softeng.hotel.services.remote.TaxInterface;
+import pt.ulisboa.tecnico.softeng.hotel.services.remote.dataobjects.BankOperationData;
 import pt.ulisboa.tecnico.softeng.hotel.services.remote.dataobjects.InvoiceData;
 
 @RunWith(JMockit.class)
@@ -55,7 +56,7 @@ public class HotelInterfaceBulkBookingMethodTest extends RollbackTestAbstractCla
 	public void success() {
 		new Expectations() {
 			{
-				BankInterface.processPayment(this.anyString, this.anyDouble, this.anyString, this.anyString);
+				BankInterface.processPayment((BankOperationData) this.any);
 
 				TaxInterface.submitInvoice((InvoiceData) this.any);
 			}

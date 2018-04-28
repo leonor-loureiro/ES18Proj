@@ -5,6 +5,7 @@ import java.util.Set;
 
 import pt.ulisboa.tecnico.softeng.activity.services.remote.BankInterface;
 import pt.ulisboa.tecnico.softeng.activity.services.remote.TaxInterface;
+import pt.ulisboa.tecnico.softeng.activity.services.remote.dataobjects.BankOperationData;
 import pt.ulisboa.tecnico.softeng.activity.services.remote.dataobjects.InvoiceData;
 import pt.ulisboa.tecnico.softeng.activity.services.remote.exceptions.BankException;
 import pt.ulisboa.tecnico.softeng.activity.services.remote.exceptions.RemoteAccessException;
@@ -34,8 +35,8 @@ public class Processor extends Processor_Base {
 			if (!booking.isCancelled()) {
 				if (booking.getPaymentReference() == null) {
 					try {
-						booking.setPaymentReference(BankInterface.processPayment(booking.getIban(), booking.getAmount(),
-								TRANSACTION_SOURCE, booking.getReference()));
+						booking.setPaymentReference(BankInterface.processPayment(new BankOperationData(
+								booking.getIban(), booking.getAmount(), TRANSACTION_SOURCE, booking.getReference())));
 					} catch (BankException | RemoteAccessException ex) {
 						failedToProcess.add(booking);
 						continue;
