@@ -23,25 +23,24 @@ public class HotelInterface {
 
 	private static String ENDPOINT = "http://localhost:8085";
 
-	public static String reserveRoom(Type type, LocalDate arrival, LocalDate departure, String nif, String iban,
-			String adventureId) {
-		logger.info("reserveRoom arrival:{}, departure:{}, nif:{}, iban:{}, adventureId:{}", arrival, departure, nif,
-				iban, adventureId);
+	public static String reserveRoom(RoomBookingData roomBookingData) {
+		logger.info("reserveRoom arrival:{}, departure:{}, nif:{}, iban:{}, adventureId:{}",
+				roomBookingData.getArrival(), roomBookingData.getDeparture(), roomBookingData.getBuyerNif(),
+				roomBookingData.getBuyerIban(), roomBookingData.getAdventureId());
 		RestTemplate restTemplate = new RestTemplate();
 		try {
-			String result = restTemplate
-					.postForObject(
-							ENDPOINT + "/rest/hotels/reserve?type=" + type + "&arrival=" + arrival + "&departure="
-									+ departure + "&nif=" + nif + "&iban=" + iban + "&adventureId=" + adventureId,
-							null, String.class);
+			String result = restTemplate.postForObject(ENDPOINT + "/rest/hotels/reserve", roomBookingData,
+					String.class);
 			return result;
 		} catch (HttpClientErrorException e) {
-			logger.info("reserveRoom HttpClientErrorException arrival:{}, departure:{}, adventureId:{}", arrival,
-					departure, adventureId);
+			logger.info("reserveRoom HttpClientErrorException arrival:{}, departure:{}, adventureId:{}",
+					roomBookingData.getArrival(), roomBookingData.getDeparture(), roomBookingData.getBuyerNif(),
+					roomBookingData.getBuyerIban(), roomBookingData.getAdventureId());
 			throw new HotelException();
 		} catch (Exception e) {
-			logger.info("reserveRoom Exception arrival:{}, departure:{}, adventureId:{}", arrival, departure,
-					adventureId);
+			logger.info("reserveRoom Exception arrival:{}, departure:{}, adventureId:{}", roomBookingData.getArrival(),
+					roomBookingData.getDeparture(), roomBookingData.getBuyerNif(), roomBookingData.getBuyerIban(),
+					roomBookingData.getAdventureId());
 			throw new RemoteAccessException();
 		}
 	}
@@ -93,4 +92,5 @@ public class HotelInterface {
 		}
 
 	}
+
 }

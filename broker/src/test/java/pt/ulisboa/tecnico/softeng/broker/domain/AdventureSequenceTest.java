@@ -15,7 +15,6 @@ import pt.ulisboa.tecnico.softeng.broker.services.remote.ActivityInterface;
 import pt.ulisboa.tecnico.softeng.broker.services.remote.BankInterface;
 import pt.ulisboa.tecnico.softeng.broker.services.remote.CarInterface;
 import pt.ulisboa.tecnico.softeng.broker.services.remote.HotelInterface;
-import pt.ulisboa.tecnico.softeng.broker.services.remote.HotelInterface.Type;
 import pt.ulisboa.tecnico.softeng.broker.services.remote.TaxInterface;
 import pt.ulisboa.tecnico.softeng.broker.services.remote.dataobjects.ActivityBookingData;
 import pt.ulisboa.tecnico.softeng.broker.services.remote.dataobjects.BankOperationData;
@@ -57,8 +56,7 @@ public class AdventureSequenceTest extends RollbackTestAbstractClass {
 				ActivityInterface.reserveActivity((ActivityBookingData) this.any);
 				this.result = ACTIVITY_CONFIRMATION;
 
-				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure, BROKER_NIF_AS_BUYER, BROKER_IBAN,
-						this.anyString);
+				HotelInterface.reserveRoom((RoomBookingData) this.any);
 				this.result = ROOM_CONFIRMATION;
 
 				CarInterface.rentCar((CarInterface.Type) this.any, this.anyString, this.anyString, this.anyString,
@@ -114,8 +112,7 @@ public class AdventureSequenceTest extends RollbackTestAbstractClass {
 				ActivityInterface.reserveActivity((ActivityBookingData) this.any);
 				this.result = ACTIVITY_CONFIRMATION;
 
-				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure, BROKER_NIF_AS_BUYER, BROKER_IBAN,
-						this.anyString);
+				HotelInterface.reserveRoom((RoomBookingData) this.any);
 				this.result = ROOM_CONFIRMATION;
 
 				BankInterface.processPayment((BankOperationData) this.any);
@@ -258,8 +255,7 @@ public class AdventureSequenceTest extends RollbackTestAbstractClass {
 				ActivityInterface.reserveActivity((ActivityBookingData) this.any);
 				this.result = ACTIVITY_CONFIRMATION;
 
-				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure, BROKER_NIF_AS_BUYER, BROKER_IBAN,
-						this.anyString);
+				HotelInterface.reserveRoom((RoomBookingData) this.any);
 				this.result = new HotelException();
 
 				ActivityInterface.cancelReservation(ACTIVITY_CONFIRMATION);
@@ -317,8 +313,7 @@ public class AdventureSequenceTest extends RollbackTestAbstractClass {
 				ActivityInterface.reserveActivity((ActivityBookingData) this.any);
 				this.result = ACTIVITY_CONFIRMATION;
 
-				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure, BROKER_NIF_AS_BUYER, BROKER_IBAN,
-						this.anyString);
+				HotelInterface.reserveRoom((RoomBookingData) this.any);
 				this.result = ROOM_CONFIRMATION;
 
 				CarInterface.rentCar((CarInterface.Type) this.any, this.anyString, this.anyString, this.anyString,
@@ -361,8 +356,7 @@ public class AdventureSequenceTest extends RollbackTestAbstractClass {
 				ActivityInterface.reserveActivity((ActivityBookingData) this.any);
 				this.result = ACTIVITY_CONFIRMATION;
 
-				HotelInterface.reserveRoom(Type.SINGLE, arrival, departure, BROKER_NIF_AS_BUYER, BROKER_IBAN,
-						this.anyString);
+				HotelInterface.reserveRoom((RoomBookingData) this.any);
 				this.result = ROOM_CONFIRMATION;
 
 				CarInterface.rentCar(CarInterface.Type.CAR, this.anyString, this.anyString, this.anyString,

@@ -70,18 +70,20 @@ public class HotelInterface {
 	}
 
 	@Atomic(mode = TxMode.WRITE)
-	public static String reserveRoom(Room.Type type, LocalDate arrival, LocalDate departure, String buyerNif,
-			String buyerIban, String adventureId) {
-		Booking booking = getBooking4AdventureId(adventureId);
+	public static String reserveRoom(RoomBookingData roomBookingData) {
+		Booking booking = getBooking4AdventureId(roomBookingData.getAdventureId());
 		if (booking != null) {
 			return booking.getReference();
 		}
 
+		Room.Type type = roomBookingData.getRoomType().equals("SINGLE") ? Room.Type.SINGLE : Room.Type.DOUBLE;
+
 		for (Hotel hotel : FenixFramework.getDomainRoot().getHotelSet()) {
-			Room room = hotel.hasVacancy(type, arrival, departure);
+			Room room = hotel.hasVacancy(type, roomBookingData.getArrival(), roomBookingData.getDeparture());
 			if (room != null) {
-				Booking newBooking = room.reserve(type, arrival, departure, buyerNif, buyerIban);
-				newBooking.setAdventureId(adventureId);
+				Booking newBooking = room.reserve(type, roomBookingData.getArrival(), roomBookingData.getDeparture(),
+						roomBookingData.getBuyerNif(), roomBookingData.getBuyerIban());
+				newBooking.setAdventureId(roomBookingData.getAdventureId());
 				return newBooking.getReference();
 			}
 		}
