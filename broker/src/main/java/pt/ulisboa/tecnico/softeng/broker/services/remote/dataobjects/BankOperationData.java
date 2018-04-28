@@ -6,10 +6,19 @@ public class BankOperationData {
 	private String reference;
 	private String type;
 	private String iban;
-	private int value;
+	private Double value;
 	private DateTime time;
+	private String transactionSource;
+	private String transactionReference;
 
 	public BankOperationData() {
+	}
+
+	public BankOperationData(String iban, double value, String transactionSource, String transactionReference) {
+		this.iban = iban;
+		this.value = value;
+		this.transactionSource = transactionSource;
+		this.transactionReference = transactionReference;
 	}
 
 	public String getReference() {
@@ -36,11 +45,11 @@ public class BankOperationData {
 		this.iban = iban;
 	}
 
-	public int getValue() {
+	public Double getValue() {
 		return this.value;
 	}
 
-	public void setValue(int value) {
+	public void setValue(Double value) {
 		this.value = value;
 	}
 
@@ -50,6 +59,22 @@ public class BankOperationData {
 
 	public void setTime(DateTime time) {
 		this.time = time;
+	}
+
+	public String getTransactionSource() {
+		return this.transactionSource;
+	}
+
+	public void setTransactionSource(String transactionSource) {
+		this.transactionSource = transactionSource;
+	}
+
+	public String getTransactionReference() {
+		return this.transactionReference;
+	}
+
+	public void setTransactionReference(String transactionReference) {
+		this.transactionReference = transactionReference;
 	}
 
 }

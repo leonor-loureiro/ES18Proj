@@ -1,39 +1,42 @@
 package pt.ulisboa.tecnico.softeng.car.services.remote.dataobjects;
 
 import org.joda.time.LocalDate;
+import org.springframework.format.annotation.DateTimeFormat;
 
 public class InvoiceData {
-	private String sellerNIF;
-	private String buyerNIF;
+	private String sellerNif;
+	private String buyerNif;
 	private String itemType;
-	private double value;
+	private Double value;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate date;
+	private Double iva;
 
 	public InvoiceData() {
 	}
 
-	public InvoiceData(String sellerNIF, String buyerNIF, String itemType, double value, LocalDate date) {
-		this.sellerNIF = sellerNIF;
-		this.buyerNIF = buyerNIF;
+	public InvoiceData(String sellerNif, String buyerNif, String itemType, Double value, LocalDate date) {
+		this.sellerNif = sellerNif;
+		this.buyerNif = buyerNif;
 		this.itemType = itemType;
 		this.value = value;
 		this.date = date;
 	}
 
-	public String getSellerNIF() {
-		return this.sellerNIF;
+	public String getSellerNif() {
+		return this.sellerNif;
 	}
 
-	public void setSellerNIF(String sellerNIF) {
-		this.sellerNIF = sellerNIF;
+	public void setSellerNif(String sellerNif) {
+		this.sellerNif = sellerNif;
 	}
 
-	public String getBuyerNIF() {
-		return this.buyerNIF;
+	public String getBuyerNif() {
+		return this.buyerNif;
 	}
 
-	public void setBuyerNIF(String buyerNIF) {
-		this.buyerNIF = buyerNIF;
+	public void setBuyerNif(String buyerNif) {
+		this.buyerNif = buyerNif;
 	}
 
 	public String getItemType() {
@@ -44,11 +47,11 @@ public class InvoiceData {
 		this.itemType = itemType;
 	}
 
-	public double getValue() {
+	public Double getValue() {
 		return this.value;
 	}
 
-	public void setValue(float value) {
+	public void setValue(Double value) {
 		this.value = value;
 	}
 
@@ -58,6 +61,14 @@ public class InvoiceData {
 
 	public void setDate(LocalDate date) {
 		this.date = date;
+	}
+
+	public Double getIva() {
+		return this.iva;
+	}
+
+	public void setIva(Double iva) {
+		this.iva = iva;
 	}
 
 }

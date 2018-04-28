@@ -2,7 +2,6 @@ package pt.ulisboa.tecnico.softeng.car.domain;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 
 import java.util.ArrayList;
 
@@ -50,7 +49,7 @@ public class CarPersistenceTest {
 		assertEquals(NIF, rentACar.getNif());
 		assertEquals(IBAN, rentACar.getIban());
 		assertNotNull(processor);
-		assertEquals(0, processor.getRentingSet().size());
+		assertEquals(1, processor.getRentingSet().size());
 
 		for (Vehicle vehicle : rentACar.getVehicleSet()) {
 			if (vehicle instanceof Car) {
@@ -74,7 +73,7 @@ public class CarPersistenceTest {
 				assertEquals(date2, renting.getEnd());
 				assertEquals(NIF, renting.getClientNif());
 				assertEquals(IBAN, renting.getClientIban());
-				assertNull(renting.getProcessor());
+				assertNotNull(renting.getProcessor());
 			}
 			if (vehicle instanceof Motorcycle) {
 				assertEquals(0, vehicle.getRentingSet().size());

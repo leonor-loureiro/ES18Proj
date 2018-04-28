@@ -91,4 +91,22 @@ public class TaxInterface {
 		new Invoice(invoiceData.getValue(), invoiceData.getDate(), itemType, seller, buyer);
 	}
 
+	@Atomic(mode = TxMode.WRITE)
+	public static String submitInvoice(InvoiceData invoiceData) {
+		Seller seller = (Seller) IRS.getIRSInstance().getTaxPayerByNIF(invoiceData.getSellerNif());
+		Buyer buyer = (Buyer) IRS.getIRSInstance().getTaxPayerByNIF(invoiceData.getBuyerNif());
+		ItemType itemType = IRS.getIRSInstance().getItemTypeByName(invoiceData.getItemType());
+
+		Invoice invoice = new Invoice(invoiceData.getValue(), invoiceData.getDate(), itemType, seller, buyer);
+
+		return invoice.getReference();
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	public static void cancelInvoice(String reference) {
+		Invoice invoice = IRS.getIRSInstance().getInvoiceSet().stream().filter(i -> i.getReference().equals(reference))
+				.findFirst().orElseThrow(() -> new TaxException());
+		invoice.cancel();
+	}
+
 }

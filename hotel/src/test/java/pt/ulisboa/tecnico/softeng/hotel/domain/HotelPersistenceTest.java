@@ -2,7 +2,6 @@ package pt.ulisboa.tecnico.softeng.hotel.domain;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +62,7 @@ public class HotelPersistenceTest {
 		assertEquals(1, hotel.getRoomSet().size());
 		Processor processor = hotel.getProcessor();
 		assertNotNull(processor);
-		assertEquals(0, processor.getBookingSet().size());
+		assertEquals(1, processor.getBookingSet().size());
 
 		List<Room> rooms = new ArrayList<>(hotel.getRoomSet());
 		Room room = rooms.get(0);
@@ -83,7 +82,7 @@ public class HotelPersistenceTest {
 		assertEquals(HOTEL_NIF, booking.getProviderNif());
 		assertEquals(80.0, booking.getPrice(), 0.0d);
 		assertEquals(room, booking.getRoom());
-		assertNull(booking.getProcessor());
+		assertNotNull(booking.getProcessor());
 	}
 
 	@After

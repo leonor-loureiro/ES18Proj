@@ -2,6 +2,8 @@ package pt.ulisboa.tecnico.softeng.broker.services.remote.dataobjects;
 
 import org.joda.time.LocalDate;
 
+import pt.ulisboa.tecnico.softeng.broker.services.remote.HotelInterface.Type;
+
 public class RoomBookingData {
 	private String reference;
 	private String cancellation;
@@ -11,12 +13,25 @@ public class RoomBookingData {
 	private String roomType;
 	private LocalDate arrival;
 	private LocalDate departure;
-	private String paymentReference;
-	private String invoiceReference;
 	private LocalDate cancellationDate;
 	private double price;
+	private String paymentReference;
+	private String invoiceReference;
+	private String buyerNif;
+	private String buyerIban;
+	private String adventureId;
 
 	public RoomBookingData() {
+	}
+
+	public RoomBookingData(Type single, LocalDate arrival, LocalDate departure, String nifAsBuyer, String iban,
+			String adventureId) {
+		this.roomType = single.toString();
+		this.arrival = arrival;
+		this.departure = departure;
+		this.buyerNif = nifAsBuyer;
+		this.buyerIban = iban;
+		this.adventureId = adventureId;
 	}
 
 	public String getReference() {
@@ -113,6 +128,30 @@ public class RoomBookingData {
 
 	public void setInvoiceReference(String invoiceReference) {
 		this.invoiceReference = invoiceReference;
+	}
+
+	public String getBuyerNif() {
+		return this.buyerNif;
+	}
+
+	public void setBuyerNif(String buyerNif) {
+		this.buyerNif = buyerNif;
+	}
+
+	public String getBuyerIban() {
+		return this.buyerIban;
+	}
+
+	public void setBuyerIban(String buyerIban) {
+		this.buyerIban = buyerIban;
+	}
+
+	public String getAdventureId() {
+		return this.adventureId;
+	}
+
+	public void setAdventureId(String adventureId) {
+		this.adventureId = adventureId;
 	}
 
 }

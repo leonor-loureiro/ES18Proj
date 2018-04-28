@@ -70,12 +70,21 @@ public class HotelInterface {
 	}
 
 	@Atomic(mode = TxMode.WRITE)
-	public static String reserveRoom(Room.Type type, LocalDate arrival, LocalDate departure, String buyerNif,
-			String buyerIban) {
+	public static String reserveRoom(RoomBookingData roomBookingData) {
+		Booking booking = getBooking4AdventureId(roomBookingData.getAdventureId());
+		if (booking != null) {
+			return booking.getReference();
+		}
+
+		Room.Type type = roomBookingData.getRoomType().equals("SINGLE") ? Room.Type.SINGLE : Room.Type.DOUBLE;
+
 		for (Hotel hotel : FenixFramework.getDomainRoot().getHotelSet()) {
-			Room room = hotel.hasVacancy(type, arrival, departure);
+			Room room = hotel.hasVacancy(type, roomBookingData.getArrival(), roomBookingData.getDeparture());
 			if (room != null) {
-				return room.reserve(type, arrival, departure, buyerNif, buyerIban).getReference();
+				Booking newBooking = room.reserve(type, roomBookingData.getArrival(), roomBookingData.getDeparture(),
+						roomBookingData.getBuyerNif(), roomBookingData.getBuyerIban());
+				newBooking.setAdventureId(roomBookingData.getAdventureId());
+				return newBooking.getReference();
 			}
 		}
 		throw new HotelException();
@@ -85,7 +94,7 @@ public class HotelInterface {
 	public static String cancelBooking(String reference) {
 		for (Hotel hotel : FenixFramework.getDomainRoot().getHotelSet()) {
 			Booking booking = hotel.getBooking(reference);
-			if (booking != null) {
+			if (booking != null && booking.getCancellation() == null) {
 				return booking.cancel();
 			}
 		}
@@ -126,6 +135,11 @@ public class HotelInterface {
 		return references;
 	}
 
+	@Atomic(mode = TxMode.WRITE)
+	public static void deleteHotels() {
+		FenixFramework.getDomainRoot().getHotelSet().stream().forEach(h -> h.delete());
+	}
+
 	static List<Room> getAvailableRooms(int number, LocalDate arrival, LocalDate departure) {
 		List<Room> availableRooms = new ArrayList<>();
 		for (Hotel hotel : FenixFramework.getDomainRoot().getHotelSet()) {
@@ -153,6 +167,16 @@ public class HotelInterface {
 			return null;
 		}
 		return room;
+	}
+
+	private static Booking getBooking4AdventureId(String adventureId) {
+		for (Hotel hotel : FenixFramework.getDomainRoot().getHotelSet()) {
+			Booking booking = hotel.getBooking4AdventureId(adventureId);
+			if (booking != null) {
+				return booking;
+			}
+		}
+		return null;
 	}
 
 }

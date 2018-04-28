@@ -3,6 +3,7 @@ package pt.ulisboa.tecnico.softeng.broker.domain;
 import pt.ulisboa.tecnico.softeng.broker.domain.Adventure.State;
 import pt.ulisboa.tecnico.softeng.broker.services.remote.HotelInterface;
 import pt.ulisboa.tecnico.softeng.broker.services.remote.HotelInterface.Type;
+import pt.ulisboa.tecnico.softeng.broker.services.remote.dataobjects.RoomBookingData;
 import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.HotelException;
 import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.RemoteAccessException;
 
@@ -17,9 +18,9 @@ public class BookRoomState extends BookRoomState_Base {
 	@Override
 	public void process() {
 		try {
-			getAdventure().setRoomConfirmation(
-					HotelInterface.reserveRoom(Type.SINGLE, getAdventure().getBegin(), getAdventure().getEnd(),
-							getAdventure().getBroker().getNifAsBuyer(), getAdventure().getBroker().getIban()));
+			getAdventure().setRoomConfirmation(HotelInterface.reserveRoom(new RoomBookingData(Type.SINGLE,
+					getAdventure().getBegin(), getAdventure().getEnd(), getAdventure().getBroker().getNifAsBuyer(),
+					getAdventure().getBroker().getIban(), getAdventure().getID())));
 			getAdventure()
 					.incAmountToPay(HotelInterface.getRoomBookingData(getAdventure().getRoomConfirmation()).getPrice());
 		} catch (HotelException he) {

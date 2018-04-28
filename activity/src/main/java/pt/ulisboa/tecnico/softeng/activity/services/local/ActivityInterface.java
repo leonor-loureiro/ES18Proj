@@ -3,8 +3,6 @@ package pt.ulisboa.tecnico.softeng.activity.services.local;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.joda.time.LocalDate;
-
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
@@ -87,12 +85,21 @@ public class ActivityInterface {
 	}
 
 	@Atomic(mode = TxMode.WRITE)
-	public static String reserveActivity(LocalDate begin, LocalDate end, int age, String nif, String iban) {
+	public static String reserveActivity(ActivityBookingData activityBookingData) {
+		Booking booking = getBookingByAdventureId(activityBookingData.getAdventureId());
+		if (booking != null) {
+			return booking.getReference();
+		}
+
 		List<ActivityOffer> offers;
 		for (ActivityProvider provider : FenixFramework.getDomainRoot().getActivityProviderSet()) {
-			offers = provider.findOffer(begin, end, age);
+			offers = provider.findOffer(activityBookingData.getBegin(), activityBookingData.getEnd(),
+					activityBookingData.getAge());
 			if (!offers.isEmpty()) {
-				return new Booking(provider, offers.get(0), nif, iban).getReference();
+				Booking newBooking = new Booking(provider, offers.get(0), activityBookingData.getAge(),
+						activityBookingData.getNif(), activityBookingData.getIban());
+				newBooking.setAdventureId(activityBookingData.getAdventureId());
+				return newBooking.getReference();
 			}
 		}
 		throw new ActivityException();
@@ -112,7 +119,7 @@ public class ActivityInterface {
 	@Atomic(mode = TxMode.WRITE)
 	public static String cancelReservation(String reference) {
 		Booking booking = getBookingByReference(reference);
-		if (booking != null) {
+		if (booking != null && booking.getCancel() == null) {
 			return booking.cancel();
 		}
 		throw new ActivityException();
@@ -133,9 +140,24 @@ public class ActivityInterface {
 		throw new ActivityException();
 	}
 
+	@Atomic(mode = TxMode.WRITE)
+	public static void deleteActivityProviders() {
+		FenixFramework.getDomainRoot().getActivityProviderSet().stream().forEach(p -> p.delete());
+	}
+
 	private static Booking getBookingByReference(String reference) {
 		for (ActivityProvider provider : FenixFramework.getDomainRoot().getActivityProviderSet()) {
 			Booking booking = provider.getBooking(reference);
+			if (booking != null) {
+				return booking;
+			}
+		}
+		return null;
+	}
+
+	private static Booking getBookingByAdventureId(String adventureId) {
+		for (ActivityProvider provider : FenixFramework.getDomainRoot().getActivityProviderSet()) {
+			Booking booking = provider.getBookingByAdventureId(adventureId);
 			if (booking != null) {
 				return booking;
 			}

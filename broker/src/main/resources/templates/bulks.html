@@ -38,6 +38,7 @@
 					<th>IBAN</th>
 					<th>Actual Number</th>
 					<th>Cancelled</th>
+					<th>Process</th>
 					<th>References</th>
 				</tr>
 			</thead>
@@ -50,6 +51,9 @@
  					<td th:text="${bulk.buyerIban}">GGFD7879868768767</td>
 					<td th:text="${bulk.actualNumber}">actual number</td>
 					<td th:text="${bulk.cancelled}">cancelled</td>
+					<td> <form class="form-inline" th:action="@{/brokers/{code}/bulks/{id}/process(code=${broker.code},id=${bulk.id})}" method="post">
+						 <input class="btn btn-primary" type="submit" value="Submit" />
+					</form></td>					
 					<td><p th:each="reference: ${bulk.references}"><span th:text="${reference}">reference</span></p></td>
 				</tr>
 			</tbody>

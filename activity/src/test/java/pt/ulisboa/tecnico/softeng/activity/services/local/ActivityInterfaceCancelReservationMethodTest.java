@@ -18,6 +18,7 @@ import pt.ulisboa.tecnico.softeng.activity.domain.RollbackTestAbstractClass;
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
 import pt.ulisboa.tecnico.softeng.activity.services.remote.BankInterface;
 import pt.ulisboa.tecnico.softeng.activity.services.remote.TaxInterface;
+import pt.ulisboa.tecnico.softeng.activity.services.remote.dataobjects.BankOperationData;
 import pt.ulisboa.tecnico.softeng.activity.services.remote.dataobjects.InvoiceData;
 
 @RunWith(JMockit.class)
@@ -40,7 +41,7 @@ public class ActivityInterfaceCancelReservationMethodTest extends RollbackTestAb
 	public void success(@Mocked final TaxInterface taxInterface, @Mocked final BankInterface bankInterface) {
 		new Expectations() {
 			{
-				BankInterface.processPayment(this.anyString, this.anyDouble);
+				BankInterface.processPayment((BankOperationData) this.any);
 
 				TaxInterface.submitInvoice((InvoiceData) this.any);
 			}
@@ -59,7 +60,7 @@ public class ActivityInterfaceCancelReservationMethodTest extends RollbackTestAb
 	public void doesNotExist(@Mocked final TaxInterface taxInterface, @Mocked final BankInterface bankInterface) {
 		new Expectations() {
 			{
-				BankInterface.processPayment(this.anyString, this.anyDouble);
+				BankInterface.processPayment((BankOperationData) this.any);
 
 				TaxInterface.submitInvoice((InvoiceData) this.any);
 			}

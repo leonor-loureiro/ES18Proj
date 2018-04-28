@@ -2,19 +2,33 @@ package pt.ulisboa.tecnico.softeng.broker.services.remote.dataobjects;
 
 import org.joda.time.LocalDate;
 
-public class ActivityReservationData {
+public class ActivityBookingData {
 	private String reference;
-	private String cancellation;
+	private String nif;
+	private String iban;
 	private String name;
 	private String code;
 	private LocalDate begin;
 	private LocalDate end;
+	private int age;
+	private String adventureId;
+	private String cancellation;
 	private LocalDate cancellationDate;
-	private double price;
+	private Double price;
 	private String paymentReference;
 	private String invoiceReference;
 
-	public ActivityReservationData() {
+	public ActivityBookingData() {
+	}
+
+	public ActivityBookingData(LocalDate begin, LocalDate end, int age, String nifAsBuyer, String iban,
+			String adventureId) {
+		this.begin = begin;
+		this.end = end;
+		this.age = age;
+		this.nif = nifAsBuyer;
+		this.iban = iban;
+		this.adventureId = adventureId;
 	}
 
 	public String getReference() {
@@ -25,12 +39,20 @@ public class ActivityReservationData {
 		this.reference = reference;
 	}
 
-	public String getCancellation() {
-		return this.cancellation;
+	public String getNif() {
+		return this.nif;
 	}
 
-	public void setCancellation(String cancellation) {
-		this.cancellation = cancellation;
+	public void setNif(String nif) {
+		this.nif = nif;
+	}
+
+	public String getIban() {
+		return this.iban;
+	}
+
+	public void setIban(String iban) {
+		this.iban = iban;
 	}
 
 	public String getName() {
@@ -65,6 +87,30 @@ public class ActivityReservationData {
 		this.end = end;
 	}
 
+	public int getAge() {
+		return this.age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+	public String getAdventureId() {
+		return this.adventureId;
+	}
+
+	public void setAdventureId(String adventureId) {
+		this.adventureId = adventureId;
+	}
+
+	public String getCancellation() {
+		return this.cancellation;
+	}
+
+	public void setCancellation(String cancellation) {
+		this.cancellation = cancellation;
+	}
+
 	public LocalDate getCancellationDate() {
 		return this.cancellationDate;
 	}
@@ -73,12 +119,20 @@ public class ActivityReservationData {
 		this.cancellationDate = cancellationDate;
 	}
 
+	public Double getPrice() {
+		return this.price;
+	}
+
+	public void setPrice(Double price) {
+		this.price = price;
+	}
+
 	public String getPaymentReference() {
 		return this.paymentReference;
 	}
 
-	public void setPayementReference(String reference) {
-		this.paymentReference = reference;
+	public void setPaymentReference(String paymentReference) {
+		this.paymentReference = paymentReference;
 	}
 
 	public String getInvoiceReference() {
@@ -87,14 +141,6 @@ public class ActivityReservationData {
 
 	public void setInvoiceReference(String invoiceReference) {
 		this.invoiceReference = invoiceReference;
-	}
-
-	public double getPrice() {
-		return price;
-	}
-
-	public void setPrice(double price) {
-		this.price = price;
 	}
 
 }

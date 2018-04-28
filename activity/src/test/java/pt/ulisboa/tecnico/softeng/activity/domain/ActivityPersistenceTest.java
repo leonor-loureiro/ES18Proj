@@ -62,7 +62,7 @@ public class ActivityPersistenceTest {
 		assertEquals(IBAN, provider.getIban());
 		Processor processor = provider.getProcessor();
 		assertNotNull(processor);
-		assertEquals(0, processor.getBookingSet().size());
+		assertEquals(1, processor.getBookingSet().size());
 
 		List<Activity> activities = new ArrayList<>(provider.getActivitySet());
 		Activity activity = activities.get(0);
@@ -99,7 +99,7 @@ public class ActivityPersistenceTest {
 		assertEquals(NIF, booking.getProviderNif());
 		assertEquals(AMOUNT, booking.getAmount(), 0.0d);
 		assertEquals(this.begin, booking.getDate());
-		assertNull(booking.getProcessor());
+		assertNotNull(booking.getProcessor());
 	}
 
 	@After

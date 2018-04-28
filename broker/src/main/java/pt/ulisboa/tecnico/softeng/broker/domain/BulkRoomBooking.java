@@ -19,6 +19,7 @@ public class BulkRoomBooking extends BulkRoomBooking_Base {
 			String buyerIban) {
 		checkArguments(number, arrival, departure);
 
+		setId(Integer.toString(broker.getCounter()));
 		setNumber(number);
 		setArrival(arrival);
 		setDeparture(departure);
@@ -49,7 +50,7 @@ public class BulkRoomBooking extends BulkRoomBooking_Base {
 	}
 
 	public void processBooking() {
-		if (getCancelled()) {
+		if (getCancelled() || getReferenceSet().size() != 0) {
 			return;
 		}
 

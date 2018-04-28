@@ -10,6 +10,7 @@ import mockit.Mocked;
 import mockit.integration.junit4.JMockit;
 import pt.ulisboa.tecnico.softeng.activity.services.remote.BankInterface;
 import pt.ulisboa.tecnico.softeng.activity.services.remote.TaxInterface;
+import pt.ulisboa.tecnico.softeng.activity.services.remote.dataobjects.BankOperationData;
 import pt.ulisboa.tecnico.softeng.activity.services.remote.dataobjects.InvoiceData;
 
 @RunWith(JMockit.class)
@@ -59,7 +60,7 @@ public class ActivityOfferHasVacancyMethodTest extends RollbackTestAbstractClass
 			@Mocked final BankInterface bankInterface) {
 		new Expectations() {
 			{
-				BankInterface.processPayment(this.anyString, this.anyDouble);
+				BankInterface.processPayment((BankOperationData) this.any);
 
 				TaxInterface.submitInvoice((InvoiceData) this.any);
 			}
@@ -78,7 +79,7 @@ public class ActivityOfferHasVacancyMethodTest extends RollbackTestAbstractClass
 			@Mocked final BankInterface bankInterface) {
 		new Expectations() {
 			{
-				BankInterface.processPayment(this.anyString, this.anyDouble);
+				BankInterface.processPayment((BankOperationData) this.any);
 
 				TaxInterface.submitInvoice((InvoiceData) this.any);
 			}

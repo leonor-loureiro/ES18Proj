@@ -13,7 +13,7 @@ import pt.ulisboa.tecnico.softeng.broker.services.remote.BankInterface;
 import pt.ulisboa.tecnico.softeng.broker.services.remote.CarInterface;
 import pt.ulisboa.tecnico.softeng.broker.services.remote.HotelInterface;
 import pt.ulisboa.tecnico.softeng.broker.services.remote.TaxInterface;
-import pt.ulisboa.tecnico.softeng.broker.services.remote.dataobjects.ActivityReservationData;
+import pt.ulisboa.tecnico.softeng.broker.services.remote.dataobjects.ActivityBookingData;
 import pt.ulisboa.tecnico.softeng.broker.services.remote.dataobjects.RentingData;
 import pt.ulisboa.tecnico.softeng.broker.services.remote.dataobjects.RoomBookingData;
 import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.ActivityException;
@@ -25,7 +25,7 @@ import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.RemoteAccessE
 @RunWith(JMockit.class)
 public class ConfirmedStateProcessMethodTest extends RollbackTestAbstractClass {
 	@Mocked
-	private ActivityReservationData activityReservationData;
+	private ActivityBookingData activityReservationData;
 	@Mocked
 	private RentingData rentingData;
 	@Mocked

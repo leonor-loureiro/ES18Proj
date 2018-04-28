@@ -96,6 +96,7 @@ relation AdventureHasClient {
 }
 
 class BulkRoomBooking {
+	String id;
 	int number;
 	LocalDate arrival;
 	LocalDate departure;

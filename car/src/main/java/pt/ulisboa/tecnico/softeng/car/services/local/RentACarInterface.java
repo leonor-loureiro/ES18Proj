@@ -52,6 +52,15 @@ public class RentACarInterface {
 		return renting == null ? new RentingData() : new RentingData(renting);
 	}
 
+	@Atomic(mode = Atomic.TxMode.READ)
+	public static RentingData getRentingData(String reference) {
+		Renting renting = FenixFramework.getDomainRoot().getRentACarSet().stream()
+				.flatMap(rac -> rac.getVehicleSet().stream()).flatMap(v -> v.getRentingSet().stream())
+				.filter(r -> r.getReference().equals(reference)).findFirst().orElseThrow(() -> new CarException());
+
+		return new RentingData(renting);
+	}
+
 	@Atomic(mode = Atomic.TxMode.WRITE)
 	public static RentingData cancelRenting(String code, String plate, String reference) {
 		Renting renting = getVehicle(code, plate).getRentingSet().stream()
@@ -63,6 +72,16 @@ public class RentACarInterface {
 			renting.cancel();
 			return new RentingData(renting);
 		}
+	}
+
+	@Atomic(mode = Atomic.TxMode.WRITE)
+	public static String cancelRenting(String reference) {
+		Renting renting = FenixFramework.getDomainRoot().getRentACarSet().stream()
+				.flatMap(rac -> rac.getVehicleSet().stream()).flatMap(v -> v.getRentingSet().stream())
+				.filter(r -> r.getReference().equals(reference)).findFirst().orElseThrow(() -> new CarException());
+
+		renting.cancel();
+		return renting.getCancellationReference();
 	}
 
 	@Atomic(mode = Atomic.TxMode.WRITE)
@@ -110,6 +129,13 @@ public class RentACarInterface {
 	public static String rent(String code, String plate, String drivingLicense, String buyerNIF, String buyerIBAN,
 			LocalDate begin, LocalDate end) {
 		return getVehicle(code, plate).rent(drivingLicense, begin, end, buyerNIF, buyerIBAN).getReference();
+	}
+
+	@Atomic(mode = Atomic.TxMode.WRITE)
+	public static String rent(String type, String license, String nif, String iban, LocalDate begin, LocalDate end,
+			String adventureId) {
+		// TODO: It does not support idempotent invocations
+		return RentACar.rent(type.equals("CAR") ? Car.class : Motorcycle.class, license, nif, iban, begin, end);
 	}
 
 	@Atomic(mode = Atomic.TxMode.READ)
