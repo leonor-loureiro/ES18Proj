@@ -1,11 +1,10 @@
 package pt.ulisboa.tecnico.softeng.car.services.remote;
 
-import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,15 +20,14 @@ public class CarRestController {
 	private static Logger logger = LoggerFactory.getLogger(CarRestController.class);
 
 	@RequestMapping(value = "/rent", method = RequestMethod.POST)
-	public ResponseEntity<String> rent(@RequestParam String type, @RequestParam String license,
-			@RequestParam String nif, @RequestParam String iban,
-			@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate begin,
-			@DateTimeFormat(pattern = "yyyy-MM-dd") @RequestParam LocalDate end, @RequestParam String adventureId) {
-		logger.info("rent type:{}, license:{}, nif:{}, iban:{}, begin:{}, end:{}, adventureId:{}", type, license, nif,
-				iban, begin, end, adventureId);
+	public ResponseEntity<String> rent(@RequestBody RentingData rentingData) {
+		logger.info("rent type:{}, license:{}, nif:{}, iban:{}, begin:{}, end:{}, adventureId:{}",
+				rentingData.getTypeValue(), rentingData.getDrivingLicense(), rentingData.getBuyerNIF(),
+				rentingData.getBuyerIBAN(), rentingData.getBegin(), rentingData.getEnd(), rentingData.getAdventureId());
 		try {
-			return new ResponseEntity<>(RentACarInterface.rent(type, license, nif, iban, begin, end, adventureId),
-					HttpStatus.OK);
+			return new ResponseEntity<>(RentACarInterface.rent(rentingData.getTypeValue(),
+					rentingData.getDrivingLicense(), rentingData.getBuyerNIF(), rentingData.getBuyerIBAN(),
+					rentingData.getBegin(), rentingData.getEnd(), rentingData.getAdventureId()), HttpStatus.OK);
 
 		} catch (CarException be) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

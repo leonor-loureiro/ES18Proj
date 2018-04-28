@@ -50,6 +50,7 @@ class Renting {
 	LocalDate cancellationDate;
 	boolean cancelledInvoice;
 	String cancelledPaymentReference;
+	String adventureId;
 }
 
 relation VehicleHasRentings{

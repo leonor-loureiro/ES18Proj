@@ -25,9 +25,9 @@ public class CarInterface {
 				vehicleType, drivingLicense, nif, iban, begin, end, adventureId);
 		RestTemplate restTemplate = new RestTemplate();
 		try {
-			String result = restTemplate.postForObject(ENDPOINT + "/rest/rentacars/rent?type=" + vehicleType.toString()
-					+ "&license=" + drivingLicense + "&nif=" + nif + "&iban=" + iban + "&begin=" + begin + "&end=" + end
-					+ "&adventureId=" + adventureId, null, String.class);
+			RentingData rentingData = new RentingData(vehicleType.toString(), drivingLicense, nif, iban, begin, end,
+					adventureId);
+			String result = restTemplate.postForObject(ENDPOINT + "/rest/rentacars/rent", rentingData, String.class);
 			return result;
 		} catch (HttpClientErrorException e) {
 			logger.info(
