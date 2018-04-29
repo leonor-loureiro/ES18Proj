@@ -3,6 +3,7 @@ package pt.ulisboa.tecnico.softeng.car.domain;
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pt.ist.fenixframework.FenixFramework;
 import pt.ulisboa.tecnico.softeng.car.exception.CarException;
 
 public abstract class Vehicle extends Vehicle_Base {
@@ -38,13 +39,18 @@ public abstract class Vehicle extends Vehicle_Base {
     }
 
 	protected void checkArguments(String plate, int kilometers, RentACar rentACar) {
-		if (rentACar == null || plate == null ||
-                !plate.matches(plateFormat) ||
-                rentACar.getVehicleSet().stream().anyMatch(vehicle -> vehicle.getPlate().equals(plate.toUpperCase()))) {
+        if (rentACar == null || plate == null || !plate.matches(plateFormat)) {
 			throw new CarException();
 		} else if (kilometers < 0) {
 			throw new CarException();
-		} 
+		}
+
+        for (RentACar r: FenixFramework.getDomainRoot().getRentACarSet()) {
+            if (r.getVehicleSet().stream().anyMatch(vehicle -> vehicle.getPlate().equals(plate.toUpperCase()))) {
+                throw new CarException();
+            }
+
+        }
 	}
 
 
