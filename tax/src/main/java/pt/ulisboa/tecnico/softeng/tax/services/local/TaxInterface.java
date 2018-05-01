@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
+import pt.ist.fenixframework.FenixFramework;
 import pt.ulisboa.tecnico.softeng.tax.domain.Buyer;
 import pt.ulisboa.tecnico.softeng.tax.domain.IRS;
 import pt.ulisboa.tecnico.softeng.tax.domain.Invoice;
@@ -109,4 +110,8 @@ public class TaxInterface {
 		invoice.cancel();
 	}
 
+    @Atomic(mode = TxMode.WRITE)
+    public static void deleteIRS() {
+        FenixFramework.getDomainRoot().getIrs().delete();
+    }
 }
