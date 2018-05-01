@@ -167,4 +167,10 @@ public class RentACarInterface {
 		}
 	}
 
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    public static void deleteRentACars() {
+        for (RentACar rentACar : FenixFramework.getDomainRoot().getRentACarSet()) {
+            rentACar.delete();
+        }
+    }
 }

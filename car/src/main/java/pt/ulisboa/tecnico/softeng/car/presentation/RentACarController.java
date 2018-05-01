@@ -47,4 +47,13 @@ public class RentACarController {
 
         return "redirect:/rentacars";
     }
+
+    @RequestMapping(method = RequestMethod.DELETE)
+    public String deleteRentACars(Model model) {
+        logger.info("deleteRentACars");
+
+        RentACarInterface.deleteRentACars();
+
+        return "redirect:/brokers";
+    }
 }
