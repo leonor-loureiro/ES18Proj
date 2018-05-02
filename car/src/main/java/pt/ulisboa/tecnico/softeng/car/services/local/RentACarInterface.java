@@ -76,6 +76,8 @@ public class RentACarInterface {
 
 	@Atomic(mode = Atomic.TxMode.WRITE)
 	public static String cancelRenting(String reference) {
+		// TODO: It does not support idempotent invocations
+
 		Renting renting = FenixFramework.getDomainRoot().getRentACarSet().stream()
 				.flatMap(rac -> rac.getVehicleSet().stream()).flatMap(v -> v.getRentingSet().stream())
 				.filter(r -> r.getReference().equals(reference)).findFirst().orElseThrow(() -> new CarException());
@@ -135,6 +137,7 @@ public class RentACarInterface {
 	public static String rent(String type, String license, String nif, String iban, LocalDate begin, LocalDate end,
 			String adventureId) {
 		// TODO: It does not support idempotent invocations
+
 		return RentACar.rent(type.equals("CAR") ? Car.class : Motorcycle.class, license, nif, iban, begin, end);
 	}
 

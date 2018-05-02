@@ -94,6 +94,8 @@ public class TaxInterface {
 
 	@Atomic(mode = TxMode.WRITE)
 	public static String submitInvoice(InvoiceData invoiceData) {
+		// TODO: It does not support idempotent invocations
+
 		Seller seller = (Seller) IRS.getIRSInstance().getTaxPayerByNIF(invoiceData.getSellerNif());
 		Buyer buyer = (Buyer) IRS.getIRSInstance().getTaxPayerByNIF(invoiceData.getBuyerNif());
 		ItemType itemType = IRS.getIRSInstance().getItemTypeByName(invoiceData.getItemType());
@@ -105,6 +107,8 @@ public class TaxInterface {
 
 	@Atomic(mode = TxMode.WRITE)
 	public static void cancelInvoice(String reference) {
+		// TODO: It does not support idempotent invocations
+
 		Invoice invoice = IRS.getIRSInstance().getInvoiceSet().stream().filter(i -> i.getReference().equals(reference))
 				.findFirst().orElseThrow(() -> new TaxException());
 		invoice.cancel();

@@ -117,6 +117,8 @@ public class HotelInterface {
 	@Atomic(mode = TxMode.WRITE)
 	public static Set<String> bulkBooking(int number, LocalDate arrival, LocalDate departure, String buyerNif,
 			String buyerIban) {
+		// TODO: It does not support idempotent invocations
+
 		if (number < 1) {
 			throw new HotelException();
 		}

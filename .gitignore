@@ -8,16 +8,8 @@ jmeter.log
 *.log
 *.hprof
 infer-out
-<<<<<<< HEAD
-<<<<<<< HEAD
 *.iml
 .idea
 .DS_Store
-fenix-framework.properties
+.springBeans
 local.dev.yml
-=======
-.DS_Store
->>>>>>> ref3
-=======
-.DS_Store
->>>>>>> 2017/reference_4_solution
