@@ -135,4 +135,11 @@ public class RentACar extends RentACar_Base {
 		return counter;
 	}
 
+    public Renting getRenting4AdventureId(String adventureId) {
+        return getVehicleSet().stream().flatMap(v -> v.getRentingSet().stream())
+                .filter(r -> r.getAdventureId() != null && r.getAdventureId().equals(adventureId)).findFirst()
+                .orElse(null);
+
+    }
+
 }

@@ -76,9 +76,12 @@ public class RentACarInterface {
 
 	@Atomic(mode = Atomic.TxMode.WRITE)
 	public static String cancelRenting(String reference) {
-		// TODO: It does not support idempotent invocations
+        Renting renting = getRenting(reference);
+        if (renting != null) {
+            return renting.getCancellationReference();
+        }
 
-		Renting renting = FenixFramework.getDomainRoot().getRentACarSet().stream()
+		renting = FenixFramework.getDomainRoot().getRentACarSet().stream()
 				.flatMap(rac -> rac.getVehicleSet().stream()).flatMap(v -> v.getRentingSet().stream())
 				.filter(r -> r.getReference().equals(reference)).findFirst().orElseThrow(() -> new CarException());
 
@@ -129,14 +132,24 @@ public class RentACarInterface {
 
 	@Atomic(mode = Atomic.TxMode.WRITE)
 	public static String rent(String code, String plate, String drivingLicense, String buyerNIF, String buyerIBAN,
-			LocalDate begin, LocalDate end) {
+			LocalDate begin, LocalDate end, String adventureId) {
+
+	    Renting renting = getReting4AdventureId(adventureId);
+        if (renting != null) {
+            return renting.getReference();
+        }
+
 		return getVehicle(code, plate).rent(drivingLicense, begin, end, buyerNIF, buyerIBAN).getReference();
 	}
 
 	@Atomic(mode = Atomic.TxMode.WRITE)
 	public static String rent(String type, String license, String nif, String iban, LocalDate begin, LocalDate end,
 			String adventureId) {
-		// TODO: It does not support idempotent invocations
+
+		Renting renting = getReting4AdventureId(adventureId);
+		if (renting != null) {
+		    return renting.getReference();
+        }
 
 		return RentACar.rent(type.equals("CAR") ? Car.class : Motorcycle.class, license, nif, iban, begin, end);
 	}
@@ -176,4 +189,23 @@ public class RentACarInterface {
             rentACar.delete();
         }
     }
+
+    public static Renting getRenting(String reference) {
+        Renting renting = FenixFramework.getDomainRoot().getRentACarSet().stream()
+                .flatMap(rac -> rac.getVehicleSet().stream()).flatMap(v -> v.getRentingSet().stream())
+                .filter(r -> r.getReference().equals(reference)).findFirst().orElseThrow(() -> new CarException());
+
+        return renting;
+    }
+
+    private static Renting getReting4AdventureId(String adventureId) {
+        for (RentACar rentACar : FenixFramework.getDomainRoot().getRentACarSet()) {
+            Renting renting = rentACar.getRenting4AdventureId(adventureId);
+            if (renting != null) {
+                return renting;
+            }
+        }
+        return null;
+    }
+
 }
