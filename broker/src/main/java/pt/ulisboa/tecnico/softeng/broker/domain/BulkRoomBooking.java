@@ -56,7 +56,7 @@ public class BulkRoomBooking extends BulkRoomBooking_Base {
 
 		try {
 			for (String reference : HotelInterface.bulkBooking(getNumber(), getArrival(), getDeparture(), getBuyerNif(),
-					getBuyerIban())) {
+					getBuyerIban(), getId())) {
 				addReference(new Reference(this, reference));
 			}
 			setNumberOfHotelExceptions(0);

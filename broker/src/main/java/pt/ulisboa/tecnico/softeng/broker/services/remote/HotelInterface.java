@@ -77,12 +77,17 @@ public class HotelInterface {
 		}
 	}
 
-	public static Set<String> bulkBooking(int number, LocalDate arrival, LocalDate departure, String nif, String iban) {
-		logger.info("bulkBooking number:{}, arrival:{}, departure:{}, nif:{}, iban:{}", number, arrival, departure);
+	public static Set<String> bulkBooking(int number, LocalDate arrival, LocalDate departure, String nif, String iban,
+			String bulkId) {
+		logger.info("bulkBooking number:{}, arrival:{}, departure:{}, nif:{}, iban:{}, bulkId:{}", number, arrival,
+				departure, nif, iban, bulkId);
 		RestTemplate restTemplate = new RestTemplate();
 		try {
-			String[] result = restTemplate.postForObject(ENDPOINT + "/rest/hotels/bulk?number=" + number + "&arrival="
-					+ arrival + "&departure=" + departure + "&nif=" + nif + "&iban=" + iban, null, String[].class);
+			String[] result = restTemplate
+					.postForObject(
+							ENDPOINT + "/rest/hotels/bulk?number=" + number + "&arrival=" + arrival + "&departure="
+									+ departure + "&nif=" + nif + "&iban=" + iban + "&bulkId=" + bulkId,
+							null, String[].class);
 			return new HashSet<>(Arrays.asList(result));
 		} catch (HttpClientErrorException e) {
 			throw new HotelException();

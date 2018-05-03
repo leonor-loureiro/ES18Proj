@@ -116,8 +116,11 @@ public class HotelInterface {
 
 	@Atomic(mode = TxMode.WRITE)
 	public static Set<String> bulkBooking(int number, LocalDate arrival, LocalDate departure, String buyerNif,
-			String buyerIban) {
-		// TODO: It does not support idempotent invocations
+			String buyerIban, String bulkId) {
+		Set<Booking> bookings = getBookings4BulkId(bulkId);
+		if (!bookings.isEmpty()) {
+			return bookings.stream().map(b -> b.getReference()).collect(Collectors.toSet());
+		}
 
 		if (number < 1) {
 			throw new HotelException();
@@ -130,8 +133,9 @@ public class HotelInterface {
 
 		Set<String> references = new HashSet<>();
 		for (int i = 0; i < number; i++) {
-			references.add(rooms.get(i).reserve(rooms.get(i).getType(), arrival, departure, buyerNif, buyerIban)
-					.getReference());
+			Booking booking = rooms.get(i).reserve(rooms.get(i).getType(), arrival, departure, buyerNif, buyerIban);
+			booking.setBulkId(bulkId);
+			references.add(booking.getReference());
 		}
 
 		return references;
@@ -179,6 +183,14 @@ public class HotelInterface {
 			}
 		}
 		return null;
+	}
+
+	private static Set<Booking> getBookings4BulkId(String bulkId) {
+		Set<Booking> bookings = new HashSet<Booking>();
+		for (Hotel hotel : FenixFramework.getDomainRoot().getHotelSet()) {
+			bookings.addAll(hotel.getBookings4BulkId(bulkId));
+		}
+		return bookings;
 	}
 
 }

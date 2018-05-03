@@ -50,6 +50,7 @@ class Booking {
 	boolean cancelledInvoice;
 	String cancelledPaymentReference;
 	String adventureId;
+	String bulkId;
 }
 
 relation RoomHasBookings {

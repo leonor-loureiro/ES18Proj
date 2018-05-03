@@ -74,7 +74,7 @@ public class ProcessorSubmitBookingMethodTest extends RollbackTestAbstractClass 
 		new FullVerifications(taxInterface) {
 			{
 				TaxInterface.submitInvoice((InvoiceData) this.any);
-				this.times = 3;
+				this.times = 4;
 			}
 		};
 	}
@@ -98,7 +98,7 @@ public class ProcessorSubmitBookingMethodTest extends RollbackTestAbstractClass 
 		new FullVerifications(taxInterface) {
 			{
 				TaxInterface.submitInvoice((InvoiceData) this.any);
-				this.times = 3;
+				this.times = 4;
 			}
 		};
 	}

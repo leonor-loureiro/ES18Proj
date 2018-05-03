@@ -57,11 +57,12 @@ public class HotelRestController {
 	public ResponseEntity<String[]> bulk(@RequestParam int number,
 			@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate arrival,
 			@DateTimeFormat(pattern = "yyyy-MM-dd") @RequestParam LocalDate departure, @RequestParam String nif,
-			@RequestParam String iban) {
-		logger.info("bulk number:{}, arrival:{}, departure:{}, nif:{}, iban:{}", number, arrival, departure, nif, iban);
+			@RequestParam String iban, @RequestParam String bulkId) {
+		logger.info("bulk number:{}, arrival:{}, departure:{}, nif:{}, iban:{}, bulkId:{}", number, arrival, departure,
+				nif, iban, bulkId);
 		try {
-			return new ResponseEntity<>(HotelInterface.bulkBooking(number, arrival, departure, nif, iban).stream()
-					.toArray(size -> new String[size]), HttpStatus.OK);
+			return new ResponseEntity<>(HotelInterface.bulkBooking(number, arrival, departure, nif, iban, bulkId)
+					.stream().toArray(size -> new String[size]), HttpStatus.OK);
 		} catch (HotelException be) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
