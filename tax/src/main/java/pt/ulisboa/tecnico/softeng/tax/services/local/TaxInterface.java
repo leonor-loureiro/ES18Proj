@@ -1,6 +1,7 @@
 package pt.ulisboa.tecnico.softeng.tax.services.local;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import pt.ist.fenixframework.Atomic;
@@ -94,22 +95,28 @@ public class TaxInterface {
 
 	@Atomic(mode = TxMode.WRITE)
 	public static String submitInvoice(InvoiceData invoiceData) {
-		// TODO: It does not support idempotent invocations
+		Invoice invoice = getInvoiceByNumber(invoiceData.getReference());
+		if (invoice != null) {
+			return invoice.getReference();
+		}
 
 		Seller seller = (Seller) IRS.getIRSInstance().getTaxPayerByNIF(invoiceData.getSellerNif());
 		Buyer buyer = (Buyer) IRS.getIRSInstance().getTaxPayerByNIF(invoiceData.getBuyerNif());
 		ItemType itemType = IRS.getIRSInstance().getItemTypeByName(invoiceData.getItemType());
 
-		Invoice invoice = new Invoice(invoiceData.getValue(), invoiceData.getDate(), itemType, seller, buyer);
+		invoice = new Invoice(invoiceData.getValue(), invoiceData.getDate(), itemType, seller, buyer);
 
 		return invoice.getReference();
 	}
 
 	@Atomic(mode = TxMode.WRITE)
 	public static void cancelInvoice(String reference) {
-		// TODO: It does not support idempotent invocations
+		Invoice invoice = getInvoiceByNumber(reference);
+		if (invoice.getCancelled()) {
+			return;
+		}
 
-		Invoice invoice = IRS.getIRSInstance().getInvoiceSet().stream().filter(i -> i.getReference().equals(reference))
+		invoice = IRS.getIRSInstance().getInvoiceSet().stream().filter(i -> i.getReference().equals(reference))
 				.findFirst().orElseThrow(() -> new TaxException());
 		invoice.cancel();
 	}
@@ -118,4 +125,14 @@ public class TaxInterface {
     public static void deleteIRS() {
         FenixFramework.getDomainRoot().getIrs().delete();
     }
+
+	private static Invoice getInvoiceByNumber(String reference) {
+		Optional<Invoice> inOptional = IRS.getIRSInstance()
+				.getInvoiceSet()
+				.stream()
+				.filter(i -> i.getReference().equals(reference))
+				.findFirst();
+
+		return inOptional.orElse(null);
+	}
 }

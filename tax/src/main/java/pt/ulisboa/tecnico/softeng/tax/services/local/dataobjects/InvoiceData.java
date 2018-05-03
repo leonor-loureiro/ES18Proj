@@ -6,6 +6,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import pt.ulisboa.tecnico.softeng.tax.domain.Invoice;
 
 public class InvoiceData {
+	private String reference;
 	private String sellerNif;
 	private String buyerNif;
 	private String itemType;
@@ -17,7 +18,8 @@ public class InvoiceData {
 	public InvoiceData() {
 	}
 
-	public InvoiceData(String sellerNif, String buyerNif, String itemType, Double value, LocalDate date) {
+	public InvoiceData(String reference, String sellerNif, String buyerNif, String itemType, Double value, LocalDate date) {
+		this.reference = reference;
 		this.sellerNif = sellerNif;
 		this.buyerNif = buyerNif;
 		this.itemType = itemType;
@@ -26,12 +28,21 @@ public class InvoiceData {
 	}
 
 	public InvoiceData(Invoice invoice) {
+		this.reference = invoice.getReference();
 		this.sellerNif = invoice.getSeller().getNif();
 		this.buyerNif = invoice.getBuyer().getNif();
 		this.itemType = invoice.getItemType().getName();
 		this.value = invoice.getValue();
 		this.date = invoice.getDate();
 		this.iva = invoice.getIva();
+	}
+
+	public String getReference() {
+		return reference;
+	}
+
+	public void setReference(String reference) {
+		this.reference = reference;
 	}
 
 	public String getSellerNif() {
