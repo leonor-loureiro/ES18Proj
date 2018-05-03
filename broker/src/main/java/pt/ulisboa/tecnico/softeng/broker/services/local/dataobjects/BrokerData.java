@@ -26,6 +26,9 @@ public class BrokerData {
 	public BrokerData(Broker broker, CopyDepth depth) {
 		this.name = broker.getName();
 		this.code = broker.getCode();
+		this.nifAsSeller = broker.getNifAsSeller();
+		this.nifAsBuyer = broker.getNifAsBuyer();
+		this.iban = broker.getIban();
 
 		switch (depth) {
 		case ADVENTURES:
