@@ -53,6 +53,7 @@ class Invoice {
 	double iva;
 	LocalDate date;
 	boolean cancelled;
+	DateTime time;
 }
 
 relation IRSHasInvoices {

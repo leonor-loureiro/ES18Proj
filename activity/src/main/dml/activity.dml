@@ -66,6 +66,7 @@ class Booking {
 	LocalDate cancellationDate;
 	String cancelledPaymentReference;
 	String adventureId;
+	DateTime time;
 }
 
 relation ActivityOfferHasBookings {

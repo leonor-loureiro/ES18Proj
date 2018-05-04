@@ -45,7 +45,8 @@ public class Processor extends Processor_Base {
 				}
 
 				InvoiceData invoiceData = new InvoiceData(renting.getVehicle().getRentACar().getNif(),
-						renting.getClientNif(), renting.getType(), renting.getPrice(), renting.getBegin());
+						renting.getClientNif(), renting.getType(), renting.getPrice(), renting.getBegin(),
+						renting.getTime());
 				try {
 					renting.setInvoiceReference(TaxInterface.submitInvoice(invoiceData));
 				} catch (TaxException | RemoteAccessException ex) {

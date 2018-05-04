@@ -51,6 +51,7 @@ class Booking {
 	String cancelledPaymentReference;
 	String adventureId;
 	String bulkId;
+	DateTime time;
 }
 
 relation RoomHasBookings {

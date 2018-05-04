@@ -1,5 +1,6 @@
 package pt.ulisboa.tecnico.softeng.hotel.domain;
 
+import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.joda.time.LocalDate;
 
@@ -19,6 +20,7 @@ public class Booking extends Booking_Base {
 		setBuyerIban(buyerIban);
 		setProviderNif(room.getHotel().getNif());
 		setProcessor(room.getHotel().getProcessor());
+		setTime(DateTime.now());
 
 		getProcessor().submitBooking(this);
 

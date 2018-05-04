@@ -1,5 +1,6 @@
 package pt.ulisboa.tecnico.softeng.tax.services.local.dataobjects;
 
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -16,25 +17,28 @@ public class InvoiceData {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate date;
 	private Double iva;
+	private DateTime time;
 
 	public InvoiceData() {
 	}
 
-	public InvoiceData(String reference, String sellerNif, String buyerNif, String itemType, Double value, LocalDate date) {
-	    if (reference == null) {
-	        throw new TaxException();
-        }
-	    this.externalId = reference;
-	    this.reference = reference;
+	public InvoiceData(String reference, String sellerNif, String buyerNif, String itemType, Double value,
+			LocalDate date, DateTime time) {
+		if (reference == null) {
+			throw new TaxException();
+		}
+		this.externalId = reference;
+		this.reference = reference;
 		this.sellerNif = sellerNif;
 		this.buyerNif = buyerNif;
 		this.itemType = itemType;
 		this.value = value;
 		this.date = date;
+		this.time = time;
 	}
 
 	public InvoiceData(Invoice invoice) {
-	    this.externalId = invoice.getExternalId();
+		this.externalId = invoice.getExternalId();
 		this.reference = invoice.getReference();
 		this.sellerNif = invoice.getSeller().getNif();
 		this.buyerNif = invoice.getBuyer().getNif();
@@ -42,18 +46,19 @@ public class InvoiceData {
 		this.value = invoice.getValue();
 		this.date = invoice.getDate();
 		this.iva = invoice.getIva();
+		this.time = invoice.getTime();
 	}
 
-    public String getExternalId() {
-        return externalId;
-    }
+	public String getExternalId() {
+		return this.externalId;
+	}
 
-    public void setExternalId(String externalId) {
-        this.externalId = externalId;
-    }
+	public void setExternalId(String externalId) {
+		this.externalId = externalId;
+	}
 
-    public String getReference() {
-		return reference;
+	public String getReference() {
+		return this.reference;
 	}
 
 	public void setReference(String reference) {
@@ -106,6 +111,14 @@ public class InvoiceData {
 
 	public void setIva(Double iva) {
 		this.iva = iva;
+	}
+
+	public DateTime getTime() {
+		return this.time;
+	}
+
+	public void setTime(DateTime time) {
+		this.time = time;
 	}
 
 }
