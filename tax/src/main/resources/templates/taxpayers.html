@@ -12,8 +12,9 @@
 			<h2>Welcome to TaxPayers' Manager</h2>
 			<br/>
 			
-			<h3>Create TaxPayer:</h3>
+			<h3>Create TaxPayer</h3>
 			<p class="text-danger" th:text="${error}">This is not good</p>
+			
 			<h3>Buyer</h3>
 			<form class="form-inline" th:action="@{/taxpayers/buyer}" th:object="${taxpayer}" method="post">
 				<label>NIF: </label> <input class="form-control" type="text" th:field="*{nif}" /> 
@@ -21,6 +22,7 @@
 				<label>Address: </label> <input class="form-control" type="text" th:field="*{address}" /> 
 				<input class="btn btn-primary" type="submit" value="Submit" />
 			</form>
+			<br/>
 			
 			<h3>Seller</h3>
 			<form class="form-inline" th:action="@{/taxpayers/seller}" th:object="${taxpayer}" method="post">
@@ -29,6 +31,62 @@
 				<label>Address: </label> <input class="form-control" type="text" th:field="*{address}" /> 
 				<input class="btn btn-primary" type="submit" value="Submit" />
 			</form>
+			<br/>
+			
+			<h3>List of TaxPayers</h3>
+			<br/>
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Buyers</th>
+						<th>Sellers</th>
+					</tr>
+				</thead>
+				<body>
+					<td>
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th>NIF</th>
+									<th>Name</th>
+				 					<th>Address</th>
+				 					<th>Invoices</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="taxpayer: ${buyers}">
+									<td th:text="${taxpayer.nif}">Nif of Buyer</td>
+									<td th:text="${taxpayer.name}">Name of Buyer</td>
+									<td th:text="${taxpayer.address}">Address of Buyer</td>
+								 	<td><a th:href="@{/taxpayers/{nif}/invoices(code=${taxpayer.nif})}">Invoices</a></td>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+					
+					<td>
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th>NIF</th>
+									<th>Name</th>
+				 					<th>Address</th>
+				 					<th>Invoices</th>
+								</tr>
+							</thead>
+							
+							<tbody>
+								<tr th:each="taxpayer: ${sellers}">
+									<td th:text="${taxpayer.nif}">Nif of Seller</td>
+									<td th:text="${taxpayer.name}">Name of Seller</td>
+									<td th:text="${taxpayer.address}">Address of Seller</td>
+								 	<td><a th:href="@{/taxpayers/{nif}/invoices(code=${taxpayer.nif})}">Invoices</a></td>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+				</body>
+			</table>
 		</div>
 	</body>
 </html>

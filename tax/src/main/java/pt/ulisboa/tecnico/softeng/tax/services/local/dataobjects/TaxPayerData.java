@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import pt.ulisboa.tecnico.softeng.tax.domain.Buyer;
+import pt.ulisboa.tecnico.softeng.tax.domain.IRS;
 import pt.ulisboa.tecnico.softeng.tax.domain.Seller;
 import pt.ulisboa.tecnico.softeng.tax.domain.TaxPayer;
 
@@ -11,6 +12,7 @@ public class TaxPayerData {
 	private String nif;
 	private String name;
 	private String address;
+	private IRS irs;
 	private List<InvoiceData> invoices;
 
 	public TaxPayerData() {
@@ -20,6 +22,7 @@ public class TaxPayerData {
 		this.nif = taxPayer.getNif();
 		this.name = taxPayer.getName();
 		this.address = taxPayer.getAddress();
+		this.irs = taxPayer.getIrs();
 		
 		if(taxPayer instanceof Buyer) {
 			Buyer buyer = (Buyer) taxPayer;
@@ -57,6 +60,14 @@ public class TaxPayerData {
 		this.address = address;
 	}
 
+	public IRS getIrs() {
+		return irs;
+	}
+
+	public void setIrs(IRS irs) {
+		this.irs = irs;
+	}
+	
 	public List<InvoiceData> getInvoices() {
 		return invoices;
 	}

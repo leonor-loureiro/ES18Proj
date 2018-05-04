@@ -33,4 +33,14 @@ public class TaxInterface {
 	public static void createSeller(TaxPayerData taxPayerData) {
 		new Seller(FenixFramework.getDomainRoot().getIrs(), taxPayerData.getNif(), taxPayerData.getName(), taxPayerData.getAddress());
 	}
+	
+	@Atomic(mode = TxMode.READ)
+	public static List<TaxPayerData> getBuyers() {
+		return FenixFramework.getDomainRoot().getIrs().getTaxPayerSet().stream().filter(tp -> tp instanceof Buyer).sorted((tp1, tp2) -> tp1.getNif().compareTo(tp2.getNif())).map(tp -> new TaxPayerData(tp)).collect(Collectors.toList());
+	}
+	
+	@Atomic(mode = TxMode.READ)
+	public static List<TaxPayerData> getSellers() {
+		return FenixFramework.getDomainRoot().getIrs().getTaxPayerSet().stream().filter(tp -> tp instanceof Seller).sorted((tp1, tp2) -> tp1.getNif().compareTo(tp2.getNif())).map(tp -> new TaxPayerData(tp)).collect(Collectors.toList());
+	}
 }

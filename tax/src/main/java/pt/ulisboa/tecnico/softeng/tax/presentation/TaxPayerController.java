@@ -22,6 +22,8 @@ public class TaxPayerController {
 		logger.info("taxpayerForm");
 		model.addAttribute("taxpayer", new TaxPayerData());
 		model.addAttribute("taxpayers", TaxInterface.getTaxPayers());
+		model.addAttribute("buyers", TaxInterface.getBuyers());
+		model.addAttribute("sellers", TaxInterface.getSellers());
 		return "taxpayers";
 	}
 	
@@ -35,6 +37,8 @@ public class TaxPayerController {
 			model.addAttribute("error", "Error: it was not possible to create the buyer");
 			model.addAttribute("taxpayer", taxPayer);
 			model.addAttribute("taxpayers", TaxInterface.getTaxPayers());
+			model.addAttribute("buyers", TaxInterface.getBuyers());
+			model.addAttribute("sellers", TaxInterface.getSellers());
 			return "taxpayers";
 		}
 		return "redirect:/taxpayers";
@@ -42,7 +46,7 @@ public class TaxPayerController {
 	
 	@RequestMapping(value = "/seller", method = RequestMethod.POST)
 	public String sellerSubmit(Model model, @ModelAttribute TaxPayerData taxPayer) {
-		logger.info("buyerSubmit nif:{}, name:{}, address:{}", taxPayer.getNif(), taxPayer.getName(), taxPayer.getAddress());
+		logger.info("sellerSubmit nif:{}, name:{}, address:{}", taxPayer.getNif(), taxPayer.getName(), taxPayer.getAddress());
 		
 		try {
 			TaxInterface.createSeller(taxPayer);
@@ -50,6 +54,8 @@ public class TaxPayerController {
 			model.addAttribute("error", "Error: it was not possible to create the seller");
 			model.addAttribute("taxpayer", taxPayer);
 			model.addAttribute("taxpayers", TaxInterface.getTaxPayers());
+			model.addAttribute("buyers", TaxInterface.getBuyers());
+			model.addAttribute("sellers", TaxInterface.getSellers());
 			return "taxpayers";
 		}
 		return "redirect:/taxpayers";
