@@ -19,6 +19,8 @@
 		<form class="form-inline" th:action="@{/providers}" th:object="${provider}" method="post">
 			<label>Name: </label> <input class="form-control" type="text" th:field="*{name}" /> 
 			<label>Code: </label> <input class="form-control" type="text" th:field="*{code}" /> 
+			<label>Nif: </label> <input class="form-control" type="text" th:field="*{nif}" /> 
+			<label>IBAN: </label> <input class="form-control" type="text" th:field="*{iban}" /> 
 			<input class="btn btn-primary" type="submit" value="Submit" />
 		</form>
 		<br/>
@@ -28,13 +30,17 @@
 				<tr>
 					<th>Name</th>
 					<th>Code</th>
- 					<th>Activities</th>
+					<th>Nif</th>
+					<th>IBAN</th>
+					<th>Activities</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr th:each="provider: ${providers}">
 					<td th:text="${provider.name}">Advyyyy++</td>
 					<td th:text="${provider.code}">PR111111</td>
+					<td th:text="${provider.nif}">012345678</td>
+					<td th:text="${provider.iban}">thisIsAnIBAN</td>
 				 	<td><a
 						th:href="@{/providers/{code}/activities(code=${provider.code})}">Activities</a></td>
 				</tr>
