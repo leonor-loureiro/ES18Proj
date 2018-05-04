@@ -5,17 +5,15 @@ To run tests execute: mvn clean install
 To see the coverage reports, go to <module name>/target/site/jacoco/index.html.
 
 
-|   Number   |          Name           |            Email        |   GitHub Username  | Group |
-| ---------- | ----------------------- | ----------------------- | -------------------| ----- |
-|            |                         |                         |                    |   1   |
-|            |                         |                         |                    |   1   |
-|            |                         |                         |                    |   1   |
-|            |                         |                         |                    |   2   |
-|            |                         |                         |                    |   2   |
-|            |                         |                         |                    |   2   |
+|   Number   |          Name           |            Email                     |   GitHub Username  | Group |
+| ---------- | ----------------------- | ------------------------------------ | ------------------ | ----- |
+|   84736    | Leonor Loureiro         | leonor.filipa@tecnico.ulisboa.pt     | leonor-loureiro    |   1   |
+|   84709    | Diogo Andrade           | diogo.freire.dandrade@gmail.com      | dfAndrade          |   1   |
+|   84698    | André Fonseca           | andre.filipe.alves.fonseca@ist.utl.pt| Anfifo             |   1   |
+|   84747    | Miguel Viegas           | miguel.s.viegas@tecnico.ulisboa.pt   | JellyWellyBelly    |   2   |
+|   84702    | Antonio Terra           | antonio.terra@tecnico.ulisboa.pt     | wimpytoaster       |   2   |
+|   84774    | Tomás Carrasco          | tomasbccarrasco@gmail.com            | CarrascoII         |   2   |
 
-- **Group 1:**
-- **Group 2:**
 
 ### Infrastructure
 
