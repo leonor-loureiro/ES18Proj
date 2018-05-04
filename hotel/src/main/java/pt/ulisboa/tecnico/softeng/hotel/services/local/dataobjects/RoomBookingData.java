@@ -46,6 +46,54 @@ public class RoomBookingData {
 		return this.reference;
 	}
 
+	public void setReference(String reference) {
+		this.reference = reference;
+	}
+
+	public void setCancellation(String cancellation) {
+		this.cancellation = cancellation;
+	}
+
+	public void setHotelName(String hotelName) {
+		this.hotelName = hotelName;
+	}
+
+	public void setHotelCode(String hotelCode) {
+		this.hotelCode = hotelCode;
+	}
+
+	public void setRoomNumber(String roomNumber) {
+		this.roomNumber = roomNumber;
+	}
+
+	public void setRoomType(String roomType) {
+		this.roomType = roomType;
+	}
+
+	public void setArrival(LocalDate arrival) {
+		this.arrival = arrival;
+	}
+
+	public void setDeparture(LocalDate departure) {
+		this.departure = departure;
+	}
+
+	public void setCancellationDate(LocalDate cancellationDate) {
+		this.cancellationDate = cancellationDate;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
+	public void setPaymentReference(String paymentReference) {
+		this.paymentReference = paymentReference;
+	}
+
+	public void setInvoiceReference(String invoiceReference) {
+		this.invoiceReference = invoiceReference;
+	}
+
 	public String getCancellation() {
 		return this.cancellation;
 	}

@@ -19,7 +19,9 @@
 		<p class="text-danger" th:text="${error}">Error</p>
 		<form class="form-inline" th:action="@{/hotels/{code}/rooms/{number}/bookings(code=${room.hotelCode},number=${room.number})}" th:object="${booking}" method="post">
 			<label>Arrival: </label> <input class="form-control" type="date" th:field="*{arrival}" /> 
-			<label>Departure: </label> <input class="form-control" type="date" th:field="*{departure}" /> 
+			<label>Departure: </label> <input class="form-control" type="date" th:field="*{departure}" />
+			<label>Nif: </label> <input class="form-control" type="text" th:field="*{buyerNif}" />
+			<label>Iban: </label> <input class="form-control" type="text" th:field="*{buyerIban}" />
 			<input class="btn btn-primary" type="submit" value="Submit" />
 		</form>
 		<br/>
