@@ -4,6 +4,7 @@ import org.joda.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 public class InvoiceData {
+    private String id;
 	private String sellerNif;
 	private String buyerNif;
 	private String itemType;
@@ -15,8 +16,9 @@ public class InvoiceData {
 	public InvoiceData() {
 	}
 
-	public InvoiceData(String sellerNif, String buyerNif, String itemType, Double value, LocalDate date) {
-		this.sellerNif = sellerNif;
+	public InvoiceData(String id, String sellerNif, String buyerNif, String itemType, Double value, LocalDate date) {
+		this.id = id;
+	    this.sellerNif = sellerNif;
 		this.buyerNif = buyerNif;
 		this.itemType = itemType;
 		this.value = value;

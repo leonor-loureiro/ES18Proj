@@ -47,6 +47,7 @@ relation IRSHasItemTypes {
 }
 
 class Invoice {
+    String id;
 	String reference;
 	double value;
 	double iva;
