@@ -6,10 +6,11 @@ import java.util.List;
 import pt.ulisboa.tecnico.softeng.broker.domain.Adventure;
 import pt.ulisboa.tecnico.softeng.broker.domain.Broker;
 import pt.ulisboa.tecnico.softeng.broker.domain.BulkRoomBooking;
+import pt.ulisboa.tecnico.softeng.broker.domain.Client;
 
 public class BrokerData {
 	public static enum CopyDepth {
-		SHALLOW, BULKS, ADVENTURES
+		SHALLOW, BULKS, ADVENTURES, CLIENTS
 	};
 
 	private String name;
@@ -19,6 +20,7 @@ public class BrokerData {
 	private String iban;
 	private List<AdventureData> adventures = new ArrayList<>();
 	private List<BulkData> bulks = new ArrayList<>();
+	private List<ClientData> clients = new ArrayList<>();
 
 	public BrokerData() {
 	}
@@ -39,6 +41,11 @@ public class BrokerData {
 		case BULKS:
 			for (BulkRoomBooking bulkRoomBooking : broker.getRoomBulkBookingSet()) {
 				this.bulks.add(new BulkData(bulkRoomBooking));
+			}
+			break;
+		case CLIENTS:
+			for (Client client : broker.getClientSet()) {
+				this.clients.add(new ClientData(client));
 			}
 			break;
 		case SHALLOW:
@@ -103,6 +110,14 @@ public class BrokerData {
 
 	public void setBulks(List<BulkData> bulks) {
 		this.bulks = bulks;
+	}
+	
+	public List<ClientData> getClients() {
+		return clients;
+	}
+
+	public void setClients(List<ClientData> clients) {
+		this.clients = clients;
 	}
 
 }

@@ -1,5 +1,7 @@
 package pt.ulisboa.tecnico.softeng.broker.services.local.dataobjects;
 
+import pt.ulisboa.tecnico.softeng.broker.domain.Client;
+
 public class ClientData {
 	private String iban;
 	private String nif;
@@ -7,6 +9,13 @@ public class ClientData {
 	private int age;
 
 	public ClientData() {
+	}
+	
+	public ClientData(Client client) {
+		this.iban = client.getIban();
+		this.nif = client.getNif();
+		this.drivingLicense = client.getDrivingLicense();
+		this.age = client.getAge();
 	}
 
 	public ClientData(String iban, String nif, String drivingLicense, int age) {

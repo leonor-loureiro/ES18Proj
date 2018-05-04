@@ -9,10 +9,12 @@ import pt.ist.fenixframework.FenixFramework;
 import pt.ulisboa.tecnico.softeng.broker.domain.Adventure;
 import pt.ulisboa.tecnico.softeng.broker.domain.Broker;
 import pt.ulisboa.tecnico.softeng.broker.domain.BulkRoomBooking;
+import pt.ulisboa.tecnico.softeng.broker.domain.Client;
 import pt.ulisboa.tecnico.softeng.broker.services.local.dataobjects.AdventureData;
 import pt.ulisboa.tecnico.softeng.broker.services.local.dataobjects.BrokerData;
 import pt.ulisboa.tecnico.softeng.broker.services.local.dataobjects.BrokerData.CopyDepth;
 import pt.ulisboa.tecnico.softeng.broker.services.local.dataobjects.BulkData;
+import pt.ulisboa.tecnico.softeng.broker.services.local.dataobjects.ClientData;
 
 public class BrokerInterface {
 
@@ -52,6 +54,13 @@ public class BrokerInterface {
 	public static void createBulkRoomBooking(String brokerCode, BulkData bulkData) {
 		new BulkRoomBooking(getBrokerByCode(brokerCode), bulkData.getNumber() != null ? bulkData.getNumber() : 0,
 				bulkData.getArrival(), bulkData.getDeparture(), bulkData.getNif(), bulkData.getIban());
+
+	}
+	
+	@Atomic(mode = TxMode.WRITE)
+	public static void createClient(String brokerCode, ClientData clientData) {
+		new Client(getBrokerByCode(brokerCode), clientData.getIban(), clientData.getNif(), clientData.getDrivingLicense(),
+				clientData.getAge());
 
 	}
 
