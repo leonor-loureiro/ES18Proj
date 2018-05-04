@@ -1,0 +1,34 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<title>TaxPayers</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" />
+		<script th:src="@{/webjars/jquery/3.1.1/jquery.min.js}"></script>
+		<script th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
+	</head>
+	<body>
+		<div class="container">
+			<h2>Welcome to TaxPayers' Manager</h2>
+			<br/>
+			
+			<h3>Create TaxPayer:</h3>
+			<p class="text-danger" th:text="${error}">This is not good</p>
+			<h3>Buyer</h3>
+			<form class="form-inline" th:action="@{/taxpayers/buyer}" th:object="${taxpayer}" method="post">
+				<label>NIF: </label> <input class="form-control" type="text" th:field="*{nif}" /> 
+				<label>Name: </label> <input class="form-control" type="text" th:field="*{name}" /> 
+				<label>Address: </label> <input class="form-control" type="text" th:field="*{address}" /> 
+				<input class="btn btn-primary" type="submit" value="Submit" />
+			</form>
+			
+			<h3>Seller</h3>
+			<form class="form-inline" th:action="@{/taxpayers/seller}" th:object="${taxpayer}" method="post">
+				<label>NIF: </label> <input class="form-control" type="text" th:field="*{nif}" /> 
+				<label>Name: </label> <input class="form-control" type="text" th:field="*{name}" /> 
+				<label>Address: </label> <input class="form-control" type="text" th:field="*{address}" /> 
+				<input class="btn btn-primary" type="submit" value="Submit" />
+			</form>
+		</div>
+	</body>
+</html>
