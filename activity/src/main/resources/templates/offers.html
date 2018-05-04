@@ -19,7 +19,8 @@
 		<p class="text-danger" th:text="${error}">Error</p>
 		<form class="form-inline" th:action="@{/providers/{codeProvider}/activities/{codeActivity}/offers(codeProvider=${activity.codeProvider},codeActivity=${activity.code})}" th:object="${offer}" method="post">
 	 		<label>Begin: </label> <input class="form-control" type="date" th:field="*{begin}" /> 
-	 		<label>End: </label> <input class="form-control" type="date" th:field="*{end}" /> 
+	 		<label>End: </label> <input class="form-control" type="date" th:field="*{end}" />
+	 		<label>Cost: </label> <input class="form-control" type="number" th:field="*{amount}" /> 
 			<input class="btn btn-primary" type="submit" value="Submit" />
 		</form>
 		<br/>
