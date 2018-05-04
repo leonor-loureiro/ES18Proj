@@ -23,6 +23,11 @@ public class HotelData {
 
 		this.rooms = hotel.getRoomSet().stream().sorted((r1, r2) -> r1.getNumber().compareTo(r2.getNumber()))
 				.map(r -> new RoomData(r)).collect(Collectors.toList());
+
+		this.nif = hotel.getNif();
+		this.iban = hotel.getIban();
+		this.priceSingle = hotel.getPriceSingle();
+		this.priceDouble = hotel.getPriceDouble();
 	}
 
 	public String getCode() {
