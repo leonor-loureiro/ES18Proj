@@ -7,7 +7,7 @@ import pt.ulisboa.tecnico.softeng.tax.domain.Invoice;
 import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 
 public class InvoiceData {
-    private String externalId;
+	private String externalId;
 	private String reference;
 	private String sellerNif;
 	private String buyerNif;
