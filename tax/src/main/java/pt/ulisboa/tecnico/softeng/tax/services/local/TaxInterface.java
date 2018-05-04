@@ -111,20 +111,12 @@ public class TaxInterface {
 
 	@Atomic(mode = TxMode.WRITE)
 	public static void cancelInvoice(String reference) {
-        Optional<Invoice> inOptional = IRS.getIRSInstance()
-                .getInvoiceSet()
-                .stream()
-                .filter(i -> i.getReference().equals(reference))
-                .findFirst();
+        Invoice invoice = getInvoiceByReference(reference);
 
-        Invoice invoice;
-        if (inOptional.isPresent()) {
-            invoice = getInvoiceByExternalId(inOptional.get().getExternalId());
-            if (invoice.getCancelled()) {
-                return;
-            }
+        if (invoice != null && invoice.getCancelled()) {
+            return ;
         }
-        
+
 		invoice = IRS.getIRSInstance().getInvoiceSet().stream().filter(i -> i.getReference().equals(reference))
 				.findFirst().orElseThrow(() -> new TaxException());
 		invoice.cancel();
@@ -133,6 +125,15 @@ public class TaxInterface {
     @Atomic(mode = TxMode.WRITE)
     public static void deleteIRS() {
         FenixFramework.getDomainRoot().getIrs().delete();
+    }
+
+    private static Invoice getInvoiceByReference(String reference) {
+        return IRS.getIRSInstance()
+                .getInvoiceSet()
+                .stream()
+                .filter(i -> i.getReference().equals(reference))
+                .findFirst()
+                .orElse(null);
     }
 
 	private static Invoice getInvoiceByExternalId(String externalId) {
