@@ -40,6 +40,8 @@ public class RoomBookingData {
 		this.price = booking.getPrice();
 		this.paymentReference = booking.getPaymentReference();
 		this.invoiceReference = booking.getInvoiceReference();
+		this.buyerNif = booking.getBuyerNif();
+		this.buyerIban = booking.getBuyerIban();
 	}
 
 	public String getReference() {

@@ -33,7 +33,9 @@
  					<th>Departure</th>
 					<th>Reference</th>
 					<th>Cancellation</th>
-					<th>Cancellation Date</th>					
+					<th>Cancellation Date</th>
+					<th>Buyer Nif</th>
+					<th>Buyer Iban</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -43,6 +45,8 @@
 					<td th:text="${booking.reference}">xpto3456</td>
 					<td th:text="${booking.cancellation}">xpto3456CANCEL</td>
 					<td th:text="${booking.cancellationDate}">07/12/2016</td>
+					<td th:text="${booking.buyerNif}">Buyer Nif</td>
+					<td th:text="${booking.buyerIban}">Buyer Iban</td>
 				</tr>
 			</tbody>
 		</table>
