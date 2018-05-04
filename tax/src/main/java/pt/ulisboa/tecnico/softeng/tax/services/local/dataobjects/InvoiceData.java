@@ -4,6 +4,7 @@ import org.joda.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import pt.ulisboa.tecnico.softeng.tax.domain.Invoice;
+import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 
 public class InvoiceData {
     private String externalId;
@@ -20,6 +21,10 @@ public class InvoiceData {
 	}
 
 	public InvoiceData(String reference, String sellerNif, String buyerNif, String itemType, Double value, LocalDate date) {
+	    if (reference == null) {
+	        throw new TaxException();
+        }
+	    this.externalId = reference;
 	    this.reference = reference;
 		this.sellerNif = sellerNif;
 		this.buyerNif = buyerNif;
