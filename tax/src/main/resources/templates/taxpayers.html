@@ -59,7 +59,7 @@
 									<td th:text="${taxpayer.nif}">Nif of Buyer</td>
 									<td th:text="${taxpayer.name}">Name of Buyer</td>
 									<td th:text="${taxpayer.address}">Address of Buyer</td>
-								 	<td><a th:href="@{/taxpayers/{nif}/invoices(code=${taxpayer.nif})}">Invoices</a></td>
+								 	<td><a th:href="@{/taxpayers/{nif}/invoices(nif=${taxpayer.nif})}">Invoices</a></td>
 								</tr>
 							</tbody>
 						</table>
@@ -81,7 +81,7 @@
 									<td th:text="${taxpayer.nif}">Nif of Seller</td>
 									<td th:text="${taxpayer.name}">Name of Seller</td>
 									<td th:text="${taxpayer.address}">Address of Seller</td>
-								 	<td><a th:href="@{/taxpayers/{nif}/invoices(code=${taxpayer.nif})}">Invoices</a></td>
+								 	<td><a th:href="@{/taxpayers/{nif}/invoices(nif=${taxpayer.nif})}">Invoices</a></td>
 								</tr>
 							</tbody>
 						</table>

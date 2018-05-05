@@ -8,8 +8,11 @@ import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ulisboa.tecnico.softeng.tax.domain.Buyer;
 import pt.ulisboa.tecnico.softeng.tax.domain.IRS;
+import pt.ulisboa.tecnico.softeng.tax.domain.Invoice;
 import pt.ulisboa.tecnico.softeng.tax.domain.ItemType;
 import pt.ulisboa.tecnico.softeng.tax.domain.Seller;
+import pt.ulisboa.tecnico.softeng.tax.domain.TaxPayer;
+import pt.ulisboa.tecnico.softeng.tax.services.local.dataobjects.InvoiceData;
 import pt.ulisboa.tecnico.softeng.tax.services.local.dataobjects.ItemTypeData;
 import pt.ulisboa.tecnico.softeng.tax.services.local.dataobjects.TaxPayerData;
 
@@ -55,5 +58,26 @@ public class TaxInterface {
 	@Atomic(mode = TxMode.WRITE)
 	public static void createItemType(ItemTypeData itemTypeData) {
 		new ItemType(FenixFramework.getDomainRoot().getIrs(), itemTypeData.getName(), itemTypeData.getTax());
+	}
+	
+	@Atomic(mode = TxMode.READ)
+	public static TaxPayerData getTaxPayerDataByNif(String nif) {
+		TaxPayer payer = FenixFramework.getDomainRoot().getIrs().getTaxPayerByNIF(nif);
+		if(payer == null) {
+			return null;
+		}
+		else if(payer instanceof Buyer) {
+			Buyer buyer = (Buyer) payer;
+			return new TaxPayerData(buyer);
+		}
+		else {
+			Seller seller = (Seller) payer;
+			return new TaxPayerData(seller);	
+		}
+	}
+	
+	@Atomic(mode = TxMode.WRITE)
+	public static void createInvoice(InvoiceData invoice) {
+		new Invoice(invoice.getValue(), invoice.getDate(), FenixFramework.getDomainRoot().getIrs().getItemTypeByName(invoice.getItemType()), (Seller) FenixFramework.getDomainRoot().getIrs().getTaxPayerByNIF(invoice.getSellerNIF()),(Buyer) FenixFramework.getDomainRoot().getIrs().getTaxPayerByNIF(invoice.getBuyerNIF()));
 	}
 }

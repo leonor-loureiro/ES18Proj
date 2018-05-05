@@ -7,6 +7,22 @@
 		<script th:src="@{/webjars/jquery/3.1.1/jquery.min.js}"></script>
 		<script th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
 	</head>
+	
 	<body>
+		<div class="container">
+			<h2>Invoices of TaxPayer <span th:text="${taxpayer.name}">Invoice</span></h2>
+			<a class="btn btn-default pull-right" th:href="@{/taxpayers}">TaxPayers</a>
+			<br/>
+			<h3>Create Invoice</h3>
+			<p class="text-danger" th:text="${error}">Error</p>
+			<form class="form-inline" th:action="@{/taxpayers/{nif}/invoices(nif=${taxpayer.nif})}" th:object="${invoice}" method="post"> 
+		 		<label>Seller's nif: </label> <input class="form-control" type="text" th:field="*{sellerNIF}" />
+				<label>Buyer's nif: </label> <input class="form-control" type="text" th:field="*{buyerNIF}" />
+				<label>ItemType's name: </label> <input class="form-control" type="text" th:field="*{itemType}" />
+				<label>Value: </label> <input class="form-control" type="number" step="0.01" min="0.01" th:field="*{value}" />
+				<label>Date: </label> <input class="form-control" type="date" th:field="*{date}" />
+				<input class="btn btn-primary" type="submit" value="Submit" />
+			</form>
+		</div>
 	</body>
 </html>
