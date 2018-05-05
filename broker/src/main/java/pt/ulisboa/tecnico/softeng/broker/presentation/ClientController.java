@@ -14,17 +14,18 @@ import pt.ulisboa.tecnico.softeng.broker.services.local.BrokerInterface;
 import pt.ulisboa.tecnico.softeng.broker.services.local.dataobjects.BrokerData;
 import pt.ulisboa.tecnico.softeng.broker.services.local.dataobjects.BrokerData.CopyDepth;
 import pt.ulisboa.tecnico.softeng.broker.services.local.dataobjects.BulkData;
+import pt.ulisboa.tecnico.softeng.broker.services.local.dataobjects.ClientData;
 
 @Controller
-@RequestMapping(value = "/brokers/{brokerCode}/bulks")
-public class BulkController {
+@RequestMapping(value = "/brokers/{brokerCode}/clients")
+public class ClientController {
 	private static Logger logger = LoggerFactory.getLogger(AdventureController.class);
 
 	@RequestMapping(method = RequestMethod.GET)
-	public String showBulks(Model model, @PathVariable String brokerCode) {
-		logger.info("showBulks code:{}", brokerCode);
+	public String showClients(Model model, @PathVariable String brokerCode) {
+		logger.info("showClients code:{}", brokerCode);
 
-		BrokerData brokerData = BrokerInterface.getBrokerDataByCode(brokerCode, CopyDepth.BULKS);
+		BrokerData brokerData = BrokerInterface.getBrokerDataByCode(brokerCode, CopyDepth.CLIENTS);
 
 		if (brokerData == null) {
 			model.addAttribute("error", "Error: it does not exist a broker with the code " + brokerCode);
@@ -32,27 +33,27 @@ public class BulkController {
 			model.addAttribute("brokers", BrokerInterface.getBrokers());
 			return "brokers";
 		} else {
-			model.addAttribute("bulk", new BulkData());
+			model.addAttribute("client", new ClientData());
 			model.addAttribute("broker", brokerData);
-			return "bulks";
+			return "clients";
 		}
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public String submitBulk(Model model, @PathVariable String brokerCode, @ModelAttribute BulkData bulkData) {
-		logger.info("submitBulk brokerCode:{}, number:{}, arrival:{}, departure:{}, nif:{}, iban:{}", brokerCode, bulkData.getNumber(),
-				bulkData.getArrival(), bulkData.getDeparture(), bulkData.getNif(), bulkData.getIban());
+	public String submitClient(Model model, @PathVariable String brokerCode, @ModelAttribute ClientData clientData) {
+		logger.info("submitClient brokerCode:{}, iban:{}, nif:{}, drivingLicense:{}, age:{}", brokerCode, clientData.getIban(),
+				clientData.getNif(), clientData.getDrivingLicense(), clientData.getAge());
 
 		try {
-			BrokerInterface.createBulkRoomBooking(brokerCode, bulkData);
+			BrokerInterface.createClient(brokerCode, clientData);
 		} catch (BrokerException be) {
-			model.addAttribute("error", "Error: it was not possible to create the bulk room booking");
-			model.addAttribute("bulk", bulkData);
-			model.addAttribute("broker", BrokerInterface.getBrokerDataByCode(brokerCode, CopyDepth.BULKS));
-			return "bulks";
+			model.addAttribute("error", "Error: it was not possible to create the client");
+			model.addAttribute("client", clientData);
+			model.addAttribute("broker", BrokerInterface.getBrokerDataByCode(brokerCode, CopyDepth.CLIENTS));
+			return "clients";
 		}
 
-		return "redirect:/brokers/" + brokerCode + "/bulks";
+		return "redirect:/brokers/" + brokerCode + "/clients";
 	}
 
 }

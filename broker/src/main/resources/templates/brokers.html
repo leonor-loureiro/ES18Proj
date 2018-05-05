@@ -18,7 +18,15 @@
 		<p class="text-danger" th:text="${error}">Error</p>
 		<form class="form-inline" th:action="@{/brokers}" th:object="${broker}" method="post">
 			<label>Name: </label> <input class="form-control" type="text" th:field="*{name}" /> 
-			<label>Code: </label> <input class="form-control" type="text" th:field="*{code}" /> 
+			<p></p>
+			<label>Code: </label> <input class="form-control" type="text" th:field="*{code}" />
+			<p></p>
+			<label>Nif as Seller: </label> <input class="form-control" type="text" th:field="*{nifAsSeller}" />
+			<p></p>
+			<label>Nif as Buyer: </label> <input class="form-control" type="text" th:field="*{nifAsBuyer}" />
+			<p></p>    
+			<label>Iban: </label> <input class="form-control" type="text" th:field="*{iban}" />
+			<p></p>  
 			<input class="btn btn-primary" type="submit" value="Submit" />
 		</form>
 		<br/>
@@ -28,18 +36,24 @@
 				<tr>
 					<th>Name</th>
 					<th>Code</th>
-					<th>Adventures</th>
+					<th>Nif as Seller</th>
+					<th>Nif as Buyer</th>
+					<th>Iban</th>
 					<th>Bulks</th>
+					<th>Clients</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr th:each="broker: ${brokers}">
 					<td th:text="${broker.name}">Name</td>
 					<td th:text="${broker.code}">Code</td>
-					<td><a
-						th:href="@{/brokers/{code}/adventures(code=${broker.code})}">Link</a></td>
+					<td th:text="${broker.nifAsSeller}">Nif as Seller</td>
+					<td th:text="${broker.nifAsBuyer}">Nif as Buyer</td>
+					<td th:text="${broker.iban}">Iban</td>
 					<td><a
 						th:href="@{/brokers/{code}/bulks(code=${broker.code})}">Link</a></td>
+					<td><a
+						th:href="@{/brokers/{code}/clients(code=${broker.code})}">Link</a></td>
 				</tr>
 			</tbody>
 		</table>
