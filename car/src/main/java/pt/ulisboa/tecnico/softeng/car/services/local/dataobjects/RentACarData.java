@@ -6,6 +6,7 @@ public class RentACarData {
     private String name;
     private String nif;
     private String iban;
+    private String code;
 
     public RentACarData() {
     }
@@ -14,6 +15,7 @@ public class RentACarData {
         this.name = rentACar.getName();
         this.nif  = rentACar.getNif();
         this.iban = rentACar.getIban();
+        this.code = rentACar.getCode();
     }
 
     public String getName() {
@@ -38,5 +40,13 @@ public class RentACarData {
 
     public void setIban(String iban) {
         this.iban = iban;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 }

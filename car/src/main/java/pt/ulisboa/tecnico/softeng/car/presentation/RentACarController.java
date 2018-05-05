@@ -19,6 +19,7 @@ public class RentACarController {
     @RequestMapping(method = RequestMethod.GET)
     public String rentACarForm(Model model) {
         model.addAttribute("rentacar", new RentACarData());
+        model.addAttribute("rentacars", RentACarInterface.listRentACars());
         return "rentACars";
     }
 
