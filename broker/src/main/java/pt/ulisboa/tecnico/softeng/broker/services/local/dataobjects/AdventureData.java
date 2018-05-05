@@ -12,21 +12,7 @@ public class AdventureData {
 	private LocalDate begin;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate end;
-	private Integer age;
-	private String iban;
-	private Double amount;
 	private Double margin;
-
-
-	public Double getMargin() {
-		return margin;
-	}
-
-	public void setMargin(Double margin) {
-		this.margin = margin;
-	}
-
-	private ClientData clientData;
 	private Adventure.State state;
 
 	private String paymentConfirmation;
@@ -43,9 +29,6 @@ public class AdventureData {
 		this.id = adventure.getID();
 		this.begin = adventure.getBegin();
 		this.end = adventure.getEnd();
-		this.age = adventure.getAge();
-		this.iban = adventure.getIban();
-		this.amount = adventure.getAmount();
 		this.state = adventure.getState().getValue();
 		this.margin = adventure.getMargin();
 
@@ -56,9 +39,6 @@ public class AdventureData {
 		this.activityConfirmation = adventure.getActivityConfirmation();
 		this.activityCancellation = adventure.getActivityCancellation();
 
-		Client client = adventure.getClient();
-		this.clientData = new ClientData(client.getIban(), client.getNif(), client.getDrivingLicense(),
-				client.getAge());
 	}
 
 	public String getId() {
@@ -83,30 +63,6 @@ public class AdventureData {
 
 	public void setEnd(LocalDate end) {
 		this.end = end;
-	}
-
-	public Integer getAge() {
-		return this.age;
-	}
-
-	public void setAge(Integer age) {
-		this.age = age;
-	}
-
-	public String getIban() {
-		return this.iban;
-	}
-
-	public void setIban(String iban) {
-		this.iban = iban;
-	}
-
-	public Double getAmount() {
-		return this.amount;
-	}
-
-	public void setAmount(Double amount) {
-		this.amount = amount;
 	}
 
 	public Adventure.State getState() {
@@ -165,14 +121,12 @@ public class AdventureData {
 		this.activityCancellation = activityCancellation;
 	}
 	
-	
-
-	public ClientData getClientData() {
-		return clientData;
+	public Double getMargin() {
+		return margin;
 	}
 
-	public void setClientData(ClientData clientData) {
-		this.clientData = clientData;
+	public void setMargin(Double margin) {
+		this.margin = margin;
 	}
 
 }

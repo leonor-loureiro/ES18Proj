@@ -10,7 +10,7 @@ import pt.ulisboa.tecnico.softeng.broker.domain.Client;
 
 public class BrokerData {
 	public static enum CopyDepth {
-		SHALLOW, BULKS, ADVENTURES, CLIENTS
+		SHALLOW, BULKS, CLIENTS
 	};
 
 	private String name;
@@ -18,7 +18,6 @@ public class BrokerData {
 	private String nifAsSeller;
 	private String nifAsBuyer;
 	private String iban;
-	private List<AdventureData> adventures = new ArrayList<>();
 	private List<BulkData> bulks = new ArrayList<>();
 	private List<ClientData> clients = new ArrayList<>();
 
@@ -33,12 +32,6 @@ public class BrokerData {
 		this.iban = broker.getIban();
 
 		switch (depth) {
-		case ADVENTURES:
-			for (Adventure adventure : broker.getAdventureSet()) {
-				this.adventures.add(new AdventureData(adventure));
-				
-			}
-			break;
 		case BULKS:
 			for (BulkRoomBooking bulkRoomBooking : broker.getRoomBulkBookingSet()) {
 				this.bulks.add(new BulkData(bulkRoomBooking));
@@ -46,7 +39,7 @@ public class BrokerData {
 			break;
 		case CLIENTS:
 			for (Client client : broker.getClientSet()) {
-				this.clients.add(new ClientData(client));
+				this.clients.add(new ClientData(client, ClientData.CopyDepth.SHALLOW));
 			}
 			break;
 		case SHALLOW:
@@ -97,13 +90,6 @@ public class BrokerData {
 		this.iban = iban;
 	}
 
-	public List<AdventureData> getAdventures() {
-		return this.adventures;
-	}
-
-	public void setAdventures(List<AdventureData> adventures) {
-		this.adventures = adventures;
-	}
 
 	public List<BulkData> getBulks() {
 		return this.bulks;

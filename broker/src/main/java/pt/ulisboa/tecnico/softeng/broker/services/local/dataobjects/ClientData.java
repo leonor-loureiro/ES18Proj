@@ -7,6 +7,9 @@ import pt.ulisboa.tecnico.softeng.broker.domain.Adventure;
 import pt.ulisboa.tecnico.softeng.broker.domain.Client;
 
 public class ClientData {
+	public static enum CopyDepth {
+		SHALLOW, ADVENTURES
+	};
 	
 	private String iban;
 	private String nif;
@@ -18,14 +21,21 @@ public class ClientData {
 	public ClientData() {
 	}
 	
-	public ClientData(Client client) {
+	public ClientData(Client client, CopyDepth depth) {
 		this.iban = client.getIban();
 		this.nif = client.getNif();
 		this.drivingLicense = client.getDrivingLicense();
 		this.age = client.getAge();
 		
-		for (Adventure adventure : client.getAdventureSet()) {
-			this.adventures.add(new AdventureData(adventure));	
+		switch (depth) {
+		case ADVENTURES:
+			for (Adventure adventure : client.getAdventureSet()) {
+				this.adventures.add(new AdventureData(adventure));	
+			}
+		case SHALLOW:
+			break;
+		default:
+			break;
 		}
 	}
 

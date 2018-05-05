@@ -25,12 +25,9 @@ public class AdventureController {
 	public String showAdventures(Model model, @PathVariable String brokerCode, @PathVariable String clientNif) {
 		logger.info("showAdventures code:{} nif:{}", brokerCode, clientNif);
 
-		BrokerData brokerData = BrokerInterface.getBrokerDataByCode(brokerCode, CopyDepth.SHALLOW);
-		ClientData clientData = BrokerInterface.getClientDataByNif(brokerCode, clientNif);
+		BrokerData brokerData = BrokerInterface.getBrokerDataByCode(brokerCode, BrokerData.CopyDepth.SHALLOW);
+		ClientData clientData = BrokerInterface.getClientDataByNif(brokerCode, clientNif, ClientData.CopyDepth.ADVENTURES);
 		
-//		for(AdventureData adv : clientData.getAdventures()) {
-//			logger.info("adventure margin:{}", adv.getMargin() );
-//		}
 
 		if (brokerData == null) {
 			model.addAttribute("error", "Error: it does not exist a broker with the code " + brokerCode);
@@ -63,8 +60,8 @@ public class AdventureController {
 			be.printStackTrace();
 			model.addAttribute("error", "Error: it was not possible to create the adventure");
 			model.addAttribute("adventure", adventureData);
-			model.addAttribute("broker", BrokerInterface.getBrokerDataByCode(brokerCode, CopyDepth.ADVENTURES));
-			model.addAttribute("client",BrokerInterface.getClientDataByNif(brokerCode, clientNif));
+			model.addAttribute("broker", BrokerInterface.getBrokerDataByCode(brokerCode, CopyDepth.SHALLOW));
+			model.addAttribute("client",BrokerInterface.getClientDataByNif(brokerCode, clientNif, ClientData.CopyDepth.ADVENTURES));
 			return "adventures";
 		}
 

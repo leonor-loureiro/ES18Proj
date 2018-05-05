@@ -74,14 +74,14 @@ public class BrokerInterface {
 	}
 	
 	@Atomic(mode = TxMode.READ)
-	public static ClientData getClientDataByNif(String code, String nif) {
+	public static ClientData getClientDataByNif(String code, String nif, ClientData.CopyDepth depth) {
 		
 		Client client = getClientByNif(code, nif);
 		if(client == null) {
 			return null;
 		}
 		
-		return new ClientData(client);
+		return new ClientData(client, depth);
 	}
 	
 	private static Client getClientByNif(String code, String nif) {
