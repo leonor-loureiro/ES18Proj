@@ -19,6 +19,24 @@
 				<label>Tax: </label> <input class="form-control" type="text" th:field="*{tax}" /> 
 				<input class="btn btn-primary" type="submit" value="Submit" />
 			</form>
+			<br/>
+			
+			<h3>List of ItemTypes</h3>
+			<br/>
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Tax</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="itemtype: ${itemtypes}">
+						<td th:text="${itemtype.name}">Name of ItemType</td>
+						<td th:text="${itemtype.tax}">Tax of ItemType</td>
+					</tr>
+				</tbody>
+			</table>
 		</div>
 	</body>
 </html>
