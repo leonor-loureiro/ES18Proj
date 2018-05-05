@@ -25,8 +25,12 @@ public class AdventureController {
 	public String showAdventures(Model model, @PathVariable String brokerCode, @PathVariable String clientNif) {
 		logger.info("showAdventures code:{} nif:{}", brokerCode, clientNif);
 
-		BrokerData brokerData = BrokerInterface.getBrokerDataByCode(brokerCode, CopyDepth.ADVENTURES);
+		BrokerData brokerData = BrokerInterface.getBrokerDataByCode(brokerCode, CopyDepth.SHALLOW);
 		ClientData clientData = BrokerInterface.getClientDataByNif(brokerCode, clientNif);
+		
+//		for(AdventureData adv : clientData.getAdventures()) {
+//			logger.info("adventure margin:{}", adv.getMargin() );
+//		}
 
 		if (brokerData == null) {
 			model.addAttribute("error", "Error: it does not exist a broker with the code " + brokerCode);
@@ -50,13 +54,13 @@ public class AdventureController {
 	@RequestMapping(method = RequestMethod.POST)
 	public String submitAdventure(Model model, @PathVariable String brokerCode, @PathVariable String clientNif,
 			@ModelAttribute AdventureData adventureData) {
-		logger.info("adventureSubmit brokerCode:{} clientNif:{}, begin:{}, end:{}, age:{}, iban:{}, amount:{} margin:{}", brokerCode, clientNif,
-				adventureData.getBegin(), adventureData.getEnd(), adventureData.getAge(), adventureData.getIban(),
-				adventureData.getAmount(), adventureData.getMargin());
+		logger.info("adventureSubmit brokerCode:{} clientNif:{}, begin:{}, end:{}, margin:{}", brokerCode, clientNif,
+				adventureData.getBegin(), adventureData.getEnd(), adventureData.getMargin());
 
 		try {
 			BrokerInterface.createAdventure(brokerCode, clientNif, adventureData);
 		} catch (BrokerException be) {
+			be.printStackTrace();
 			model.addAttribute("error", "Error: it was not possible to create the adventure");
 			model.addAttribute("adventure", adventureData);
 			model.addAttribute("broker", BrokerInterface.getBrokerDataByCode(brokerCode, CopyDepth.ADVENTURES));

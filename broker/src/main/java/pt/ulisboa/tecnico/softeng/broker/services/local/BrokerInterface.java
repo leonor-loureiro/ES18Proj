@@ -47,7 +47,7 @@ public class BrokerInterface {
 	@Atomic(mode = TxMode.WRITE)
 	public static void createAdventure(String brokerCode, String clientNif, AdventureData adventureData) {
 		new Adventure(getBrokerByCode(brokerCode), adventureData.getBegin(), adventureData.getEnd(), 
-				getClientByNif(brokerCode, clientNif), 0.1);
+				getClientByNif(brokerCode, clientNif), adventureData.getMargin());
 	}
 
 	@Atomic(mode = TxMode.WRITE)
