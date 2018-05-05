@@ -45,9 +45,9 @@ public class BrokerInterface {
 	}
 
 	@Atomic(mode = TxMode.WRITE)
-	public static void createAdventure(String brokerCode, AdventureData adventureData) {
-		// TODO: receive client and margin
-		new Adventure(getBrokerByCode(brokerCode), adventureData.getBegin(), adventureData.getEnd(), null, 0.1);
+	public static void createAdventure(String brokerCode, String clientNif, AdventureData adventureData) {
+		new Adventure(getBrokerByCode(brokerCode), adventureData.getBegin(), adventureData.getEnd(), 
+				getClientByNif(brokerCode, clientNif), 0.1);
 	}
 
 	@Atomic(mode = TxMode.WRITE)
@@ -71,6 +71,30 @@ public class BrokerInterface {
 			}
 		}
 		return null;
+	}
+	
+	@Atomic(mode = TxMode.READ)
+	public static ClientData getClientDataByNif(String code, String nif) {
+		Broker broker = getBrokerByCode(code);
+		if(broker == null) {
+			return null;
+		}
+		
+		Client client = broker.getClientByNIF(nif);
+		if(client == null) {
+			return null;
+		}
+		
+		return new ClientData(client);
+	}
+	
+	private static Client getClientByNif(String code, String nif) {
+		Broker broker = getBrokerByCode(code);
+		if(broker == null) {
+			return null;
+		}
+		
+		return broker.getClientByNIF(nif);
 	}
 
 }

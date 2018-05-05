@@ -15,6 +15,23 @@ public class AdventureData {
 	private Integer age;
 	private String iban;
 	private Double amount;
+	private Double margin;
+	public Double getMargin() {
+		return margin;
+	}
+
+	public void setMargin(Double margin) {
+		this.margin = margin;
+	}
+
+	public ClientData getClientData() {
+		return clientData;
+	}
+
+	public void setClientData(ClientData clientData) {
+		this.clientData = clientData;
+	}
+
 	private ClientData clientData;
 	private Adventure.State state;
 

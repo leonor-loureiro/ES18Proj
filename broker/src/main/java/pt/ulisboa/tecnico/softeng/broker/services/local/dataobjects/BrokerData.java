@@ -36,6 +36,7 @@ public class BrokerData {
 		case ADVENTURES:
 			for (Adventure adventure : broker.getAdventureSet()) {
 				this.adventures.add(new AdventureData(adventure));
+				
 			}
 			break;
 		case BULKS:
