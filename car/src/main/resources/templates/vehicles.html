@@ -1,10 +1,58 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Vehicles</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet"
+          th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" />
+    <script th:src="@{/webjars/jquery/3.1.1/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
 </head>
 <body>
+    <div class="container">
+        <h2>Vehicles of RentACar <span th:text="${rentacar.name}" style="color: blue">Temp</span></h2>
+        <a class="btn btn-default pull-right" th:href="@{/rentACars}">RentACars</a>
+        <br/>
+        <h3>Create Vehicle</h3>
+        <p class="text-danger" th:text="${error}">Error</p>
+        <form th:action="@{/rentACars/{code}/vehicles(code=${rentacar.code})}" th:object="${vehicle}" method="post">
+            <div class="form-group row">
+                <label class="col-sm-1 col-form-label">Plate: </label>
+                <div class="col-sm-2">
+                    <input class="form-control" type="text" th:field="*{plate}"/>
+                </div>
+            </div>
 
+            <div class="form-group row">
+                <label class="col-sm-1 col-form-label">Initial kilometers: </label>
+                <div class="col-sm-2">
+                    <input class="form-control" type="number" th:field="*{kilometers}"/>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-1 col-form-label">Price: </label>
+                <div class="col-sm-2">
+                    <input class="form-control" type="number" th:field="*{price}"/>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">
+                    <input type="radio" name="test" value="Motorcycle" th:checked="${true}" th:field="*{isCar}" />
+                    Car
+                </label>
+                <label class="col-sm-2 col-form-label">
+                    <input type="radio" name="test" value="Car" th:field="*{isCar}" />
+                    Motorcycle
+                </label>
+            </div>
+
+            <div class="form-group row">
+                <input class="btn btn-primary" type="submit" value="Submit" />
+            </div>
+        </form>
+        <br/>
+    </div>
 </body>
 </html>
