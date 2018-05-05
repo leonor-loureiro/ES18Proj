@@ -1,5 +1,6 @@
 package pt.ulisboa.tecnico.softeng.activity.domain;
 
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
@@ -20,6 +21,7 @@ public class Booking extends Booking_Base {
 		setDate(offer.getBegin());
 		setType(SPORT_TYPE);
 		setCancelledInvoice(false);
+		setTime(DateTime.now());
 
 		offer.addBooking(this);
 	}
