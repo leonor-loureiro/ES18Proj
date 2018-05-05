@@ -50,9 +50,7 @@ public class BankOperationData {
 		return this.value;
 	}
 
-	public void setValue(int value) {
-		this.value = value;
-	}
+	public void setValue(double value) { this.value = value; }
 
 	public DateTime getTime() {
 		return this.time;
