@@ -15,7 +15,7 @@
 		<h2>
 			Welcome to Client <span th:text="${client.nif}">Nif</span> Adventures
 		</h2>
-		<a class="btn btn-default pull-right" th:href="@{/brokers}">Brokers</a>
+		<a class="btn btn-default pull-right" th:href="@{/brokers/{code}/clients(code=${broker.code})}">Clients</a>
 		<br/>
 		<h3>Create Adventure</h3>
 		<p class="text-danger" th:text="${error}">Error</p>
