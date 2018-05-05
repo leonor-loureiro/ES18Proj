@@ -8,7 +8,6 @@ import pt.ulisboa.tecnico.softeng.tax.domain.Invoice;
 import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 
 public class InvoiceData {
-	private String externalId;
 	private String reference;
 	private String sellerNif;
 	private String buyerNif;
@@ -27,7 +26,6 @@ public class InvoiceData {
 		if (reference == null) {
 			throw new TaxException();
 		}
-		this.externalId = reference;
 		this.reference = reference;
 		this.sellerNif = sellerNif;
 		this.buyerNif = buyerNif;
@@ -38,7 +36,6 @@ public class InvoiceData {
 	}
 
 	public InvoiceData(Invoice invoice) {
-		this.externalId = invoice.getExternalId();
 		this.reference = invoice.getReference();
 		this.sellerNif = invoice.getSeller().getNif();
 		this.buyerNif = invoice.getBuyer().getNif();
@@ -47,14 +44,6 @@ public class InvoiceData {
 		this.date = invoice.getDate();
 		this.iva = invoice.getIva();
 		this.time = invoice.getTime();
-	}
-
-	public String getExternalId() {
-		return this.externalId;
-	}
-
-	public void setExternalId(String externalId) {
-		this.externalId = externalId;
 	}
 
 	public String getReference() {
