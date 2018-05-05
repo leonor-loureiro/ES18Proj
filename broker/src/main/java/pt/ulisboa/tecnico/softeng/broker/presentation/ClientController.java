@@ -47,7 +47,7 @@ public class ClientController {
 		try {
 			BrokerInterface.createClient(brokerCode, clientData);
 		} catch (BrokerException be) {
-			model.addAttribute("error", "Error: it was not possible to create the bulk room booking");
+			model.addAttribute("error", "Error: it was not possible to create the client");
 			model.addAttribute("client", clientData);
 			model.addAttribute("broker", BrokerInterface.getBrokerDataByCode(brokerCode, CopyDepth.CLIENTS));
 			return "clients";
