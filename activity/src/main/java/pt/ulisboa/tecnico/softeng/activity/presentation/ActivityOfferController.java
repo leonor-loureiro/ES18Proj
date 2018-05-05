@@ -53,7 +53,7 @@ public class ActivityOfferController {
 			model.addAttribute("activity", ActivityInterface.getActivityDataByCode(codeProvider, codeActivity));
 			return "offers";
 		}
-
+		
 		return "redirect:/providers/" + codeProvider + "/activities/" + codeActivity + "/offers";
 	}
 
