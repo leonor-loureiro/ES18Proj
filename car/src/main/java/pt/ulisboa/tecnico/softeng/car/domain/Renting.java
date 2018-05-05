@@ -1,5 +1,6 @@
 package pt.ulisboa.tecnico.softeng.car.domain;
 
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
 import pt.ulisboa.tecnico.softeng.car.exception.CarException;
@@ -22,6 +23,7 @@ public class Renting extends Renting_Base {
 		setClientNif(buyerNif);
 		setClientIban(buyerIban);
 		setPrice(vehicle.getPrice() * (end.getDayOfYear() - begin.getDayOfYear()));
+		setTime(DateTime.now());
 
 		setVehicle(vehicle);
 	}
@@ -71,18 +73,18 @@ public class Renting extends Renting_Base {
 	 * @param kilometers
 	 */
 	public void checkout(Integer kilometers) {
-	    if (isCancelled()) {
-	        throw new CarException();
-        }
+		if (isCancelled()) {
+			throw new CarException();
+		}
 
 		setKilometers(kilometers);
 		getVehicle().addKilometers(kilometers);
 	}
 
 	public String cancel() {
-	    if (getKilometers() != -1) {
-            throw new CarException();
-        }
+		if (getKilometers() != -1) {
+			throw new CarException();
+		}
 
 		setCancellationReference(getReference() + "CANCEL");
 		setCancellationDate(LocalDate.now());

@@ -47,11 +47,13 @@ relation IRSHasItemTypes {
 }
 
 class Invoice {
+    String id;
 	String reference;
 	double value;
 	double iva;
 	LocalDate date;
 	boolean cancelled;
+	DateTime time;
 }
 
 relation IRSHasInvoices {

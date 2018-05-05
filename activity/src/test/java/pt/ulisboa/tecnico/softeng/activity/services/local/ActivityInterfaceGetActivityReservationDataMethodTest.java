@@ -36,7 +36,7 @@ public class ActivityInterfaceGetActivityReservationDataMethodTest extends Rollb
 	public void success() {
 		this.booking = new Booking(this.provider, this.offer, "123456789", "IBAN");
 
-		ActivityBookingData data = ActivityProvider.getActivityReservationData(this.booking.getReference());
+		ActivityBookingData data = ActivityInterface.getActivityReservationData(this.booking.getReference());
 
 		assertEquals(this.booking.getReference(), data.getReference());
 		assertNull(data.getCancellation());

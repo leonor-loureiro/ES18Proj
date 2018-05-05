@@ -18,6 +18,7 @@ import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
 
 public class ActivityPersistenceTest {
+	private static final String ADVENTURE_ID = "AdventureId";
 	private static final String ACTIVITY_NAME = "Activity_Name";
 	private static final String PROVIDER_NAME = "Wicket";
 	private static final String PROVIDER_CODE = "A12345";
@@ -43,9 +44,9 @@ public class ActivityPersistenceTest {
 
 		Activity activity = new Activity(activityProvider, ACTIVITY_NAME, 18, 65, CAPACITY);
 
-		new ActivityOffer(activity, this.begin, this.end, AMOUNT);
+		ActivityOffer offer = new ActivityOffer(activity, this.begin, this.end, AMOUNT);
 
-		ActivityProvider.reserveActivity(this.begin, this.end, 54, BUYER_NIF, BUYER_IBAN);
+		offer.book(activityProvider, offer, 54, BUYER_NIF, BUYER_IBAN, ADVENTURE_ID);
 	}
 
 	@Atomic(mode = TxMode.READ)
@@ -98,7 +99,9 @@ public class ActivityPersistenceTest {
 		assertEquals(BUYER_IBAN, booking.getIban());
 		assertEquals(NIF, booking.getProviderNif());
 		assertEquals(AMOUNT, booking.getAmount(), 0.0d);
+		assertEquals(ADVENTURE_ID, booking.getAdventureId());
 		assertEquals(this.begin, booking.getDate());
+		assertNotNull(booking.getTime());
 		assertNotNull(booking.getProcessor());
 	}
 

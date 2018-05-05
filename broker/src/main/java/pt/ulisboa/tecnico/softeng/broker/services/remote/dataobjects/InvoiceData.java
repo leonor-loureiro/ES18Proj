@@ -1,5 +1,6 @@
 package pt.ulisboa.tecnico.softeng.broker.services.remote.dataobjects;
 
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -11,16 +12,19 @@ public class InvoiceData {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate date;
 	private Double iva;
+	private DateTime time;
 
 	public InvoiceData() {
 	}
 
-	public InvoiceData(String sellerNif, String buyerNif, String itemType, Double value, LocalDate date) {
+	public InvoiceData(String sellerNif, String buyerNif, String itemType, Double value, LocalDate date,
+			DateTime time) {
 		this.sellerNif = sellerNif;
 		this.buyerNif = buyerNif;
 		this.itemType = itemType;
 		this.value = value;
 		this.date = date;
+		this.time = time;
 	}
 
 	public String getSellerNif() {
@@ -69,6 +73,14 @@ public class InvoiceData {
 
 	public void setIva(Double iva) {
 		this.iva = iva;
+	}
+
+	public DateTime getTime() {
+		return this.time;
+	}
+
+	public void setTime(DateTime time) {
+		this.time = time;
 	}
 
 }

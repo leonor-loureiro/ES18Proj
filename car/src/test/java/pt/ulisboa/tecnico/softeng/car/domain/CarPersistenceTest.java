@@ -73,6 +73,7 @@ public class CarPersistenceTest {
 				assertEquals(date2, renting.getEnd());
 				assertEquals(NIF, renting.getClientNif());
 				assertEquals(IBAN, renting.getClientIban());
+				assertNotNull(renting.getTime());
 				assertNotNull(renting.getProcessor());
 			}
 			if (vehicle instanceof Motorcycle) {

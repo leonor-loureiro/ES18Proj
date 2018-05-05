@@ -91,6 +91,7 @@ public class HotelPersistenceTest {
 		assertEquals(HOTEL_NIF, booking.getProviderNif());
 		assertEquals(80.0, booking.getPrice(), 0.0d);
 		assertEquals(room, booking.getRoom());
+		assertNotNull(booking.getTime());
 		assertNotNull(booking.getProcessor());
 	}
 

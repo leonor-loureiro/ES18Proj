@@ -21,9 +21,9 @@ public class TaxRestController {
 
 	@RequestMapping(value = "/submit", method = RequestMethod.POST)
 	public ResponseEntity<String> submitInvoice(@RequestBody InvoiceData invoiceData) {
-		logger.info("submitInvoice buyerNif:{}, sellerNif:{}, itemType:{}, value:{}, date:{}",
+		logger.info("submitInvoice buyerNif:{}, sellerNif:{}, itemType:{}, value:{}, date:{}, time:{}",
 				invoiceData.getBuyerNif(), invoiceData.getSellerNif(), invoiceData.getItemType(),
-				invoiceData.getValue(), invoiceData.getDate());
+				invoiceData.getValue(), invoiceData.getDate(), invoiceData.getTime());
 
 		try {
 			return new ResponseEntity<String>(TaxInterface.submitInvoice(invoiceData), HttpStatus.OK);

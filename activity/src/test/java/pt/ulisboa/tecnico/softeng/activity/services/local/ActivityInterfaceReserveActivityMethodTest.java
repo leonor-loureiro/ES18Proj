@@ -1,4 +1,4 @@
-package pt.ulisboa.tecnico.softeng.activity.domain;
+package pt.ulisboa.tecnico.softeng.activity.services.local;
 
 import org.joda.time.LocalDate;
 import org.junit.Assert;
@@ -8,15 +8,19 @@ import org.junit.runner.RunWith;
 import mockit.Expectations;
 import mockit.Mocked;
 import mockit.integration.junit4.JMockit;
-import pt.ist.fenixframework.FenixFramework;
+import pt.ulisboa.tecnico.softeng.activity.domain.Activity;
+import pt.ulisboa.tecnico.softeng.activity.domain.ActivityOffer;
+import pt.ulisboa.tecnico.softeng.activity.domain.ActivityProvider;
+import pt.ulisboa.tecnico.softeng.activity.domain.RollbackTestAbstractClass;
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
+import pt.ulisboa.tecnico.softeng.activity.services.local.dataobjects.ActivityBookingData;
 import pt.ulisboa.tecnico.softeng.activity.services.remote.BankInterface;
 import pt.ulisboa.tecnico.softeng.activity.services.remote.TaxInterface;
 import pt.ulisboa.tecnico.softeng.activity.services.remote.dataobjects.BankOperationData;
 import pt.ulisboa.tecnico.softeng.activity.services.remote.dataobjects.InvoiceData;
 
 @RunWith(JMockit.class)
-public class ActivityProviderReserveActivityMethodTest extends RollbackTestAbstractClass {
+public class ActivityInterfaceReserveActivityMethodTest extends RollbackTestAbstractClass {
 	private static final String IBAN = "IBAN";
 	private static final String NIF = "123456789";
 	private static final int MIN_AGE = 18;
@@ -33,23 +37,6 @@ public class ActivityProviderReserveActivityMethodTest extends RollbackTestAbstr
 	}
 
 	@Test
-	public void numberOfProviders() {
-		Assert.assertTrue(FenixFramework.getDomainRoot().getActivityProviderSet().size() == 2);
-	}
-
-	@Test
-	public void nameOfProviders() {
-		Assert.assertTrue(FenixFramework.getDomainRoot().getActivityProviderSet().contains(provider1));
-		Assert.assertTrue(FenixFramework.getDomainRoot().getActivityProviderSet().contains(provider2));
-	}
-
-	@Test(expected = ActivityException.class)
-	public void reserveAcitivityNoOption() {
-		String act = ActivityProvider.reserveActivity(new LocalDate(2018, 02, 19), new LocalDate(2016, 12, 19), 20, NIF,
-				IBAN);
-	}
-
-	@Test
 	public void reserveAcitivity(@Mocked final TaxInterface taxInterface, @Mocked final BankInterface bankInterface) {
 		new Expectations() {
 			{
@@ -62,11 +49,30 @@ public class ActivityProviderReserveActivityMethodTest extends RollbackTestAbstr
 		Activity activity = new Activity(provider1, "XtremX", MIN_AGE, MAX_AGE, CAPACITY);
 		new ActivityOffer(activity, new LocalDate(2018, 02, 19), new LocalDate(2018, 12, 20), 30);
 
-		String act = ActivityProvider.reserveActivity(new LocalDate(2018, 02, 19), new LocalDate(2018, 12, 20), 20, NIF,
-				IBAN);
+		ActivityBookingData activityBookingData = new ActivityBookingData();
+		activityBookingData.setAge(20);
+		activityBookingData.setBegin(new LocalDate(2018, 02, 19));
+		activityBookingData.setEnd(new LocalDate(2018, 12, 20));
+		activityBookingData.setIban(IBAN);
+		activityBookingData.setNif(NIF);
+
+		String act = ActivityInterface.reserveActivity(activityBookingData);
 
 		Assert.assertTrue(act != null);
 		Assert.assertTrue(act.startsWith("XtremX"));
+	}
+
+	@Test(expected = ActivityException.class)
+	public void reserveAcitivityNoOption() {
+		ActivityBookingData activityBookingData = new ActivityBookingData();
+		activityBookingData.setAge(20);
+		activityBookingData.setBegin(new LocalDate(2018, 02, 19));
+		activityBookingData.setEnd(new LocalDate(2018, 12, 20));
+		activityBookingData.setIban(IBAN);
+		activityBookingData.setNif(NIF);
+
+		String act = ActivityInterface.reserveActivity(activityBookingData);
+
 	}
 
 }

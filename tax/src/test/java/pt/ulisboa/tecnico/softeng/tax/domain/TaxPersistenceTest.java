@@ -12,12 +12,6 @@ import org.junit.Test;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.FenixFramework;
-import pt.ulisboa.tecnico.softeng.tax.domain.Buyer;
-import pt.ulisboa.tecnico.softeng.tax.domain.IRS;
-import pt.ulisboa.tecnico.softeng.tax.domain.Invoice;
-import pt.ulisboa.tecnico.softeng.tax.domain.ItemType;
-import pt.ulisboa.tecnico.softeng.tax.domain.Seller;
-import pt.ulisboa.tecnico.softeng.tax.domain.TaxPayer;
 
 public class TaxPersistenceTest {
 	private static final String SELLER_NIF = "123456789";
@@ -71,10 +65,11 @@ public class TaxPersistenceTest {
 		Invoice invoice = new ArrayList<>(irs.getInvoiceSet()).get(0);
 		assertEquals(VALUE, invoice.getValue(), 0);
 		assertNotNull(invoice.getReference());
-		assertEquals(date, invoice.getDate());
+		assertEquals(this.date, invoice.getDate());
 		assertEquals(BUYER_NIF, invoice.getBuyer().getNif());
 		assertEquals(SELLER_NIF, invoice.getSeller().getNif());
 		assertEquals(itemType, invoice.getItemType());
+		assertNotNull(invoice.getTime());
 		assertFalse(invoice.getCancelled());
 	}
 

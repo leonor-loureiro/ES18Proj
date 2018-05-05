@@ -96,9 +96,9 @@ public class ActivityInterface {
 			offers = provider.findOffer(activityBookingData.getBegin(), activityBookingData.getEnd(),
 					activityBookingData.getAge());
 			if (!offers.isEmpty()) {
-				Booking newBooking = new Booking(provider, offers.get(0), activityBookingData.getAge(),
-						activityBookingData.getNif(), activityBookingData.getIban());
-				newBooking.setAdventureId(activityBookingData.getAdventureId());
+				Booking newBooking = offers.get(0).book(provider, offers.get(0), activityBookingData.getAge(),
+						activityBookingData.getNif(), activityBookingData.getIban(),
+						activityBookingData.getAdventureId());
 				return newBooking.getReference();
 			}
 		}
