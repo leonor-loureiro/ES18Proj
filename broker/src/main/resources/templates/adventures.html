@@ -13,7 +13,7 @@
 <body>
 	<div class="container">
 		<h2>
-			Welcome to Broker <span th:text="${broker.name}">Name</span> Adventures
+			Welcome to Client <span th:text="${client.nif}">Nif</span> Adventures
 		</h2>
 		<a class="btn btn-default pull-right" th:href="@{/brokers}">Brokers</a>
 		<br/>
@@ -22,9 +22,6 @@
 		<form class="form-inline" th:action="@{/brokers/{code}/clients/{nif}/adventures(code=${broker.code},nif=${client.nif})}" th:object="${adventure}" method="post">
 	 		<label>Begin: </label> <input class="form-control" type="date" th:field="*{begin}" /> 
 			<label>End: </label> <input class="form-control" type="date" th:field="*{end}" />  
-			<label>Age: </label> <input class="form-control" type="number" th:field="*{age}" /> 
-			<label>IBAN: </label> <input class="form-control" type="text" th:field="*{iban}" /> 
-			<label>Amount: </label> <input class="form-control" type="number" th:value="*{amount}" th:field="*{amount}" />
 			<label>Margin: </label> <input class="form-control" type="number" th:value="*{margin}" th:field="*{margin}" />
 			<input class="btn btn-primary" type="submit" value="Submit" />
 		</form>

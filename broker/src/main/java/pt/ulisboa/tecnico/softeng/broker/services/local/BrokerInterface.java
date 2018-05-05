@@ -75,12 +75,8 @@ public class BrokerInterface {
 	
 	@Atomic(mode = TxMode.READ)
 	public static ClientData getClientDataByNif(String code, String nif) {
-		Broker broker = getBrokerByCode(code);
-		if(broker == null) {
-			return null;
-		}
 		
-		Client client = broker.getClientByNIF(nif);
+		Client client = getClientByNif(code, nif);
 		if(client == null) {
 			return null;
 		}
