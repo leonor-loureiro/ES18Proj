@@ -120,7 +120,7 @@ public class RentACarInterface {
         return RentACar.cancelRenting(reference);
     }
     @Atomic(mode = TxMode.READ)
-    public static RentingData getRentingByRefenence(String reference) {
+    public static RentingData getRentingByReference(String reference) {
         return RentACar.getRentingData(reference);
     }
 

@@ -22,7 +22,7 @@ public class RentACarRestController {
     public RentingData getRenting(@PathVariable String reference) {
         logger.info("get car renting reference  reference:{}", reference);
         try {
-            return RentACarInterface.getRentingByRefenence(reference);
+            return RentACarInterface.getRentingByReference(reference);
         } catch (CarException ae) {
             logger.error("Error trying to get Car renting Data " + reference);
             return null;
