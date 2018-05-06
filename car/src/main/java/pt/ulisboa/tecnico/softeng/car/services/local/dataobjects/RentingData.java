@@ -2,6 +2,8 @@ package pt.ulisboa.tecnico.softeng.car.services.local.dataobjects;
 
 import org.joda.time.LocalDate;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import pt.ulisboa.tecnico.softeng.car.domain.Renting;
 
 public class RentingData {
@@ -9,7 +11,9 @@ public class RentingData {
 	private String plate;
 	private String drivingLicense;
 	private String rentACarCode;
+	@DateTimeFormat(pattern = "yy-mm-dd")
 	private LocalDate begin;
+	@DateTimeFormat(pattern = "yy-mm-dd")
 	private LocalDate end;
 	private String paymentReference;
 	private String invoiceReference;

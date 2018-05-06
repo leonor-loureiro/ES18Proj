@@ -64,4 +64,9 @@ public class CarInterfaceMethodsTest extends RollbackTestAbstractClass {
 
 		assertTrue(reference.equals(data.stream().findFirst().get().getReference()));
 	}
+	@Test
+	public void rentACar() {
+		assertNotNull(RentACarInterface.rentVehicle(rentACar.getCode(), PLATE_CAR, DRIVING_LICENSE, BEGIN, END, NIF, IBAN));
+	}
+
 }

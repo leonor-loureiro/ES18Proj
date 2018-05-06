@@ -32,7 +32,7 @@ public class RentingController {
             model.addAttribute("error", "Error: Vehicle with plate " + plate + " does not exist in RentACar wiht code " + code);
             model.addAttribute("rentacar", new RentACarData());
             model.addAttribute("rentacars", RentACarInterface.listRentACars());
-            return "rentACars";
+            return "rentings";
         }
 
         return "rentings";
@@ -40,17 +40,18 @@ public class RentingController {
 
     @RequestMapping(method = RequestMethod.POST)
     public String rentingSubmit(Model model, @PathVariable String code, @PathVariable String plate, @ModelAttribute RentingData renting) {
-        logger.info("rentingForm : rentACarCode{} plate: {}, drivingLicense:{}, begin:{}, end:{}, nif:{}, iban:{} ",
+        logger.info("renting submit : rentACarCode{} plate: {}, drivingLicense:{}, begin:{}, end:{}, nif:{}, iban:{} ",
                 code, plate, renting.getDrivingLicense(), renting.getBegin(), renting.getEnd(), renting.getNif(), renting.getIban());
-
         try {
             RentACarInterface.rentVehicle(code, plate, renting.getDrivingLicense(), renting.getBegin(), renting.getEnd(), renting.getNif(), renting.getIban());
         } catch (CarException ce) {
-            model.addAttribute("error", "Error: It was not possible to create vehicle");
-            model.addAttribute("renting", renting);
-            model.addAttribute("rentacar", RentACarInterface.getRentACarDataByCode(code));
-            return "vehicles";
+            model.addAttribute("error", "Error: It was not possible to create renting");
+            VehicleData vd = RentACarInterface.getVehicleDataByPlate(code, plate);
+            model.addAttribute("vehicle", vd);
+            model.addAttribute("rentings", RentACarInterface.getRentingsByPlate(code, plate));
+            model.addAttribute("renting", new RentingData());
+            return "rentings";
         }
-        return "rentings";
+        return "redirect:/rentACars/" + code + "/vehicles/"+plate+"/rentings";
     }
 }

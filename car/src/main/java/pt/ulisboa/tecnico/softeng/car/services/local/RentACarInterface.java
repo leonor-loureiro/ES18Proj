@@ -82,7 +82,7 @@ public class RentACarInterface {
                 map(RentingData::new).collect(Collectors.toSet());
     }
 
-    @Atomic(mode = TxMode.READ)
+    @Atomic(mode = TxMode.WRITE)
     public static RentingData rentVehicle(String rentACarCode, String plate, String drivingLicense,
                                                       LocalDate begin, LocalDate end, String nif, String iban){
         return new RentingData (getRentACarByCode(rentACarCode).getVehicleByPlate(plate).rent(drivingLicense, begin, end, nif, iban));

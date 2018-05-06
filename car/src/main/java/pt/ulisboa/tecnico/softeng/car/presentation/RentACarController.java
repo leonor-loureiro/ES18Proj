@@ -30,7 +30,8 @@ public class RentACarController {
         } catch (CarException race) {
             model.addAttribute("error", "Error: it was not possible to create rentacar");
             model.addAttribute("rentacar", rentacar);
-            return "rentacars";
+            model.addAttribute("rentacars", RentACarInterface.listRentACars());
+            return "rentACars";
         }
         return "redirect:/rentACars";
     }
