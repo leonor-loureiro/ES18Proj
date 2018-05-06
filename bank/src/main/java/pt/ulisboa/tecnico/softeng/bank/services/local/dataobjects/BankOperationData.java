@@ -2,13 +2,21 @@ package pt.ulisboa.tecnico.softeng.bank.services.local.dataobjects;
 
 import org.joda.time.DateTime;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.joda.ser.DateTimeSerializer;
+
 import pt.ulisboa.tecnico.softeng.bank.domain.Operation;
 
 public class BankOperationData {
+	
+	
+	
 	private String reference;
 	private String type;
 	private String iban;
 	private double value;
+	
+	@JsonSerialize(using = DateTimeSerializer.class)
 	private DateTime time;
 
 	public BankOperationData() {
