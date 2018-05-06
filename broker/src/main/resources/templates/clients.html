@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Clients</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet"
+	th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" />
+
+<script th:src="@{/webjars/jquery/3.1.1/jquery.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
+</head>
+<body>
+	<div class="container">
+		<h2>
+			Welcome to Broker <span th:text="${broker.name}">Name</span> Clients
+		</h2>
+		<a class="btn btn-default pull-right" th:href="@{/brokers}">Brokers</a>
+		<br/>
+		<h3>Create Client</h3>
+		<p class="text-danger" th:text="${error}">Error</p>
+		<form class="form-inline" th:action="@{/brokers/{code}/clients(code=${broker.code})}" th:object="${client}" method="post">
+	 		<label>IBAN: </label> <input class="form-control" type="text" th:field="*{iban}" /> 
+			<label>NIF: </label> <input class="form-control" type="text" th:field="*{nif}" />  
+			<label>Driving license: </label> <input class="form-control" type="text" th:field="*{drivingLicense}" />  
+			<label>Age: </label> <input class="form-control" type="number" th:field="*{age}" />
+			<input class="btn btn-primary" type="submit" value="Submit" />
+		</form>
+		<br/>
+		<h3>Clients</h3>
+ 		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>IBAN</th>
+ 					<th>NIF</th>
+					<th>Driving License</th>
+					<th>Age</th>
+					<th>Adventures</th>					
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="client: ${broker.clients}">
+					<td th:text="${client.iban}">Iban</td>
+ 					<td th:text="${client.nif}">Nif</td>
+					<td th:text="${client.drivingLicense}">Driving License</td>
+					<td th:text="${client.age}">Age</td>
+					<td><a
+						th:href="@{/brokers/{code}/clients/{nif}/adventures(code=${broker.code},nif=${client.nif})}">Link</a></td>
+					
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>

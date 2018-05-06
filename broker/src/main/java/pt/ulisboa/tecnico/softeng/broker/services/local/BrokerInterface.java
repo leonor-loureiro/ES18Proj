@@ -9,10 +9,12 @@ import pt.ist.fenixframework.FenixFramework;
 import pt.ulisboa.tecnico.softeng.broker.domain.Adventure;
 import pt.ulisboa.tecnico.softeng.broker.domain.Broker;
 import pt.ulisboa.tecnico.softeng.broker.domain.BulkRoomBooking;
+import pt.ulisboa.tecnico.softeng.broker.domain.Client;
 import pt.ulisboa.tecnico.softeng.broker.services.local.dataobjects.AdventureData;
 import pt.ulisboa.tecnico.softeng.broker.services.local.dataobjects.BrokerData;
 import pt.ulisboa.tecnico.softeng.broker.services.local.dataobjects.BrokerData.CopyDepth;
 import pt.ulisboa.tecnico.softeng.broker.services.local.dataobjects.BulkData;
+import pt.ulisboa.tecnico.softeng.broker.services.local.dataobjects.ClientData;
 
 public class BrokerInterface {
 
@@ -43,16 +45,22 @@ public class BrokerInterface {
 	}
 
 	@Atomic(mode = TxMode.WRITE)
-	public static void createAdventure(String brokerCode, AdventureData adventureData) {
-		// TODO: receive client and margin
-		new Adventure(getBrokerByCode(brokerCode), adventureData.getBegin(), adventureData.getEnd(), null, 0.1);
+	public static void createAdventure(String brokerCode, String clientNif, AdventureData adventureData) {
+		new Adventure(getBrokerByCode(brokerCode), adventureData.getBegin(), adventureData.getEnd(), 
+				getClientByNif(brokerCode, clientNif), adventureData.getMargin());
 	}
 
 	@Atomic(mode = TxMode.WRITE)
 	public static void createBulkRoomBooking(String brokerCode, BulkData bulkData) {
-		// TODO: receive nif and iban
 		new BulkRoomBooking(getBrokerByCode(brokerCode), bulkData.getNumber() != null ? bulkData.getNumber() : 0,
-				bulkData.getArrival(), bulkData.getDeparture(), "ERROR", "ERROR");
+				bulkData.getArrival(), bulkData.getDeparture(), bulkData.getNif(), bulkData.getIban());
+
+	}
+	
+	@Atomic(mode = TxMode.WRITE)
+	public static void createClient(String brokerCode, ClientData clientData) {
+		new Client(getBrokerByCode(brokerCode), clientData.getIban(), clientData.getNif(), clientData.getDrivingLicense(),
+				clientData.getAge());
 
 	}
 
@@ -63,6 +71,26 @@ public class BrokerInterface {
 			}
 		}
 		return null;
+	}
+	
+	@Atomic(mode = TxMode.READ)
+	public static ClientData getClientDataByNif(String code, String nif, ClientData.CopyDepth depth) {
+		
+		Client client = getClientByNif(code, nif);
+		if(client == null) {
+			return null;
+		}
+		
+		return new ClientData(client, depth);
+	}
+	
+	private static Client getClientByNif(String code, String nif) {
+		Broker broker = getBrokerByCode(code);
+		if(broker == null) {
+			return null;
+		}
+		
+		return broker.getClientByNIF(nif);
 	}
 
 }

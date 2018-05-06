@@ -1,12 +1,42 @@
 package pt.ulisboa.tecnico.softeng.broker.services.local.dataobjects;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import pt.ulisboa.tecnico.softeng.broker.domain.Adventure;
+import pt.ulisboa.tecnico.softeng.broker.domain.Client;
+
 public class ClientData {
+	public static enum CopyDepth {
+		SHALLOW, ADVENTURES
+	};
+	
 	private String iban;
 	private String nif;
 	private String drivingLicense;
 	private int age;
+	private List<AdventureData> adventures = new ArrayList<>();
+
 
 	public ClientData() {
+	}
+	
+	public ClientData(Client client, CopyDepth depth) {
+		this.iban = client.getIban();
+		this.nif = client.getNif();
+		this.drivingLicense = client.getDrivingLicense();
+		this.age = client.getAge();
+		
+		switch (depth) {
+		case ADVENTURES:
+			for (Adventure adventure : client.getAdventureSet()) {
+				this.adventures.add(new AdventureData(adventure));	
+			}
+		case SHALLOW:
+			break;
+		default:
+			break;
+		}
 	}
 
 	public ClientData(String iban, String nif, String drivingLicense, int age) {
@@ -46,5 +76,13 @@ public class ClientData {
 
 	public void setAge(int age) {
 		this.age = age;
+	}
+	
+	public List<AdventureData> getAdventures() {
+		return adventures;
+	}
+
+	public void setAdventures(List<AdventureData> adventures) {
+		this.adventures = adventures;
 	}
 }

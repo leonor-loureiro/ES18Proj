@@ -1,45 +1,59 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>Hotels</title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link rel="stylesheet"
-	th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" />
-<script th:src="@{/webjars/jquery/3.1.1/jquery.min.js}"></script>
-<script th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
+	<title>Hotels</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet"
+		  th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" />
+	<script th:src="@{/webjars/jquery/3.1.1/jquery.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
 </head>
 <body>
-	<div class="container">
-		<h2>
-			Welcome to Hotels' Manager
-		</h2>
-		<br/>
-		<h3>Create Hotel</h3>
-		<p class="text-danger" th:text="${error}">Error</p>
-		<form class="form-inline" th:action="@{/hotels}" th:object="${hotel}" method="post">
-			<label>Name: </label> <input class="form-control" type="text" th:field="*{name}" /> 
-			<label>Code: </label> <input class="form-control" type="text" th:field="*{code}" /> 
-			<input class="btn btn-primary" type="submit" value="Submit" />
-		</form>
-		<br/>
-		<h3>List of Hotels</h3>
-		<table class="table table-striped">
-			<thead>
-				<tr>
-					<th>Name</th>
-					<th>Code</th>
- 					<th>Rooms</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr th:each="hotel: ${hotels}">
-					<td th:text="${hotel.name}">Name</td>
-					<td th:text="${hotel.code}">Code</td>
-				 	<td><a
-						th:href="@{/hotels/{code}/rooms(code=${hotel.code})}">Rooms</a></td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
+<div class="container">
+	<h2>
+		Welcome to Hotels' Manager
+	</h2>
+	<br/>
+	<h3>Create Hotel</h3>
+	<p class="text-danger" th:text="${error}">Error</p>
+	<form class="form-inline" th:action="@{/hotels}" th:object="${hotel}" method="post">
+		<label>Name: </label> <input class="form-control" type="text" th:field="*{name}" />
+		<label>Code: </label> <input class="form-control" type="text" th:field="*{code}" />
+		<label>Nif: </label> <input class="form-control" type="text" th:field="*{nif}" />
+		<label>Iban: </label> <input class="form-control" type="text" th:field="*{iban}" />
+		<label>Price Single: </label> <input class="form-control" type="number" step="0.01" min="0.01" th:field="*{priceSingle}" />
+		<label>Price Double: </label> <input class="form-control" type="number" step="0.01" min="0.01" th:field="*{priceDouble}" />
+
+		<input class="btn btn-primary" type="submit" value="Submit" />
+	</form>
+	<br/>
+	<h3>List of Hotels</h3>
+	<table class="table table-striped">
+		<thead>
+		<tr>
+			<th>Name</th>
+			<th>Code</th>
+			<th>Rooms</th>
+			<th>Nif</th>
+			<th>Iban</th>
+			<th>Price Single</th>
+			<th>Price Double</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr th:each="hotel: ${hotels}">
+			<td th:text="${hotel.name}">Name</td>
+			<td th:text="${hotel.code}">Code</td>
+			<td><a th:href="@{/hotels/{code}/rooms(code=${hotel.code})}">Rooms</a></td>
+			<td th:text="${hotel.nif}">Nif</td>
+			<td th:text="${hotel.iban}">Iban</td>
+			<td th:text="${#numbers.formatDecimal(hotel.priceSingle, 1, 2) }">Price Single</td>
+			<td th:text="${#numbers.formatDecimal(hotel.priceDouble, 1, 2)}">Price Double</td>
+
+
+		</tr>
+		</tbody>
+	</table>
+</div>
 </body>
 </html>

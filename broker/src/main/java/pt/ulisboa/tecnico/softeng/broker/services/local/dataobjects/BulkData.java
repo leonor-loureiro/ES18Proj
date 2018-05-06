@@ -17,6 +17,9 @@ public class BulkData {
 	private int actualNumber;
 	private boolean cancelled;
 	private List<String> references;
+	private String nif;
+	private String iban;
+
 
 	public BulkData() {
 	}
@@ -27,12 +30,15 @@ public class BulkData {
 		this.departure = bulkRoomBooking.getDeparture();
 		this.actualNumber = bulkRoomBooking.getReferenceSet().size();
 		this.cancelled = bulkRoomBooking.getCancelled();
+		this.nif = bulkRoomBooking.getBuyerNif();
+		this.iban = bulkRoomBooking.getBuyerIban();
 
 		this.references = bulkRoomBooking.getReferenceSet().stream().map(r -> r.getValue())
 				.collect(Collectors.toList());
 
-		this.references.add("fjhkdsl");
-		this.references.add("jkfhglkfdsg");
+		//TODO delete dummy
+		this.references.add("dummyRef1");
+		this.references.add("dummyRef2");
 	}
 
 	public Integer getNumber() {
@@ -82,5 +88,22 @@ public class BulkData {
 	public void setReferences(List<String> references) {
 		this.references = references;
 	}
+	
+	public String getNif() {
+		return nif;
+	}
+
+	public void setNif(String nif) {
+		this.nif = nif;
+	}
+
+	public String getIban() {
+		return iban;
+	}
+
+	public void setIban(String iban) {
+		this.iban = iban;
+	}
+
 
 }

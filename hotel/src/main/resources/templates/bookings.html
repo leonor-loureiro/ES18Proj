@@ -19,7 +19,9 @@
 		<p class="text-danger" th:text="${error}">Error</p>
 		<form class="form-inline" th:action="@{/hotels/{code}/rooms/{number}/bookings(code=${room.hotelCode},number=${room.number})}" th:object="${booking}" method="post">
 			<label>Arrival: </label> <input class="form-control" type="date" th:field="*{arrival}" /> 
-			<label>Departure: </label> <input class="form-control" type="date" th:field="*{departure}" /> 
+			<label>Departure: </label> <input class="form-control" type="date" th:field="*{departure}" />
+			<label>Nif: </label> <input class="form-control" type="text" th:field="*{buyerNif}" />
+			<label>Iban: </label> <input class="form-control" type="text" th:field="*{buyerIban}" />
 			<input class="btn btn-primary" type="submit" value="Submit" />
 		</form>
 		<br/>
@@ -31,7 +33,9 @@
  					<th>Departure</th>
 					<th>Reference</th>
 					<th>Cancellation</th>
-					<th>Cancellation Date</th>					
+					<th>Cancellation Date</th>
+					<th>Buyer Nif</th>
+					<th>Buyer Iban</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -41,6 +45,8 @@
 					<td th:text="${booking.reference}">xpto3456</td>
 					<td th:text="${booking.cancellation}">xpto3456CANCEL</td>
 					<td th:text="${booking.cancellationDate}">07/12/2016</td>
+					<td th:text="${booking.buyerNif}">Buyer Nif</td>
+					<td th:text="${booking.buyerIban}">Buyer Iban</td>
 				</tr>
 			</tbody>
 		</table>

@@ -6,10 +6,11 @@ import java.util.List;
 import pt.ulisboa.tecnico.softeng.broker.domain.Adventure;
 import pt.ulisboa.tecnico.softeng.broker.domain.Broker;
 import pt.ulisboa.tecnico.softeng.broker.domain.BulkRoomBooking;
+import pt.ulisboa.tecnico.softeng.broker.domain.Client;
 
 public class BrokerData {
 	public static enum CopyDepth {
-		SHALLOW, BULKS, ADVENTURES
+		SHALLOW, BULKS, CLIENTS
 	};
 
 	private String name;
@@ -17,8 +18,8 @@ public class BrokerData {
 	private String nifAsSeller;
 	private String nifAsBuyer;
 	private String iban;
-	private List<AdventureData> adventures = new ArrayList<>();
 	private List<BulkData> bulks = new ArrayList<>();
+	private List<ClientData> clients = new ArrayList<>();
 
 	public BrokerData() {
 	}
@@ -26,16 +27,19 @@ public class BrokerData {
 	public BrokerData(Broker broker, CopyDepth depth) {
 		this.name = broker.getName();
 		this.code = broker.getCode();
+		this.nifAsSeller = broker.getNifAsSeller();
+		this.nifAsBuyer = broker.getNifAsBuyer();
+		this.iban = broker.getIban();
 
 		switch (depth) {
-		case ADVENTURES:
-			for (Adventure adventure : broker.getAdventureSet()) {
-				this.adventures.add(new AdventureData(adventure));
-			}
-			break;
 		case BULKS:
 			for (BulkRoomBooking bulkRoomBooking : broker.getRoomBulkBookingSet()) {
 				this.bulks.add(new BulkData(bulkRoomBooking));
+			}
+			break;
+		case CLIENTS:
+			for (Client client : broker.getClientSet()) {
+				this.clients.add(new ClientData(client, ClientData.CopyDepth.SHALLOW));
 			}
 			break;
 		case SHALLOW:
@@ -86,13 +90,6 @@ public class BrokerData {
 		this.iban = iban;
 	}
 
-	public List<AdventureData> getAdventures() {
-		return this.adventures;
-	}
-
-	public void setAdventures(List<AdventureData> adventures) {
-		this.adventures = adventures;
-	}
 
 	public List<BulkData> getBulks() {
 		return this.bulks;
@@ -100,6 +97,14 @@ public class BrokerData {
 
 	public void setBulks(List<BulkData> bulks) {
 		this.bulks = bulks;
+	}
+	
+	public List<ClientData> getClients() {
+		return clients;
+	}
+
+	public void setClients(List<ClientData> clients) {
+		this.clients = clients;
 	}
 
 }

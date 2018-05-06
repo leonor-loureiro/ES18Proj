@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>RentACars</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet"
+          th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}"/>
+    <script th:src="@{/webjars/jquery/3.1.1/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<div class="container">
+    <h2>Welcome to RentACars' Manager</h2>
+    <br/>
+    <h3>Create RentACar</h3>
+    <p class="text-danger" th:text="${error}">This is not good</p>
+    <form th:action="@{/rentACars}" th:object="${rentacar}" method="post">
+        <div class="form-group row">
+            <label class="col-sm-1 col-form-label">Name: </label>
+            <div class="col-sm-2">
+                <input class="form-control" type="text" th:field="*{name}"/>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-1 col-form-label">Nif: </label>
+            <div class="col-sm-2">
+                <input class="form-control" type="text" th:field="*{nif}"/>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-1 col-form-label">Iban: </label>
+            <div class="col-sm-2">
+                <input class="form-control" type="text" th:field="*{iban}"/>
+            </div>
+        </div>
+        <div class="form-group row">
+            <input class="btn btn-primary" type="submit" value="Submit" />
+        </div>
+    </form>
+    <br/>
+    <h3>List of RentACars</h3>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Nif</th>
+            <th>Iban</th>
+            <th>Vehicles</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="rentacar: ${rentacars}">
+            <td th:text="${rentacar.name}">Bank of Money</td>
+            <td th:text="${rentacar.nif}">BK111111</td>
+            <td th:text="${rentacar.iban}">BK111111</td>
+            <td><a
+                    th:href="@{/rentACars/{code}/vehicles(code=${rentacar.code})}">Vehicles</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
