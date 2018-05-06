@@ -13,9 +13,79 @@
         <h2>Rentings of Vehicle <span th:text="${vehicle.plate}" style="color: blue">Speedster900</span></h2>
         <a class="btn btn-default pull-right" th:href="@{/rentACars/{code}/vehicles(code=${vehicle.rentACarCode})}">Vehicles</a>
         <br/>
-        <h3>Create Vehicle</h3>
         <p class="text-danger" th:text="${error}">Error</p>
+        <form th:action="@{/rentACars/{code}/vehicles/{plate}/rentings(code=${vehicle.rentACarCode}, plate=${vehicle.plate})}" th:object="${renting}" method="post">
+            <div class="form-group row">
+                <label class="col-sm-1 col-form-label">Driving License: </label>
+                <div class="col-sm-2">
+                    <input class="form-control" type="text" th:field="*{drivingLicense}"/>
+                </div>
+            </div>
 
+            <div class="form-group row">
+                <label class="col-sm-1 col-form-label">Begin Date: </label>
+                <div class="col-sm-2">
+                    <input class="form-control" type="date" th:field="*{begin}"/>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-1 col-form-label">Begin Date: </label>
+                <div class="col-sm-2">
+                    <input class="form-control" type="date" th:field="*{end}"/>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-1 col-form-label">nif: </label>
+                <div class="col-sm-2">
+                    <input class="form-control" type="text" th:field="*{nif}"/>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-1 col-form-label">iban: </label>
+                <div class="col-sm-2">
+                    <input class="form-control" type="text" th:field="*{iban}"/>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <input class="btn btn-primary" type="submit" value="Submit" />
+            </div>
+        </form>
+        <br/>
+
+
+    </div>
+    <div class="col-xs-6">
+        <h3>Cars</h3>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>reference</th>
+                <th>begin</th>
+                <th>end</th>
+                <th>price</th>
+                <th>drivingLicense</th>
+                <th>pay ref</th>
+                <th>invoice ref</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="renting: ${rentings}">
+                <td th:text="${renting.reference}">REFREFREFREF</td>
+                <td th:date="${renting.begin}">dateBegin</td>
+                <td th:date="${renting.end}">dateend</td>
+                <td th:text="${renting.price}">1337</td>
+                <td th:text="${renting.drivingLicense}">drivingLicense</td>
+                <td th:text="${renting.paymentReference}">pay reference</td>
+                <td th:text="${renting.invoiceReference}">invoice reference</td>
+
+                <!--<td><a th:href="@{/rentACars/{code}/vehicles/{plate}/rentings(code=${rentacar.code},plate=${car.plate})}">Rentings</a></td>-->
+            </tr>
+            </tbody>
+        </table>
     </div>
 </body>
 </html>

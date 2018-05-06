@@ -1,5 +1,6 @@
 package pt.ulisboa.tecnico.softeng.car.services.local;
 
+import org.joda.time.LocalDate;
 import org.thymeleaf.util.ListUtils;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
@@ -76,8 +77,15 @@ public class RentACarInterface {
     }
 
     @Atomic(mode = TxMode.READ)
-    public static Set<RentingData> getRentingsByPlate(String plate, String rentACarCode){
+    public static Set<RentingData> getRentingsByPlate(String rentACarCode, String plate){
         return getRentACarByCode(rentACarCode).getVehicleByPlate(plate).getRentingSet().stream().
                 map(RentingData::new).collect(Collectors.toSet());
     }
+
+    @Atomic(mode = TxMode.READ)
+    public static RentingData rentVehicle(String rentACarCode, String plate, String drivingLicense,
+                                                      LocalDate begin, LocalDate end, String nif, String iban){
+        return new RentingData (getRentACarByCode(rentACarCode).getVehicleByPlate(plate).rent(drivingLicense, begin, end, nif, iban));
+    }
+
 }

@@ -45,31 +45,22 @@ public class CarInterfaceMethodsTest extends RollbackTestAbstractClass {
 		car = new Car(PLATE_CAR, 10, 10, rentACar);
 	}
 
-	@Test
-	public void success() {
-		new Expectations() {
-			{
-				BankInterface.processPayment(this.anyString, this.anyDouble);
-
-				TaxInterface.submitInvoice((InvoiceData) this.any);
-			}
-		};
-
-	}
+//	@Test
+//	public void success() {
+//		new Expectations() {
+//			{
+//				BankInterface.processPayment(this.anyString, this.anyDouble);
+//
+//				TaxInterface.submitInvoice((InvoiceData) this.any);
+//			}
+//		};
+//	}
 
 	@Test
 	public void getRentingsByPlate() {
-		new Expectations() {
-			{
-				BankInterface.processPayment(this.anyString, this.anyDouble);
-
-				TaxInterface.submitInvoice((InvoiceData) this.any);
-			}
-		};
-
 		String reference = RentACar.rent(Car.class, DRIVING_LICENSE, NIF, IBAN_BUYER, BEGIN, END);
 
-		Set<RentingData> data = RentACarInterface.getRentingsByPlate(PLATE_CAR, rentACar.getCode());
+		Set<RentingData> data = RentACarInterface.getRentingsByPlate(rentACar.getCode(), PLATE_CAR);
 
 		assertTrue(reference.equals(data.stream().findFirst().get().getReference()));
 	}

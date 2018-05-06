@@ -5,15 +5,20 @@ import org.joda.time.LocalDate;
 import pt.ulisboa.tecnico.softeng.car.domain.Renting;
 
 public class RentingData {
-	private final String reference;
-	private final String plate;
-	private final String drivingLicense;
-	private final String rentACarCode;
-	private final LocalDate begin;
-	private final LocalDate end;
-	private final String paymentReference;
-	private final String invoiceReference;
-	private final double price;
+	private String reference;
+	private String plate;
+	private String drivingLicense;
+	private String rentACarCode;
+	private LocalDate begin;
+	private LocalDate end;
+	private String paymentReference;
+	private String invoiceReference;
+	private double price;
+	private String nif;
+	private String iban;
+	private int kilometers;
+
+	public RentingData(){};
 
 	public RentingData(Renting renting) {
 		this.reference = renting.getReference();
@@ -25,6 +30,9 @@ public class RentingData {
 		this.paymentReference = renting.getPaymentReference();
 		this.invoiceReference = renting.getInvoiceReference();
 		this.price = renting.getPrice();
+		this.nif = renting.getClientNif();
+		this.iban = renting.getClientIban();
+		this.kilometers = renting.getKilometers();
 	}
 
 	/**
@@ -81,4 +89,63 @@ public class RentingData {
 		return price;
 	}
 
+	public void setReference(String reference) {
+		this.reference = reference;
+	}
+
+	public void setPlate(String plate) {
+		this.plate = plate;
+	}
+
+	public void setDrivingLicense(String drivingLicense) {
+		this.drivingLicense = drivingLicense;
+	}
+
+	public void setRentACarCode(String rentACarCode) {
+		this.rentACarCode = rentACarCode;
+	}
+
+	public void setBegin(LocalDate begin) {
+		this.begin = begin;
+	}
+
+	public void setEnd(LocalDate end) {
+		this.end = end;
+	}
+
+	public void setPaymentReference(String paymentReference) {
+		this.paymentReference = paymentReference;
+	}
+
+	public void setInvoiceReference(String invoiceReference) {
+		this.invoiceReference = invoiceReference;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
+	public String getNif() {
+		return nif;
+	}
+
+	public void setNif(String nif) {
+		this.nif = nif;
+	}
+
+	public String getIban() {
+		return iban;
+	}
+
+	public void setIban(String iban) {
+		this.iban = iban;
+	}
+
+	public int getKilometers() {
+		return kilometers;
+	}
+
+	public void setKilometers(int kilometers) {
+		this.kilometers = kilometers;
+	}
 }
