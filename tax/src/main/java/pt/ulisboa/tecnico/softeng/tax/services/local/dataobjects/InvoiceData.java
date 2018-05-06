@@ -1,23 +1,65 @@
 package pt.ulisboa.tecnico.softeng.tax.services.local.dataobjects;
 
 import org.joda.time.LocalDate;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import pt.ulisboa.tecnico.softeng.tax.domain.Invoice;
 
 public class InvoiceData {
+	private String reference;
+	private boolean cancelled;
 	private String sellerNIF;
 	private String buyerNIF;
 	private String itemType;
-	private double value;
+	private Double iva;
+	private Double value;
+	@DateTimeFormat (pattern="yy-mm-dd")
 	private LocalDate date;
 
 	public InvoiceData() {
 	}
 
+	public InvoiceData(Invoice invoice) {
+		this.reference = invoice.getReference();
+		this.cancelled = invoice.getCancelled();
+		this.sellerNIF = invoice.getSeller().getNif();
+		this.buyerNIF = invoice.getBuyer().getNif();
+		this.itemType = invoice.getItemType().getName();
+		this.iva = new Double(invoice.getIva());
+		this.value = new Double(invoice.getValue());
+		this.date = invoice.getDate();
+	}
+	
 	public InvoiceData(String sellerNIF, String buyerNIF, String itemType, double value, LocalDate date) {
 		this.sellerNIF = sellerNIF;
 		this.buyerNIF = buyerNIF;
 		this.itemType = itemType;
-		this.value = value;
+		this.value = new Double(value);
 		this.date = date;
+	}
+
+	public String getReference() {
+		return reference;
+	}
+
+	public void setReference(String reference) {
+		this.reference = reference;
+	}
+
+	public boolean isCancelled() {
+		return cancelled;
+	}
+
+	public void setCancelled(boolean cancelled) {
+		this.cancelled = cancelled;
+	}
+
+	public Double getIva() {
+		return iva;
+	}
+
+	public void setIva(Double iva) {
+		this.iva = iva;
 	}
 
 	public String getSellerNIF() {
@@ -44,11 +86,11 @@ public class InvoiceData {
 		this.itemType = itemType;
 	}
 
-	public double getValue() {
+	public Double getValue() {
 		return this.value;
 	}
 
-	public void setValue(float value) {
+	public void setValue(Double value) {
 		this.value = value;
 	}
 

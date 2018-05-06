@@ -135,4 +135,10 @@ public class RentACar extends RentACar_Base {
 		return counter;
 	}
 
+	public Vehicle getVehicleByPlate(String plate) {
+		return getVehicleSet().stream()
+				.filter(a -> a.getPlate().equals(plate))
+				.findFirst()
+				.orElse(null);
+	}
 }
