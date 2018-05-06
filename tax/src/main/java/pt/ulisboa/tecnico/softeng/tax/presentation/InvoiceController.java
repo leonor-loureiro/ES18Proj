@@ -39,8 +39,7 @@ public class InvoiceController {
 	
 	@RequestMapping(method = RequestMethod.POST)
 	public String invoiceSubmit(Model model, @PathVariable String nif, @ModelAttribute InvoiceData invoice) {
-		logger.info("invoiceSubmit sellerNif:{}, buyerNif:{}, itemTypeName:{}, value:{}, date:{}",
-		invoice.getSellerNIF(), invoice.getBuyerNIF(), invoice.getItemType(), invoice.getValue(), invoice.getDate()); 
+		logger.info("invoiceSubmit sellerNif:{}, buyerNif:{}, itemTypeName:{}, value:{}, date:{}", invoice.getSellerNIF(), invoice.getBuyerNIF(), invoice.getItemType(), invoice.getValue(), invoice.getDate()); 
 
 		try {
 			TaxInterface.createInvoice(invoice);

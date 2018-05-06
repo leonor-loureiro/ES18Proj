@@ -23,6 +23,28 @@
 				<label>Date: </label> <input class="form-control" type="date" th:field="*{date}" />
 				<input class="btn btn-primary" type="submit" value="Submit" />
 			</form>
+			<br/>			
+			<h3>Invoices</h3>
+	 		<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Seller's NIF</th>
+	 					<th>Buyer's NIF</th>
+	 					<th>ItemType's Name</th>
+	 					<th>Value</th>
+	 					<th>Date</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="invoice: ${taxpayer.invoices}">
+						<td th:text="${invoice.sellerNIF}">NIF do Seller</td>
+	 					<td th:text="${invoice.buyerNIF}">NIF do Buyer</td>
+	 					<td th:text="${invoice.itemType}">Nome do Item</td>
+	 					<td th:text="${invoice.value}">Valor</td>
+	 					<td th:text="${invoice.date}">Data</td>
+					</tr>
+				</tbody>
+			</table>
 		</div>
 	</body>
 </html>
