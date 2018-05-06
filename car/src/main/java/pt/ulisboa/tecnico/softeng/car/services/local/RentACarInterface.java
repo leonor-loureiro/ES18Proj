@@ -104,11 +104,11 @@ public class RentACarInterface {
         for(RentACar rentACar : FenixFramework.getDomainRoot().getRentACarSet()){
             if (type.equals(Type.CAR)){
                 for(Vehicle v : rentACar.getAvailableVehicles(Car.class, begin, end)){
-                    return new RentingData(v.rent(license, begin, end, nif, iban));
+                    return rentVehicle( rentACar.getCode(), v.getPlate(), license, begin, end, nif, iban);
                 }
             }else{
                 for(Vehicle v : rentACar.getAvailableVehicles(Motorcycle.class, begin, end)){
-                    return new RentingData(v.rent(license, begin, end, nif, iban));
+                    return rentVehicle( rentACar.getCode(), v.getPlate(), license, begin, end, nif, iban);
                 }
             }
         }

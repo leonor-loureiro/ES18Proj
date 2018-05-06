@@ -50,7 +50,9 @@ public class HotelRestController {
 
 
     @RequestMapping(value="/reserveRoom/{type}/arrival/{arrival}/departure/{departure}/buyerNif/{buyerNif}/buyerIban/{buyerIban}", method = RequestMethod.GET)
-    public String reserveRoom(@PathVariable Room.Type type, @DateTimeFormat LocalDate arrival, @DateTimeFormat LocalDate departure, @PathVariable String buyerNif, @PathVariable String buyerIban) {
+    public String reserveRoom(@PathVariable Room.Type type, @DateTimeFormat(pattern = "yyyy-MM-dd") @PathVariable LocalDate arrival,
+                              @DateTimeFormat(pattern = "yyyy-MM-dd") @PathVariable LocalDate departure,
+                              @PathVariable String buyerNif, @PathVariable String buyerIban) {
         logger.info("reserveRoom type:{} , arrival:{}, departure:{}, buyerNif:{}, buyerIban:{}", type, arrival, departure, buyerNif, buyerIban);
         try {
             return HotelInterface.reserveRoom(type, arrival, departure, buyerNif, buyerIban);

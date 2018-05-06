@@ -43,9 +43,9 @@ public class RentACarRestController {
 
 
     @RequestMapping(value="/rent/type/{type}/license/{license}/begin/{begin}/end/{end}/nif/{nif}/iban/{iban}", method = RequestMethod.GET)
-    public String rentCar(@PathVariable RentACarInterface.Type type, @PathVariable String license, @DateTimeFormat LocalDate begin,
-                          @DateTimeFormat LocalDate end, @PathVariable String nif, @PathVariable String iban) {
-        logger.info("rent a car type:{}, license:{}, begin:{} , end:{}, age:{} , buyerNif:{}, buyerIban:{}",
+    public String rentCar(@PathVariable RentACarInterface.Type type, @PathVariable String license, @DateTimeFormat(pattern = "yyyy-MM-dd") @PathVariable LocalDate begin,
+                          @DateTimeFormat(pattern = "yyyy-MM-dd") @PathVariable LocalDate end, @PathVariable String nif, @PathVariable String iban) {
+        logger.info("rent a car type:{}, license:{}, begin:{} , end:{}, buyerNif:{}, buyerIban:{}",
                 type, license, begin, end, nif, iban);
         try {
             return RentACarInterface.rentVehicle(type, license, begin, end, nif, iban).getReference();

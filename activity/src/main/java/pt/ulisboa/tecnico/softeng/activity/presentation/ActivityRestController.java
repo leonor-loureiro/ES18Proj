@@ -44,8 +44,9 @@ public class ActivityRestController {
 
 
     @RequestMapping(value="/reserveActivity/begin/{begin}/end/{end}/age/{age}/nif/{nif}/iban/{iban}", method = RequestMethod.GET)
-    public String reserveActivity(@DateTimeFormat LocalDate begin, @DateTimeFormat LocalDate end, @PathVariable int age,
-                                  @PathVariable String nif, @PathVariable String iban) {
+    public String reserveActivity(@DateTimeFormat(pattern = "yyyy-MM-dd") @PathVariable LocalDate begin,
+                                  @DateTimeFormat(pattern = "yyyy-MM-dd") @PathVariable LocalDate end,
+                                  @PathVariable int age, @PathVariable String nif, @PathVariable String iban) {
         logger.info("reserveRoom begin:{} , end:{}, age:{} , buyerNif:{}, buyerIban:{}", begin, end, age, nif, iban);
         try {
             return ActivityInterface.reserveActivity(begin, end, age, nif, iban);
