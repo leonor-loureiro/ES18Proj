@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<title>Invoices</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" />
+		<script th:src="@{/webjars/jquery/3.1.1/jquery.min.js}"></script>
+		<script th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
+	</head>
+	
+	<body>
+		<div class="container">
+			<h2>Invoices of TaxPayer <span th:text="${taxpayer.name}">Invoice</span></h2>
+			<a class="btn btn-default pull-right" th:href="@{/taxpayers}">TaxPayers</a>
+			<br/>
+			<h3>Create Invoice</h3>
+			<p class="text-danger" th:text="${error}">Error</p>
+			<form class="form-inline" th:action="@{/taxpayers/{nif}/invoices(nif=${taxpayer.nif})}" th:object="${invoice}" method="post"> 
+		 		<label>Seller's nif: </label> <input class="form-control" type="text" th:field="*{sellerNIF}" />
+				<label>Buyer's nif: </label> <input class="form-control" type="text" th:field="*{buyerNIF}" />
+				<label>ItemType's name: </label> <input class="form-control" type="text" th:field="*{itemType}" />
+				<label>Value: </label> <input class="form-control" type="number" step="0.01" min="0.01" th:field="*{value}" />
+				<label>Date: </label> <input class="form-control" type="date" th:field="*{date}" />
+				<input class="btn btn-primary" type="submit" value="Submit" />
+			</form>
+			<br/>			
+			<h3>Invoices</h3>
+	 		<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Reference</th>
+						<th>Canceled</th>
+						<th>Seller's NIF</th>
+	 					<th>Buyer's NIF</th>
+	 					<th>ItemType's Name</th>
+	 					<th>Iva</th>
+	 					<th>Value</th>
+	 					<th>Date</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="invoice: ${taxpayer.invoices}">
+						<td th:text="${invoice.reference}">Referencia</td>
+						<td th:text="${invoice.cancelled}">Cancelado?</td>
+						<td th:text="${invoice.sellerNIF}">NIF do Seller</td>
+	 					<td th:text="${invoice.buyerNIF}">NIF do Buyer</td>
+	 					<td th:text="${invoice.itemType}">Nome do Item</td>
+	 					<td th:text="${invoice.iva}">Iva do Item</td>
+	 					<td th:text="${invoice.value}">Valor</td>
+	 					<td th:text="${invoice.date}">Data</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</body>
+</html>
