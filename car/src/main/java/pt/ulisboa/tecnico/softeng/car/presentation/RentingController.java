@@ -63,9 +63,6 @@ public class RentingController {
         try {
             RentACarInterface.checkOut(code, plate, reference, renting.getKilometers());
         } catch (CarException ce) {
-            System.out.println("WOOOOOO");
-            System.out.println("WOOOOOO");
-            System.out.println("WOOOOOO");
             model.addAttribute("error", "Error: It was not possible to checkout");
             VehicleData vd = RentACarInterface.getVehicleDataByPlate(code, plate);
             model.addAttribute("vehicle", vd);
