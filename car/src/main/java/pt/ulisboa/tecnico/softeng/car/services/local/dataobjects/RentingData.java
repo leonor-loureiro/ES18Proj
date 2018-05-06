@@ -2,18 +2,24 @@ package pt.ulisboa.tecnico.softeng.car.services.local.dataobjects;
 
 import org.joda.time.LocalDate;
 
-import org.springframework.format.annotation.DateTimeFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.joda.ser.LocalDateSerializer;
 
 import pt.ulisboa.tecnico.softeng.car.domain.Renting;
 
+
 public class RentingData {
+	
+
 	private String reference;
 	private String plate;
 	private String drivingLicense;
 	private String rentACarCode;
-	@DateTimeFormat(pattern = "yy-mm-dd")
+
+	@JsonSerialize(using = LocalDateSerializer.class)  
 	private LocalDate begin;
-	@DateTimeFormat(pattern = "yy-mm-dd")
+
+	@JsonSerialize(using = LocalDateSerializer.class)  
 	private LocalDate end;
 	private String paymentReference;
 	private String invoiceReference;
@@ -22,7 +28,8 @@ public class RentingData {
 	private String iban;
 	private int kilometers;
 	private String cancel;
-	@DateTimeFormat(pattern = "yy-mm-dd")
+
+	@JsonSerialize(using = LocalDateSerializer.class)  
 	private LocalDate cancelDate;
 
 
