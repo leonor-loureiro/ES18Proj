@@ -10,6 +10,7 @@ import pt.ulisboa.tecnico.softeng.car.exception.CarException;
 import pt.ulisboa.tecnico.softeng.car.services.local.dataobjects.RentACarData;
 import pt.ulisboa.tecnico.softeng.car.services.local.dataobjects.RentingData;
 import pt.ulisboa.tecnico.softeng.car.services.local.dataobjects.VehicleData;
+import pt.ulisboa.tecnico.softeng.car.services.remote.TaxInterface;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -18,6 +19,11 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class RentACarInterface {
+
+    public static enum Type{
+        CAR, MOTORCYCLE
+    }
+
     @Atomic(mode = TxMode.WRITE)
     public static void createRentACar(RentACarData rentacar) {
         new RentACar(rentacar.getName(), rentacar.getNif(), rentacar.getIban());
@@ -92,4 +98,30 @@ public class RentACarInterface {
     public static void checkOut(String rentACarCode, String plate, String reference, int kilometers) {
         getRentACarByCode(rentACarCode).getVehicleByPlate(plate).getRenting(reference).checkout(kilometers);
     }
+
+    @Atomic(mode = TxMode.WRITE)
+    public static RentingData rentVehicle(RentACarInterface.Type type, String license, LocalDate begin, LocalDate end, String nif, String iban) {
+        for(RentACar rentACar : FenixFramework.getDomainRoot().getRentACarSet()){
+            if (type.equals(Type.CAR)){
+                for(Vehicle v : rentACar.getAvailableVehicles(Car.class, begin, end)){
+                    return new RentingData(v.rent(license, begin, end, nif, iban));
+                }
+            }else{
+                for(Vehicle v : rentACar.getAvailableVehicles(Motorcycle.class, begin, end)){
+                    return new RentingData(v.rent(license, begin, end, nif, iban));
+                }
+            }
+        }
+        return null;
+    }
+
+    @Atomic(mode = TxMode.WRITE)
+    public static String cancelRenting(String reference) {
+        return RentACar.cancelRenting(reference);
+    }
+    @Atomic(mode = TxMode.READ)
+    public static RentingData getRentingByRefenence(String reference) {
+        return RentACar.getRentingData(reference);
+    }
+
 }

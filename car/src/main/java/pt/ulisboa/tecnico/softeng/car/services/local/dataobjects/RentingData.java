@@ -21,6 +21,10 @@ public class RentingData {
 	private String nif;
 	private String iban;
 	private int kilometers;
+	private String cancel;
+	@DateTimeFormat(pattern = "yy-mm-dd")
+	private LocalDate cancelDate;
+
 
 	public RentingData(){};
 
@@ -37,6 +41,8 @@ public class RentingData {
 		this.nif = renting.getClientNif();
 		this.iban = renting.getClientIban();
 		this.kilometers = renting.getKilometers();
+		this.cancel = renting.getCancellationReference();
+		this.cancelDate = renting.getCancellationDate();
 	}
 
 	/**
@@ -151,5 +157,21 @@ public class RentingData {
 
 	public void setKilometers(int kilometers) {
 		this.kilometers = kilometers;
+	}
+
+	public String getCancel() {
+		return cancel;
+	}
+
+	public void setCancel(String cancel) {
+		this.cancel = cancel;
+	}
+
+	public LocalDate getCancelDate() {
+		return cancelDate;
+	}
+
+	public void setCancelDate(LocalDate cancelDate) {
+		this.cancelDate = cancelDate;
 	}
 }

@@ -70,6 +70,8 @@
                     <th>pay ref</th>
                     <th>invoice ref</th>
                     <th>kilometers</th>
+                    <th>canceled</th>
+                    <th>canceled Date</th>
                     <th>checkout (insert kilometers)</th>
                 </tr>
                 </thead>
@@ -83,6 +85,8 @@
                     <td th:text="${renting.paymentReference}">pay reference</td>
                     <td th:text="${renting.invoiceReference}">invoice reference</td>
                     <td th:text="${renting.kilometers}">kilometers</td>
+                    <td th:text="${renting.cancel}">kilometers</td>
+                    <td th:text="${renting.cancelDate}">kilometers</td>
 
                     <td>
                         <form th:action="@{/rentACars/{code}/vehicles/{plate}/rentings/{reference}/checkout(code=${vehicle.rentACarCode}, plate=${vehicle.plate},reference=${renting.reference})}" th:object="${renting}" method="post">
