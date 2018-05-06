@@ -1,23 +1,25 @@
-package pt.ulisboa.tecnico.softeng.car.services.remote.dataobjects;
+package pt.ulisboa.tecnico.softeng.broker.services.remote.dataobjects;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
-import org.springframework.format.annotation.DateTimeFormat;
 
-public class InvoiceData {
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+public class RestInvoiceData {
 	private String sellerNif;
 	private String buyerNif;
 	private String itemType;
 	private Double value;
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private LocalDate date;
 	private Double iva;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.SSS")
 	private DateTime time;
 
-	public InvoiceData() {
+	public RestInvoiceData() {
 	}
 
-	public InvoiceData(String sellerNif, String buyerNif, String itemType, Double value, LocalDate date,
+	public RestInvoiceData(String sellerNif, String buyerNif, String itemType, Double value, LocalDate date,
 			DateTime time) {
 		this.sellerNif = sellerNif;
 		this.buyerNif = buyerNif;

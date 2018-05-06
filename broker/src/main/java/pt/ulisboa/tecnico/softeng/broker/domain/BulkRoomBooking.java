@@ -7,7 +7,7 @@ import org.joda.time.LocalDate;
 
 import pt.ulisboa.tecnico.softeng.broker.exception.BrokerException;
 import pt.ulisboa.tecnico.softeng.broker.services.remote.HotelInterface;
-import pt.ulisboa.tecnico.softeng.broker.services.remote.dataobjects.RoomBookingData;
+import pt.ulisboa.tecnico.softeng.broker.services.remote.dataobjects.RestRoomBookingData;
 import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.HotelException;
 import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.RemoteAccessException;
 
@@ -85,7 +85,7 @@ public class BulkRoomBooking extends BulkRoomBooking_Base {
 		}
 
 		for (Reference reference : getReferenceSet()) {
-			RoomBookingData data = null;
+			RestRoomBookingData data = null;
 			try {
 				data = HotelInterface.getRoomBookingData(reference.getValue());
 				setNumberOfRemoteErrors(0);

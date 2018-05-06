@@ -40,7 +40,7 @@ public class ClientController {
 
 	@RequestMapping(method = RequestMethod.POST)
 	public String submitClient(Model model, @PathVariable String brokerCode, @ModelAttribute ClientData clientData) {
-		logger.info("submitClient brokerCode:{}, begin:{}, end:{}, age:{}, iban:{}, amount:{}", brokerCode,
+		logger.info("submitClient brokerCode:{}, age:{}, nif:{}, iban:{}, drivingLicense:{}", brokerCode,
 				clientData.getAge(), clientData.getNif(), clientData.getIban(), clientData.getDrivingLicense());
 
 		try {

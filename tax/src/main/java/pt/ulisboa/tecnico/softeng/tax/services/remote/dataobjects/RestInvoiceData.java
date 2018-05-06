@@ -1,30 +1,59 @@
-package pt.ulisboa.tecnico.softeng.broker.services.remote.dataobjects;
+package pt.ulisboa.tecnico.softeng.tax.services.remote.dataobjects;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
-import org.springframework.format.annotation.DateTimeFormat;
 
-public class InvoiceData {
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import pt.ulisboa.tecnico.softeng.tax.domain.Invoice;
+import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
+
+public class RestInvoiceData {
+	private String reference;
 	private String sellerNif;
 	private String buyerNif;
 	private String itemType;
 	private Double value;
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private LocalDate date;
 	private Double iva;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.SSS")
 	private DateTime time;
 
-	public InvoiceData() {
+	public RestInvoiceData() {
 	}
 
-	public InvoiceData(String sellerNif, String buyerNif, String itemType, Double value, LocalDate date,
-			DateTime time) {
+	public RestInvoiceData(String reference, String sellerNif, String buyerNif, String itemType, Double value,
+			LocalDate date, DateTime time) {
+		if (reference == null) {
+			throw new TaxException();
+		}
+		this.reference = reference;
 		this.sellerNif = sellerNif;
 		this.buyerNif = buyerNif;
 		this.itemType = itemType;
 		this.value = value;
 		this.date = date;
 		this.time = time;
+	}
+
+	public RestInvoiceData(Invoice invoice) {
+		this.reference = invoice.getReference();
+		this.sellerNif = invoice.getSeller().getNif();
+		this.buyerNif = invoice.getBuyer().getNif();
+		this.itemType = invoice.getItemType().getName();
+		this.value = invoice.getValue();
+		this.date = invoice.getDate();
+		this.iva = invoice.getIva();
+		this.time = invoice.getTime();
+	}
+
+	public String getReference() {
+		return this.reference;
+	}
+
+	public void setReference(String reference) {
+		this.reference = reference;
 	}
 
 	public String getSellerNif() {

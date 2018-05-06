@@ -1,20 +1,35 @@
-package pt.ulisboa.tecnico.softeng.hotel.services.remote.dataobjects;
+package pt.ulisboa.tecnico.softeng.bank.services.remote.dataobjects;
 
 import org.joda.time.DateTime;
 
-public class BankOperationData {
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import pt.ulisboa.tecnico.softeng.bank.domain.Operation;
+
+public class RestBankOperationData {
 	private String reference;
 	private String type;
 	private String iban;
 	private Double value;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.SSS")
 	private DateTime time;
 	private String transactionSource;
 	private String transactionReference;
 
-	public BankOperationData() {
+	public RestBankOperationData() {
 	}
 
-	public BankOperationData(String iban, double value, String transactionSource, String transactionReference) {
+	public RestBankOperationData(Operation operation) {
+		this.reference = operation.getReference();
+		this.type = operation.getType().name();
+		this.iban = operation.getAccount().getIBAN();
+		this.value = operation.getValue();
+		this.time = operation.getTime();
+		this.transactionSource = operation.getTransactionSource();
+		this.transactionReference = operation.getTransactionReference();
+	}
+
+	public RestBankOperationData(String iban, double value, String transactionSource, String transactionReference) {
 		this.iban = iban;
 		this.value = value;
 		this.transactionSource = transactionSource;

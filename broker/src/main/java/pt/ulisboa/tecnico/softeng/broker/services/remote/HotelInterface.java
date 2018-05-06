@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import pt.ulisboa.tecnico.softeng.broker.services.remote.dataobjects.RoomBookingData;
+import pt.ulisboa.tecnico.softeng.broker.services.remote.dataobjects.RestRoomBookingData;
 import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.HotelException;
 import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.RemoteAccessException;
 
@@ -23,7 +23,7 @@ public class HotelInterface {
 
 	private static String ENDPOINT = "http://localhost:8085";
 
-	public static String reserveRoom(RoomBookingData roomBookingData) {
+	public static String reserveRoom(RestRoomBookingData roomBookingData) {
 		logger.info("reserveRoom arrival:{}, departure:{}, nif:{}, iban:{}, adventureId:{}",
 				roomBookingData.getArrival(), roomBookingData.getDeparture(), roomBookingData.getBuyerNif(),
 				roomBookingData.getBuyerIban(), roomBookingData.getAdventureId());
@@ -61,12 +61,12 @@ public class HotelInterface {
 		}
 	}
 
-	public static RoomBookingData getRoomBookingData(String reference) {
+	public static RestRoomBookingData getRoomBookingData(String reference) {
 		logger.info("getRoomBookingData reference:{}", reference);
 		RestTemplate restTemplate = new RestTemplate();
 		try {
-			RoomBookingData result = restTemplate.getForObject(ENDPOINT + "/rest/hotels/booking?reference=" + reference,
-					RoomBookingData.class);
+			RestRoomBookingData result = restTemplate.getForObject(ENDPOINT + "/rest/hotels/booking?reference=" + reference,
+					RestRoomBookingData.class);
 			return result;
 		} catch (HttpClientErrorException e) {
 			logger.info("getRoomBookingData HttpClientErrorException reference:{}", reference);

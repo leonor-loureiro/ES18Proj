@@ -1,34 +1,48 @@
-package pt.ulisboa.tecnico.softeng.broker.services.remote.dataobjects;
+package pt.ulisboa.tecnico.softeng.activity.services.remote.dataobjects;
 
 import org.joda.time.LocalDate;
 
-public class ActivityBookingData {
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import pt.ulisboa.tecnico.softeng.activity.domain.Booking;
+
+public class RestActivityBookingData {
 	private String reference;
 	private String nif;
 	private String iban;
 	private String name;
 	private String code;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private LocalDate begin;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private LocalDate end;
 	private int age;
 	private String adventureId;
 	private String cancellation;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private LocalDate cancellationDate;
 	private Double price;
 	private String paymentReference;
 	private String invoiceReference;
 
-	public ActivityBookingData() {
+	public RestActivityBookingData() {
 	}
 
-	public ActivityBookingData(LocalDate begin, LocalDate end, int age, String nifAsBuyer, String iban,
-			String adventureId) {
-		this.begin = begin;
-		this.end = end;
-		this.age = age;
-		this.nif = nifAsBuyer;
-		this.iban = iban;
-		this.adventureId = adventureId;
+	public RestActivityBookingData(Booking booking) {
+		this.reference = booking.getReference();
+		this.cancellation = booking.getCancel();
+		this.name = booking.getActivityOffer().getActivity().getActivityProvider().getName();
+		this.code = booking.getActivityOffer().getActivity().getActivityProvider().getCode();
+		this.nif = booking.getBuyerNif();
+		this.iban = booking.getIban();
+		this.begin = booking.getActivityOffer().getBegin();
+		this.end = booking.getActivityOffer().getEnd();
+		this.age = booking.getAge();
+		this.adventureId = booking.getAdventureId();
+		this.cancellationDate = booking.getCancellationDate();
+		this.price = booking.getAmount();
+		this.paymentReference = booking.getPaymentReference();
+		this.invoiceReference = booking.getInvoiceReference();
 	}
 
 	public String getReference() {

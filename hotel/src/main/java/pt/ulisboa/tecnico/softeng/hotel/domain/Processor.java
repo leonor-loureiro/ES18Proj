@@ -8,8 +8,8 @@ import org.slf4j.LoggerFactory;
 
 import pt.ulisboa.tecnico.softeng.hotel.services.remote.BankInterface;
 import pt.ulisboa.tecnico.softeng.hotel.services.remote.TaxInterface;
-import pt.ulisboa.tecnico.softeng.hotel.services.remote.dataobjects.BankOperationData;
-import pt.ulisboa.tecnico.softeng.hotel.services.remote.dataobjects.InvoiceData;
+import pt.ulisboa.tecnico.softeng.hotel.services.remote.dataobjects.RestBankOperationData;
+import pt.ulisboa.tecnico.softeng.hotel.services.remote.dataobjects.RestInvoiceData;
 import pt.ulisboa.tecnico.softeng.hotel.services.remote.exceptions.BankException;
 import pt.ulisboa.tecnico.softeng.hotel.services.remote.exceptions.RemoteAccessException;
 import pt.ulisboa.tecnico.softeng.hotel.services.remote.exceptions.TaxException;
@@ -41,14 +41,14 @@ public class Processor extends Processor_Base {
 				if (booking.getPaymentReference() == null) {
 					try {
 						booking.setPaymentReference(
-								BankInterface.processPayment(new BankOperationData(booking.getBuyerIban(),
+								BankInterface.processPayment(new RestBankOperationData(booking.getBuyerIban(),
 										booking.getPrice(), TRANSACTION_SOURCE, booking.getReference())));
 					} catch (BankException | RemoteAccessException ex) {
 						failedToProcess.add(booking);
 						continue;
 					}
 				}
-				InvoiceData invoiceData = new InvoiceData(booking.getProviderNif(), booking.getBuyerNif(),
+				RestInvoiceData invoiceData = new RestInvoiceData(booking.getProviderNif(), booking.getBuyerNif(),
 						Booking.getType(), booking.getPrice(), booking.getArrival(), booking.getTime());
 				try {
 					booking.setInvoiceReference(TaxInterface.submitInvoice(invoiceData));

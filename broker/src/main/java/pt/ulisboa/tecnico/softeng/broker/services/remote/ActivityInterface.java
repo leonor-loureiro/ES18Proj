@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import pt.ulisboa.tecnico.softeng.broker.services.remote.dataobjects.ActivityBookingData;
+import pt.ulisboa.tecnico.softeng.broker.services.remote.dataobjects.RestActivityBookingData;
 import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.ActivityException;
 import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.RemoteAccessException;
 
@@ -14,7 +14,7 @@ public class ActivityInterface {
 
 	private static String ENDPOINT = "http://localhost:8081";
 
-	public static String reserveActivity(ActivityBookingData activityBookingData) {
+	public static String reserveActivity(RestActivityBookingData activityBookingData) {
 		logger.info("reserveActivity begin:{}, end:{}, age:{}, nif:{}, iban:{}, adventureId:{}",
 				activityBookingData.getBegin(), activityBookingData.getEnd(), activityBookingData.getAge(),
 				activityBookingData.getNif(), activityBookingData.getIban(), activityBookingData.getAdventureId());
@@ -53,12 +53,12 @@ public class ActivityInterface {
 		}
 	}
 
-	public static ActivityBookingData getActivityReservationData(String reference) {
+	public static RestActivityBookingData getActivityReservationData(String reference) {
 		logger.info("getActivityReservationData reference:{}", reference);
 		RestTemplate restTemplate = new RestTemplate();
 		try {
-			ActivityBookingData result = restTemplate.getForObject(
-					ENDPOINT + "/rest/providers/reservation?reference=" + reference, ActivityBookingData.class);
+			RestActivityBookingData result = restTemplate.getForObject(
+					ENDPOINT + "/rest/providers/reservation?reference=" + reference, RestActivityBookingData.class);
 			return result;
 		} catch (HttpClientErrorException e) {
 			logger.info("getActivityReservationData HttpClientErrorException:{}", reference);

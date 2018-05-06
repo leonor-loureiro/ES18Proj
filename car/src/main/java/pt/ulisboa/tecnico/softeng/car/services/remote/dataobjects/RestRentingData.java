@@ -1,13 +1,19 @@
-package pt.ulisboa.tecnico.softeng.broker.services.remote.dataobjects;
+package pt.ulisboa.tecnico.softeng.car.services.remote.dataobjects;
 
 import org.joda.time.LocalDate;
 
-public class RentingData {
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import pt.ulisboa.tecnico.softeng.car.domain.Renting;
+
+public class RestRentingData {
 	private String reference;
 	private String plate;
 	private String drivingLicense;
 	private String rentACarCode;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private LocalDate begin;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private LocalDate end;
 	private String paymentReference;
 	private String invoiceReference;
@@ -19,15 +25,21 @@ public class RentingData {
 	private Integer kilometers;
 	private String adventureId;
 
-	public RentingData(String type, String drivingLicense, String nif, String iban, LocalDate begin, LocalDate end,
-			String adventureId) {
-		this.typeValue = type;
-		this.drivingLicense = drivingLicense;
-		this.buyerNIF = nif;
-		this.buyerIBAN = iban;
-		this.begin = begin;
-		this.end = end;
-		this.setAdventureId(adventureId);
+	public RestRentingData() {
+	}
+
+	public RestRentingData(Renting renting) {
+		this.reference = renting.getReference();
+		this.plate = renting.getVehicle().getPlate();
+		this.drivingLicense = renting.getDrivingLicense();
+		this.rentACarCode = renting.getVehicle().getRentACar().getCode();
+		this.begin = renting.getBegin();
+		this.end = renting.getEnd();
+		this.paymentReference = renting.getPaymentReference();
+		this.invoiceReference = renting.getInvoiceReference();
+		this.cancellationReference = renting.getCancellationReference();
+		this.price = renting.getPrice();
+		this.adventureId = renting.getAdventureId();
 	}
 
 	public String getReference() {

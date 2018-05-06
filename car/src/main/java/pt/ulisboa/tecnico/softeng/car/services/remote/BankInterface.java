@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import pt.ulisboa.tecnico.softeng.car.services.remote.dataobjects.BankOperationData;
+import pt.ulisboa.tecnico.softeng.car.services.remote.dataobjects.RestBankOperationData;
 import pt.ulisboa.tecnico.softeng.car.services.remote.exceptions.BankException;
 import pt.ulisboa.tecnico.softeng.car.services.remote.exceptions.RemoteAccessException;
 
@@ -14,15 +14,16 @@ public class BankInterface {
 
 	private static String ENDPOINT = "http://localhost:8082";
 
-	public static String processPayment(BankOperationData bankOperationData) {
+	public static String processPayment(RestBankOperationData bankOperationData) {
 		logger.info("processPayment iban:{}, amount:{}, transactionSource:{}, transactionReference:{}",
 				bankOperationData.getIban(), bankOperationData.getValue(), bankOperationData.getTransactionSource(),
 				bankOperationData.getTransactionReference());
 
 		RestTemplate restTemplate = new RestTemplate();
 		try {
-			String result = restTemplate.postForObject(ENDPOINT + "/rest/banks/accounts/", bankOperationData,
-					String.class);
+			String result = restTemplate.postForObject(
+					ENDPOINT + "/rest/banks/accounts/" + bankOperationData.getIban() + "/processPayment",
+					bankOperationData, String.class);
 			return result;
 		} catch (HttpClientErrorException e) {
 			logger.info(

@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import pt.ulisboa.tecnico.softeng.broker.services.remote.dataobjects.RentingData;
+import pt.ulisboa.tecnico.softeng.broker.services.remote.dataobjects.RestRentingData;
 import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.CarException;
 import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.RemoteAccessException;
 
@@ -25,7 +25,7 @@ public class CarInterface {
 				vehicleType, drivingLicense, nif, iban, begin, end, adventureId);
 		RestTemplate restTemplate = new RestTemplate();
 		try {
-			RentingData rentingData = new RentingData(vehicleType.toString(), drivingLicense, nif, iban, begin, end,
+			RestRentingData rentingData = new RestRentingData(vehicleType.toString(), drivingLicense, nif, iban, begin, end,
 					adventureId);
 			String result = restTemplate.postForObject(ENDPOINT + "/rest/rentacars/rent", rentingData, String.class);
 			return result;
@@ -58,12 +58,12 @@ public class CarInterface {
 		}
 	}
 
-	public static RentingData getRentingData(String reference) {
+	public static RestRentingData getRentingData(String reference) {
 		logger.info("getRentingData reference:{}", reference);
 		RestTemplate restTemplate = new RestTemplate();
 		try {
-			RentingData result = restTemplate.getForObject(ENDPOINT + "/rest/rentacars/renting?reference=" + reference,
-					RentingData.class);
+			RestRentingData result = restTemplate.getForObject(ENDPOINT + "/rest/rentacars/renting?reference=" + reference,
+					RestRentingData.class);
 			return result;
 		} catch (HttpClientErrorException e) {
 			logger.info("getRentingData HttpClientErrorException:{}", reference);

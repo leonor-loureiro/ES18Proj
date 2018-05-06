@@ -43,8 +43,9 @@ public class AdventureController {
 	@RequestMapping(method = RequestMethod.POST)
 	public String submitAdventure(Model model, @PathVariable String brokerCode, @PathVariable String clientNif,
 			@ModelAttribute AdventureData adventureData) {
-		logger.info("adventureSubmit brokerCode:{}, clientNif:{}, begin:{}, end:{}", brokerCode, clientNif,
-				adventureData.getBegin(), adventureData.getEnd());
+		logger.info("adventureSubmit brokerCode:{}, clientNif:{}, begin:{}, end:{},margin:{}, age:{}, vehicle:{}",
+				brokerCode, clientNif, adventureData.getBegin(), adventureData.getEnd(), adventureData.getMargin(),
+				adventureData.getAge(), adventureData.getVehicle());
 
 		try {
 			BrokerInterface.createAdventure(brokerCode, clientNif, adventureData);
@@ -59,12 +60,12 @@ public class AdventureController {
 	}
 
 	@RequestMapping(value = "/{id}/process", method = RequestMethod.POST)
-	public String processAdventure(Model model, @PathVariable String brokerCode, @PathVariable String id) {
+	public String processAdventure(Model model, @PathVariable String brokerCode, @PathVariable String clientNif,
+			@PathVariable String id) {
 		logger.info("processAdventure brokerCode:{}, adventureId:{}", brokerCode, id);
 
 		BrokerInterface.processAdventure(brokerCode, id);
-
-		return "redirect:/brokers/" + brokerCode + "/adventures";
+		return "redirect:/brokers/" + brokerCode + "/clients/" + clientNif + "/adventures";
 	}
 
 }

@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import pt.ulisboa.tecnico.softeng.car.services.remote.dataobjects.InvoiceData;
+import pt.ulisboa.tecnico.softeng.car.services.remote.dataobjects.RestInvoiceData;
 import pt.ulisboa.tecnico.softeng.car.services.remote.exceptions.RemoteAccessException;
 import pt.ulisboa.tecnico.softeng.car.services.remote.exceptions.TaxException;
 
@@ -15,7 +15,7 @@ public class TaxInterface {
 
 	private static String ENDPOINT = "http://localhost:8086";
 
-	public static String submitInvoice(InvoiceData invoiceData) {
+	public static String submitInvoice(RestInvoiceData invoiceData) {
 		logger.info("submitInvoice buyerNif:{}, sellerNif:{}, itemType:{}, value:{}, date:{}, time:{}",
 				invoiceData.getBuyerNif(), invoiceData.getSellerNif(), invoiceData.getItemType(),
 				invoiceData.getValue(), invoiceData.getDate(), invoiceData.getTime());
