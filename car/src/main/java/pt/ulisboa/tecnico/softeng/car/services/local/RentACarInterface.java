@@ -3,10 +3,7 @@ package pt.ulisboa.tecnico.softeng.car.services.local;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
-import pt.ulisboa.tecnico.softeng.car.domain.Car;
-import pt.ulisboa.tecnico.softeng.car.domain.Motorcycle;
-import pt.ulisboa.tecnico.softeng.car.domain.RentACar;
-import pt.ulisboa.tecnico.softeng.car.domain.RentACar_Base;
+import pt.ulisboa.tecnico.softeng.car.domain.*;
 import pt.ulisboa.tecnico.softeng.car.exception.CarException;
 import pt.ulisboa.tecnico.softeng.car.services.local.dataobjects.RentACarData;
 import pt.ulisboa.tecnico.softeng.car.services.local.dataobjects.VehicleData;
@@ -61,4 +58,16 @@ public class RentACarInterface {
     }
 
 
+    @Atomic(mode = TxMode.READ)
+    public static VehicleData getVehicleDataByPlate(String code, String plate) {
+        RentACar rac = getRentACarByCode(code);
+        if (rac == null)
+            return null;
+
+        Vehicle v = rac.getVehicleByPlate(plate);
+        if (v == null)
+            return null;
+
+        return new VehicleData(v);
+    }
 }
