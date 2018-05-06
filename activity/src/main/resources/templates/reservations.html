@@ -9,6 +9,44 @@
 <script th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
 </head>
 <body>
-	<a th:href="www.google.com">AllKnowing</a>			
+	<div class="container">
+		<h2>
+			Reservations of Offer <span th:text="${offer.begin}"/> / <span th:text="${offer.end}"/> of Activity <span th:text="${activity.name}">Tracking</span> of <span th:text="${activity.nameProvider}">eXtreme</span>
+		</h2>
+		
+		<form class="form-inline" th:action="@{/providers/{codeProvider}/activities/{codeActivity}/offers/{dateBegin}/{dateEnd}/reservations(dateBegin=${offer.begin}, dateEnd=${offer.end}, codeProvider=${activity.codeProvider},codeActivity=${activity.code})}" th:object="${booking}" method="post">
+	 		<label>Begin : </label> <input class="form-control" type="date" th:field="*{begin}" /> 
+	 		<label>End : </label> <input class="form-control" type="date" th:field="*{end}" /> 
+	 		<label>Age : </label> <input class="form-control" type="number" th:field="*{age}" /> 
+	 		<label>NIF : </label> <input class="form-control" type="text" th:field="*{nif}" /> 
+	 		<label>IBAN: </label> <input class="form-control" type="text" th:field="*{iban}" />
+			<input class="btn btn-primary" type="submit" value="Submit" />
+		</form>
+		
+		
+		<!--table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Reference</th>
+ 					<th>Name</th>
+ 					<th>Code</th>
+ 					<th>PaymentReference</th>
+ 					<th>Invoice Reference</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="reservation: ${offer.reservations}">
+
+					<td th:text="${reservation.reference}">default</td>
+ 					<td th:text="${reservation.name}">default</td>
+ 					<td th:text="${reservation.code}">default</td>
+ 					<td th:text="${reservation.paymentReference}">default</td>
+ 					<td th:text="${reservation.invoiceReference}">default</td>
+				</tr>
+			</tbody>
+		</table-->
+		
+		
+	</div>
 </body>
 </html>
