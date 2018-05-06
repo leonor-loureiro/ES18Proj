@@ -1,16 +1,28 @@
 package pt.ulisboa.tecnico.softeng.broker.services.remote;
 
+import java.util.Map;
+import java.util.TreeMap;
+
+import org.springframework.web.client.RestTemplate;
+
 import pt.ulisboa.tecnico.softeng.broker.services.remote.dataobjects.InvoiceData;
 
 public class TaxInterface {
 	public static String submitInvoice(InvoiceData invoiceData) {
-		// return IRS.submitInvoice(invoiceData);
-		// TODO: implement in the final version as a rest invocation
-		return null;
+		String url = "http://localhost:8086/taxpayersControl/submitInvoice";
+		RestTemplate rest = new RestTemplate();
+
+		return rest.postForObject(url, invoiceData, String.class);
 	}
 
 	public static void cancelInvoice(String invoiceReference) {
-		// IRS.cancelInvoice(invoiceReference);
-		// TODO: implement in the final version as a rest invocation
+		String url = "http://localhost:8086/taxpayersControl/cancelInvoice/{reference}";
+
+		RestTemplate rest = new RestTemplate();
+
+		Map<String, Object> map = new TreeMap<>();
+		map.put("reference", invoiceReference);
+
+		rest.getForObject(url, String.class, map);
 	}
 }
