@@ -11,7 +11,7 @@ import mockit.integration.junit4.JMockit;
 import pt.ulisboa.tecnico.softeng.broker.domain.Adventure.State;
 import pt.ulisboa.tecnico.softeng.broker.services.remote.BankInterface;
 import pt.ulisboa.tecnico.softeng.broker.services.remote.TaxInterface;
-import pt.ulisboa.tecnico.softeng.broker.services.remote.dataobjects.BankOperationData;
+import pt.ulisboa.tecnico.softeng.broker.services.remote.dataobjects.RestBankOperationData;
 import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.BankException;
 import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.RemoteAccessException;
 
@@ -35,7 +35,7 @@ public class ProcessPaymentStateProcessMethodTest extends RollbackTestAbstractCl
 	public void success(@Mocked final BankInterface bankInterface) {
 		new Expectations() {
 			{
-				BankInterface.processPayment((BankOperationData) this.any);
+				BankInterface.processPayment((RestBankOperationData) this.any);
 				this.result = PAYMENT_CONFIRMATION;
 			}
 		};
@@ -49,7 +49,7 @@ public class ProcessPaymentStateProcessMethodTest extends RollbackTestAbstractCl
 	public void bankException(@Mocked final BankInterface bankInterface) {
 		new Expectations() {
 			{
-				BankInterface.processPayment((BankOperationData) this.any);
+				BankInterface.processPayment((RestBankOperationData) this.any);
 				this.result = new BankException();
 			}
 		};
@@ -64,7 +64,7 @@ public class ProcessPaymentStateProcessMethodTest extends RollbackTestAbstractCl
 	public void singleRemoteAccessException(@Mocked final BankInterface bankInterface) {
 		new Expectations() {
 			{
-				BankInterface.processPayment((BankOperationData) this.any);
+				BankInterface.processPayment((RestBankOperationData) this.any);
 				this.result = new RemoteAccessException();
 			}
 		};
@@ -78,7 +78,7 @@ public class ProcessPaymentStateProcessMethodTest extends RollbackTestAbstractCl
 	public void maxRemoteAccessException(@Mocked final BankInterface bankInterface) {
 		new Expectations() {
 			{
-				BankInterface.processPayment((BankOperationData) this.any);
+				BankInterface.processPayment((RestBankOperationData) this.any);
 				this.result = new RemoteAccessException();
 			}
 		};
@@ -95,7 +95,7 @@ public class ProcessPaymentStateProcessMethodTest extends RollbackTestAbstractCl
 	public void maxMinusOneRemoteAccessException(@Mocked final BankInterface bankInterface) {
 		new Expectations() {
 			{
-				BankInterface.processPayment((BankOperationData) this.any);
+				BankInterface.processPayment((RestBankOperationData) this.any);
 				this.result = new RemoteAccessException();
 			}
 		};
@@ -110,7 +110,7 @@ public class ProcessPaymentStateProcessMethodTest extends RollbackTestAbstractCl
 	public void twoRemoteAccessExceptionOneSuccess(@Mocked final BankInterface bankInterface) {
 		new Expectations() {
 			{
-				BankInterface.processPayment((BankOperationData) this.any);
+				BankInterface.processPayment((RestBankOperationData) this.any);
 				this.result = new Delegate() {
 					int i = 0;
 
@@ -139,7 +139,7 @@ public class ProcessPaymentStateProcessMethodTest extends RollbackTestAbstractCl
 	public void oneRemoteAccessExceptionOneBankException(@Mocked final BankInterface bankInterface) {
 		new Expectations() {
 			{
-				BankInterface.processPayment((BankOperationData) this.any);
+				BankInterface.processPayment((RestBankOperationData) this.any);
 				this.result = new Delegate() {
 					int i = 0;
 

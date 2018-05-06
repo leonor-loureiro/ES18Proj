@@ -13,11 +13,11 @@ import pt.ulisboa.tecnico.softeng.activity.domain.ActivityOffer;
 import pt.ulisboa.tecnico.softeng.activity.domain.ActivityProvider;
 import pt.ulisboa.tecnico.softeng.activity.domain.RollbackTestAbstractClass;
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
-import pt.ulisboa.tecnico.softeng.activity.services.local.dataobjects.ActivityBookingData;
 import pt.ulisboa.tecnico.softeng.activity.services.remote.BankInterface;
 import pt.ulisboa.tecnico.softeng.activity.services.remote.TaxInterface;
-import pt.ulisboa.tecnico.softeng.activity.services.remote.dataobjects.BankOperationData;
-import pt.ulisboa.tecnico.softeng.activity.services.remote.dataobjects.InvoiceData;
+import pt.ulisboa.tecnico.softeng.activity.services.remote.dataobjects.RestActivityBookingData;
+import pt.ulisboa.tecnico.softeng.activity.services.remote.dataobjects.RestBankOperationData;
+import pt.ulisboa.tecnico.softeng.activity.services.remote.dataobjects.RestInvoiceData;
 
 @RunWith(JMockit.class)
 public class ActivityInterfaceReserveActivityMethodTest extends RollbackTestAbstractClass {
@@ -40,16 +40,16 @@ public class ActivityInterfaceReserveActivityMethodTest extends RollbackTestAbst
 	public void reserveAcitivity(@Mocked final TaxInterface taxInterface, @Mocked final BankInterface bankInterface) {
 		new Expectations() {
 			{
-				BankInterface.processPayment((BankOperationData) this.any);
+				BankInterface.processPayment((RestBankOperationData) this.any);
 
-				TaxInterface.submitInvoice((InvoiceData) this.any);
+				TaxInterface.submitInvoice((RestInvoiceData) this.any);
 			}
 		};
 
 		Activity activity = new Activity(provider1, "XtremX", MIN_AGE, MAX_AGE, CAPACITY);
 		new ActivityOffer(activity, new LocalDate(2018, 02, 19), new LocalDate(2018, 12, 20), 30);
 
-		ActivityBookingData activityBookingData = new ActivityBookingData();
+		RestActivityBookingData activityBookingData = new RestActivityBookingData();
 		activityBookingData.setAge(20);
 		activityBookingData.setBegin(new LocalDate(2018, 02, 19));
 		activityBookingData.setEnd(new LocalDate(2018, 12, 20));
@@ -64,7 +64,7 @@ public class ActivityInterfaceReserveActivityMethodTest extends RollbackTestAbst
 
 	@Test(expected = ActivityException.class)
 	public void reserveAcitivityNoOption() {
-		ActivityBookingData activityBookingData = new ActivityBookingData();
+		RestActivityBookingData activityBookingData = new RestActivityBookingData();
 		activityBookingData.setAge(20);
 		activityBookingData.setBegin(new LocalDate(2018, 02, 19));
 		activityBookingData.setEnd(new LocalDate(2018, 12, 20));

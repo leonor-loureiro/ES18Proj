@@ -1,18 +1,23 @@
-package pt.ulisboa.tecnico.softeng.broker.services.remote.dataobjects;
+package pt.ulisboa.tecnico.softeng.hotel.services.remote.dataobjects;
 
 import org.joda.time.LocalDate;
 
-import pt.ulisboa.tecnico.softeng.broker.services.remote.HotelInterface.Type;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
-public class RoomBookingData {
+import pt.ulisboa.tecnico.softeng.hotel.domain.Booking;
+
+public class RestRoomBookingData {
 	private String reference;
 	private String cancellation;
 	private String hotelName;
 	private String hotelCode;
 	private String roomNumber;
 	private String roomType;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private LocalDate arrival;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private LocalDate departure;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private LocalDate cancellationDate;
 	private double price;
 	private String paymentReference;
@@ -21,65 +26,49 @@ public class RoomBookingData {
 	private String buyerIban;
 	private String adventureId;
 
-	public RoomBookingData() {
+	public RestRoomBookingData() {
 	}
 
-	public RoomBookingData(Type single, LocalDate arrival, LocalDate departure, String nifAsBuyer, String iban,
-			String adventureId) {
-		this.roomType = single.toString();
-		this.arrival = arrival;
-		this.departure = departure;
-		this.buyerNif = nifAsBuyer;
-		this.buyerIban = iban;
-		this.adventureId = adventureId;
+	public RestRoomBookingData(Booking booking) {
+		this.reference = booking.getReference();
+		this.cancellation = booking.getCancellation();
+		this.hotelName = booking.getRoom().getHotel().getName();
+		this.hotelCode = booking.getRoom().getHotel().getCode();
+		this.roomNumber = booking.getRoom().getNumber();
+		this.roomType = booking.getRoom().getType().name();
+		this.arrival = booking.getArrival();
+		this.departure = booking.getDeparture();
+		this.price = booking.getPrice();
+		this.buyerNif = booking.getBuyerNif();
+		this.buyerIban = booking.getBuyerIban();
+		this.cancellationDate = booking.getCancellationDate();
+		this.paymentReference = booking.getPaymentReference();
+		this.invoiceReference = booking.getInvoiceReference();
+		this.adventureId = booking.getAdventureId();
 	}
 
 	public String getReference() {
 		return this.reference;
 	}
 
-	public void setReference(String reference) {
-		this.reference = reference;
-	}
-
 	public String getCancellation() {
 		return this.cancellation;
-	}
-
-	public void setCancellation(String cancellation) {
-		this.cancellation = cancellation;
 	}
 
 	public String getHotelName() {
 		return this.hotelName;
 	}
 
-	public void setHotelName(String hotelName) {
-		this.hotelName = hotelName;
-	}
-
 	public String getHotelCode() {
 		return this.hotelCode;
-	}
-
-	public void setHotelCode(String hotelCode) {
-		this.hotelCode = hotelCode;
 	}
 
 	public String getRoomNumber() {
 		return this.roomNumber;
 	}
 
-	public void setRoomNumber(String roomNumber) {
-		this.roomNumber = roomNumber;
-	}
-
 	public String getRoomType() {
 		return this.roomType;
-	}
-
-	public void setRoomType(String roomType) {
-		this.roomType = roomType;
 	}
 
 	public LocalDate getArrival() {
@@ -102,32 +91,16 @@ public class RoomBookingData {
 		return this.cancellationDate;
 	}
 
-	public void setCancellationDate(LocalDate cancellationDate) {
-		this.cancellationDate = cancellationDate;
-	}
-
 	public double getPrice() {
 		return this.price;
-	}
-
-	public void setPrice(double price) {
-		this.price = price;
 	}
 
 	public String getPaymentReference() {
 		return this.paymentReference;
 	}
 
-	public void setPaymentReference(String reference) {
-		this.paymentReference = reference;
-	}
-
 	public String getInvoiceReference() {
 		return this.invoiceReference;
-	}
-
-	public void setInvoiceReference(String invoiceReference) {
-		this.invoiceReference = invoiceReference;
 	}
 
 	public String getBuyerNif() {

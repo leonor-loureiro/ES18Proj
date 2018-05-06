@@ -13,7 +13,7 @@ import mockit.integration.junit4.JMockit;
 import pt.ulisboa.tecnico.softeng.broker.domain.Adventure.State;
 import pt.ulisboa.tecnico.softeng.broker.services.remote.HotelInterface;
 import pt.ulisboa.tecnico.softeng.broker.services.remote.TaxInterface;
-import pt.ulisboa.tecnico.softeng.broker.services.remote.dataobjects.RoomBookingData;
+import pt.ulisboa.tecnico.softeng.broker.services.remote.dataobjects.RestRoomBookingData;
 import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.HotelException;
 import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.RemoteAccessException;
 
@@ -35,7 +35,7 @@ public class BookRoomStateMethodTest extends RollbackTestAbstractClass {
 	public void successBookRoom(@Mocked final HotelInterface hotelInterface) {
 		new Expectations() {
 			{
-				HotelInterface.reserveRoom((RoomBookingData) this.any);
+				HotelInterface.reserveRoom((RestRoomBookingData) this.any);
 				this.result = ROOM_CONFIRMATION;
 			}
 		};
@@ -52,7 +52,7 @@ public class BookRoomStateMethodTest extends RollbackTestAbstractClass {
 
 		new Expectations() {
 			{
-				HotelInterface.reserveRoom((RoomBookingData) this.any);
+				HotelInterface.reserveRoom((RestRoomBookingData) this.any);
 				this.result = ROOM_CONFIRMATION;
 			}
 		};
@@ -66,7 +66,7 @@ public class BookRoomStateMethodTest extends RollbackTestAbstractClass {
 	public void hotelException(@Mocked final HotelInterface hotelInterface) {
 		new Expectations() {
 			{
-				HotelInterface.reserveRoom((RoomBookingData) this.any);
+				HotelInterface.reserveRoom((RestRoomBookingData) this.any);
 				this.result = new HotelException();
 			}
 		};
@@ -80,7 +80,7 @@ public class BookRoomStateMethodTest extends RollbackTestAbstractClass {
 	public void singleRemoteAccessException(@Mocked final HotelInterface hotelInterface) {
 		new Expectations() {
 			{
-				HotelInterface.reserveRoom((RoomBookingData) this.any);
+				HotelInterface.reserveRoom((RestRoomBookingData) this.any);
 				this.result = new RemoteAccessException();
 			}
 		};
@@ -94,7 +94,7 @@ public class BookRoomStateMethodTest extends RollbackTestAbstractClass {
 	public void singleRemoteAccessExceptionInGetBookingData(@Mocked final HotelInterface hotelInterface) {
 		new Expectations() {
 			{
-				HotelInterface.reserveRoom((RoomBookingData) this.any);
+				HotelInterface.reserveRoom((RestRoomBookingData) this.any);
 				this.result = ROOM_CONFIRMATION;
 
 				HotelInterface.getRoomBookingData(ROOM_CONFIRMATION);
@@ -112,7 +112,7 @@ public class BookRoomStateMethodTest extends RollbackTestAbstractClass {
 	public void maxRemoteAccessException(@Mocked final HotelInterface hotelInterface) {
 		new Expectations() {
 			{
-				HotelInterface.reserveRoom((RoomBookingData) this.any);
+				HotelInterface.reserveRoom((RestRoomBookingData) this.any);
 				this.result = new RemoteAccessException();
 				this.times = BookRoomState.MAX_REMOTE_ERRORS;
 			}
@@ -129,7 +129,7 @@ public class BookRoomStateMethodTest extends RollbackTestAbstractClass {
 	public void maxMinusOneRemoteAccessException(@Mocked final HotelInterface hotelInterface) {
 		new Expectations() {
 			{
-				HotelInterface.reserveRoom((RoomBookingData) this.any);
+				HotelInterface.reserveRoom((RestRoomBookingData) this.any);
 				this.result = new RemoteAccessException();
 				this.times = BookRoomState.MAX_REMOTE_ERRORS - 1;
 			}
@@ -146,7 +146,7 @@ public class BookRoomStateMethodTest extends RollbackTestAbstractClass {
 	public void fiveRemoteAccessExceptionOneSuccess(@Mocked final HotelInterface hotelInterface) {
 		new Expectations() {
 			{
-				HotelInterface.reserveRoom((RoomBookingData) this.any);
+				HotelInterface.reserveRoom((RestRoomBookingData) this.any);
 				this.result = new Delegate() {
 					int i = 0;
 
@@ -177,7 +177,7 @@ public class BookRoomStateMethodTest extends RollbackTestAbstractClass {
 	public void oneRemoteAccessExceptionOneHotelException(@Mocked final HotelInterface hotelInterface) {
 		new Expectations() {
 			{
-				HotelInterface.reserveRoom((RoomBookingData) this.any);
+				HotelInterface.reserveRoom((RestRoomBookingData) this.any);
 				this.result = new Delegate() {
 					int i = 0;
 

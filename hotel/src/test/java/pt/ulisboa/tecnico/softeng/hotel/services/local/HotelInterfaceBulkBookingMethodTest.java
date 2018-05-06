@@ -21,8 +21,8 @@ import pt.ulisboa.tecnico.softeng.hotel.domain.Room.Type;
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 import pt.ulisboa.tecnico.softeng.hotel.services.remote.BankInterface;
 import pt.ulisboa.tecnico.softeng.hotel.services.remote.TaxInterface;
-import pt.ulisboa.tecnico.softeng.hotel.services.remote.dataobjects.BankOperationData;
-import pt.ulisboa.tecnico.softeng.hotel.services.remote.dataobjects.InvoiceData;
+import pt.ulisboa.tecnico.softeng.hotel.services.remote.dataobjects.RestBankOperationData;
+import pt.ulisboa.tecnico.softeng.hotel.services.remote.dataobjects.RestInvoiceData;
 
 @RunWith(JMockit.class)
 public class HotelInterfaceBulkBookingMethodTest extends RollbackTestAbstractClass {
@@ -58,9 +58,9 @@ public class HotelInterfaceBulkBookingMethodTest extends RollbackTestAbstractCla
 	public void success() {
 		new Expectations() {
 			{
-				BankInterface.processPayment((BankOperationData) this.any);
+				BankInterface.processPayment((RestBankOperationData) this.any);
 
-				TaxInterface.submitInvoice((InvoiceData) this.any);
+				TaxInterface.submitInvoice((RestInvoiceData) this.any);
 			}
 		};
 
@@ -126,9 +126,9 @@ public class HotelInterfaceBulkBookingMethodTest extends RollbackTestAbstractCla
 	public void idempotentBulkBooking() {
 		new Expectations() {
 			{
-				BankInterface.processPayment((BankOperationData) this.any);
+				BankInterface.processPayment((RestBankOperationData) this.any);
 
-				TaxInterface.submitInvoice((InvoiceData) this.any);
+				TaxInterface.submitInvoice((RestInvoiceData) this.any);
 			}
 		};
 

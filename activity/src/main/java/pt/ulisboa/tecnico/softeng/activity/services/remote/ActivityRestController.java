@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
 import pt.ulisboa.tecnico.softeng.activity.services.local.ActivityInterface;
-import pt.ulisboa.tecnico.softeng.activity.services.local.dataobjects.ActivityBookingData;
+import pt.ulisboa.tecnico.softeng.activity.services.remote.dataobjects.RestActivityBookingData;
 
 @RestController
 @RequestMapping(value = "/rest/providers")
@@ -20,7 +20,7 @@ public class ActivityRestController {
 	private static Logger logger = LoggerFactory.getLogger(ActivityRestController.class);
 
 	@RequestMapping(value = "/reserve", method = RequestMethod.POST)
-	public ResponseEntity<String> reserve(@RequestBody ActivityBookingData activityBookingData) {
+	public ResponseEntity<String> reserve(@RequestBody RestActivityBookingData activityBookingData) {
 		logger.info("reserveActivity begin:{}, end:{}, age:{}, nif:{}, iban:{}, adventureId:{}",
 				activityBookingData.getBegin(), activityBookingData.getEnd(), activityBookingData.getAge(),
 				activityBookingData.getNif(), activityBookingData.getIban(), activityBookingData.getAdventureId());
@@ -42,7 +42,7 @@ public class ActivityRestController {
 	}
 
 	@RequestMapping(value = "/reservation", method = RequestMethod.GET)
-	public ResponseEntity<ActivityBookingData> reservation(@RequestParam String reference) {
+	public ResponseEntity<RestActivityBookingData> reservation(@RequestParam String reference) {
 		logger.info("reservation reference:{}", reference);
 		try {
 			return new ResponseEntity<>(ActivityInterface.getActivityReservationData(reference), HttpStatus.OK);

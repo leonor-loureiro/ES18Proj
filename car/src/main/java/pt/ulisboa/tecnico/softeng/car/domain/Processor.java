@@ -5,8 +5,8 @@ import java.util.Set;
 
 import pt.ulisboa.tecnico.softeng.car.services.remote.BankInterface;
 import pt.ulisboa.tecnico.softeng.car.services.remote.TaxInterface;
-import pt.ulisboa.tecnico.softeng.car.services.remote.dataobjects.BankOperationData;
-import pt.ulisboa.tecnico.softeng.car.services.remote.dataobjects.InvoiceData;
+import pt.ulisboa.tecnico.softeng.car.services.remote.dataobjects.RestBankOperationData;
+import pt.ulisboa.tecnico.softeng.car.services.remote.dataobjects.RestInvoiceData;
 import pt.ulisboa.tecnico.softeng.car.services.remote.exceptions.BankException;
 import pt.ulisboa.tecnico.softeng.car.services.remote.exceptions.RemoteAccessException;
 import pt.ulisboa.tecnico.softeng.car.services.remote.exceptions.TaxException;
@@ -36,7 +36,7 @@ public class Processor extends Processor_Base {
 				if (renting.getPaymentReference() == null) {
 					try {
 						renting.setPaymentReference(
-								BankInterface.processPayment(new BankOperationData(renting.getClientIban(),
+								BankInterface.processPayment(new RestBankOperationData(renting.getClientIban(),
 										renting.getPrice(), TRANSACTION_SOURCE, renting.getReference())));
 					} catch (BankException | RemoteAccessException ex) {
 						failedToProcess.add(renting);
@@ -44,7 +44,7 @@ public class Processor extends Processor_Base {
 					}
 				}
 
-				InvoiceData invoiceData = new InvoiceData(renting.getVehicle().getRentACar().getNif(),
+				RestInvoiceData invoiceData = new RestInvoiceData(renting.getVehicle().getRentACar().getNif(),
 						renting.getClientNif(), renting.getType(), renting.getPrice(), renting.getBegin(),
 						renting.getTime());
 				try {

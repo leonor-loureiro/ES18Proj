@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 import pt.ulisboa.tecnico.softeng.hotel.services.local.HotelInterface;
-import pt.ulisboa.tecnico.softeng.hotel.services.local.dataobjects.RoomBookingData;
+import pt.ulisboa.tecnico.softeng.hotel.services.remote.dataobjects.RestRoomBookingData;
 
 @RestController
 @RequestMapping(value = "/rest/hotels")
@@ -22,7 +22,7 @@ public class HotelRestController {
 	private static Logger logger = LoggerFactory.getLogger(HotelRestController.class);
 
 	@RequestMapping(value = "/reserve", method = RequestMethod.POST)
-	public ResponseEntity<String> reserve(@RequestBody RoomBookingData roomBookingData) {
+	public ResponseEntity<String> reserve(@RequestBody RestRoomBookingData roomBookingData) {
 		logger.info("reserve type:{}, arrival:{}, departure:{}, nif:{}, iba:{}, adventureId:{}",
 				roomBookingData.getRoomType(), roomBookingData.getArrival(), roomBookingData.getDeparture(),
 				roomBookingData.getBuyerNif(), roomBookingData.getBuyerIban(), roomBookingData.getAdventureId());
@@ -44,7 +44,7 @@ public class HotelRestController {
 	}
 
 	@RequestMapping(value = "/booking", method = RequestMethod.GET)
-	public ResponseEntity<RoomBookingData> booking(@RequestParam String reference) {
+	public ResponseEntity<RestRoomBookingData> booking(@RequestParam String reference) {
 		logger.info("booking reference:{}", reference);
 		try {
 			return new ResponseEntity<>(HotelInterface.getRoomBookingData(reference), HttpStatus.OK);

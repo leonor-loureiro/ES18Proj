@@ -18,6 +18,7 @@ import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 import pt.ulisboa.tecnico.softeng.hotel.services.local.dataobjects.HotelData;
 import pt.ulisboa.tecnico.softeng.hotel.services.local.dataobjects.RoomBookingData;
 import pt.ulisboa.tecnico.softeng.hotel.services.local.dataobjects.RoomData;
+import pt.ulisboa.tecnico.softeng.hotel.services.remote.dataobjects.RestRoomBookingData;
 
 public class HotelInterface {
 
@@ -70,7 +71,7 @@ public class HotelInterface {
 	}
 
 	@Atomic(mode = TxMode.WRITE)
-	public static String reserveRoom(RoomBookingData roomBookingData) {
+	public static String reserveRoom(RestRoomBookingData roomBookingData) {
 		Booking booking = getBooking4AdventureId(roomBookingData.getAdventureId());
 		if (booking != null) {
 			return booking.getReference();
@@ -102,12 +103,12 @@ public class HotelInterface {
 	}
 
 	@Atomic(mode = TxMode.READ)
-	public static RoomBookingData getRoomBookingData(String reference) {
+	public static RestRoomBookingData getRoomBookingData(String reference) {
 		for (Hotel hotel : FenixFramework.getDomainRoot().getHotelSet()) {
 			for (Room room : hotel.getRoomSet()) {
 				Booking booking = room.getBooking(reference);
 				if (booking != null) {
-					return new RoomBookingData(booking);
+					return new RestRoomBookingData(booking);
 				}
 			}
 		}

@@ -18,6 +18,7 @@ import pt.ulisboa.tecnico.softeng.tax.services.local.dataobjects.InvoiceData;
 import pt.ulisboa.tecnico.softeng.tax.services.local.dataobjects.ItemTypeData;
 import pt.ulisboa.tecnico.softeng.tax.services.local.dataobjects.TaxPayerData;
 import pt.ulisboa.tecnico.softeng.tax.services.local.dataobjects.TaxPayerData.Type;
+import pt.ulisboa.tecnico.softeng.tax.services.remote.dataobjects.RestInvoiceData;
 
 public class TaxInterface {
 
@@ -95,7 +96,7 @@ public class TaxInterface {
 	}
 
 	@Atomic(mode = TxMode.WRITE)
-	public static String submitInvoice(InvoiceData invoiceData) {
+	public static String submitInvoice(RestInvoiceData invoiceData) {
 		Invoice invoice = getInvoiceByInvoiceData(invoiceData);
 		if (invoice != null) {
 			return invoice.getReference();
@@ -134,7 +135,7 @@ public class TaxInterface {
 				.orElse(null);
 	}
 
-	private static Invoice getInvoiceByInvoiceData(InvoiceData invoiceData) {
+	private static Invoice getInvoiceByInvoiceData(RestInvoiceData invoiceData) {
 		Optional<Invoice> inOptional = IRS.getIRSInstance().getInvoiceSet().stream()
 				.filter(i -> i.getBuyer().getNif().equals(invoiceData.getBuyerNif())
 						&& i.getSeller().getNif().equals(invoiceData.getSellerNif())

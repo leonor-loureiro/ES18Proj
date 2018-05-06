@@ -1,20 +1,26 @@
-package pt.ulisboa.tecnico.softeng.broker.services.remote.dataobjects;
+package pt.ulisboa.tecnico.softeng.activity.services.remote.dataobjects;
 
 import org.joda.time.DateTime;
 
-public class BankOperationData {
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.datatype.joda.deser.DateTimeDeserializer;
+
+public class RestBankOperationData {
 	private String reference;
 	private String type;
 	private String iban;
 	private Double value;
+	@JsonDeserialize(using = DateTimeDeserializer.class)
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.SSS")
 	private DateTime time;
 	private String transactionSource;
 	private String transactionReference;
 
-	public BankOperationData() {
+	public RestBankOperationData() {
 	}
 
-	public BankOperationData(String iban, double value, String transactionSource, String transactionReference) {
+	public RestBankOperationData(String iban, double value, String transactionSource, String transactionReference) {
 		this.iban = iban;
 		this.value = value;
 		this.transactionSource = transactionSource;

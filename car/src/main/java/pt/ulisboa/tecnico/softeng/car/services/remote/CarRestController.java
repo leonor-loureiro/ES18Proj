@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import pt.ulisboa.tecnico.softeng.car.exception.CarException;
 import pt.ulisboa.tecnico.softeng.car.services.local.RentACarInterface;
-import pt.ulisboa.tecnico.softeng.car.services.local.dataobjects.RentingData;
+import pt.ulisboa.tecnico.softeng.car.services.remote.dataobjects.RestRentingData;
 
 @RestController
 @RequestMapping(value = "/rest/rentacars")
@@ -20,7 +20,7 @@ public class CarRestController {
 	private static Logger logger = LoggerFactory.getLogger(CarRestController.class);
 
 	@RequestMapping(value = "/rent", method = RequestMethod.POST)
-	public ResponseEntity<String> rent(@RequestBody RentingData rentingData) {
+	public ResponseEntity<String> rent(@RequestBody RestRentingData rentingData) {
 		logger.info("rent type:{}, license:{}, nif:{}, iban:{}, begin:{}, end:{}, adventureId:{}",
 				rentingData.getTypeValue(), rentingData.getDrivingLicense(), rentingData.getBuyerNIF(),
 				rentingData.getBuyerIBAN(), rentingData.getBegin(), rentingData.getEnd(), rentingData.getAdventureId());
@@ -45,10 +45,11 @@ public class CarRestController {
 	}
 
 	@RequestMapping(value = "/renting", method = RequestMethod.GET)
-	public ResponseEntity<RentingData> renting(@RequestParam String reference) {
+	public ResponseEntity<RestRentingData> renting(@RequestParam String reference) {
 		logger.info("renting reference:{}", reference);
 		try {
-			return new ResponseEntity<>(RentACarInterface.getRentingData(reference), HttpStatus.OK);
+			RestRentingData rentingData = RentACarInterface.getRentingData(reference);
+			return new ResponseEntity<RestRentingData>(rentingData, HttpStatus.OK);
 		} catch (CarException be) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}

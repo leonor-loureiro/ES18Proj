@@ -11,10 +11,10 @@ import pt.ulisboa.tecnico.softeng.activity.domain.ActivityOffer;
 import pt.ulisboa.tecnico.softeng.activity.domain.ActivityProvider;
 import pt.ulisboa.tecnico.softeng.activity.domain.Booking;
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
-import pt.ulisboa.tecnico.softeng.activity.services.local.dataobjects.ActivityBookingData;
 import pt.ulisboa.tecnico.softeng.activity.services.local.dataobjects.ActivityData;
 import pt.ulisboa.tecnico.softeng.activity.services.local.dataobjects.ActivityOfferData;
 import pt.ulisboa.tecnico.softeng.activity.services.local.dataobjects.ActivityProviderData;
+import pt.ulisboa.tecnico.softeng.activity.services.remote.dataobjects.RestActivityBookingData;
 
 public class ActivityInterface {
 
@@ -85,7 +85,7 @@ public class ActivityInterface {
 	}
 
 	@Atomic(mode = TxMode.WRITE)
-	public static String reserveActivity(ActivityBookingData activityBookingData) {
+	public static String reserveActivity(RestActivityBookingData activityBookingData) {
 		Booking booking = getBookingByAdventureId(activityBookingData.getAdventureId());
 		if (booking != null) {
 			return booking.getReference();
@@ -106,7 +106,7 @@ public class ActivityInterface {
 	}
 
 	@Atomic(mode = TxMode.WRITE)
-	public static void reserveActivity(String externalId, ActivityBookingData bookingData) {
+	public static void reserveActivity(String externalId, RestActivityBookingData bookingData) {
 		ActivityOffer offer = FenixFramework.getDomainObject(externalId);
 
 		if (offer == null) {
@@ -126,13 +126,13 @@ public class ActivityInterface {
 	}
 
 	@Atomic(mode = TxMode.READ)
-	public static ActivityBookingData getActivityReservationData(String reference) {
+	public static RestActivityBookingData getActivityReservationData(String reference) {
 		for (ActivityProvider provider : FenixFramework.getDomainRoot().getActivityProviderSet()) {
 			for (Activity activity : provider.getActivitySet()) {
 				for (ActivityOffer offer : activity.getActivityOfferSet()) {
 					Booking booking = offer.getBooking(reference);
 					if (booking != null) {
-						return new ActivityBookingData(booking);
+						return new RestActivityBookingData(booking);
 					}
 				}
 			}

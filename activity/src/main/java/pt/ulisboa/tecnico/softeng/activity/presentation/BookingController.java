@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
 import pt.ulisboa.tecnico.softeng.activity.services.local.ActivityInterface;
-import pt.ulisboa.tecnico.softeng.activity.services.local.dataobjects.ActivityBookingData;
 import pt.ulisboa.tecnico.softeng.activity.services.local.dataobjects.ActivityOfferData;
 import pt.ulisboa.tecnico.softeng.activity.services.local.dataobjects.ActivityProviderData;
+import pt.ulisboa.tecnico.softeng.activity.services.remote.dataobjects.RestActivityBookingData;
 
 @Controller
 @RequestMapping(value = "/providers/{codeProvider}/activities/{codeActivity}/offers/{externalId}/bookings")
@@ -34,7 +34,7 @@ public class BookingController {
 			model.addAttribute("providers", ActivityInterface.getProviders());
 			return "providers";
 		} else {
-			model.addAttribute("booking", new ActivityBookingData());
+			model.addAttribute("booking", new RestActivityBookingData());
 			model.addAttribute("offer", activityOfferData);
 			return "bookings";
 		}
@@ -42,7 +42,7 @@ public class BookingController {
 
 	@RequestMapping(method = RequestMethod.POST)
 	public String bookingSubmit(Model model, @PathVariable String codeProvider, @PathVariable String codeActivity,
-			@PathVariable String externalId, @ModelAttribute ActivityBookingData booking) {
+			@PathVariable String externalId, @ModelAttribute RestActivityBookingData booking) {
 		logger.info("offerSubmit codeProvider:{}, codeActivity:{}, externalId:{}", codeProvider, codeActivity,
 				externalId);
 
