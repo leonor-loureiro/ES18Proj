@@ -88,4 +88,8 @@ public class RentACarInterface {
         return new RentingData (getRentACarByCode(rentACarCode).getVehicleByPlate(plate).rent(drivingLicense, begin, end, nif, iban));
     }
 
+    @Atomic(mode = TxMode.WRITE)
+    public static void checkOut(String rentACarCode, String plate, String reference, int kilometers) {
+        getRentACarByCode(rentACarCode).getVehicleByPlate(plate).getRenting(reference).checkout(kilometers);
+    }
 }

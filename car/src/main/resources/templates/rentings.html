@@ -30,7 +30,7 @@
             </div>
 
             <div class="form-group row">
-                <label class="col-sm-1 col-form-label">Begin Date: </label>
+                <label class="col-sm-1 col-form-label">End Date: </label>
                 <div class="col-sm-2">
                     <input class="form-control" type="date" th:field="*{end}"/>
                 </div>
@@ -57,7 +57,7 @@
         <br/>
 
 
-        <div class="col-xs-6">
+        <div class="container">
             <h3>Rentings</h3>
             <table class="table table-striped">
                 <thead>
@@ -69,18 +69,33 @@
                     <th>drivingLicense</th>
                     <th>pay ref</th>
                     <th>invoice ref</th>
+                    <th>kilometers</th>
+                    <th>checkout</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="renting: ${rentings}">
                     <td th:text="${renting.reference}">REFREFREFREF</td>
-                    <td th:date="${renting.begin}">dateBegin</td>
-                    <td th:date="${renting.end}">dateend</td>
+                    <td th:text="${renting.begin}">dateBegin</td>
+                    <td th:text="${renting.end}">dateend</td>
                     <td th:text="${renting.price}">1337</td>
                     <td th:text="${renting.drivingLicense}">drivingLicense</td>
                     <td th:text="${renting.paymentReference}">pay reference</td>
                     <td th:text="${renting.invoiceReference}">invoice reference</td>
-                    <!--<td><a th:href="@{/rentACars/{code}/vehicles/{plate}/rentings/{renting}/checkout(code=${vehicle.rentACarCode}, plate=${vehicle.plate},plate=${renting.reference})}">Checkout</a></td>&ndash;&gt;-->
+                    <td th:text="${renting.kilometers}">kilometers</td>
+
+                    <td>
+                        <form th:action="@{/rentACars/{code}/vehicles/{plate}/rentings/{reference}/checkout(code=${vehicle.rentACarCode}, plate=${vehicle.plate},reference=${renting.reference})}" th:object="${renting}" method="post">
+                            <div class="form-group">
+                                <div>
+                                    <input class="form-control" type="number" step="0.01" min="0.01" th:field="*{kilometers}"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <input class="btn btn-primary" type="submit" value="Checkout" />
+                            </div>
+                        </form>
+                    </td>
                 </tr>
                 </tbody>
             </table>

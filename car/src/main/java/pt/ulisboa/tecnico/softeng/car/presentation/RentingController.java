@@ -54,4 +54,26 @@ public class RentingController {
         }
         return "redirect:/rentACars/" + code + "/vehicles/"+plate+"/rentings";
     }
+
+
+    @RequestMapping(value ="/{reference}/checkout" ,method = RequestMethod.POST)
+    public String rentingSubmit(Model model, @PathVariable String code, @PathVariable String plate, @PathVariable String reference, @ModelAttribute RentingData renting) {
+        logger.info("renting checkout : reference{}: rentACarCode{} plate: {}, kilometers:{} ",
+                reference, code, plate, renting.getKilometers());
+        try {
+            RentACarInterface.checkOut(code, plate, reference, renting.getKilometers());
+        } catch (CarException ce) {
+            System.out.println("WOOOOOO");
+            System.out.println("WOOOOOO");
+            System.out.println("WOOOOOO");
+            model.addAttribute("error", "Error: It was not possible to checkout");
+            VehicleData vd = RentACarInterface.getVehicleDataByPlate(code, plate);
+            model.addAttribute("vehicle", vd);
+            model.addAttribute("rentings", RentACarInterface.getRentingsByPlate(code, plate));
+            model.addAttribute("renting", new RentingData());
+            return "rentings";
+        }
+        return "redirect:/rentACars/" + code + "/vehicles/"+plate+"/rentings";
+    }
+
 }
