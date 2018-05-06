@@ -80,4 +80,16 @@ public class TaxInterface {
 	public static void createInvoice(InvoiceData invoice) {
 		new Invoice(invoice.getValue(), invoice.getDate(), FenixFramework.getDomainRoot().getIrs().getItemTypeByName(invoice.getItemType()), (Seller) FenixFramework.getDomainRoot().getIrs().getTaxPayerByNIF(invoice.getSellerNIF()),(Buyer) FenixFramework.getDomainRoot().getIrs().getTaxPayerByNIF(invoice.getBuyerNIF()));
 	}
+	
+	@Atomic(mode = TxMode.WRITE)
+	public static String submitInvoice(InvoiceData invoice) {
+		initIRS();
+		return IRS.submitInvoice(invoice);
+	}
+	
+	@Atomic(mode = TxMode.WRITE)
+	public static void cancelInvoice(String reference) {
+		initIRS();
+		IRS.cancelInvoice(reference);
+	}
 }

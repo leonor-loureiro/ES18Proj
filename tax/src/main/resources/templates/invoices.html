@@ -28,18 +28,24 @@
 	 		<table class="table table-striped">
 				<thead>
 					<tr>
+						<th>Reference</th>
+						<th>Canceled</th>
 						<th>Seller's NIF</th>
 	 					<th>Buyer's NIF</th>
 	 					<th>ItemType's Name</th>
+	 					<th>Iva</th>
 	 					<th>Value</th>
 	 					<th>Date</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr th:each="invoice: ${taxpayer.invoices}">
+						<td th:text="${invoice.reference}">Referencia</td>
+						<td th:text="${invoice.cancelled}">Cancelado?</td>
 						<td th:text="${invoice.sellerNIF}">NIF do Seller</td>
 	 					<td th:text="${invoice.buyerNIF}">NIF do Buyer</td>
 	 					<td th:text="${invoice.itemType}">Nome do Item</td>
+	 					<td th:text="${invoice.iva}">Iva do Item</td>
 	 					<td th:text="${invoice.value}">Valor</td>
 	 					<td th:text="${invoice.date}">Data</td>
 					</tr>
