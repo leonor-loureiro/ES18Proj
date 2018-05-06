@@ -10,14 +10,5 @@ import pt.ulisboa.tecnico.softeng.car.services.remote.dataobjects.InvoiceData;
 public class Application {
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
-
-        InvoiceData invoiceData = new InvoiceData();
-        invoiceData.setBuyerNIF("123456789");
-        invoiceData.setSellerNIF("123456788");
-        invoiceData.setDate(LocalDate.parse("2017-12-12"));
-        invoiceData.setItemType("GIT");
-        invoiceData.setValue(1);
-        TaxInterface.cancelInvoice(TaxInterface.submitInvoice(invoiceData));
-
     }
 }
