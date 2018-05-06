@@ -10,22 +10,22 @@ import pt.ulisboa.tecnico.softeng.activity.domain.ActivityProvider;
 import pt.ulisboa.tecnico.softeng.activity.domain.Booking;
 
 public class ActivityReservationData {  
-  private final String reference;
-	private final String cancellation;
-	private final String name;
-	private final String code;
+  private String reference;
+	private String cancellation;
+	private String name;
+	private String code;
 	
 	@JsonSerialize(using = LocalDateSerializer.class)  
-	private final LocalDate begin;
+	private LocalDate begin;
 	
 	@JsonSerialize(using = LocalDateSerializer.class)  
-	private final LocalDate end;
+	private LocalDate end;
 	
 	@JsonSerialize(using = LocalDateSerializer.class)  
-	private final LocalDate cancellationDate;
-	private final double price;
-	private final String paymentReference;
-	private final String invoiceReference;
+	private LocalDate cancellationDate;
+	private double price;
+	private String paymentReference;
+	private String invoiceReference;
 
   
   
