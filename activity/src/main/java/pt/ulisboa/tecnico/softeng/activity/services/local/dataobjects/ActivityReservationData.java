@@ -9,8 +9,8 @@ import pt.ulisboa.tecnico.softeng.activity.domain.ActivityOffer;
 import pt.ulisboa.tecnico.softeng.activity.domain.ActivityProvider;
 import pt.ulisboa.tecnico.softeng.activity.domain.Booking;
 
-public class ActivityReservationData {
-	private final String reference;
+public class ActivityReservationData {  
+  private final String reference;
 	private final String cancellation;
 	private final String name;
 	private final String code;
@@ -26,6 +26,10 @@ public class ActivityReservationData {
 	private final double price;
 	private final String paymentReference;
 	private final String invoiceReference;
+
+  
+  
+  
 
 	public ActivityReservationData(ActivityProvider provider, ActivityOffer offer, Booking booking) {
 		this.reference = booking.getReference();
@@ -53,6 +57,8 @@ public class ActivityReservationData {
 		this.invoiceReference = booking.getInvoiceReference();
 	}
 
+	public ActivityReservationData() {}
+	
 	public String getReference() {
 		return this.reference;
 	}
