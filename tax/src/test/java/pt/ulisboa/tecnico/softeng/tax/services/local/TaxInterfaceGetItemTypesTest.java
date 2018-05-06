@@ -6,8 +6,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import pt.ulisboa.tecnico.softeng.tax.domain.IRS;
-import pt.ulisboa.tecnico.softeng.tax.domain.ItemType;
+import pt.ist.fenixframework.FenixFramework;
 import pt.ulisboa.tecnico.softeng.tax.domain.RollbackTestAbstractClass;
 import pt.ulisboa.tecnico.softeng.tax.services.local.dataobjects.ItemTypeData;
 
@@ -17,12 +16,18 @@ public class TaxInterfaceGetItemTypesTest extends RollbackTestAbstractClass {
 	
 	@Override
 	public void populate4Test() {
-		IRS irs = IRS.getIRSInstance();
-		ItemType itemType = new ItemType(irs, ITEM_NAME, ITEM_TAX);
+		TaxInterface.initIRS();
 	}
 
 	@Test
 	public void success() {
+		ItemTypeData item = new ItemTypeData();
+		item.setIrs(FenixFramework.getDomainRoot().getIrs());
+		item.setName(ITEM_NAME);
+		item.setTax(ITEM_TAX);
+		
+		TaxInterface.createItemType(item);
+		
 		List<ItemTypeData> items = TaxInterface.getItemTypes();
 		
 		assertEquals(1, items.size());

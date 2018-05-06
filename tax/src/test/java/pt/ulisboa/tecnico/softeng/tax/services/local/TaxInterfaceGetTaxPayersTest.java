@@ -6,10 +6,8 @@ import java.util.List;
 
 import org.junit.Test;
 
-import pt.ulisboa.tecnico.softeng.tax.domain.Buyer;
-import pt.ulisboa.tecnico.softeng.tax.domain.IRS;
+import pt.ist.fenixframework.FenixFramework;
 import pt.ulisboa.tecnico.softeng.tax.domain.RollbackTestAbstractClass;
-import pt.ulisboa.tecnico.softeng.tax.domain.Seller;
 import pt.ulisboa.tecnico.softeng.tax.services.local.dataobjects.TaxPayerData;
 
 public class TaxInterfaceGetTaxPayersTest extends RollbackTestAbstractClass {
@@ -24,13 +22,20 @@ public class TaxInterfaceGetTaxPayersTest extends RollbackTestAbstractClass {
 	
 	@Override
 	public void populate4Test() {
-		IRS irs = IRS.getIRSInstance();
-		Buyer buyer = new Buyer(irs, BUYER_NIF, BUYER_NAME, BUYER_ADDRESS);
-		Seller seller = new Seller(irs, SELLER_NIF, SELLER_NAME, SELLER_ADDRESS);
+		TaxInterface.initIRS();
 	}
 
 	@Test
 	public void success() {
+		TaxPayerData buyer = new TaxPayerData();
+		buyer.setIrs(FenixFramework.getDomainRoot().getIrs());
+		buyer.setNif(BUYER_NIF);
+		buyer.setName(BUYER_NAME);
+		buyer.setAddress(BUYER_ADDRESS);
+		buyer.setInvoices(null);
+		
+		TaxInterface.createBuyer(buyer);
+		
 		List<TaxPayerData> buyers = TaxInterface.getBuyers();
 		
 		assertEquals(1, buyers.size());
@@ -41,6 +46,15 @@ public class TaxInterfaceGetTaxPayersTest extends RollbackTestAbstractClass {
 		assertEquals(BUYER_NAME, b1.getName());
 		assertEquals(BUYER_ADDRESS, b1.getAddress());
 		
+		TaxPayerData seller = new TaxPayerData();
+		seller.setIrs(FenixFramework.getDomainRoot().getIrs());
+		seller.setNif(SELLER_NIF);
+		seller.setName(SELLER_NAME);
+		seller.setAddress(SELLER_ADDRESS);
+		seller.setInvoices(null);
+		
+		TaxInterface.createSeller(seller);
+		
 		List<TaxPayerData> sellers = TaxInterface.getSellers();
 		
 		assertEquals(1, sellers.size());
@@ -50,5 +64,15 @@ public class TaxInterfaceGetTaxPayersTest extends RollbackTestAbstractClass {
 		assertEquals(SELLER_NIF, s1.getNif());
 		assertEquals(SELLER_NAME, s1.getName());
 		assertEquals(SELLER_ADDRESS, s1.getAddress());
+		
+		List<TaxPayerData> payers = TaxInterface.getTaxPayers();
+		
+		assertEquals(2, payers.size());
+		
+		TaxPayerData p1 = payers.get(0);
+		TaxPayerData p2 = payers.get(1);
+		
+		assertEquals(b1.getNif(), p1.getNif());
+		assertEquals(s1.getNif(), p2.getNif());
 	}
 }
