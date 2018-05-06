@@ -2,6 +2,9 @@ package pt.ulisboa.tecnico.softeng.activity.services.local.dataobjects;
 
 import org.joda.time.LocalDate;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.joda.ser.LocalDateSerializer;
+
 import pt.ulisboa.tecnico.softeng.activity.domain.ActivityOffer;
 import pt.ulisboa.tecnico.softeng.activity.domain.ActivityProvider;
 import pt.ulisboa.tecnico.softeng.activity.domain.Booking;
@@ -11,8 +14,14 @@ public class ActivityReservationData {
 	private final String cancellation;
 	private final String name;
 	private final String code;
+	
+	@JsonSerialize(using = LocalDateSerializer.class)  
 	private final LocalDate begin;
+	
+	@JsonSerialize(using = LocalDateSerializer.class)  
 	private final LocalDate end;
+	
+	@JsonSerialize(using = LocalDateSerializer.class)  
 	private final LocalDate cancellationDate;
 	private final double price;
 	private final String paymentReference;
