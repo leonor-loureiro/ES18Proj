@@ -1,15 +1,19 @@
 package pt.ulisboa.tecnico.softeng.car.services.local;
 
+import org.thymeleaf.util.ListUtils;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ulisboa.tecnico.softeng.car.domain.*;
 import pt.ulisboa.tecnico.softeng.car.exception.CarException;
 import pt.ulisboa.tecnico.softeng.car.services.local.dataobjects.RentACarData;
+import pt.ulisboa.tecnico.softeng.car.services.local.dataobjects.RentingData;
 import pt.ulisboa.tecnico.softeng.car.services.local.dataobjects.VehicleData;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class RentACarInterface {
@@ -69,5 +73,11 @@ public class RentACarInterface {
             return null;
 
         return new VehicleData(v);
+    }
+
+    @Atomic(mode = TxMode.READ)
+    public static Set<RentingData> getRentingsByPlate(String plate, String rentACarCode){
+        return getRentACarByCode(rentACarCode).getVehicleByPlate(plate).getRentingSet().stream().
+                map(RentingData::new).collect(Collectors.toSet());
     }
 }
