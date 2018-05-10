@@ -42,7 +42,7 @@ public class RentingConstructorTest extends RollbackTestAbstractClass {
 	public void success() {
 		Renting renting = new Renting(DRIVING_LICENSE, date1, date2, this.car, NIF, IBAN_BUYER);
 		assertEquals(DRIVING_LICENSE, renting.getDrivingLicense());
-		assertEquals(this.car.getPrice() * (date2.getDayOfYear() - date1.getDayOfYear()), renting.getPrice(), 0.0d);
+		assertEquals(this.car.getPrice() * (date2.getDayOfYear() - date1.getDayOfYear() + 1), renting.getPrice(), 0.0d);
 	}
 
 	@Test(expected = CarException.class)
