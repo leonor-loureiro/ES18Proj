@@ -81,13 +81,9 @@ public class RentACarInterface {
 	@Atomic(mode = Atomic.TxMode.WRITE)
 	public static String cancelRenting(String reference) {
 		Renting renting = getRenting(reference);
-		if (renting != null) {
+		if (renting.getCancellationReference() != null) {
 			return renting.getCancellationReference();
 		}
-
-		renting = FenixFramework.getDomainRoot().getRentACarSet().stream().flatMap(rac -> rac.getVehicleSet().stream())
-				.flatMap(v -> v.getRentingSet().stream()).filter(r -> r.getReference().equals(reference)).findFirst()
-				.orElseThrow(() -> new CarException());
 
 		renting.cancel();
 		return renting.getCancellationReference();
@@ -143,7 +139,8 @@ public class RentACarInterface {
 			return renting.getReference();
 		}
 
-		return getVehicle(code, plate).rent(drivingLicense, begin, end, buyerNIF, buyerIBAN).getReference();
+		return getVehicle(code, plate).rent(drivingLicense, begin, end, buyerNIF, buyerIBAN, adventureId)
+				.getReference();
 	}
 
 	@Atomic(mode = Atomic.TxMode.WRITE)
@@ -154,7 +151,9 @@ public class RentACarInterface {
 			return renting.getReference();
 		}
 
-		return RentACar.rent(type.equals("CAR") ? Car.class : Motorcycle.class, license, nif, iban, begin, end);
+		return RentACar.rent(type.equals("CAR") ? Car.class : Motorcycle.class, license, nif, iban, begin, end,
+				adventureId);
+
 	}
 
 	@Atomic(mode = Atomic.TxMode.READ)

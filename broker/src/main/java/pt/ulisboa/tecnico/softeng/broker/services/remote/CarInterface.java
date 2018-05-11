@@ -25,8 +25,8 @@ public class CarInterface {
 				vehicleType, drivingLicense, nif, iban, begin, end, adventureId);
 		RestTemplate restTemplate = new RestTemplate();
 		try {
-			RestRentingData rentingData = new RestRentingData(vehicleType.toString(), drivingLicense, nif, iban, begin, end,
-					adventureId);
+			RestRentingData rentingData = new RestRentingData(vehicleType.toString(), drivingLicense, nif, iban, begin,
+					end, adventureId);
 			String result = restTemplate.postForObject(ENDPOINT + "/rest/rentacars/rent", rentingData, String.class);
 			return result;
 		} catch (HttpClientErrorException e) {
@@ -62,8 +62,9 @@ public class CarInterface {
 		logger.info("getRentingData reference:{}", reference);
 		RestTemplate restTemplate = new RestTemplate();
 		try {
-			RestRentingData result = restTemplate.getForObject(ENDPOINT + "/rest/rentacars/renting?reference=" + reference,
-					RestRentingData.class);
+			RestRentingData result = restTemplate
+					.getForObject(ENDPOINT + "/rest/rentacars/renting?reference=" + reference, RestRentingData.class);
+			logger.info("getRentingData adventureId:{}", result.getAdventureId());
 			return result;
 		} catch (HttpClientErrorException e) {
 			logger.info("getRentingData HttpClientErrorException:{}", reference);

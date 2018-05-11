@@ -14,6 +14,7 @@ import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
 
 public class CarPersistenceTest {
+	private static final String ADVENTURE_ID = "AdventureId";
 	private static final String NAME1 = "eartz";
 	private static final String PLATE_CAR1 = "aa-00-11";
 	private static final String PLATE_CAR2 = "aa-00-12";
@@ -35,7 +36,7 @@ public class CarPersistenceTest {
 		RentACar rentACar = new RentACar(NAME1, NIF, IBAN);
 		Car car = new Car(PLATE_CAR1, 10, 10, rentACar);
 		Motorcycle motorcycle = new Motorcycle(PLATE_CAR2, 20, 5, rentACar);
-		car.rent(DRIVING_LICENSE, date1, date2, NIF, IBAN_BUYER);
+		car.rent(DRIVING_LICENSE, date1, date2, NIF, IBAN_BUYER, ADVENTURE_ID);
 	}
 
 	@Atomic(mode = TxMode.READ)

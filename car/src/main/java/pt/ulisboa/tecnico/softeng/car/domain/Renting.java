@@ -22,7 +22,7 @@ public class Renting extends Renting_Base {
 		setEnd(end);
 		setClientNif(buyerNif);
 		setClientIban(buyerIban);
-		setPrice(vehicle.getPrice() * (end.getDayOfYear() - begin.getDayOfYear()));
+		setPrice(vehicle.getPrice() * (end.getDayOfYear() - begin.getDayOfYear() + 1));
 		setTime(DateTime.now());
 
 		setVehicle(vehicle);

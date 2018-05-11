@@ -134,10 +134,15 @@ public class BankInterface {
 	@Atomic(mode = TxMode.WRITE)
 	public static String cancelPayment(String paymentConfirmation) {
 		Operation operation = getOperationByReference(paymentConfirmation);
-		if (operation != null && operation.getCancellation() == null) {
+
+		if (operation == null) {
+			throw new BankException();
+		} else if (operation.getCancellation() != null) {
+			return operation.getCancellation();
+		} else {
 			return operation.revert();
 		}
-		throw new BankException();
+
 	}
 
 	@Atomic(mode = TxMode.READ)
