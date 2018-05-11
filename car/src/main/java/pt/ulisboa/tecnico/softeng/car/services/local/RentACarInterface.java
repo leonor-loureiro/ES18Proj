@@ -81,13 +81,9 @@ public class RentACarInterface {
 	@Atomic(mode = Atomic.TxMode.WRITE)
 	public static String cancelRenting(String reference) {
 		Renting renting = getRenting(reference);
-		if (renting != null) {
+		if (renting.getCancellationReference() != null) {
 			return renting.getCancellationReference();
 		}
-
-		renting = FenixFramework.getDomainRoot().getRentACarSet().stream().flatMap(rac -> rac.getVehicleSet().stream())
-				.flatMap(v -> v.getRentingSet().stream()).filter(r -> r.getReference().equals(reference)).findFirst()
-				.orElseThrow(() -> new CarException());
 
 		renting.cancel();
 		return renting.getCancellationReference();
