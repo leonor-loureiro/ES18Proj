@@ -141,7 +141,7 @@ public class TaxInterface {
 						&& i.getSeller().getNif().equals(invoiceData.getSellerNif())
 						&& i.getItemType().getName().equals(invoiceData.getItemType())
 						&& i.getValue() == invoiceData.getValue().doubleValue()
-						&& i.getTime().equals(invoiceData.getTime()))
+						&& i.getTime().getMillis() == invoiceData.getTime().getMillis())
 				.findFirst();
 
 		return inOptional.orElse(null);

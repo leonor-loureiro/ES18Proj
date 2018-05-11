@@ -5,20 +5,18 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Set;
 
+import org.joda.time.LocalDate;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
 import mockit.Mocked;
 import mockit.integration.junit4.JMockit;
 import pt.ulisboa.tecnico.softeng.car.services.remote.BankInterface;
 import pt.ulisboa.tecnico.softeng.car.services.remote.TaxInterface;
 
-import org.joda.time.LocalDate;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
 @RunWith(JMockit.class)
 public class RentACarGetAllAvailableVehiclesTest extends RollbackTestAbstractClass {
-
+	private static final String ADVENTURE_ID = "AdventureId";
 	private static final String NAME1 = "eartz";
 	private static final String NAME2 = "eartz";
 	private static final String PLATE_CAR1 = "aa-00-11";
@@ -31,8 +29,8 @@ public class RentACarGetAllAvailableVehiclesTest extends RollbackTestAbstractCla
 	private static final LocalDate date4 = LocalDate.parse("2018-01-09");
 	private static final String NIF = "NIF";
 	private static final String IBAN = "IBAN";
-    private static final String IBAN_BUYER = "IBAN";
-    private RentACar rentACar1;
+	private static final String IBAN_BUYER = "IBAN";
+	private RentACar rentACar1;
 	private RentACar rentACar2;
 
 	@Mocked
@@ -49,7 +47,7 @@ public class RentACarGetAllAvailableVehiclesTest extends RollbackTestAbstractCla
 	@Test
 	public void onlyCars() {
 		Vehicle car1 = new Car(PLATE_CAR1, 10, 10, this.rentACar1);
-		car1.rent(DRIVING_LICENSE, date1, date2, NIF, IBAN_BUYER);
+		car1.rent(DRIVING_LICENSE, date1, date2, NIF, IBAN_BUYER, ADVENTURE_ID);
 		Vehicle car2 = new Car(PLATE_CAR2, 10, 10, this.rentACar2);
 		Vehicle motorcycle = new Motorcycle(PLATE_MOTORCYCLE, 10, 10, this.rentACar1);
 
@@ -64,7 +62,7 @@ public class RentACarGetAllAvailableVehiclesTest extends RollbackTestAbstractCla
 		Vehicle car1 = new Car(PLATE_CAR1, 10, 10, this.rentACar1);
 		Vehicle car2 = new Car(PLATE_CAR2, 10, 10, this.rentACar2);
 
-		car1.rent(DRIVING_LICENSE, date1, date2, NIF, IBAN_BUYER);
+		car1.rent(DRIVING_LICENSE, date1, date2, NIF, IBAN_BUYER, ADVENTURE_ID);
 		Set<Vehicle> cars = RentACar.getAllAvailableCars(date1, date2);
 
 		assertFalse(cars.contains(car1));

@@ -143,7 +143,8 @@ public class RentACarInterface {
 			return renting.getReference();
 		}
 
-		return getVehicle(code, plate).rent(drivingLicense, begin, end, buyerNIF, buyerIBAN).getReference();
+		return getVehicle(code, plate).rent(drivingLicense, begin, end, buyerNIF, buyerIBAN, adventureId)
+				.getReference();
 	}
 
 	@Atomic(mode = Atomic.TxMode.WRITE)
@@ -154,7 +155,9 @@ public class RentACarInterface {
 			return renting.getReference();
 		}
 
-		return RentACar.rent(type.equals("CAR") ? Car.class : Motorcycle.class, license, nif, iban, begin, end);
+		return RentACar.rent(type.equals("CAR") ? Car.class : Motorcycle.class, license, nif, iban, begin, end,
+				adventureId);
+
 	}
 
 	@Atomic(mode = Atomic.TxMode.READ)
