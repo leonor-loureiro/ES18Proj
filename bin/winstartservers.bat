@@ -1,6 +1,6 @@
-cd ..\tax & start mvn clean spring-boot:run
-cd ..\bank & start mvn clean spring-boot:run
-cd ..\hotel & start mvn clean spring-boot:run
-cd ..\activity & start mvn clean spring-boot:run
-cd ..\car & start mvn clean spring-boot:run
-cd ..\broker & start mvn clean spring-boot:run
+cd ..\tax & start cmd.exe /k  "title Tax & mvn clean spring-boot:run"
+cd ..\bank & start cmd.exe /k "title Bank & mvn clean spring-boot:run"
+cd ..\hotel & start cmd.exe /k " title Hotel & mvn clean spring-boot:run"
+cd ..\activity & start cmd.exe /k "title Activity & mvn clean spring-boot:run"
+cd ..\car & start cmd.exe /k "title Car & mvn clean spring-boot:run"
+cd ..\broker & start cmd.exe /k "title Broker & mvn clean spring-boot:run"
