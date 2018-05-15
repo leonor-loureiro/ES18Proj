@@ -14,7 +14,8 @@ To see the coverage reports, go to <module name>/target/site/jacoco/index.html.
 |   84709    | Diogo Andrade           | diogo.freire.dandrade@gmail.com      | dfAndrade          |   3   |
 |   84747    | Miguel Viegas           | miguel.s.viegas@tecnico.ulisboa.pt   | JellyWellyBelly    |   3   |
 
-- **Work Division**
+### **Work Division :**
+
 | Issue |                      Description                     | Dependencies | Group | Assignee |
 |:-----:|:----------------------------------------------------:|:------------:|:-----:|:--------:|
 |  #192 |     Fix Load test 100 reads - fix initializations    |              |   2   | Carrasco |
