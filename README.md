@@ -14,8 +14,26 @@ To see the coverage reports, go to <module name>/target/site/jacoco/index.html.
 |   84709    | Diogo Andrade           | diogo.freire.dandrade@gmail.com      | dfAndrade          |   3   |
 |   84747    | Miguel Viegas           | miguel.s.viegas@tecnico.ulisboa.pt   | JellyWellyBelly    |   3   |
 
-- **Group 1:**
-- **Group 2:**
+### **Work Division :**
+
+| Issue |                      Description                     | Dependencies | Group | Assignee |
+|:-----:|:----------------------------------------------------:|:------------:|:-----:|:--------:|
+|  #192 |     Fix Load test 100 reads - fix initializations    |              |   2   | Carrasco |
+|  #193 |  Fix Load test 100 reads - add tax and car instances |     #192     |   2   |  António |
+|  #194 |     Fix Load test 30 writes - fix initializations    |              |   3   |  Miguel  |
+|  #195 |  Fix Load test 30 writes - add tax and car instances |     #194     |   3   |  Andrade |
+|  #196 |    Fix Load test 100 writes - fix initializations    |              |   1   |  Leonor  |
+|  #197 | Fix Load test 100 writes - add tax and car instances |     #196     |   1   |   André  |
+|  #198 |     Create Test - Success Sequence without hotel     |              |   3   |  Miguel  |
+|  #199 |      Create Test - Success Sequence without car      |              |   3   |  Miguel  |
+|  #200 | Create Test - Success Sequence without hotel and car |              |   3   |  Andrade |
+|  #201 |    Create Test - Unsuccess Sequence fail activity    |              |   2   |  António |
+|  #202 |      Create Test - Unsuccess Sequence fail hotel     |              |   2   | Carrasco |
+|  #203 |       Create Test - Unsuccess Sequence fail car      |              |   2   | Carrasco |
+|  #204 |     Create Test - Unsuccess Sequence fail payment    |              |   1   |  Leonor  |
+|  #205 |       Create Test - Unsuccess Sequence fail tax      |              |   1   |   André  |
+|  #206 |                     Create Report                    |      All     |   1   |          |
+|  #207 |        Fix Load Test Success Sequence Asserts        |              |   1   |   André  |
 
 ### Infrastructure
 
