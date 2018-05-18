@@ -127,7 +127,8 @@ public class TaxInterface {
 
 	@Atomic(mode = TxMode.WRITE)
 	public static void deleteIRS() {
-		FenixFramework.getDomainRoot().getIrs().delete();
+		if(FenixFramework.getDomainRoot().getIrs() != null)
+			FenixFramework.getDomainRoot().getIrs().delete();
 	}
 
 	private static Invoice getInvoiceByReference(String reference) {
